@@ -29,8 +29,8 @@ const store = createStore(
   applyMiddleware(thunk, middleware, promise, logger)
 );
 
-const user = JSON.parse(localStorage.getItem('user'));
-if (user && user.access_token) {
+const token = JSON.parse(localStorage.getItem('token'));
+if (token && token.access_token) {
   store.dispatch({ type: AUTH_USER });
 }
 

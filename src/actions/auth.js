@@ -43,13 +43,11 @@ export function signinUser(props) {
   return function (dispatch) {
     axios.post(`${API_URL}/sign-in`, {
       headers: { 'Accept': 'application/json' },
-
-        'email': email,
-        'password': password
-    
+      'email': email,
+      'password': password
     })
       .then(response => {
-        localStorage.setItem('user', JSON.stringify(response.data));
+        localStorage.setItem('token', JSON.stringify(response.data));
 
         dispatch({ type: AUTH_USER });
 
@@ -63,9 +61,15 @@ export function signinUser(props) {
  * Sign out
  */
 export function signoutUser() {
-  localStorage.clear();
 
-  return {
-    type: UNAUTH_USER,
+  return function (dispatch) {
+    axios.post(`${API_URL}/sign-out`, {
+      headers: { 'Accept': 'application/json' }
+    })
+      .then(() => {
+        localStorage.clear();
+        dispatch({ type: UNAUTH_USER });
+      })
+      .catch(() => dispatch("error signout"));
   }
 }
