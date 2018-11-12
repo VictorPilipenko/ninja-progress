@@ -24,9 +24,16 @@ export function authError(CONST, error) {
  * Sign up
  */
 export function signupUser(props) {
+
+  const { name, email, password } = props;
   console.log(props);
   return function (dispatch) {
-    axios.post(`${API_URL}/sign-up`, props)
+    axios.post(`${API_URL}/sign-up`, {
+      headers: { 'Accept': 'application/json' },
+      'name': name,
+      'email': email,
+      'password': password
+    })
       .then(() => {
         dispatch({ type: SIGNUP_SUCCESS });
       })
@@ -60,11 +67,11 @@ export function signinUser(props) {
 /*
  * Sign out
  */
-// дописать параметры после headers
+// не работает
 export function signoutUser() {
 
   return function (dispatch) {
-    axios.post(`${API_URL}/sign-out`, {
+    axios.get(`${API_URL}/sign-out`, {
       headers: { 'Accept': 'application/json' }
     })
       .then(() => {

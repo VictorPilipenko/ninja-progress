@@ -16,8 +16,8 @@ class Feature extends Component {
     const posts = this.props.posts || [];
     console.log(this.props);
 
-    return posts.map((item, i) => {
-      return <li key={i}>{item.name}</li> // name нету. пока не знаю что там будет
+    return posts.map((post, i) => {
+      return <li key={i}>{post.title}  {post.body}</li>
     })
   }
 

@@ -25,11 +25,8 @@ class Signup extends Component {
         <h1>Sign up</h1>
         <form onSubmit={handleSubmit(this.handleFormSubmit)}>
 
-          {/* Firstname */}
-          <Field name="firstname" component={renderField} type="text" placeholder="First name" />
-
-          {/* Lastname */}
-          <Field name="lastname" component={renderField} type="text" placeholder="Last name" />
+          {/* Name */}
+          <Field name="name" component={renderField} type="text" placeholder="name" />
 
           {/* Email */}
           <Field name="email" component={renderField} type="text" placeholder="Email" />
@@ -62,7 +59,7 @@ class Signup extends Component {
 
 const validate = props => {
   const errors = {};
-  const fields = ['firstname', 'lastname', 'email', 'password', 'repassword'];
+  const fields = ['name', 'email', 'password', 'repassword'];
 
   fields.forEach((f) => {
     if(!(f in props)) {
@@ -76,14 +73,6 @@ const validate = props => {
 
   if(props.firstname && props.firstname.length > 20) {
     errors.firstname = "maximum of 20 characters";
-  }
-
-  if(props.lastname && props.lastname.length < 3) {
-    errors.lastname = "minimum of 4 characters";
-  }
-
-  if(props.lastname && props.lastname.length > 20) {
-    errors.lastname = "maximum of 20 characters";
   }
 
   if(props.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(props.email)) {

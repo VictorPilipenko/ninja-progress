@@ -12,6 +12,9 @@ class Header extends Component {
               this.props.authenticated ?
                 <ul>
                   <li>
+                    <NavLink to="/create-post">Create post</NavLink>
+                  </li>
+                  <li>
                     <NavLink to="/posts">Posts</NavLink>
                   </li>
 
