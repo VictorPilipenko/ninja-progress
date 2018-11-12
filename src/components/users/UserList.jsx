@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 class Feature extends Component {
   componentWillMount() {
-    this.props.fetchUsers();
+    this.props.getAllUsers();
     this.props.getCurrentUser();
 
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -22,7 +22,7 @@ class Feature extends Component {
     return (
       <div className="content users">
         <h1>Hello, { this.currentUser.name }</h1>
-        <p>Here are auth protected user name! :)</p>
+        <p>Here are all auth protected users names! :)</p>
         <ul>
           { this.renderUsers() }
         </ul>

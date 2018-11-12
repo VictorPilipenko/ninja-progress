@@ -5,5 +5,7 @@ export const SIGNIN_FAILURE = 'SIGNIN_FAILURE';
 export const AUTH_USER = 'AUTH_USER';
 export const UNAUTH_USER = 'UNAUTH_USER';
 
-export const FETCH_USERS = 'FETCH_USERS';
+export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const GET_CURRENT_USER = 'GET_CURRENT_USER';
+
+export const GET_ALL_POSTS = 'GET_ALL_POSTS';

@@ -5,6 +5,7 @@ import Header from '../components/common/Header';
 import Info from '../components/Info';
 import Welcome from '../components/Welcome';
 import UserList from '../components/users/UserList';
+import PostList from '../components/posts/PostList';
 import Signin from '../components/auth/Signin';
 import Signout from '../components/auth/Signout';
 import Signup from '../components/auth/Signup';
@@ -18,6 +19,7 @@ const AppRouter = () => (
             <Route path="/signup" component={Signup} />
             <PrivateRoute path="/info" component={Info} />
             <PrivateRoute path="/users" component={UserList} />
+            <PrivateRoute path="/posts" component={PostList} />
     </div>
 );
 

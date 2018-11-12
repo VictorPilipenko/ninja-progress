@@ -24,6 +24,7 @@ export function authError(CONST, error) {
  * Sign up
  */
 export function signupUser(props) {
+  console.log(props);
   return function (dispatch) {
     axios.post(`${API_URL}/sign-up`, props)
       .then(() => {
@@ -38,7 +39,6 @@ export function signupUser(props) {
  */
 export function signinUser(props) {
   const { email, password } = props;
-  console.log(props);
 
   return function (dispatch) {
     axios.post(`${API_URL}/sign-in`, {
@@ -60,6 +60,7 @@ export function signinUser(props) {
 /*
  * Sign out
  */
+// дописать параметры после headers
 export function signoutUser() {
 
   return function (dispatch) {
@@ -69,7 +70,6 @@ export function signoutUser() {
       .then(() => {
         localStorage.clear();
         dispatch({ type: UNAUTH_USER });
-      })
-      .catch(() => dispatch("error signout"));
+      });
   }
 }
