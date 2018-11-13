@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import * as actions from '../../actions/users';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import * as actions from '../../actions/users'
+import { connect } from 'react-redux'
 
 class Feature extends Component {
   componentWillMount() {
@@ -12,6 +12,8 @@ class Feature extends Component {
 
   renderUsers() {
     const users = this.props.users || [];
+
+    console.log(this.props.users);
 
     return users.map((user, i) => {
       return <li key={i}>{ user.name }</li>

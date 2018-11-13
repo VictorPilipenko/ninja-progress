@@ -8,7 +8,7 @@ export default function (state = {}, action) {
         case GET_ALL_POSTS:
             return { list: action.payload, ...state };
         case CREATE_POST:
-            return { ...state };
+              return { post: action.payload, ...state }; // проверить
         default: return state;
     }
 }

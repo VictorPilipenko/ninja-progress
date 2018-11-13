@@ -1,33 +1,43 @@
-import React, { Component } from 'react';
-import { getCurrentUser } from '../../actions/users';
-import { getAllPosts } from '../../actions/posts';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, { Component } from 'react'
+import { getCurrentUser, getAllUsers } from '../../actions/users'
+import { getAllPosts } from '../../actions/posts'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 class Feature extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.getAllPosts();
-    this.props.getCurrentUser();
+    this.props.getCurrentUser(); // не срабатывает до рендера
+    this.props.getAllUsers();
 
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
   }
 
-  renderUsers() {
+  renderPost() {
     const posts = this.props.posts || [];
-    console.log(this.props);
 
     return posts.map((post, i) => {
-      return <li key={i}>{post.title}  {post.body}</li>
+      return <li key={i}>title:{post.title}  body:{post.body} author: {this.renderUsers(post.user_id)}</li>
+    })
+  }
+
+  renderUsers(user_id) {
+    const users = this.props.users || [];
+
+    return users.map((user, i) => {
+      if(user.id === user_id){
+        return <p key={i}>{ user.name }</p>
+      }
     })
   }
 
   render() {
     return (
       <div className="content users">
-        <h1>Hello, {this.currentUser.name}</h1>
+        <h1>Hello, {this.currentUser ? this.currentUser.name : null }</h1>
         <p>Here are all auth protected users posts! :)</p>
         <ul>
-          {this.renderUsers()}
+          {this.renderPost()}
         </ul>
       </div>
     )
@@ -41,7 +51,8 @@ function mapStateToProps(state) {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({
     getCurrentUser,
-    getAllPosts
+    getAllPosts,
+    getAllUsers
   }, dispatch);
 }
 

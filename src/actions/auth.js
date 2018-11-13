@@ -58,7 +58,7 @@ export function signinUser(props) {
 
         dispatch({ type: AUTH_USER });
 
-        dispatch(push('/help'));
+        dispatch(push('/info'));
       })
       .catch(() => dispatch(authError(SIGNIN_FAILURE, "Email or password isn't right")));
   }
@@ -67,16 +67,17 @@ export function signinUser(props) {
 /*
  * Sign out
  */
-// не работает
 export function signoutUser() {
+  const token = JSON.parse(localStorage.getItem('token'));
 
   return function (dispatch) {
-    axios.get(`${API_URL}/sign-out`, {
-      headers: { 'Accept': 'application/json' }
+    axios.get(`${API_URL}/sign-out`, { 
+      headers: { 'Accept': 'application/json', 'Authorization': token ? `${token.token_type} ${token.access_token}` : null } 
     })
       .then(() => {
         localStorage.clear();
         dispatch({ type: UNAUTH_USER });
-      });
+      })
+      .catch(() => ("error signout"));
   }
 }

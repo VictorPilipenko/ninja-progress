@@ -12,7 +12,7 @@ export function getAllPosts() {
     const token = JSON.parse(localStorage.getItem('token'));
 
     return function (dispatch) {
-        axios.get(`${API_URL}/posts`, { headers: { 'Accept': 'application/json', 'Authorization': token.token_type + ' ' + token.access_token } })
+        axios.get(`${API_URL}/posts`, { headers: { 'Accept': 'application/json', 'Authorization': token ? `${token.token_type} ${token.access_token}` : null } })
             .then(response => {
                 dispatch({
                     type: GET_ALL_POSTS,
@@ -25,15 +25,14 @@ export function getAllPosts() {
 //users/{id}/posts
 
 
-// не то
-export function getAllPostsByUserId() {
+// не знаю что дожно здесь быть
+export function getAllPostsByCurrentUserId() {
     const token = JSON.parse(localStorage.getItem('token'));
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
-
     return function (dispatch) {
         axios.get(`${API_URL}/users/${currentUser.id}/posts`, {
-            headers: { 'Accept': 'application/json', 'Authorization': token.token_type + ' ' + token.access_token }
+            headers: { 'Accept': 'application/json', 'Authorization': token ? `${token.token_type} ${token.access_token}` : null }
         })
             .then(response => {
                 dispatch({
@@ -48,20 +47,43 @@ export function createPost(props) {
     const token = JSON.parse(localStorage.getItem('token'));
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const { title, body } = props;
-    console.log(props);
 
     return function (dispatch) {
+        debugger;
         axios.post(`${API_URL}/posts`, {
-            headers: { 'Accept': 'application/json', 'Authorization': token.token_type + ' ' + token.access_token },
+   
             'title': title,
             'body': body,
             'user_id': currentUser.id
+        },
+        {
+            headers: {  
+                'Accept': 'application/json', 
+                'Authorization': token ? `${token.token_type} ${token.access_token}` : null 
+            },
         })
             .then(response => {
                 dispatch({
                     type: CREATE_POST,
-                    payload: response.data
+                    payload: response.data // проверить
                 });
             });
     }
+
+    // return function (dispatch) {
+    //     axios.post(`
+    //     ${API_URL}/posts`, 
+    //     { 
+    //         headers: { 
+    //             'Accept': 'application/json', 
+    //             'Authorization': token ? `${token.token_type} ${token.access_token}` : null 
+    //         } 
+    //     })
+    //         .then(response => {
+    //             dispatch({
+    //                 type: GET_ALL_POSTS,
+    //                 payload: response.data
+    //             });
+    //         });
+    // }
 }

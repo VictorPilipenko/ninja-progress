@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
-import { reduxForm, Field } from 'redux-form';
-import * as actions from '../../actions/auth';
-import { NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { reduxForm, Field } from 'redux-form'
+import * as actions from '../../actions/auth'
+import { NavLink } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 const renderField = ({ input, type, placeholder, meta: { touched, error } }) => (
-  <div>
+  <div className={`input-group ${touched && error ? 'has-error' : ''}`}>
     <input type={type} placeholder={placeholder} {...input} />
-    { touched && error && <div className="form-error">{error}</div> }
+    {touched && error && <div className="form-error">{error}</div>}
   </div>
+
 );
 
 class Signin extends Component {
@@ -32,8 +33,8 @@ class Signin extends Component {
           <Field name="password" component={renderField} type="password" placeholder="Password" />
 
           {/* Server error message */}
-          { this.props.errorMessage && this.props.errorMessage.signin &&
-              <div className="error-container signin-error">Oops! { this.props.errorMessage.signin }</div> }
+          {this.props.errorMessage && this.props.errorMessage.signin &&
+            <div className="error-container signin-error">Oops! {this.props.errorMessage.signin}</div>}
 
           {/* Signin button */}
           <button type="submit" className="btn">Sign in</button>
@@ -52,11 +53,11 @@ class Signin extends Component {
 function validate(formProps) {
   const errors = {};
 
-  if(!formProps.email) {
+  if (!formProps.email) {
     errors.email = 'Email is required'
   }
 
-  if(!formProps.password) {
+  if (!formProps.password) {
     errors.password = 'Password is required'
   }
 

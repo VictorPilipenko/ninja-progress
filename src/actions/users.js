@@ -6,7 +6,7 @@ import {
 } from './types/index';
 
 /**
- * Fetch all users
+ * get all users
  */
 export function getAllUsers() {
   const token = JSON.parse(localStorage.getItem('token'));

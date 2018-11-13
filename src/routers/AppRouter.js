@@ -16,8 +16,9 @@ const AppRouter = () => (
             <Header />
             <Route path="/" exact={true} component={Welcome} />
             <Route path="/signin" component={Signin} />
-            <Route path="/signout" component={Signout} />
             <Route path="/signup" component={Signup} />
+            
+            <PrivateRoute path="/signout" component={Signout} />
             <PrivateRoute path="/info" component={Info} />
             <PrivateRoute path="/users" component={UserList} />
             <PrivateRoute path="/posts" component={PostList} />

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { reduxForm, Field } from 'redux-form';
-import * as actions from '../../actions/auth';
-import { NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { reduxForm, Field } from 'redux-form'
+import * as actions from '../../actions/auth'
+import { NavLink } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 const renderField = ({ input, type, placeholder, meta: { touched, error } }) => (
   <div className={`input-group ${touched && error ? 'has-error' : ''}`}>
