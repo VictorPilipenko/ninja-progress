@@ -1,18 +1,15 @@
-import axios from 'axios';
-import { API_URL } from '../config';
+import { API } from './instance'
 import {
   GET_ALL_USERS,
   GET_CURRENT_USER
 } from './types/index';
 
 /**
- * get all users
+ * action for get all users
  */
 export function getAllUsers() {
-  const token = JSON.parse(localStorage.getItem('token'));
-
   return function (dispatch) {
-    axios.get(`${API_URL}/users`, { headers: { 'Accept': 'application/json', 'Authorization': token.token_type + ' ' + token.access_token } })
+    API.get(`users`)
       .then(response => {
         dispatch({
           type: GET_ALL_USERS,
@@ -23,11 +20,8 @@ export function getAllUsers() {
 }
 
 export function getCurrentUser() {
-  const token = JSON.parse(localStorage.getItem('token'));
-
   return function (dispatch) {
-    axios.get(`${API_URL}/current`, { headers: { 'Accept': 'application/json', 'Authorization': token.token_type + ' ' + token.access_token } })
-
+    API.get(`current`)
       .then(response => {
         localStorage.setItem('currentUser', JSON.stringify(response.data));
         dispatch({ type: GET_CURRENT_USER });

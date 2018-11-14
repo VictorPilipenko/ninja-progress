@@ -3,17 +3,16 @@ import * as actions from '../../actions/users'
 import { connect } from 'react-redux'
 
 class Feature extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.getAllUsers();
     this.props.getCurrentUser();
-
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    this.forceUpdate();
   }
 
   renderUsers() {
     const users = this.props.users || [];
-
-    console.log(this.props.users);
 
     return users.map((user, i) => {
       return <li key={i}>{ user.name }</li>
@@ -23,7 +22,7 @@ class Feature extends Component {
   render() {
     return (
       <div className="content users">
-        <h1>Hello, { this.currentUser.name }</h1>
+        <h1>Hello, { this.currentUser ? this.currentUser.name : null }</h1>
         <p>Here are all auth protected users names! :)</p>
         <ul>
           { this.renderUsers() }
@@ -33,7 +32,7 @@ class Feature extends Component {
   }
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   return { users: state.user.list };
 }
 

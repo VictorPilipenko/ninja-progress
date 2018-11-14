@@ -1,12 +1,11 @@
-import axios from 'axios';
-import { API_URL } from '../config';
+import { API } from './instance'
 import {
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
   SIGNIN_FAILURE,
   AUTH_USER,
   UNAUTH_USER,
-} from './types/index';
+} from './types/index'
 
 import { push } from 'react-router-redux'
 
@@ -24,12 +23,10 @@ export function authError(CONST, error) {
  * Sign up
  */
 export function signupUser(props) {
-
   const { name, email, password } = props;
-  console.log(props);
+
   return function (dispatch) {
-    axios.post(`${API_URL}/sign-up`, {
-      headers: { 'Accept': 'application/json' },
+    API.post(`sign-up`, {
       'name': name,
       'email': email,
       'password': password
@@ -48,8 +45,7 @@ export function signinUser(props) {
   const { email, password } = props;
 
   return function (dispatch) {
-    axios.post(`${API_URL}/sign-in`, {
-      headers: { 'Accept': 'application/json' },
+    API.post(`sign-in`, {
       'email': email,
       'password': password
     })
@@ -68,12 +64,8 @@ export function signinUser(props) {
  * Sign out
  */
 export function signoutUser() {
-  const token = JSON.parse(localStorage.getItem('token'));
-
   return function (dispatch) {
-    axios.get(`${API_URL}/sign-out`, { 
-      headers: { 'Accept': 'application/json', 'Authorization': token ? `${token.token_type} ${token.access_token}` : null } 
-    })
+    API.get(`sign-out`)
       .then(() => {
         localStorage.clear();
         dispatch({ type: UNAUTH_USER });

@@ -7,28 +7,36 @@ import { bindActionCreators } from 'redux'
 class Feature extends Component {
   componentDidMount() {
     this.props.getAllPosts();
-    this.props.getCurrentUser(); // не срабатывает до рендера
+    this.props.getCurrentUser();
     this.props.getAllUsers();
-
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    this.forceUpdate();
   }
 
   renderPost() {
     const posts = this.props.posts || [];
 
     return posts.map((post, i) => {
-      return <li key={i}>title:{post.title}  body:{post.body} author: {this.renderUsers(post.user_id)}</li>
+      return <li key={i}>title:{post.title}  body:{post.body} author: {this.getUserNameBy_PostUserId(post.user_id)}</li>
     })
   }
 
-  renderUsers(user_id) {
+  getUserNameBy_PostUserId(user_id) {
     const users = this.props.users || [];
 
-    return users.map((user, i) => {
-      if(user.id === user_id){
-        return <p key={i}>{ user.name }</p>
-      }
-    })
+    // return users.map((user, i) => {
+    //   if(user.id === user_id){
+    //     return <p key={i}>{ user.name }</p>
+
+        return users.filter(user => {
+          return user.id.includes(user_id);
+            
+      });
+      
+
+      //}
+    //})
   }
 
   render() {

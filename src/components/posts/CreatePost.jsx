@@ -6,8 +6,9 @@ import { reduxForm, Field } from 'redux-form'
 import { bindActionCreators } from 'redux'
 
 class CreatePost extends Component {
-    componentWillMount() {
+    componentDidMount() {
         this.props.getCurrentUser(); // для вызова localStorage.getItem в экшене createPost
+        //this.forceUpdate();
     }
 
     handleFormSubmit = (props) => {
