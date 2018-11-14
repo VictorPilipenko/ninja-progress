@@ -16,33 +16,25 @@ class Feature extends Component {
 
   renderPost() {
     const posts = this.props.posts || [];
+    const users = this.props.users || [];
 
     return posts.map((post, i) => {
-      return <li key={i}>title:{post.title}  body:{post.body} author: {this.getUserNameBy_PostUserId(post.user_id)}</li>
+      return <li key={i}>title: {post.title} body: {post.body} author: {this.getUserNameBy_PostUserId(users, post.user_id)}</li>
     })
   }
 
-  getUserNameBy_PostUserId(user_id) {
-    const users = this.props.users || [];
-
-    // return users.map((user, i) => {
-    //   if(user.id === user_id){
-    //     return <p key={i}>{ user.name }</p>
-
-        return users.filter(user => {
-          return user.id.includes(user_id);
-            
-      });
-      
-
-      //}
-    //})
+  getUserNameBy_PostUserId = (users, user_id) => {
+    return users.map((user) => {
+      if (user.id === user_id) {
+        return user.name
+      }
+    });
   }
 
   render() {
     return (
       <div className="content users">
-        <h1>Hello, {this.currentUser ? this.currentUser.name : null }</h1>
+        <h1>Hello, {this.currentUser ? this.currentUser.name : null}</h1>
         <p>Here are all auth protected users posts! :)</p>
         <ul>
           {this.renderPost()}
@@ -53,7 +45,10 @@ class Feature extends Component {
 }
 
 function mapStateToProps(state) {
-  return { posts: state.post.list };
+  return {
+    posts: state.post.list,
+    users: state.user.list,
+  };
 }
 
 const mapDispatchToProps = dispatch => {

@@ -13,6 +13,7 @@ class Feature extends Component {
 
   renderUsers() {
     const users = this.props.users || [];
+    console.log(this.props);
 
     return users.map((user, i) => {
       return <li key={i}>{ user.name }</li>
@@ -33,7 +34,10 @@ class Feature extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { users: state.user.list };
+  return { 
+    users: state.user.list,
+    
+  };
 }
 
 export default connect(mapStateToProps, actions)(Feature);
