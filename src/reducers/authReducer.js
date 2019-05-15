@@ -6,8 +6,8 @@ import {
   UNAUTH_USER,
 } from '../actions/types/index';
 
-export default function(state = {}, action) {
-  switch(action.type) {
+export default function (state = {}, action) {
+  switch (action.type) {
     case SIGNUP_SUCCESS:
       return { ...state, signup: true, error: '' };
     case SIGNUP_FAILURE:
@@ -20,6 +20,8 @@ export default function(state = {}, action) {
       return { ...state, authenticated: false, error: '' };
     case "EMAIL_VALID":
       return { ...state, emailValidationInfo: action.payload }
+    case "AUTH_RESET":
+      return { ...state, authenticatedReset: true, error: '' }
     default: return state;
   }
 }

@@ -1,13 +1,12 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom'
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
-import { signinUser } from '../../actions/auth'
+import { passwordForgotUserStep1 } from '../../actions/auth'
 import './Sign.css'
 import logo from '../../assets/Logo_invert.png'
 
-class Signin extends React.Component {
+class PasswordForgot1 extends React.Component {
   render() {
     const {
       values,
@@ -23,18 +22,16 @@ class Signin extends React.Component {
     return (
       <div className='wrapper'>
         <img className='signin-logo' src={logo} alt='logo' />
-        <p className='top-text-first'>Map your sales funnel, the easy way.</p>
-        <p className='top-text-second'>Create a strategy, build a template, start the implementation.</p>
+        <p className='top-text-first'>Reset Your Password</p>
         <div className='container'>
           <form onSubmit={handleSubmit}>
             <div className='form-container'>
-              <p className='login-label'>Log In</p>
               <label htmlFor="email" className='label'>
-                Email Address
+                Email
               </label>
               <input
                 id="email"
-                placeholder="Enter your email"
+                placeholder="Email Address"
                 type="text"
                 value={values.email}
                 onChange={handleChange}
@@ -44,41 +41,17 @@ class Signin extends React.Component {
                 <div className={`input-group ${errors.email && touched.email ? 'has-error' : ''}`}>{errors.email}</div>
               )}
 
-              <label htmlFor="password" className='label'>
-                Password
-              </label>
-              <input
-                id="password"
-                placeholder="Enter your password"
-                type="password"
-                value={values.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              {errors.password && touched.password && (
-                <div className={`input-group ${errors.password && touched.password ? 'has-error' : ''}`}>{errors.password}</div>
-              )}
-
               {/* Server error message */}
               {this.props.errorMessage && this.props.errorMessage &&
                 <div className="input-group">Oops! {this.props.errorMessage}</div>}
 
               <button className="btn" type="submit" disabled={isSubmitting}>
-                Log In
+                Enter Your Account Email
               </button>
 
-              <div className="form-password-forgot">
-                <NavLink to="/password-forgot-step-1">Forgot your password?</NavLink>
-              </div>
-
+          
             </div>
           </form>
-        </div>
-
-        {/* Signup button */}
-        <div className="form-bottom">
-          <p>Dont have an account?</p>
-          <NavLink to="/sign-up">Sign up now, it's free!</NavLink>
         </div>
       </div>
     );
@@ -88,21 +61,17 @@ class Signin extends React.Component {
 const formikEnhancer = withFormik({
   validationSchema: Yup.object().shape({
     email: Yup.string().email('invalid email address').required('email is required!'),
-    password: Yup.string()
-      .min(6, 'minimum 6 letters')
-      .required('password is required.')
   }),
   mapPropsToValues: () => ({
     email: '',
-    password: ''
   }),
   handleSubmit: (payload, { props, setSubmitting }) => {
     // console.log(props)
-    props.signinUser(payload);
+    props.passwordForgotUserStep1(payload);
     setSubmitting(false);
   },
-  displayName: 'LoginForm',
-})(Signin);
+  displayName: 'PasswordForgot1',
+})(PasswordForgot1);
 
 const mapStateToProps = state => {
   return { errorMessage: state.auth.error }
@@ -110,13 +79,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    signinUser: arr => dispatch(signinUser(arr)),
+    passwordForgotUserStep1: arr => dispatch(passwordForgotUserStep1(arr)),
   }
 }
 
-const Login = connect(
+const PasswordForgot = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(formikEnhancer)
 
-export default Login;
+export default PasswordForgot;

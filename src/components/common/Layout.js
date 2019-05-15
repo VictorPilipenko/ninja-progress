@@ -1,7 +1,7 @@
 import React from "react";
 // import Sidebar from "./Sidebar";
 import Header from "./Header";
-import SideNav, { /*Toggle, Nav,*/ NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+// import SideNav, { /*Toggle, Nav,*/ NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 // Be sure to include styles at some point, probably during your bootstraping
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 // import { NavLink } from 'react-router-dom'
@@ -9,6 +9,7 @@ import './Layout.css'
 
 import { push } from 'connected-react-router'
 import { connect } from 'react-redux';
+import Sidebar from './SideNav/Sidebar/Sidebar.jsx'
 
 
 
@@ -66,7 +67,7 @@ class Layout extends React.Component {
           )}
           />
         </Router> */}
-        <SideNav
+        {/* <SideNav
           expanded={this.state.expanded}
           onToggle={expanded => this.setState({ expanded })}
         >
@@ -99,7 +100,8 @@ class Layout extends React.Component {
             </NavItem>
 
           </SideNav.Nav>
-        </SideNav>
+        </SideNav> */}
+        <Sidebar />
         <main style={{
           position: 'relative',
           overflow: 'hidden',

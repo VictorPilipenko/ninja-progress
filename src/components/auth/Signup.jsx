@@ -8,6 +8,7 @@ import './Sign.css'
 import logo from '../../assets/Logo_invert.png'
 
 class Signup extends React.Component {
+
   handleEmailFieldBlur = (e, props) => {
     this.props.handleBlur(e)
 
@@ -82,7 +83,7 @@ class Signup extends React.Component {
                 <div className={`input-group ${errors.email && touched.email ? 'has-error' : ''}`}>{errors.email}</div>
               )}
               {this.props.emailValidationInfo && (
-                <div className={`input-group ${this.props.emailValidationInfo ? 'has-error' : ''}`}>{this.props.emailValidationInfo}</div>
+                <div className={`input-group-email ${this.props.emailValidationInfo ? 'has-error' : ''}`}>{this.props.emailValidationInfo}</div>
               )}
 
               <label htmlFor="password" className='label'>
@@ -146,7 +147,8 @@ const formikEnhancer = withFormik({
       .required('account name is required.'),
     email: Yup.string().email('invalid email address').required('email is required!'),
     password: Yup.string()
-      .min(6, 'minimum 6 letters')
+      .min(8, 'minimum 8 letters')
+      .max(25, 'maximum 25 letters')
       .required('password is required.'),
     passwordConfirm: Yup.string()
       .oneOf([Yup.ref('password')], "passwords must match")
@@ -169,7 +171,7 @@ const formikEnhancer = withFormik({
 })(Signup);
 
 const mapStateToProps = state => {
-  // console.log(state.auth.emailValidationInfo)
+  console.log(state)
   return { 
     errorMessage: state.auth.error,
     emailValidationInfo: state.auth.emailValidationInfo,

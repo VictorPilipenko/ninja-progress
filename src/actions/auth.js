@@ -33,34 +33,27 @@ export function signupUser(props) {
   const { firstName, accountName, email, password } = props;
 
   return function (dispatch) {
-    API.post(`signUp`, {
+    API.post(`sign-up`, {
       'password': password,
       'email': email,
       'firstName': firstName,
       'accountName': accountName,
     })
       .then(response => {
-        // console.log(response)
+        console.log(response)
         localStorage.setItem('user', JSON.stringify(response.data.user));
         localStorage.setItem('token', JSON.stringify(response.data.token));
         // console.log(localStorage.getItem('user'))
         // console.log(localStorage.getItem('token'))
         dispatch({ type: SIGNUP_SUCCESS });
+        dispatch({ type: AUTH_USER });
         dispatch(push('/questionnaire'));
       })
-      // .catch(response => dispatch(authError(SIGNUP_FAILURE, response.data.error)));
-      .catch(error => dispatch(authError(SIGNUP_FAILURE, error.response.data.message)));
-      // .then(res => res.json())
-      // .then(json =>
-      //   console.log(json),
-      //   // localStorage.setItem('user', JSON.stringify(response.data.user)),
-      //   // localStorage.setItem('token', JSON.stringify(response.data.token)),
-      //   // console.log(localStorage.getItem('user'))
-      //   // console.log(localStorage.getItem('token'))
-      //   // dispatch({ type: SIGNUP_SUCCESS }),
-      //   // dispatch(push('/questionnaire')),
-      // )
-      // .catch (error => dispatch(authError(SIGNUP_FAILURE,'error')));
+      .catch(function (error) {
+        if (error.response) {
+          dispatch(authError(SIGNUP_FAILURE, error.response.data.err.message))
+        }
+      });
   }
 }
 
@@ -72,42 +65,37 @@ export function signinUser(props) {
   const { email, password } = props;
 
   return function (dispatch) {
-    API.post(`signIn`, {
+    API.post(`sign-in`, {
       'email': email,
       'password': password
     })
       .then(response => {
-        // console.log(response)
+
         localStorage.setItem('token', JSON.stringify(response.data));
 
         dispatch({ type: AUTH_USER });
 
         dispatch(push('/'));
       })
-      .catch(error => dispatch(authError(SIGNIN_FAILURE, error.response.data.message)));
+      .catch(function (error) {
+        if (error.response) {
+          dispatch(authError(SIGNIN_FAILURE, error.response.data.err.message))
+        }
+      });
   }
 }
 
 export function validationUser(email) {
 
   return function (dispatch) {
-    API.post(`emailvalidation`, {
+    API.post(`email-validation`, {
       'email': email,
     })
-      // .then(response => {
-      //   console.log(response)
-      //   // dispatch({ type: AUTH_USER });
-
-      //   // dispatch(push('/'));
-      //   dispatch(emailValidError(SIGNUP_FAILURE, response));
-      // })
-      // .catch(response => dispatch(emailValidError(SIGNUP_FAILURE, 'error')));
       .then(res => res.json())
-      .then(json =>
-        console.log('')
-      )
       .catch(error => dispatch(emailValidError(error.response.data.message)));
-    // .catch(error => console.log(error.response.data.message))
+
+    // .catch(error => console.log(error));
+
   }
 }
 
@@ -151,36 +139,73 @@ export function questionnaireUser(props) {
     }
   }
 
-  // console.log(localStorage.getItem('token'))
-
-  // radioGroup === 'Company' ? obj = {
-  //   'companyName': companyName,
-  //   'companyWebsite': companyWebsite,
-  // } : null
-
-  // radioGroup === 'Agency' ? obj = {
-  //   'agencyName': agencyName,
-  //   'agencyWebsite': agencyWebsite,
-  // } : null
-
-  // radioGroup === 'Freelancer' ? obj = {
-  //   'Freelancer': radioGroup,
-  // } : null
-
-  // radioGroup === 'Other' ? obj = {
-  //   'Other': radioGroup,
-  // } : null
-
-
   return function (dispatch) {
     API.patch(`profile`, obj)
       .then(response => {
         localStorage.setItem('profile', JSON.stringify(response.data));
         // console.log(localStorage.getItem('profile'))
-        dispatch({ type: AUTH_USER });
         dispatch(push('/'));
       })
-      .catch(error => dispatch(authError(SIGNIN_FAILURE, error.response.data.message)));
+      .catch(function (error) {
+        if (error.response) {
+          dispatch(authError(SIGNIN_FAILURE, error.response.data.err.message))
+        }
+      });
+  }
+}
+
+/*
+ * password forgot
+ */
+export function passwordForgotUserStep1(data) {
+  const {
+    email,
+  } = data;
+
+  console.log(email)
+
+  return function (dispatch) {
+    API.post(`reset-password`, {
+      'email': email,
+    })
+      .then(response => {
+        localStorage.setItem('tokenReset', JSON.stringify(response.data));
+        // console.log(localStorage.getItem('profile'))
+        dispatch({ type: "AUTH_RESET" });
+        dispatch(push('/password-forgot-step-2'));
+      })
+      .catch(function (error) {
+        if (error.response) {
+          dispatch(authError(SIGNIN_FAILURE, error.response.data.err.message))
+        }
+      });
+  }
+}
+
+/*
+ * password forgot
+ */
+export function passwordForgotUserStep3(data) {
+  // const {
+  //   password,
+  // } = data;
+
+  const userEmail = JSON.parse(localStorage.getItem('email'));
+
+  console.log(userEmail)
+
+  return function (dispatch) {
+    // API.post(`change-password`, {
+    //   'email': userEmail,
+    //   'password': password,
+    // })
+    //   .then(response => {
+    //     // localStorage.setItem('profile', JSON.stringify(response.data));
+    //     // console.log(localStorage.getItem('profile'))
+    //     // dispatch({ type: AUTH_USER });
+    //     dispatch(push('/'));
+    //   })
+    //   .catch(error => dispatch(authError(SIGNIN_FAILURE, error.response.data.message)));
   }
 }
 

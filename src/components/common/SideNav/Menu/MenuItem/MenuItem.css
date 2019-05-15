@@ -1,0 +1,22 @@
+.menu-item {
+	padding: 10px 20px;
+	box-sizing: border-box;
+	display: block;
+	width: 100%;
+	color: #fff;
+	font-size: 1.2em;
+	margin: 6px 0;
+}
+
+.menu-item:hover {
+	text-decoration: none;
+}
+
+.menu-item.menu-item-active {
+	background: linear-gradient(84deg, #E62D24, #FD8F21);
+}
+
+.menu-item.sub {
+	font-size: 1em;
+	padding-left: 50px;
+}
