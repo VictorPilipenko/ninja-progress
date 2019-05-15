@@ -1,73 +1,122 @@
-import React, { Component } from 'react'
-import { reduxForm, Field } from 'redux-form'
-import * as actions from '../../actions/auth'
+import React from 'react';
 import { NavLink } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { withFormik } from 'formik';
+import * as Yup from 'yup';
+import { connect } from 'react-redux';
+import { signinUser } from '../../actions/auth'
+import './Sign.css'
+import logo from '../../assets/Logo_invert.png'
 
-const renderField = ({ input, type, placeholder, meta: { touched, error } }) => (
-  <div className={`input-group ${touched && error ? 'has-error' : ''}`}>
-    <input type={type} placeholder={placeholder} {...input} />
-    {touched && error && <div className="form-error">{error}</div>}
-  </div>
-
-);
-
-class Signin extends Component {
-
-  handleFormSubmit = (props) => {
-    this.props.signinUser(props);
-  }
-
+class Signin extends React.Component {
   render() {
-    const { handleSubmit } = this.props;
-
+    const {
+      values,
+      touched,
+      errors,
+      // dirty,
+      handleChange,
+      handleBlur,
+      handleSubmit,
+      // handleReset,
+      isSubmitting,
+    } = this.props;
     return (
-      <div className="form-container">
-        <h1>Sign in</h1>
-        <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+      <div className='wrapper'>
+        <img className='signin-logo' src={logo} alt='logo' />
+        <p className='top-text-first'>Map your sales funnel, the easy way.</p>
+        <p className='top-text-second'>Create a strategy, build a template, start the implementation.</p>
+        <div className='container'>
+          <form onSubmit={handleSubmit}>
+            <div className='form-container'>
+              <p className='login-label'>Log In</p>
+              <label htmlFor="email" className='label'>
+                Email Address
+              </label>
+              <input
+                id="email"
+                placeholder="Enter your email"
+                type="text"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              {errors.email && touched.email && (
+                <div className={`input-group ${errors.email && touched.email ? 'has-error' : ''}`}>{errors.email}</div>
+              )}
 
-          {/* Email */}
-          <Field name="email" component={renderField} type="text" placeholder="Email" />
+              <label htmlFor="password" className='label'>
+                Password
+              </label>
+              <input
+                id="password"
+                placeholder="Enter your password"
+                type="password"
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              {errors.password && touched.password && (
+                <div className={`input-group ${errors.password && touched.password ? 'has-error' : ''}`}>{errors.password}</div>
+              )}
 
-          {/* Password */}
-          <Field name="password" component={renderField} type="password" placeholder="Password" />
+              {/* Server error message */}
+              {this.props.errorMessage && this.props.errorMessage.signin &&
+                <div className="input-group">Oops! {this.props.errorMessage.signin}</div>}
 
-          {/* Server error message */}
-          {this.props.errorMessage && this.props.errorMessage.signin &&
-            <div className="error-container signin-error">Oops! {this.props.errorMessage.signin}</div>}
+              <button className="btn" type="submit" disabled={isSubmitting}>
+                Log In
+              </button>
 
-          {/* Signin button */}
-          <button type="submit" className="btn">Sign in</button>
+              <div className="form-password-forgot">
+                <NavLink to="/sign-in">Forgot your password?</NavLink>
+              </div>
 
-          {/* Signup button */}
-          <div className="form-bottom">
-            <p>Don't have an account?</p>
-            <NavLink to="/signup">Click here to sign up</NavLink>
-          </div>
-        </form>
+            </div>
+          </form>
+        </div>
+
+        {/* Signup button */}
+        <div className="form-bottom">
+          <p>Dont have an account?</p>
+          <NavLink to="/sign-up">Sign up now, it's free!</NavLink>
+        </div>
       </div>
-    )
+    );
   }
-}
+};
 
-function validate(formProps) {
-  const errors = {};
+const formikEnhancer = withFormik({
+  validationSchema: Yup.object().shape({
+    email: Yup.string().email('invalid email address').required('email is required!'),
+    password: Yup.string()
+      .min(6, 'minimum 6 letters')
+      .required('password is required.')
+  }),
+  mapPropsToValues: () => ({
+    email: '',
+    password: ''
+  }),
+  handleSubmit: (payload, { props, setSubmitting }) => {
+    console.log(props)
+    props.signinUser(payload);
+    setSubmitting(false);
+  },
+  displayName: 'LoginForm',
+})(Signin);
 
-  if (!formProps.email) {
-    errors.email = 'Email is required'
-  }
-
-  if (!formProps.password) {
-    errors.password = 'Password is required'
-  }
-
-  return errors;
-}
-
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return { errorMessage: state.auth.error }
 }
 
-Signin = reduxForm({ form: 'signin', validate })(Signin);
+const mapDispatchToProps = dispatch => {
+  return {
+    signinUser: arr => dispatch(signinUser(arr)),
+  }
+}
 
-export default connect(mapStateToProps, actions)(Signin);
+const Login = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(formikEnhancer)
+
+export default Login;

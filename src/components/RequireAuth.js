@@ -10,7 +10,7 @@ export const PrivateRoute = ({component: ComposedComponent, ...rest}) => {
     handleRender(props) {
       if (!this.props.authenticated) {
         return <Redirect to={{
-          pathname: '/signin',
+          pathname: '/sign-in',
           state: {
             from: props.location,
             message: 'You need to sign up'

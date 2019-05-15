@@ -6,40 +6,39 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import promise from 'redux-promise';
-import logger from 'redux-logger';
+// import logger from 'redux-logger';
 import * as serviceWorker from './serviceWorker';
 import { AUTH_USER } from './actions/types/index';
-import createHistory from "history/createBrowserHistory";
-import {
-  ConnectedRouter,
-  routerReducer,
-  routerMiddleware
-} from "react-router-redux";
-import './styles/styles.scss';
-import './components/bundle.scss';
+import { ConnectedRouter } from 'connected-react-router'
+import { routerMiddleware } from 'connected-react-router'
+import { connectRouter } from 'connected-react-router'
+import './index.css'
+import { createBrowserHistory } from "history";
 
-const history = createHistory();
+
+const history = createBrowserHistory();
 // Build the middleware for intercepting and dispatching navigation actions
 const middleware = routerMiddleware(history);
 const store = createStore(
   combineReducers({
     ...allReducers,
-    router: routerReducer
+    router: connectRouter(history),
   }),
-  applyMiddleware(thunk, middleware, promise, logger)
+  applyMiddleware(thunk, middleware, promise, /*logger*/)
 );
 
 const token = JSON.parse(localStorage.getItem('token'));
-if (token && token.access_token) {
+// if (token && token.access_token) {
+if (token && token) {
   store.dispatch({ type: AUTH_USER });
 }
 
 ReactDOM.render(
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <AppRouter />
-      </ConnectedRouter>
-    </Provider>,
-    document.getElementById('app')
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <AppRouter />
+    </ConnectedRouter>
+  </Provider>,
+  document.getElementById('app')
 );
 serviceWorker.unregister();

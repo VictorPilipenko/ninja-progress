@@ -1,29 +1,29 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { PrivateRoute } from '../components/RequireAuth';
-import Header from '../components/common/Header';
-import Info from '../components/Info';
-import Welcome from '../components/Welcome';
+import Dashboard from '../components/dashboard/Dashboard.jsx';
+// import Welcome from '../components/Welcome';
 import UserList from '../components/users/UserList.jsx';
-import PostList from '../components/posts/PostList.jsx';
-import CreatePost from '../components/posts/CreatePost.jsx';
+import ProjectList from '../components/projects/ProjectList.jsx';
+import CreateProject from '../components/projects/CreateProject.jsx';
 import Signin from '../components/auth/Signin.jsx';
 import Signout from '../components/auth/Signout.jsx';
 import Signup from '../components/auth/Signup.jsx';
+import Questionnaire from '../components/auth/Questionnaire.jsx';
 
 const AppRouter = () => (
-    <div className='container'>
-            <Header />
-            <Route path="/" exact={true} component={Welcome} />
-            <Route path="/signin" component={Signin} />
-            <Route path="/signup" component={Signup} />
-            
-            <PrivateRoute path="/signout" component={Signout} />
-            <PrivateRoute path="/info" component={Info} />
-            <PrivateRoute path="/users" component={UserList} />
-            <PrivateRoute path="/posts" component={PostList} />
-            <PrivateRoute path="/create-post" component={CreatePost} />
-    </div>
+  <>
+    {/* <Route path="/" exact={true} component={Welcome} /> */}
+    <Route path="/sign-in" component={Signin} />
+    <Route path="/sign-up" component={Signup} />
+    <Route path="/questionnaire" component={Questionnaire} />
+
+    <Route exact={true} path="/" component={Dashboard} />
+    <PrivateRoute path="/sign-out" component={Signout} />
+    <PrivateRoute path="/users" component={UserList} />
+    <Route path="/projects" component={ProjectList} />
+    <PrivateRoute path="/create-project" component={CreateProject} />
+  </>
 );
 
 export default AppRouter;

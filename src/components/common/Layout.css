@@ -1,0 +1,32 @@
+.sidenav---sidenav---_2tBP {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1006;
+    min-width: 64px;
+    background: #212939;
+    -webkit-transition: min-width 0.15s;
+    transition: min-width 0.15s;
+}
+
+.sidenav---sidenav-toggle---1KRjR {
+    position: relative;
+    float: right;
+}
+
+.sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ- > .sidenav---navitem---9uL5T .sidenav---navicon---3gCRo > *, .sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ- > .sidenav---navitem---9uL5T .sidenav---navtext---1AE_f > * {
+    color: #fff;
+}
+
+.sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ-.sidenav---highlighted---oUx9u > .sidenav---navitem---9uL5T::after, .sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ-:hover.sidenav---highlighted---oUx9u > .sidenav---navitem---9uL5T::after {
+    background: linear-gradient(84deg, #E62D24, #FD8F21);
+    opacity: 1;
+    /* -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)"; */
+    /* filter: alpha(opacity=20); */
+}
+
+/* a:link {
+    text-decoration: none !important;
+    display: none;
+} */

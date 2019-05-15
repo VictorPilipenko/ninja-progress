@@ -1,100 +1,191 @@
-import React, { Component } from 'react'
-import { reduxForm, Field } from 'redux-form'
-import * as actions from '../../actions/auth'
+import React from 'react';
 import { NavLink } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { withFormik } from 'formik';
+import * as Yup from 'yup';
+import { connect } from 'react-redux';
+import { signupUser, validationUser } from '../../actions/auth'
+import './Sign.css'
+import logo from '../../assets/Logo_invert.png'
 
-const renderField = ({ input, type, placeholder, meta: { touched, error } }) => (
-  <div className={`input-group ${touched && error ? 'has-error' : ''}`}>
-    <input type={type} placeholder={placeholder} {...input} />
-    { touched && error && <div className="form-error">{error}</div> }
-  </div>
-);
+class Signup extends React.Component {
+  handleEmailFieldBlur = (e, props) => {
+    this.props.handleBlur(e)
 
-class Signup extends Component {
-
-  handleFormSubmit = (formProps) => {
-    this.props.signupUser(formProps);
+    // do something
+    // saveUserForm(this.props.values)
+    // console.log('email: ',this.props.values.email)
+    this.props.validationUser(this.props.values.email)
   }
 
   render() {
-    const { handleSubmit } = this.props;
-
+    const {
+      values,
+      touched,
+      errors,
+      // dirty,
+      handleChange,
+      handleBlur,
+      handleSubmit,
+      // handleReset,
+      isSubmitting,
+    } = this.props;
     return (
-      <div className="form-container">
-        <h1>Sign up</h1>
-        <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+      <div className='wrapper'>
+        <img className='signin-logo' src={logo} alt='logo' />
+        <p className='top-text-first'>Get started with a free account</p>
+        <div className='container'>
+          <form onSubmit={handleSubmit}>
+            <div className='form-container'>
 
-          {/* Name */}
-          <Field name="name" component={renderField} type="text" placeholder="name" />
+              <label htmlFor="firstName" className='label'>
+                First Name
+              </label>
+              <input
+                id="firstName"
+                placeholder="Enter your first name"
+                type="text"
+                value={values.firstName}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              {errors.firstName && touched.firstName && (
+                <div className={`input-group ${errors.firstName && touched.firstName ? 'has-error' : ''}`}>{errors.firstName}</div>
+              )}
 
-          {/* Email */}
-          <Field name="email" component={renderField} type="text" placeholder="Email" />
+              <label htmlFor="accountName" className='label'>
+                Account Name
+              </label>
+              <input
+                id="accountName"
+                placeholder="Enter your account name"
+                type="text"
+                value={values.accountName}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              {errors.accountName && touched.accountName && (
+                <div className={`input-group ${errors.accountName && touched.accountName ? 'has-error' : ''}`}>{errors.accountName}</div>
+              )}
 
-          {/* Password */}
-          <Field name="password" component={renderField} type="password" placeholder="Password" />
+              <label htmlFor="email" className='label'>
+                Email Address
+              </label>
+              <input
+                id="email"
+                placeholder="Enter your email"
+                type="text"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={this.handleEmailFieldBlur}
+              />
+              {errors.email && touched.email && (
+                <div className={`input-group ${errors.email && touched.email ? 'has-error' : ''}`}>{errors.email}</div>
+              )}
+              {this.props.emailValidationInfo && (
+                <div className={`input-group ${this.props.emailValidationInfo ? 'has-error' : ''}`}>{this.props.emailValidationInfo}</div>
+              )}
 
-          {/* Email */}
-          <Field name="repassword" component={renderField} type="password" placeholder="Repeat Password" />
+              <label htmlFor="password" className='label'>
+                Password
+              </label>
+              <input
+                id="password"
+                placeholder="Enter your password"
+                type="password"
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              {errors.password && touched.password && (
+                <div className={`input-group ${errors.password && touched.password ? 'has-error' : ''}`}>{errors.password}</div>
+              )}
 
-          {/* Server error message */}
-          <div>
-            { this.props.errorMessage && this.props.errorMessage.signup &&
-                <div className="error-container">Oops! { this.props.errorMessage.signup }</div> }
-          </div>
+              <label htmlFor="passwordConfirm" className='label'>
+                Confirm Password
+              </label>
+              <input
+                id="passwordConfirm"
+                placeholder="Confirm your password"
+                type="password"
+                value={values.passwordConfirm}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              {errors.passwordConfirm && touched.passwordConfirm && (
+                <div className={`input-group ${errors.passwordConfirm && touched.passwordConfirm ? 'has-error' : ''}`}>{errors.passwordConfirm}</div>
+              )}
 
-          {/* Submit button */}
-          <button type="submit" className="btn">Sign up</button>
+              {/* Server error message */}
+              {this.props.errorMessage && this.props.errorMessage &&
+                <div className="input-group">Oops! {this.props.errorMessage}</div>}
 
-          {/* Sign in button */}
-          <div className="form-bottom">
-            <p>Already signed up?</p>
-            <NavLink to="/signin">Click here to sign in</NavLink>
-          </div>
-        </form>
+              <button className="btn" type="submit" disabled={isSubmitting}>
+                Get Started
+              </button>
+
+            </div>
+          </form>
+        </div>
+
+        {/* Signup button */}
+        <div className="form-bottom-register">
+          <NavLink to="/sign-in">Already have an account?</NavLink>
+        </div>
       </div>
-    )
+    );
   }
-}
-
-const validate = props => {
-  const errors = {};
-  const fields = ['name', 'email', 'password', 'repassword'];
-
-  fields.forEach((f) => {
-    if(!(f in props)) {
-      errors[f] = `${f} is required`;
-    }
-  });
-
-  if(props.firstname && props.firstname.length < 3) {
-    errors.firstname = "minimum of 4 characters";
-  }
-
-  if(props.firstname && props.firstname.length > 20) {
-    errors.firstname = "maximum of 20 characters";
-  }
-
-  if(props.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(props.email)) {
-    errors.email = "please provide valid email";
-  }
-
-  if(props.password && props.password.length < 6) {
-    errors.password = "minimum 6 characters";
-  }
-
-  if(props.password !== props.repassword) {
-    errors.repassword = "passwords doesn't match";
-  }
-
-  return errors;
 };
 
+const formikEnhancer = withFormik({
+  validationSchema: Yup.object().shape({
+    firstName: Yup.string()
+      .min(2, 'minimum 2 letters')
+      .required('first name is required.'),
+    accountName: Yup.string()
+      .min(2, 'minimum 2 letters')
+      .required('account name is required.'),
+    email: Yup.string().email('invalid email address').required('email is required!'),
+    password: Yup.string()
+      .min(6, 'minimum 6 letters')
+      .required('password is required.'),
+    passwordConfirm: Yup.string()
+      .oneOf([Yup.ref('password')], "passwords must match")
+      .required('password confirm is required')
+  }),
+  mapPropsToValues: () => ({
+    firstName: '',
+    accountName: '',
+    email: '',
+    password: '',
+    passwordConfirm: '',
+  }),
+  handleSubmit: (payload, { props, setSubmitting }) => {
+    console.log(props)
+    console.log(payload)
+    props.signupUser(payload);
+    setSubmitting(false);
+  },
+  displayName: 'RegisterForm',
+})(Signup);
 
-function mapStateToProps(state) {
-  return { errorMessage: state.auth.error };
+const mapStateToProps = state => {
+  // console.log(state.auth.emailValidationInfo)
+  return { 
+    errorMessage: state.auth.error,
+    emailValidationInfo: state.auth.emailValidationInfo,
+  }
 }
 
-Signup = reduxForm({ form: 'signup', validate })(Signup);
+const mapDispatchToProps = dispatch => {
+  return {
+    signupUser: arr => dispatch(signupUser(arr)),
+    validationUser: arr => dispatch(validationUser(arr)),
+  }
+}
 
-export default connect(mapStateToProps, actions)(Signup);
+const Register = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(formikEnhancer)
+
+export default Register;

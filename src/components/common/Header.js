@@ -1,41 +1,40 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
+import './header.css'
 
 class Header extends Component {
   render() {
     return (
       <header>
-        <NavLink to={this.props.authenticated ? '/info' : '/'} className="logo">Homework</NavLink>
-          <nav>
-            {
-              this.props.authenticated ?
-                <ul>
+        <div className="logo">{this.props.title}</div>
+        <nav>
+          {
+            this.props.authenticated ?
+              <ul>
+                {/*
                   <li>
-                    <NavLink to="/create-post">Create post</NavLink>
+                    <NavLink to="/create-project">Create project</NavLink>
                   </li>
                   <li>
-                    <NavLink to="/posts">Posts</NavLink>
+                    <NavLink to="/">Dashboard</NavLink>
                   </li>
-
-                  <li>
-                    <NavLink to="/users">Users</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/signout">Sign out</NavLink>
-                  </li> 
-                </ul>
-                :
-                <ul>
-                  <li>
-                    <NavLink to="/signin">Sign in</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/signup">Sign up</NavLink>
-                  </li>
-                </ul>
-            }
-          </nav>
+                */}
+                <li>
+                  <NavLink to="/sign-out">Sign out</NavLink>
+                </li>
+              </ul>
+              :
+              <ul>
+                <li>
+                  <NavLink to="/sign-in">Sign in</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/sign-up">Sign up</NavLink>
+                </li>
+              </ul>
+          }
+        </nav>
       </header>
     )
   }
