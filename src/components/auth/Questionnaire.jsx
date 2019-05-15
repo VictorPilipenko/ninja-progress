@@ -273,7 +273,7 @@ const formikEnhancer = withFormik({
     radioGroup: '',
   }),
   handleSubmit: (payload, { props, setSubmitting }) => {
-    console.log('payload', payload)
+    // console.log('payload', payload)
     props.questionnaireUser(payload);
     setSubmitting(false);
   },

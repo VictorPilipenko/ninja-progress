@@ -40,16 +40,27 @@ export function signupUser(props) {
       'accountName': accountName,
     })
       .then(response => {
-        console.log(response)
+        // console.log(response)
         localStorage.setItem('user', JSON.stringify(response.data.user));
         localStorage.setItem('token', JSON.stringify(response.data.token));
-        console.log(localStorage.getItem('user'))
-        console.log(localStorage.getItem('token'))
+        // console.log(localStorage.getItem('user'))
+        // console.log(localStorage.getItem('token'))
         dispatch({ type: SIGNUP_SUCCESS });
         dispatch(push('/questionnaire'));
       })
       // .catch(response => dispatch(authError(SIGNUP_FAILURE, response.data.error)));
-      .catch(() => dispatch(authError(SIGNUP_FAILURE, "SIGNUP_FAILURE")));
+      .catch(error => dispatch(authError(SIGNUP_FAILURE, error.response.data.message)));
+      // .then(res => res.json())
+      // .then(json =>
+      //   console.log(json),
+      //   // localStorage.setItem('user', JSON.stringify(response.data.user)),
+      //   // localStorage.setItem('token', JSON.stringify(response.data.token)),
+      //   // console.log(localStorage.getItem('user'))
+      //   // console.log(localStorage.getItem('token'))
+      //   // dispatch({ type: SIGNUP_SUCCESS }),
+      //   // dispatch(push('/questionnaire')),
+      // )
+      // .catch (error => dispatch(authError(SIGNUP_FAILURE,'error')));
   }
 }
 
@@ -66,14 +77,14 @@ export function signinUser(props) {
       'password': password
     })
       .then(response => {
-        console.log(response)
+        // console.log(response)
         localStorage.setItem('token', JSON.stringify(response.data));
 
         dispatch({ type: AUTH_USER });
 
         dispatch(push('/'));
       })
-      .catch(() => dispatch(authError(SIGNIN_FAILURE, "Email or password isn't right")));
+      .catch(error => dispatch(authError(SIGNIN_FAILURE, error.response.data.message)));
   }
 }
 
@@ -93,10 +104,10 @@ export function validationUser(email) {
       // .catch(response => dispatch(emailValidError(SIGNUP_FAILURE, 'error')));
       .then(res => res.json())
       .then(json =>
-        console.log(json)
+        console.log('')
       )
       .catch(error => dispatch(emailValidError(error.response.data.message)));
-      // .catch(error => console.log(error.response.data.message))
+    // .catch(error => console.log(error.response.data.message))
   }
 }
 
@@ -140,7 +151,7 @@ export function questionnaireUser(props) {
     }
   }
 
-  console.log(localStorage.getItem('token'))
+  // console.log(localStorage.getItem('token'))
 
   // radioGroup === 'Company' ? obj = {
   //   'companyName': companyName,
@@ -165,10 +176,11 @@ export function questionnaireUser(props) {
     API.patch(`profile`, obj)
       .then(response => {
         localStorage.setItem('profile', JSON.stringify(response.data));
-        console.log(localStorage.getItem('profile'))
+        // console.log(localStorage.getItem('profile'))
+        dispatch({ type: AUTH_USER });
         dispatch(push('/'));
       })
-      .catch(() => dispatch(authError(SIGNIN_FAILURE, "Error")));
+      .catch(error => dispatch(authError(SIGNIN_FAILURE, error.response.data.message)));
   }
 }
 

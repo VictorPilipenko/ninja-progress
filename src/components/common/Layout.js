@@ -19,7 +19,7 @@ class Layout extends React.Component {
   };
   render() {
     const { children } = this.props;
-    console.log()
+    // console.log()
     return (
       <>
         {/* <Router>

@@ -29,7 +29,7 @@ const store = createStore(
 
 const token = JSON.parse(localStorage.getItem('token'));
 // if (token && token.access_token) {
-if (token && token) {
+if (token) {
   store.dispatch({ type: AUTH_USER });
 }
 

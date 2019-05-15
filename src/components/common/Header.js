@@ -5,6 +5,7 @@ import './header.css'
 
 class Header extends Component {
   render() {
+    // console.log('this.props.authenticated',this.props.authenticated)
     return (
       <header>
         <div className="logo">{this.props.title}</div>
@@ -25,14 +26,15 @@ class Header extends Component {
                 </li>
               </ul>
               :
-              <ul>
-                <li>
-                  <NavLink to="/sign-in">Sign in</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/sign-up">Sign up</NavLink>
-                </li>
-              </ul>
+              // <ul>
+              //   <li>
+              //     <NavLink to="/sign-in">Sign in</NavLink>
+              //   </li>
+              //   <li>
+              //     <NavLink to="/sign-up">Sign up</NavLink>
+              //   </li>
+              // </ul>
+              null
           }
         </nav>
       </header>

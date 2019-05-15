@@ -9,15 +9,15 @@ import {
 export default function(state = {}, action) {
   switch(action.type) {
     case SIGNUP_SUCCESS:
-      return { ...state, signup: true, error: {} };
+      return { ...state, signup: true, error: '' };
     case SIGNUP_FAILURE:
-      return { ...state, signup: false, error: { signup: action.payload } };
+      return { ...state, signup: false, error: action.payload };
     case SIGNIN_FAILURE:
-      return { ...state, error: { signin: action.payload } };
+      return { ...state, error: action.payload };
     case AUTH_USER:
-      return { ...state, authenticated: true, error: {} };
+      return { ...state, authenticated: true, error: '' };
     case UNAUTH_USER:
-      return { ...state, authenticated: false, error: {} };
+      return { ...state, authenticated: false, error: '' };
     case "EMAIL_VALID":
       return { ...state, emailValidationInfo: action.payload }
     default: return state;

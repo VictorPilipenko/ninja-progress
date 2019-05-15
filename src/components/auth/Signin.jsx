@@ -60,8 +60,8 @@ class Signin extends React.Component {
               )}
 
               {/* Server error message */}
-              {this.props.errorMessage && this.props.errorMessage.signin &&
-                <div className="input-group">Oops! {this.props.errorMessage.signin}</div>}
+              {this.props.errorMessage && this.props.errorMessage &&
+                <div className="input-group">Oops! {this.props.errorMessage}</div>}
 
               <button className="btn" type="submit" disabled={isSubmitting}>
                 Log In
@@ -97,7 +97,7 @@ const formikEnhancer = withFormik({
     password: ''
   }),
   handleSubmit: (payload, { props, setSubmitting }) => {
-    console.log(props)
+    // console.log(props)
     props.signinUser(payload);
     setSubmitting(false);
   },

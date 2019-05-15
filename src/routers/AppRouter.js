@@ -18,10 +18,10 @@ const AppRouter = () => (
     <Route path="/sign-up" component={Signup} />
     <Route path="/questionnaire" component={Questionnaire} />
 
-    <Route exact={true} path="/" component={Dashboard} />
+    <PrivateRoute exact={true} path="/" component={Dashboard} />
     <PrivateRoute path="/sign-out" component={Signout} />
     <PrivateRoute path="/users" component={UserList} />
-    <Route path="/projects" component={ProjectList} />
+    <PrivateRoute path="/projects" component={ProjectList} />
     <PrivateRoute path="/create-project" component={CreateProject} />
   </>
 );

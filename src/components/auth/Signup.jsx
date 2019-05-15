@@ -160,8 +160,8 @@ const formikEnhancer = withFormik({
     passwordConfirm: '',
   }),
   handleSubmit: (payload, { props, setSubmitting }) => {
-    console.log(props)
-    console.log(payload)
+    // console.log(props)
+    // console.log(payload)
     props.signupUser(payload);
     setSubmitting(false);
   },
