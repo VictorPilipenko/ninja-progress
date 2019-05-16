@@ -80,6 +80,7 @@ class Signin extends React.Component {
           <p>Dont have an account?</p>
           <NavLink to="/sign-up">Sign up now, it's free!</NavLink>
         </div>
+        <div className='empty-space'/>
       </div>
     );
   }
@@ -87,10 +88,10 @@ class Signin extends React.Component {
 
 const formikEnhancer = withFormik({
   validationSchema: Yup.object().shape({
-    email: Yup.string().email('invalid email address').required('email is required!'),
+    email: Yup.string().email('Invalid email address').required('Email is required!'),
     password: Yup.string()
-      .min(6, 'minimum 6 letters')
-      .required('password is required.')
+      .min(8, 'Minimum 8 letters')
+      .required('Password is required.')
   }),
   mapPropsToValues: () => ({
     email: '',

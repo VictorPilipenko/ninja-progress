@@ -22,6 +22,8 @@ export default function (state = {}, action) {
       return { ...state, emailValidationInfo: action.payload }
     case "AUTH_RESET":
       return { ...state, authenticatedReset: true, error: '' }
+    case "AUTH_RESET_COMPLETE":
+      return { ...state, authenticatedReset: false, error: '' }
     default: return state;
   }
 }

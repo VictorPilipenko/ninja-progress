@@ -1,28 +1,27 @@
 import axios from 'axios'
 
+import { API_URL } from '../config'
+
 export const API = axios.create({
-  // baseURL: 'http://721f8659.ngrok.io',
-  baseURL: 'http://funnelsmapbackend.qbex.io',
-  // headers: {
-  //   'authorization': JSON.parse(localStorage.getItem('token'))
-  // }
+  baseURL: API_URL,
 });
-
-// console.log(JSON.parse(localStorage.getItem('token')))
-
-// API.defaults.headers.common['authorization'] = JSON.parse(localStorage.getItem('token'));
 
 API.interceptors.request.use(
   function (config) {
+
     const token = JSON.parse(localStorage.getItem('token'));
     if (token) config.headers.authorization = token;
+
+    // const tokenReset = JSON.parse(localStorage.getItem('tokenReset'));
+    // if (tokenReset) config.headers['letter-confirm'] = tokenReset;
+
+    // if (token.token_type === 'Bearer') config.headers.authorization = token;
+    // if (token.token_type === 'Letter') config.headers.authorization = tokenReset;
+    // else if (tokenReset) config.headers.authorization = tokenReset;
+
     return config;
   },
   function (error) {
-    console.log('unauthorized, logging out ...');
-    if (error.response.status === 500) {
-      console.log('unauthorized, logging out ...');
-    }
     return Promise.reject(error);
   }
 );

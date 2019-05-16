@@ -82,8 +82,11 @@ class Signup extends React.Component {
               {errors.email && touched.email && (
                 <div className={`input-group ${errors.email && touched.email ? 'has-error' : ''}`}>{errors.email}</div>
               )}
-              {this.props.emailValidationInfo && (
-                <div className={`input-group-email ${this.props.emailValidationInfo ? 'has-error' : ''}`}>{this.props.emailValidationInfo}</div>
+              {this.props.emailValidationInfo === 'email is free' && (
+                <div className={`input-group-email-green`}>{this.props.emailValidationInfo}</div>
+              )}
+              {this.props.emailValidationInfo === 'email already exists!' && (
+                <div className={`input-group`}>{this.props.emailValidationInfo}</div>
               )}
 
               <label htmlFor="password" className='label'>
@@ -132,6 +135,7 @@ class Signup extends React.Component {
         <div className="form-bottom-register">
           <NavLink to="/sign-in">Already have an account?</NavLink>
         </div>
+        <div className='empty-space'/>
       </div>
     );
   }
@@ -140,19 +144,19 @@ class Signup extends React.Component {
 const formikEnhancer = withFormik({
   validationSchema: Yup.object().shape({
     firstName: Yup.string()
-      .min(2, 'minimum 2 letters')
-      .required('first name is required.'),
+      .min(2, 'Minimum 2 letters')
+      .required('First name is required.'),
     accountName: Yup.string()
-      .min(2, 'minimum 2 letters')
-      .required('account name is required.'),
-    email: Yup.string().email('invalid email address').required('email is required!'),
+      .min(2, 'Minimum 2 letters')
+      .required('Account name is required.'),
+    email: Yup.string().email('Invalid email address').required('Email is required!'),
     password: Yup.string()
-      .min(8, 'minimum 8 letters')
-      .max(25, 'maximum 25 letters')
-      .required('password is required.'),
+      .min(8, 'Minimum 8 letters')
+      .max(25, 'Maximum 25 letters')
+      .required('Password is required.'),
     passwordConfirm: Yup.string()
-      .oneOf([Yup.ref('password')], "passwords must match")
-      .required('password confirm is required')
+      .oneOf([Yup.ref('password')], "Passwords must match")
+      .required('Password confirm is required')
   }),
   mapPropsToValues: () => ({
     firstName: '',
@@ -171,8 +175,8 @@ const formikEnhancer = withFormik({
 })(Signup);
 
 const mapStateToProps = state => {
-  console.log(state)
-  return { 
+  // console.log(state)
+  return {
     errorMessage: state.auth.error,
     emailValidationInfo: state.auth.emailValidationInfo,
   }

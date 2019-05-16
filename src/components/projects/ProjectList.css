@@ -1,0 +1,13 @@
+.projects-wrapper{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.project-wrapper{
+  height: 100px;
+  width: 200px;
+  background: gray;
+  border-radius: 5px;
+  margin: 20px;
+}

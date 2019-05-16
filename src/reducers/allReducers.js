@@ -1,11 +1,11 @@
 import authReducer from './authReducer';
 import userReducer from './userReducer';
-import postReducer from './postReducer';
+import projectReducer from './projectReducer';
 
 const allReducers = ({
     auth: authReducer,
     user: userReducer,
-    post: postReducer
+    projects: projectReducer
 });
 
 export default allReducers

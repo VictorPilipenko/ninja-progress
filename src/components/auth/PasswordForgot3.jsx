@@ -6,6 +6,10 @@ import { passwordForgotUserStep3 } from '../../actions/auth'
 import './Sign.css'
 import logo from '../../assets/Logo_invert.png'
 
+let params = (new URL(document.location)).searchParams;
+let token = params.get('token'); // is the string "Jonathan Smith".
+console.log(token)
+
 class PasswordForgot3 extends React.Component {
   render() {
     const {
@@ -19,6 +23,9 @@ class PasswordForgot3 extends React.Component {
       // handleReset,
       isSubmitting,
     } = this.props;
+
+
+
     return (
       <div className='wrapper'>
         <img className='signin-logo' src={logo} alt='logo' />
@@ -63,12 +70,12 @@ class PasswordForgot3 extends React.Component {
               <button className="btn" type="submit" disabled={isSubmitting}>
                 Enter A Valid Password
               </button>
-
-
-
+              
             </div>
           </form>
+         
         </div>
+         <div className='empty-space'/>
       </div>
     );
   }
@@ -77,12 +84,12 @@ class PasswordForgot3 extends React.Component {
 const formikEnhancer = withFormik({
   validationSchema: Yup.object().shape({
     password: Yup.string()
-      .min(8, 'minimum 8 letters')
-      .max(25, 'maximum 25 letters')
-      .required('password is required.'),
+      .min(8, 'Minimum 8 letters')
+      .max(25, 'Maximum 25 letters')
+      .required('Password is required.'),
     passwordConfirm: Yup.string()
-      .oneOf([Yup.ref('password')], "passwords must match")
-      .required('password confirm is required')
+      .oneOf([Yup.ref('password')], "Passwords must match")
+      .required('Password confirm is required')
   }),
   mapPropsToValues: () => ({
     password: '',
@@ -90,19 +97,20 @@ const formikEnhancer = withFormik({
   }),
   handleSubmit: (payload, { props, setSubmitting }) => {
     // console.log(props)
-    props.passwordForgotUserStep3(payload);
+    props.passwordForgotUserStep3(payload, token);
     setSubmitting(false);
   },
-  displayName: 'PasswordForgot1',
+  displayName: 'PasswordForgot3',
 })(PasswordForgot3);
 
 const mapStateToProps = state => {
+  console.log(state)
   return { errorMessage: state.auth.error }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    passwordForgotUserStep3: arr => dispatch(passwordForgotUserStep3(arr)),
+    passwordForgotUserStep3: (arr, token) => dispatch(passwordForgotUserStep3(arr, token)),
   }
 }
 

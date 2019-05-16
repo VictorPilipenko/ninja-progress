@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { PrivateRoute } from '../components/RequireAuth';
-// import { PrivateRouteReset } from '../components/RequireAuthReset';
+import { PrivateRouteReset } from '../components/RequireAuthReset';
 import Dashboard from '../components/dashboard/Dashboard.jsx';
 // import Welcome from '../components/Welcome';
 import UserList from '../components/users/UserList.jsx';
@@ -11,9 +11,9 @@ import Signin from '../components/auth/Signin.jsx';
 import Signout from '../components/auth/Signout.jsx';
 import Signup from '../components/auth/Signup.jsx';
 import Questionnaire from '../components/auth/Questionnaire.jsx';
-// import PasswordForgot1 from '../components/auth/PasswordForgot1.jsx';
-// import PasswordForgot2 from '../components/auth/PasswordForgot2.jsx';
-// import PasswordForgot3 from '../components/auth/PasswordForgot3.jsx';
+import PasswordForgot1 from '../components/auth/PasswordForgot1.jsx';
+import PasswordForgot2 from '../components/auth/PasswordForgot2.jsx';
+import PasswordForgot3 from '../components/auth/PasswordForgot3.jsx';
 
 const AppRouter = () => (
   <>
@@ -21,9 +21,9 @@ const AppRouter = () => (
     <Route path="/sign-in" component={Signin} />
     <Route path="/sign-up" component={Signup} />
 
-    {/* <Route path="/password-forgot-step-1" component={PasswordForgot1} />
-    <PrivateRouteReset path="/password-forgot-step-2" component={PasswordForgot2} />
-    <PrivateRouteReset path="/password-forgot-step-3" component={PasswordForgot3} /> */}
+    <Route path="/password-forgot-step-1" component={PasswordForgot1} />
+    <Route path="/password-forgot-step-2" component={PasswordForgot2} />
+    <Route path="/password-forgot-step-3" component={PasswordForgot3} />
 
     <PrivateRoute path="/questionnaire" component={Questionnaire} />
     <PrivateRoute exact={true} path="/" component={Dashboard} />

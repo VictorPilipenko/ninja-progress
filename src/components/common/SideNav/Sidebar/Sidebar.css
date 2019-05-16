@@ -5,6 +5,7 @@
   box-sizing: border-box;
   position: absolute;
   height: 100vh;
+  position: fixed;
 }
 
 .logo {

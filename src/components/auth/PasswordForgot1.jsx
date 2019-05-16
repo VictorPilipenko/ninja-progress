@@ -60,7 +60,7 @@ class PasswordForgot1 extends React.Component {
 
 const formikEnhancer = withFormik({
   validationSchema: Yup.object().shape({
-    email: Yup.string().email('invalid email address').required('email is required!'),
+    email: Yup.string().email('Invalid email address').required('Email is required!'),
   }),
   mapPropsToValues: () => ({
     email: '',

@@ -145,7 +145,7 @@ class Questionnaire extends React.Component {
 
 
               {values.radioGroup === 'Company' ?
-                <>
+                <div className="test">
                   <label htmlFor="companyName" className='label'>
                     Company name
                   </label>
@@ -175,13 +175,13 @@ class Questionnaire extends React.Component {
                   {errors.companyWebsite && touched.companyWebsite && (
                     <div className={`input-group ${errors.companyWebsite && touched.companyWebsite ? 'has-error' : ''}`}>{errors.companyWebsite}</div>
                   )}
-                </>
+                </div>
                 :
                 null
               }
 
               {values.radioGroup === 'Agency' ?
-                <>
+                <div className="test">
                   <label htmlFor="agencyName" className='label'>
                     Agency name
                   </label>
@@ -211,7 +211,7 @@ class Questionnaire extends React.Component {
                   {errors.agencyWebsite && touched.agencyWebsite && (
                     <div className={`input-group ${errors.agencyWebsite && touched.agencyWebsite ? 'has-error' : ''}`}>{errors.agencyWebsite}</div>
                   )}
-                </>
+                </div>
                 :
                 null
               }
@@ -230,12 +230,15 @@ class Questionnaire extends React.Component {
 
             </div>
           </form>
-        </div>
+        </div> 
 
         {/* Signup button */}
         <div className="form-bottom-register">
+          <p style={{color: '#848f99'}}>By clicking "Get Started" you agree to Funnelsmap</p>
+          <p className='terms-policy' style={{color: '#848f99'}}><NavLink to="/questionnaire">Terms of Use</NavLink> and <NavLink to="/questionnaire">Privacy Policy</NavLink></p>
           <NavLink to="/sign-in">Already have an account?</NavLink>
         </div>
+        <div className='empty-space'/>
       </div >
     );
   }
@@ -243,27 +246,7 @@ class Questionnaire extends React.Component {
 
 const formikEnhancer = withFormik({
   validationSchema: Yup.object().shape({
-    // companyName: Yup.string()
-    //   .min(2, 'minimum 2 letters')
-    //   .required('firstname is required.'),
-    // companyWebsite: Yup.string()
-    //   .min(2, 'minimum 2 letters')
-    //   .required('firstname is required.'),
-    // email: Yup.string().email('Invalid email address').required('Email is required!'),
-    // password: Yup.string()
-    //   .min(6, 'minimum 6 letters')
-    //   .required('password is required.'),
-    // passwordConfirm: Yup.string()
-    //   .oneOf([Yup.ref('password')], "Passwords must match")
-    //   .required('password confirm is required'),
-
-
-    // freelancer: Yup.array().required(
-    //   "At least one checkbox is required"
-    // ),
-
-    // freelancer: Yup.bool().oneOf([false], "Must agree to something")
-    // radioGroup: Yup.string().required("A radio option is required"),
+    radioGroup: Yup.string().required("A radio option is required"),
   }),
   mapPropsToValues: () => ({
     companyName: '',

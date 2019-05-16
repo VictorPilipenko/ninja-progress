@@ -5,7 +5,7 @@ import { Route, Redirect } from 'react-router-dom'
 export const PrivateRouteReset = ({component: ComposedComponent, ...rest}) => {
 
   class Authentication extends Component {
-
+    
     // redirect if not authenticated; otherwise, return the component imputted into <PrivateRoute />
     handleRender(props) {
       if (!this.props.authenticated) {
@@ -22,6 +22,7 @@ export const PrivateRouteReset = ({component: ComposedComponent, ...rest}) => {
     }
 
     render() {
+      // console.log(this.props.authenticated)
       return (
         <Route {...rest} render={this.handleRender.bind(this)}/>
       )
@@ -29,6 +30,7 @@ export const PrivateRouteReset = ({component: ComposedComponent, ...rest}) => {
   }
 
   function mapStateToProps(state) {
+    console.log(state)
     return {authenticated: state.auth.authenticatedReset};
   }
 

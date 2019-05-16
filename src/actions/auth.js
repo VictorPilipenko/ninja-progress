@@ -8,6 +8,8 @@ import {
 } from './types/index'
 
 import { push } from 'connected-react-router'
+import axios from 'axios'
+import { API_URL } from '../config'
 
 /*
  * Error helper
@@ -41,8 +43,12 @@ export function signupUser(props) {
     })
       .then(response => {
         console.log(response)
-        localStorage.setItem('user', JSON.stringify(response.data.user));
-        localStorage.setItem('token', JSON.stringify(response.data.token));
+
+        if (response.data) {
+          localStorage.setItem('user', JSON.stringify(response.data.user));
+          localStorage.setItem('token', JSON.stringify(response.data.token));
+        }
+
         // console.log(localStorage.getItem('user'))
         // console.log(localStorage.getItem('token'))
         dispatch({ type: SIGNUP_SUCCESS });
@@ -61,7 +67,7 @@ export function signupUser(props) {
  * Sign in
  */
 export function signinUser(props) {
-  console.log(props)
+  // console.log(props)
   const { email, password } = props;
 
   return function (dispatch) {
@@ -70,16 +76,17 @@ export function signinUser(props) {
       'password': password
     })
       .then(response => {
+        if (response.data) {
+          localStorage.setItem('token', JSON.stringify(response.data.token));
+          localStorage.setItem('user', JSON.stringify(response.data.firstName));
+          dispatch({ type: AUTH_USER });
 
-        localStorage.setItem('token', JSON.stringify(response.data));
-
-        dispatch({ type: AUTH_USER });
-
-        dispatch(push('/'));
+          dispatch(push('/'));
+        }
       })
       .catch(function (error) {
         if (error.response) {
-          dispatch(authError(SIGNIN_FAILURE, error.response.data.err.message))
+          dispatch(authError(SIGNIN_FAILURE, error.response.data.message))
         }
       });
   }
@@ -105,25 +112,23 @@ export function validationUser(email) {
 export function questionnaireUser(props) {
   const {
     radioGroup,
-    companyName,
-    companyWebsite,
-    agencyName,
-    agencyWebsite,
+    Name,
+    Website,
   } = props;
 
   let obj = {};
 
   if (radioGroup === `Company`) {
     obj = {
-      'companyName': companyName,
-      'companyWebsite': companyWebsite,
+      'companyName': Name,
+      'companyWebsite': Website,
     }
   }
 
   if (radioGroup === `Agency`) {
     obj = {
-      'agencyName': agencyName,
-      'agencyWebsite': agencyWebsite,
+      'agencyName': Name,
+      'agencyWebsite': Website,
     }
   }
 
@@ -162,16 +167,17 @@ export function passwordForgotUserStep1(data) {
     email,
   } = data;
 
-  console.log(email)
+  // console.log(email)
 
   return function (dispatch) {
     API.post(`reset-password`, {
       'email': email,
     })
       .then(response => {
-        localStorage.setItem('tokenReset', JSON.stringify(response.data));
+        // localStorage.setItem('tokenReset', JSON.stringify(response.data.token));
+        // localStorage.setItem('emailReset', JSON.stringify(response.data.email));
         // console.log(localStorage.getItem('profile'))
-        dispatch({ type: "AUTH_RESET" });
+        // dispatch({ type: "AUTH_RESET" });
         dispatch(push('/password-forgot-step-2'));
       })
       .catch(function (error) {
@@ -182,32 +188,33 @@ export function passwordForgotUserStep1(data) {
   }
 }
 
-/*
- * password forgot
- */
-export function passwordForgotUserStep3(data) {
-  // const {
-  //   password,
-  // } = data;
 
-  const userEmail = JSON.parse(localStorage.getItem('email'));
+export function passwordForgotUserStep3(data, token) {
+  const {
+    password,
+  } = data;
 
-  console.log(userEmail)
+  const postData = {
+    'password': password
+  };
+
+  const axiosConfig = {
+    headers: {
+      'letter-confirm': token
+    }
+  };
 
   return function (dispatch) {
-    // API.post(`change-password`, {
-    //   'email': userEmail,
-    //   'password': password,
-    // })
-    //   .then(response => {
-    //     // localStorage.setItem('profile', JSON.stringify(response.data));
-    //     // console.log(localStorage.getItem('profile'))
-    //     // dispatch({ type: AUTH_USER });
-    //     dispatch(push('/'));
-    //   })
-    //   .catch(error => dispatch(authError(SIGNIN_FAILURE, error.response.data.message)));
+    axios.post(`${API_URL}/change-password`, postData, axiosConfig)
+      .then(() => {
+        dispatch(push('/sign-in'));
+      })
+      .catch((err) => {
+        console.log("ERROR: ", err);
+      })
   }
 }
+
 
 /*
  * Sign out
