@@ -24,6 +24,11 @@ class Header extends Component {
     projectName: e.target.value
   });
 
+  handleCreateProject = () => {
+    this.props.createProject(this.state.projectName)
+    this.hideModal()
+  }
+
 
   render() {
     // console.log('this.props.authenticated',this.props.authenticated)
@@ -79,7 +84,7 @@ class Header extends Component {
           {this.props.error && this.props.error.length > 0 && (
             <div className={`input-group`}>{this.props.error}</div>
           )}
-          <button className='btn create-project-button-in-modal' onClick={() => this.props.createProject(this.state.projectName)}>Create Project</button>
+          <button className='btn create-project-button-in-modal' onClick={() => this.handleCreateProject()}>Create Project</button>
         </Modal>
       </>
     )

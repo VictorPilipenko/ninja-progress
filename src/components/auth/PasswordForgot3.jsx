@@ -8,7 +8,7 @@ import logo from '../../assets/Logo_invert.png'
 
 let params = (new URL(document.location)).searchParams;
 let token = params.get('token'); // is the string "Jonathan Smith".
-console.log(token)
+// console.log(token)
 
 class PasswordForgot3 extends React.Component {
   render() {

@@ -52,9 +52,10 @@ export default function (state = initialState, action) {
       return { ...state, createProjectError: action.payload };
     ///////////////////////////////////////////////////////////////////////////
     case DELETE_PROJECT:
+      const list = state.projectsList.filter(project => project._id !== action.payload);
       return {
         ...state,
-        projectsList: state.projectsList.filter(project => project._id !== action.payload),
+        projectsList: list,
       };
     case DELETE_PROJECT_SUCCESS:
       return { ...state, deleteProjectError: '' };

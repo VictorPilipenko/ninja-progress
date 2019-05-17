@@ -11,7 +11,7 @@ class ProjectItemContainer extends Component {
 
   render() {
     const { _id, projectName, funnels } = this.props;
-    console.log(this.props)
+    // console.log(this.props)
     return (
       <ProjectItem
         _id={_id}

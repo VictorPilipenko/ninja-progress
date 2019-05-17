@@ -1,0 +1,94 @@
+
+.select {
+  /* position: fixed; */
+  /* top: 0; */
+  /* left: 0; */
+  width:100%;
+  height: 100%;
+  /* background: rgba(0, 0, 0, 0.4); */
+  
+}
+
+.select-main {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50px;
+  right: -100px;
+  width: 150px;
+  z-index: 1;
+  width: 157px;
+  /* height: 82px; */
+  border-radius: 5px;
+  box-shadow: 0 0 28px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+  border: 1px solid #dce5ec;
+}
+
+.display-block {
+  display: block;
+}
+
+.display-none {
+  display: none;
+}
+
+.btn-select{
+  border: none;
+  font: inherit;
+  color: #848f99;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 3px;
+  text-align: left;
+  padding: 5px 15px 5px 15px;
+}
+
+.btn-select:hover{
+  color: #fd8f21;
+}
+
+.btn-select-copy{
+  padding: 15px 0px 5px 15px;
+}
+
+.btn-select-delete{
+  border-top: 1px solid #dce5ec;
+  padding: 15px;
+}
+
+.btn-select-share{
+  padding: 5px 0px 15px 15px;
+}
+
+.delete-modal-btn-wrapper{
+  display: flex;
+  width: 200px;
+  margin: auto;
+  justify-content: space-between;
+}
+
+.btn-delete-modal {
+  width: 90px;
+  height: 40px;
+  background: -webkit-linear-gradient(6deg, #e62d24 0%, #fd8f21 100%);
+  background: linear-gradient(84deg, #e62d24 0%, #fd8f21 100%);
+  color: white;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  font-weight: 500;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.btn-delete-modal:hover {
+  background: linear-gradient(263deg, #e62d24 0%, #fd8f21 100%);
+}
+
+.btn-delete-modal:active {
+  background: linear-gradient(263deg, #d6180f 0%, #ef7800 100%);
+}

@@ -47,7 +47,7 @@ export function signupUser(props) {
       'accountName': accountName,
     })
       .then(response => {
-        console.log(response)
+        // console.log(response)
 
         if (response.data) {
           localStorage.setItem('token', JSON.stringify(response.data.token));

@@ -78,7 +78,7 @@ export function createProject(projectName) {
     })
       .then(response => {
         if (response.data) {
-          console.log(response.data)
+          // console.log(response.data)
           dispatch({
             type: CREATE_PROJECT,
             payload: response.data
