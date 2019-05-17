@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
-import { signinUser } from '../../actions/auth'
+import { signinUser } from '../../store/actions/auth'
 import './Sign.css'
 import logo from '../../assets/Logo_invert.png'
 

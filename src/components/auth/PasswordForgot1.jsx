@@ -2,7 +2,7 @@ import React from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
-import { passwordForgotUserStep1 } from '../../actions/auth'
+import { passwordForgotUserStep1 } from '../../store/actions/auth'
 import './Sign.css'
 import logo from '../../assets/Logo_invert.png'
 
@@ -74,7 +74,7 @@ const formikEnhancer = withFormik({
 })(PasswordForgot1);
 
 const mapStateToProps = state => {
-  return { errorMessage: state.auth.error }
+  return { errorMessage: state.auth.passwordForgotError }
 }
 
 const mapDispatchToProps = dispatch => {

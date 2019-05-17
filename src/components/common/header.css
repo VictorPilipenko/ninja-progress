@@ -4,6 +4,7 @@ header {
   background-color: white;
   border-bottom: 1px solid #DCE5EC;
 }
+
 header .logo {
   margin-left: 20px;
   float: left;
@@ -28,6 +29,23 @@ header nav ul li a {
   color: blue;
 } */
 
+.header-buttons{
+  display: flex;
+  width: 300px;
+  justify-content: space-evenly;
+  height: 50px;
+  align-items: center;
+}
+
+.btn-show-modal-create{
+  width: 150px !important;
+}
+
+.btn-sign-out{
+  width: 80px !important;
+}
+
+
 
 
 
@@ -38,6 +56,7 @@ header nav ul li a {
   width:100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
 }
 
 .modal-main {
@@ -56,6 +75,8 @@ header nav ul li a {
 
 .display-block {
   display: block;
+  /* user-select: none;
+  pointer-events: none; */
 }
 
 .display-none {
@@ -63,10 +84,21 @@ header nav ul li a {
 }
 
 .close-modal{
-  float: right;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: -webkit-max-content;
+  width: -moz-max-content;
   width: max-content;
+  padding: 0;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  cursor: pointer;
+  transform: scale(1.4,1);
+  font-weight: 300;
 }
-
 
 .create-project-input{
   display: flex;
@@ -75,9 +107,11 @@ header nav ul li a {
   justify-content: space-between;
 }
 
-.create-project-button-in-modal{
-  width: 130px;
+.create-project-button-in-modal {
+  width: 130px !important;
   margin: auto;
+  height: 40px !important;
+  margin-top: 0px !important;
 }
 
 .label{
@@ -85,4 +119,31 @@ header nav ul li a {
   font-size: 12px;
   font-weight: 600;
   height: 50px;
+}
+
+header label {
+  line-height: normal;
+}
+
+.label-create {
+  color: #3e3e3e;
+  font-size: 25px;
+  border-bottom: 1px solid #BFCFE9;
+  padding-bottom: 15px;
+}
+
+.label-input {
+  color: #848F99;
+  font-size: 12px;
+  font-weight: 600;
+  height: 22px;
+  margin-top: 20px;
+}
+
+
+.input-group {
+  margin-bottom: 13px;
+  color: red;
+  font-size: 14px;
+  margin-top: -10px;
 }

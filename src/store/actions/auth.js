@@ -4,12 +4,17 @@ import {
   SIGNUP_FAILURE,
   SIGNIN_FAILURE,
   AUTH_USER,
-  UNAUTH_USER,
+  UN_AUTH_USER,
+  GET_USER_INFO,
+  QUESTIONNAIRE_SUCCESS,
+  QUESTIONNAIRE_FAILURE,
+  PASSWORD_FORGOT_SUCCESS,
+  PASSWORD_FORGOT_FAILURE,
 } from './types/index'
 
 import { push } from 'connected-react-router'
 import axios from 'axios'
-import { API_URL } from '../config'
+import { API_URL } from '../../config'
 
 /*
  * Error helper
@@ -45,8 +50,12 @@ export function signupUser(props) {
         console.log(response)
 
         if (response.data) {
-          localStorage.setItem('user', JSON.stringify(response.data.user));
           localStorage.setItem('token', JSON.stringify(response.data.token));
+
+          dispatch({
+            type: GET_USER_INFO,
+            payload: response.data.user
+          });
         }
 
         // console.log(localStorage.getItem('user'))
@@ -67,7 +76,6 @@ export function signupUser(props) {
  * Sign in
  */
 export function signinUser(props) {
-  // console.log(props)
   const { email, password } = props;
 
   return function (dispatch) {
@@ -78,7 +86,12 @@ export function signinUser(props) {
       .then(response => {
         if (response.data) {
           localStorage.setItem('token', JSON.stringify(response.data.token));
-          localStorage.setItem('user', JSON.stringify(response.data.firstName));
+
+          dispatch({
+            type: GET_USER_INFO,
+            payload: response.data.firstName
+          });
+
           dispatch({ type: AUTH_USER });
 
           dispatch(push('/'));
@@ -93,16 +106,12 @@ export function signinUser(props) {
 }
 
 export function validationUser(email) {
-
   return function (dispatch) {
     API.post(`email-validation`, {
       'email': email,
     })
       .then(res => res.json())
       .catch(error => dispatch(emailValidError(error.response.data.message)));
-
-    // .catch(error => console.log(error));
-
   }
 }
 
@@ -149,11 +158,12 @@ export function questionnaireUser(props) {
       .then(response => {
         localStorage.setItem('profile', JSON.stringify(response.data));
         // console.log(localStorage.getItem('profile'))
+        dispatch({ type: QUESTIONNAIRE_SUCCESS });
         dispatch(push('/'));
       })
       .catch(function (error) {
         if (error.response) {
-          dispatch(authError(SIGNIN_FAILURE, error.response.data.err.message))
+          dispatch(authError(QUESTIONNAIRE_FAILURE, error.response.data.err.message))
         }
       });
   }
@@ -167,22 +177,16 @@ export function passwordForgotUserStep1(data) {
     email,
   } = data;
 
-  // console.log(email)
-
   return function (dispatch) {
     API.post(`reset-password`, {
       'email': email,
     })
-      .then(response => {
-        // localStorage.setItem('tokenReset', JSON.stringify(response.data.token));
-        // localStorage.setItem('emailReset', JSON.stringify(response.data.email));
-        // console.log(localStorage.getItem('profile'))
-        // dispatch({ type: "AUTH_RESET" });
+      .then(() => {
         dispatch(push('/password-forgot-step-2'));
       })
       .catch(function (error) {
         if (error.response) {
-          dispatch(authError(SIGNIN_FAILURE, error.response.data.err.message))
+          dispatch(authError(PASSWORD_FORGOT_FAILURE, error.response.data.err.message))
         }
       });
   }
@@ -207,24 +211,23 @@ export function passwordForgotUserStep3(data, token) {
   return function (dispatch) {
     axios.post(`${API_URL}/change-password`, postData, axiosConfig)
       .then(() => {
+        dispatch({ type: PASSWORD_FORGOT_SUCCESS });
         dispatch(push('/sign-in'));
       })
-      .catch((err) => {
-        console.log("ERROR: ", err);
-      })
+      .catch(function (error) {
+        if (error.response) {
+          dispatch(authError(PASSWORD_FORGOT_FAILURE, error.response.data.err.message))
+        }
+      });
   }
 }
 
-
-/*
- * Sign out
- */
 export function signoutUser() {
   return function (dispatch) {
     // API.get(`signOut`)
     //   .then(() => {
     localStorage.clear();
-    dispatch({ type: UNAUTH_USER });
+    dispatch({ type: UN_AUTH_USER });
     // })
     // .catch(() => ("error signout"));
   }

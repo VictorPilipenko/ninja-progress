@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { withFormik, Field } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
-import { questionnaireUser } from '../../actions/auth'
+import { questionnaireUser } from '../../store/actions/auth'
 import './Sign.css'
 import logo from '../../assets/Logo_invert.png'
 import classNames from "classnames";
@@ -264,7 +264,7 @@ const formikEnhancer = withFormik({
 })(Questionnaire);
 
 const mapStateToProps = state => {
-  return { errorMessage: state.auth.error }
+  return { errorMessage: state.auth.questionnaireError }
 }
 
 const mapDispatchToProps = dispatch => {

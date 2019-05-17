@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AppRouter from './routers/AppRouter';
-import allReducers from './reducers/allReducers';
+import allReducers from './store/reducers/allReducers';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import promise from 'redux-promise';
 // import logger from 'redux-logger';
 import * as serviceWorker from './serviceWorker';
-import { AUTH_USER } from './actions/types/index';
+import { AUTH_USER } from './store/actions/types/index';
 import { ConnectedRouter } from 'connected-react-router'
 import { routerMiddleware } from 'connected-react-router'
 import { connectRouter } from 'connected-react-router'

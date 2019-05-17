@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import * as actions from '../../actions/users'
+import * as actions from '../../actions/store/users'
 import { connect } from 'react-redux'
 import './UserList.css'
 import Layout from "../common/Layout";

@@ -1,7 +1,14 @@
 import { API } from './instance'
 import {
   GET_ALL_PROJECTS,
-  CREATE_PROJECT
+  CREATE_PROJECT,
+  DELETE_PROJECT,
+  CREATE_PROJECT_FAILURE,
+  DELETE_PROJECT_FAILURE,
+  GET_ALL_PROJECTS_FAILURE,
+  CREATE_PROJECT_SUCCESS,
+  DELETE_PROJECT_SUCCESS,
+  GET_ALL_PROJECTS_SUCCESS,
 } from './types/index';
 import { push } from 'connected-react-router'
 
@@ -20,7 +27,7 @@ import { push } from 'connected-react-router'
 //   }
 // }
 
-export function getAllProjectByUserId() {
+export function getAllProjects() {
   return function (dispatch) {
     API.get(`projects`)
       .then(response => {
@@ -28,6 +35,16 @@ export function getAllProjectByUserId() {
           type: GET_ALL_PROJECTS,
           payload: response.data.data
         });
+        dispatch({ type: GET_ALL_PROJECTS_SUCCESS });
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: GET_ALL_PROJECTS_FAILURE,
+            payload: error.response.data.error
+          });
+        }
       });
   }
 }
@@ -37,10 +54,19 @@ export function deleteProjectByUserId(id) {
     API.delete(`project/${id}`)
       .then(() => {
         dispatch({
-          type: 'DELETE_PROJECT',
+          type: DELETE_PROJECT,
           payload: id
         });
-        //  dispatch(push('/projects'));
+        dispatch({ type: DELETE_PROJECT_SUCCESS });
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: DELETE_PROJECT_FAILURE,
+            payload: error.response.data.error
+          });
+        }
       });
   }
 }
@@ -51,22 +77,23 @@ export function createProject(projectName) {
       'projectName': projectName,
     })
       .then(response => {
-
         if (response.data) {
           console.log(response.data)
           dispatch({
             type: CREATE_PROJECT,
             payload: response.data
           });
+          dispatch({ type: CREATE_PROJECT_SUCCESS });
           dispatch(push('/projects'));
         }
 
       })
       .catch(function (error) {
         if (error.response) {
+          console.log(error.response)
           dispatch({
-            type: 'CREATE_PROJECT_FAILURE',
-            payload: error.response.error
+            type: CREATE_PROJECT_FAILURE,
+            payload: error.response.data.error
           });
         }
       });

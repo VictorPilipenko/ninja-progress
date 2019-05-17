@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+// import { NavLink } from 'react-router-dom'
 import './header.css'
-import { createProject } from '../../actions/projects'
+import { createProject } from '../../store/actions/projects'
+import { signoutUser } from '../../store/actions/auth'
 
 
 class Header extends Component {
@@ -27,13 +28,14 @@ class Header extends Component {
   render() {
     // console.log('this.props.authenticated',this.props.authenticated)
     return (
-      <header>
-        <div className="logo">{this.props.title}</div>
-        <nav>
-          {
-            this.props.authenticated ?
-              <ul>
-                {/*
+      <>
+        <header>
+          <div className="logo">{this.props.title}</div>
+          <nav>
+            {
+              this.props.authenticated ?
+                <div className='header-buttons'>
+                  {/*
                   <li>
                     <NavLink to="/create-project">Create project</NavLink>
                   </li>
@@ -41,52 +43,61 @@ class Header extends Component {
                     <NavLink to="/">Dashboard</NavLink>
                   </li>
                 */}
-                <Modal show={this.state.show} handleClose={this.hideModal}>
-                  {/* <div className='label'>Create Project</div> */}
-          
-                  {/* <div className='create-project-input'> */}
-                    <label htmlFor="Name" className='label'>
-                      Name
+
+                  <button className='btn btn-show-modal-create' onClick={this.showModal}>Create Project</button>
+
+                  <button className='btn btn-sign-out' onClick={() => this.props.signoutUser()}>Sign Out</button>
+
+                </div>
+                :
+                // <ul>
+                //   <li>
+                //     <NavLink to="/sign-in">Sign in</NavLink>
+                //   </li>
+                //   <li>
+                //     <NavLink to="/sign-up">Sign up</NavLink>
+                //   </li>
+                // </ul>
+                null
+            }
+          </nav>
+        </header>
+
+        <Modal show={this.state.show} handleClose={this.hideModal}>
+          <label className='label-create'>Create Project</label>
+
+          <label htmlFor="Name" className='label-input'>
+            Name
                     </label>
-                    <input
-                      id="Name"
-                      placeholder="Enter your project name"
-                      type="text"
-                      value={this.state.projectName}
-                      onChange={this.handleChange}
-                    />
-                    <button className='create-project-button-in-modal' onClick={() => this.props.createProject(this.state.projectName)}>Create Project</button>
-                  {/* </div> */}
-                </Modal>
-                <button onClick={this.showModal}>Create Project</button>
-                <li>
-                  <NavLink to="/sign-out">Sign out</NavLink>
-                </li>
-              </ul>
-              :
-              // <ul>
-              //   <li>
-              //     <NavLink to="/sign-in">Sign in</NavLink>
-              //   </li>
-              //   <li>
-              //     <NavLink to="/sign-up">Sign up</NavLink>
-              //   </li>
-              // </ul>
-              null
-          }
-        </nav>
-      </header>
+          <input
+            id="Name"
+            placeholder="Project Name"
+            type="text"
+            value={this.state.projectName}
+            onChange={this.handleChange}
+          />
+          {this.props.error && this.props.error.length > 0 && (
+            <div className={`input-group`}>{this.props.error}</div>
+          )}
+          <button className='btn create-project-button-in-modal' onClick={() => this.props.createProject(this.state.projectName)}>Create Project</button>
+        </Modal>
+      </>
     )
   }
 }
 
 function mapStateToProps(state) {
-  return { authenticated: state.auth.authenticated };
+  // console.log(state)
+  return {
+    authenticated: state.auth.authenticated,
+    error: state.projects.createProjectError,
+  };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     createProject: projectName => dispatch(createProject(projectName)),
+    signoutUser: () => dispatch(signoutUser()),
   }
 }
 
@@ -100,7 +111,7 @@ const Modal = ({ handleClose, show, children }) => {
   return (
     <div className={showHideClassName}>
       <section className="modal-main">
-        <button className="close-modal" onClick={handleClose}>close</button>
+        <button className="close-modal" onClick={handleClose}>X</button>
         {children}
       </section>
     </div>

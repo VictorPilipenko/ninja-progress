@@ -4,11 +4,11 @@ import { PrivateRoute } from '../components/RequireAuth';
 // import { PrivateRouteReset } from '../components/RequireAuthReset';
 import Dashboard from '../components/dashboard/Dashboard.jsx';
 // import Welcome from '../components/Welcome';
-import UserList from '../components/users/UserList.jsx';
+// import UserList from '../components/users/UserList.jsx';
 import ProjectList from '../components/projects/ProjectList.jsx';
-import CreateProject from '../components/projects/CreateProject.jsx';
+// import CreateProject from '../components/projects/CreateProject.jsx';
 import Signin from '../components/auth/Signin.jsx';
-import Signout from '../components/auth/Signout.jsx';
+// import Signout from '../components/auth/Signout.jsx';
 import Signup from '../components/auth/Signup.jsx';
 import Questionnaire from '../components/auth/Questionnaire.jsx';
 import PasswordForgot1 from '../components/auth/PasswordForgot1.jsx';
@@ -25,12 +25,12 @@ const AppRouter = () => (
     <Route path="/password-forgot-step-2" component={PasswordForgot2} />
     <Route path="/password-forgot-step-3" component={PasswordForgot3} />
 
-    <PrivateRoute path="/questionnaire" component={Questionnaire} />
     <PrivateRoute exact={true} path="/" component={Dashboard} />
-    <PrivateRoute path="/sign-out" component={Signout} />
-    <PrivateRoute path="/users" component={UserList} />
     <PrivateRoute path="/projects" component={ProjectList} />
-    <PrivateRoute path="/create-project" component={CreateProject} />
+    {/* <PrivateRoute path="/sign-out" component={Signout} /> */}
+    {/* <PrivateRoute path="/create-project" component={CreateProject} /> */}
+    {/* <PrivateRoute path="/users" component={UserList} /> */}
+    <PrivateRoute path="/questionnaire" component={Questionnaire} />
   </>
 );
 
