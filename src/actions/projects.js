@@ -35,11 +35,11 @@ export function getAllProjectByUserId() {
 export function deleteProjectByUserId(id) {
   return function (dispatch) {
     API.delete(`project/${id}`)
-      .then(response => {
-        // dispatch({
-        //   type: GET_ALL_PROJECTS,
-        //   payload: response.data.data
-        // });
+      .then(() => {
+        dispatch({
+          type: 'DELETE_PROJECT',
+          payload: id
+        });
         //  dispatch(push('/projects'));
       });
   }

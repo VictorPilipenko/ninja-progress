@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { PrivateRoute } from '../components/RequireAuth';
-import { PrivateRouteReset } from '../components/RequireAuthReset';
+// import { PrivateRouteReset } from '../components/RequireAuthReset';
 import Dashboard from '../components/dashboard/Dashboard.jsx';
 // import Welcome from '../components/Welcome';
 import UserList from '../components/users/UserList.jsx';

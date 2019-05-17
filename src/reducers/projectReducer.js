@@ -5,11 +5,16 @@ import {
 
 
 const initialState = {
-  // projectsList: [
-  //   {
-  //     //blet
-  //   },
-  // ]
+  projectsList: [
+    {
+      id: '123',
+      projectName: 'asdasd'
+    },
+    {
+      id: '1234',
+      projectName: 'asdasd'
+    },
+  ]
 }
 
 export default function (state = initialState, action) {
@@ -25,6 +30,8 @@ export default function (state = initialState, action) {
           projectName: action.payload.name,
         }]
       };
+    case 'DELETE_PROJECT':
+      return state.projectsList.filter(project => project.id !== action.payload.id);
     case 'CREATE_PROJECT_FAILURE':
       return { ...state, errorProject: action.payload };
     default: return state;
