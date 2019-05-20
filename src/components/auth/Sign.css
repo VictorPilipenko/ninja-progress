@@ -69,7 +69,7 @@ input[type=text]:focus, input[type=password]:focus {
 .label{
   color: #848F99;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: normal;
 }
 
 .signin-logo{
@@ -122,6 +122,10 @@ input[type=text]:focus, input[type=password]:focus {
 }
 
 
+
+
+
+/* 
 .btn {
   width: 100%;
   height: 50px;
@@ -133,14 +137,51 @@ input[type=text]:focus, input[type=password]:focus {
   margin-top: 20px;
   font-weight: 500;
   font-size: 14px;
+  transition: all 0.5s linear;
 }
 
 .btn:hover {
   background: linear-gradient(263deg, #e62d24 0%, #fd8f21 100%);
+  transition: all 0.5s cubic-bezier(0.000, 0.000, 0.230, 1);
+} */
+
+
+
+
+
+.btn {
+  width: 100%;
+  height: 50px;
+  color: white;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  font-weight: 500;
+  font-size: 14px;
+  /* flex: 1 1 auto; */
+  /* text-align: center; */
+  transition: 0.5s;
+  background: linear-gradient(84deg, var(--c1, #f6d365), var(--c2, #fda085) 51%, var(--c1, #f6d365)) var(--x, 0)/ 200%;
+ /* text-shadow: 0px 0px 10px rgba(0,0,0,0.2);*/
+  /* box-shadow: 0 0 20px #eee; */
+  border-radius: 10px;
+ }
+
+ /* <- Magic Stuff Start */
+
+.btn:hover { --x: 100%; }
+
+.btn-1 {
+  --c1: #e62d24;
+  --c2: #fd8f21;
 }
 
+/* Magic Stuff End -> */
+
+
 .btn:active {
-  background: linear-gradient(263deg, #d6180f 0%, #ef7800 100%);
+  background: linear-gradient(263deg, #d6180f 0%, #F15C22 100%);
 }
 
 .form-password-forgot a{
@@ -148,15 +189,16 @@ input[type=text]:focus, input[type=password]:focus {
   margin-top: 20px;
   display: flex;
   color: #848F99 !important;
-  border-bottom: 2px dashed #ef7800;
-  height: 19px;
+  border-bottom: 2px dashed #848F99;
+  height: 18px;
   width: max-content;
   margin: 20px auto 0;
 }
 
 .form-password-forgot a:hover {
   /* text-decoration: underline !important; */
-  color: #ef7800 !important;
+  color: #F15C22 !important;
+  border-bottom: 2px dashed #F15C22;
 }
 
 .form-bottom {
@@ -181,7 +223,7 @@ input[type=text]:focus, input[type=password]:focus {
 
 .form-bottom a:hover {
   /* text-decoration: underline !important; */
-  color:  rgb(231, 171, 112) !important
+  color:  #F15C22 !important
 }
 
 .form-bottom-register {
@@ -202,7 +244,7 @@ input[type=text]:focus, input[type=password]:focus {
 
 .form-bottom-register a:hover {
   /* text-decoration: underline !important; */
-  color:  rgb(231, 171, 112) !important
+  color:  #F15C22 !important
 }
 
 
@@ -306,7 +348,8 @@ input[type=text]:focus, input[type=password]:focus {
 
 /* On mouse-over, add a grey background color */
 .container-checkbox:hover input ~ .checkmark {
-  background-color: #ccc;
+  /* background-color: #ccc; */
+  border: 1px solid #F15C22
 }
 
 /* When the checkbox is checked, add a blue background */
@@ -344,13 +387,13 @@ input[type=text]:focus, input[type=password]:focus {
 }
 
 .terms-policy{
-  color: '#848f99';
+  color: #848f99;
   padding-bottom: 20px;
 }
 
 .terms-policy a{
    text-decoration: none !important;
-   color: #ef7800 !important;
+   color: #F15C22 !important;
 }
 
 
@@ -399,3 +442,15 @@ input[type=text]:focus, input[type=password]:focus {
     from { opacity: 0; }
     to   { opacity: 1; }
 }
+
+
+/* .btn:hover { */
+  /* background: darken($red, 1.5%); */
+  /* background: linear-gradient(263deg, #e62d24 0%, #fd8f21 100%); */
+  /* border: 1px solid rgba(#000, .05); */
+  /* box-shadow: 1px 1px 2px rgba(#fff, .2); */
+  /* color: lighten($red, 18%);  */
+  /* text-decoration: none; */
+  /* text-shadow: -1px -1px 0 darken($red, 9.5%); */
+  /* transition: all 250ms linear; */
+/* } */

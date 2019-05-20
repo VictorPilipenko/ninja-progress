@@ -15,6 +15,7 @@ import {
 import { push } from 'connected-react-router'
 import axios from 'axios'
 import { API_URL } from '../../config'
+import Cookies from "js-cookie";
 
 /*
  * Error helper
@@ -52,10 +53,10 @@ export function signupUser(props) {
         if (response.data) {
           localStorage.setItem('token', JSON.stringify(response.data.token));
 
-          dispatch({
-            type: GET_USER_INFO,
-            payload: response.data.user
-          });
+          // dispatch({
+          //   type: GET_USER_INFO,
+          //   payload: response.data.user
+          // });
         }
 
         // console.log(localStorage.getItem('user'))
@@ -87,12 +88,17 @@ export function signinUser(props) {
         if (response.data) {
           localStorage.setItem('token', JSON.stringify(response.data.token));
 
-          dispatch({
-            type: GET_USER_INFO,
-            payload: response.data.firstName
-          });
+          // console.log(response.data)
+
+          // dispatch({
+          //   type: GET_USER_INFO,
+          //   payload: response.data
+          // });
 
           dispatch({ type: AUTH_USER });
+
+          Cookies.set("userFirstName", response.data.firstName );
+          Cookies.set("userID", response.data._id );
 
           dispatch(push('/'));
         }
@@ -228,6 +234,8 @@ export function signoutUser() {
     //   .then(() => {
     localStorage.clear();
     dispatch({ type: UN_AUTH_USER });
+    Cookies.remove("userFirstName");
+    Cookies.remove("userID");
     // })
     // .catch(() => ("error signout"));
   }

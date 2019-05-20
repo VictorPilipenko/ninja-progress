@@ -100,3 +100,79 @@ export function createProject(projectName) {
   }
 }
 
+export function createFunnel(projectName, id) {
+  return function (dispatch) {
+    API.post(`funnel_create/${id}`, {
+      'funnelName': projectName,
+    })
+      .then(response => {
+        if (response.data) {
+          // console.log(response.data)
+          dispatch({
+            type: 'CREATE_FUNNEL',
+            payload: [id, response.data.data]
+          });
+          dispatch({ type: 'CREATE_FUNNEL_SUCCESS' });
+          // dispatch(push('/projects'));
+        }
+
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: 'CREATE_FUNNEL_FAILURE',
+            payload: error.response.data.error
+          });
+        }
+      });
+  }
+}
+
+export function getAllFunnels(id) {
+  return function (dispatch) {
+    API.get(`funnels/${id}`)
+      .then(response => {
+        dispatch({
+          type: 'GET_ALL_FUNNELS',
+          payload: [response.data.data, id]
+        });
+        dispatch({ type: 'GET_ALL_FUNNELS_SUCCESS' });
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: 'GET_ALL_FUNNELS_FAILURE',
+            payload: error.response.data.error
+          });
+        }
+      });
+  }
+}
+
+
+export function deleteFunnel(project_id, funnel_id) {
+  return function (dispatch) {
+    API.delete(`funnel/${project_id}/${funnel_id}`)
+      .then(() => {
+        dispatch({
+          type: 'DELETE_FUNNEL',
+          payload: [project_id, funnel_id]
+        });
+        dispatch({ type: 'DELETE_FUNNEL_SUCCESS' });
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: 'DELETE_FUNNEL_FAILURE',
+            payload: error.response.data.error
+          });
+        }
+      });
+  }
+}
+
+
+

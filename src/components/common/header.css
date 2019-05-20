@@ -115,7 +115,7 @@ header nav ul li a {
 .label{
   color: #848F99;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: normal;
   height: 50px;
 }
 
@@ -133,9 +133,18 @@ header label {
 .label-input {
   color: #848F99;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: normal;
   height: 22px;
   margin-top: 20px;
+}
+
+.label-input-delete-project {
+  color: #848F99;
+  font-size: 12px;
+  font-weight: normal;
+  height: 22px;
+  margin-top: 20px;
+  text-align: center;
 }
 
 

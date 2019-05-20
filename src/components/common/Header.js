@@ -49,9 +49,9 @@ class Header extends Component {
                   </li>
                 */}
 
-                  <button className='btn btn-show-modal-create' onClick={this.showModal}>Create Project</button>
+                  <button className='btn btn-1 btn-show-modal-create' onClick={this.showModal}>Create Project</button>
 
-                  <button className='btn btn-sign-out' onClick={() => this.props.signoutUser()}>Sign Out</button>
+                  <button className='btn btn-1 btn-sign-out' onClick={() => this.props.signoutUser()}>Sign Out</button>
 
                 </div>
                 :
@@ -73,7 +73,7 @@ class Header extends Component {
 
           <label htmlFor="Name" className='label-input'>
             Name
-                    </label>
+          </label>
           <input
             id="Name"
             placeholder="Project Name"
@@ -84,7 +84,7 @@ class Header extends Component {
           {this.props.error && this.props.error.length > 0 && (
             <div className={`input-group`}>{this.props.error}</div>
           )}
-          <button className='btn create-project-button-in-modal' onClick={() => this.handleCreateProject()}>Create Project</button>
+          <button className='btn btn-1 create-project-button-in-modal' onClick={() => this.handleCreateProject()}>Create Project</button>
         </Modal>
       </>
     )

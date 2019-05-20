@@ -123,7 +123,7 @@ class Signup extends React.Component {
               {this.props.errorMessage && this.props.errorMessage &&
                 <div className="input-group">Oops! {this.props.errorMessage}</div>}
 
-              <button className="btn" type="submit" disabled={isSubmitting}>
+              <button className="btn btn-1" type="submit" disabled={isSubmitting}>
                 Get Started
               </button>
 
@@ -177,7 +177,7 @@ const formikEnhancer = withFormik({
 const mapStateToProps = state => {
   // console.log(state)
   return {
-    errorMessage: state.auth.error,
+    errorMessage: state.auth.SignUpError,
     emailValidationInfo: state.auth.emailValidationInfo,
   }
 }

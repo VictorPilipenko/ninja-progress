@@ -18,11 +18,11 @@ import {
 export default function (state = {}, action) {
   switch (action.type) {
     case SIGNUP_SUCCESS:
-      return { ...state, signup: true, error: '' };
+      return { ...state, signup: true, SignUpError: '' };
     case SIGNUP_FAILURE:
-      return { ...state, signup: false, error: action.payload };
+      return { ...state, signup: false, SignUpError: action.payload };
     case SIGNIN_FAILURE:
-      return { ...state, error: action.payload };
+      return { ...state, SignInError: action.payload };
 
     ////////////////////////////////////////////////////////////////////////////////
     case QUESTIONNAIRE_SUCCESS:
@@ -36,17 +36,17 @@ export default function (state = {}, action) {
       return { ...state, passwordForgotError: action.payload };
     ////////////////////////////////////////////////////////////////////////////////
     case AUTH_USER:
-      return { ...state, authenticated: true, error: '' };
+      return { ...state, authenticated: true, SignUpError: '', SignInError: '' };
     case UN_AUTH_USER:
-      return { ...state, authenticated: false, error: '' };
+      return { ...state, authenticated: false, SignUpError: '', SignInError: '' };
 
     case EMAIL_VALID:
       return { ...state, emailValidationInfo: action.payload }
     ////////////////////////////////////////////////////////////////////////////////
     case AUTH_RESET:
-      return { ...state, authenticatedReset: true, error: '' }
+      return { ...state, authenticatedReset: true, SignUpError: '', SignInError: '' }
     case AUTH_RESET_SUCCESS:
-      return { ...state, authenticatedReset: false, error: '' }
+      return { ...state, authenticatedReset: false, SignUpError: '', SignInError: '' }
     case AUTH_RESET_FAILURE:
       return { ...state, authenticatedReset: false, error: action.payload }
     default: return state;

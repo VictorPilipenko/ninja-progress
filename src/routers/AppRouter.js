@@ -6,6 +6,7 @@ import Dashboard from '../components/dashboard/Dashboard.jsx';
 // import Welcome from '../components/Welcome';
 // import UserList from '../components/users/UserList.jsx';
 import ProjectList from '../components/projects/ProjectList.jsx';
+import FunnelList from '../components/funnels/FunnelList.jsx';
 // import CreateProject from '../components/projects/CreateProject.jsx';
 import Signin from '../components/auth/Signin.jsx';
 // import Signout from '../components/auth/Signout.jsx';
@@ -27,6 +28,7 @@ const AppRouter = () => (
 
     <PrivateRoute exact={true} path="/" component={Dashboard} />
     <PrivateRoute path="/projects" component={ProjectList} />
+    <PrivateRoute path='/funnels/:id' component={FunnelList} />
     {/* <PrivateRoute path="/sign-out" component={Signout} /> */}
     {/* <PrivateRoute path="/create-project" component={CreateProject} /> */}
     {/* <PrivateRoute path="/users" component={UserList} /> */}

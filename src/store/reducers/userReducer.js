@@ -8,7 +8,11 @@ export default function (state = {}, action) {
     case GET_ALL_USERS:
       return { users: action.payload, ...state };
     case GET_USER_INFO:
-      return { ...state, user: action.payload };
+      return {
+        ...state,
+        firstName: action.payload.firstName,
+        id: action.payload._id
+      };
     default: return state;
   }
 }

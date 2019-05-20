@@ -31,7 +31,7 @@ class ProjectList extends React.Component {
 }
 
 function mapStateToProps(state) {
-  // console.log('state.projects ',state.projects)
+  console.log('state ',state)
   // console.log('state.projects.projectsList ',state.projects.projectsList)
   return {
     projects: state.projects.projectsList

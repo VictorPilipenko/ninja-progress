@@ -220,8 +220,8 @@ class Questionnaire extends React.Component {
               {this.props.errorMessage && this.props.errorMessage.signin &&
                 <div className="input-group">Oops! {this.props.errorMessage.signin}</div>}
 
-              <button className="btn" type="submit" disabled={isSubmitting}>
-                Get Started
+              <button className="btn btn-1" type="submit" disabled={isSubmitting}>
+                Submit
               </button>
 
               <div className="form-password-forgot">
@@ -234,7 +234,7 @@ class Questionnaire extends React.Component {
 
         {/* Signup button */}
         <div className="form-bottom-register">
-          <p style={{color: '#848f99'}}>By clicking "Get Started" you agree to Funnelsmap</p>
+          <p style={{color: '#848f99'}}>By clicking "Submit" you agree to Funnelsmap</p>
           <p className='terms-policy' style={{color: '#848f99'}}><NavLink to="/questionnaire">Terms of Use</NavLink> and <NavLink to="/questionnaire">Privacy Policy</NavLink></p>
           <NavLink to="/sign-in">Already have an account?</NavLink>
         </div>

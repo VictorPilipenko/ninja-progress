@@ -104,6 +104,7 @@ class Layout extends React.Component {
         <Sidebar />
         <main style={{
           position: 'relative',
+          minHeight: '100vh',
           overflow: 'hidden',
           transition: 'all .15s',
           marginLeft: `${this.state.expanded ? 240 : 64}px`,

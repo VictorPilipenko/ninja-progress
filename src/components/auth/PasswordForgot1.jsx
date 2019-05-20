@@ -45,7 +45,7 @@ class PasswordForgot1 extends React.Component {
               {this.props.errorMessage && this.props.errorMessage &&
                 <div className="input-group">Oops! {this.props.errorMessage}</div>}
 
-              <button className="btn" type="submit" disabled={isSubmitting}>
+              <button className="btn btn-1" type="submit" disabled={isSubmitting}>
                 Enter Your Account Email
               </button>
 

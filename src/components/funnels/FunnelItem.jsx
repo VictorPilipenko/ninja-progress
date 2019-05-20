@@ -1,8 +1,7 @@
 import React from 'react';
-import './ProjectItem.css';
-import { NavLink } from "react-router-dom";
+import './FunnelItem.css';
 
-class ProjectItem extends React.Component {
+class FunnelItem extends React.Component {
   state = {
     show: false,
     showDelete: false,
@@ -25,16 +24,16 @@ class ProjectItem extends React.Component {
     this.setState({ showDelete: false });
   };
 
-  handleDeleteProject = () => {
-    this.props.handleDelete(this.props._id)
+  handleDeleteFunnel = () => {
+    this.props.handleDelete(this.props.projectId, this.props._id)
     this.hideModalDelete()
     this.hideModal()
   }
 
   render() {
     const {
-      _id,
-      projectName,
+      // _id,
+      funnelName,
       funnels,
       // handleDelete,
     } = this.props;
@@ -42,16 +41,13 @@ class ProjectItem extends React.Component {
       <>
         <div className='project-wrapper'>
           <div className='project-image'>
-            <NavLink className='view-funnels' to={'/funnels/' + _id} >
-              View Funnels
-            </NavLink>
-            {/* <button className='view-funnels'>View Funnels</button> */}
+            {/* <button className='view-funnels' onClick={this.showModal}>View Funnels</button> */}
           </div>
 
           <div className='project'>
-            {projectName}
+            {funnelName}
             <br />
-            {funnels} funnels
+            {/* {funnels} funnels */}
           </div>
 
           {/* <button className='delete-project' onClick={() => handleDelete(_id)}>Delete</button> */}
@@ -65,7 +61,6 @@ class ProjectItem extends React.Component {
           >
             <Select show={this.state.show} handleClose={this.hideModal} expanded={this.state.expanded}>
               <button className='btn-select btn-select-copy'>Make a copy</button>
-              <button className='btn-select'>Collaborate</button>
               <button className='btn-select btn-select-share'>Share</button>
               <button className='btn-select btn-select-delete' onClick={this.showModalDelete}>Delete</button>
             </Select>
@@ -74,11 +69,11 @@ class ProjectItem extends React.Component {
           <Modal show={this.state.showDelete} handleClose={this.hideModalDelete}>
             <label className='label-create'>Delete</label>
 
-            <p style={{ fontSize: '13px' }} className='label-input-delete-project'>Are you sure you want to delete this project? All funnels will be lost!</p>
+            <p style={{ fontSize: '13px' }} className='label-input-delete-project'>Are you sure you want to delete this funnel?</p>
 
 
             <div className='delete-modal-btn-wrapper'>
-              <button className='btn btn-1 btn-delete-modal' onClick={() => this.handleDeleteProject()}>Delete</button>
+              <button className='btn btn-1 btn-delete-modal' onClick={() => this.handleDeleteFunnel()}>Delete</button>
               <button className='btn btn-1 btn-delete-modal' onClick={this.hideModalDelete}>Exit</button>
             </div>
 
@@ -95,7 +90,7 @@ class ProjectItem extends React.Component {
   }
 }
 
-export default ProjectItem;
+export default FunnelItem;
 
 //modalka, fuck yeah
 const Select = ({ handleClose, show, expanded, children }) => {

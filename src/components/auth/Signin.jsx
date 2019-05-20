@@ -63,7 +63,7 @@ class Signin extends React.Component {
               {this.props.errorMessage && this.props.errorMessage &&
                 <div className="input-group">Oops! {this.props.errorMessage}</div>}
 
-              <button className="btn" type="submit" disabled={isSubmitting}>
+              <button className="btn btn-1" type="submit" disabled={isSubmitting}>
                 Log In
               </button>
 
@@ -106,7 +106,7 @@ const formikEnhancer = withFormik({
 })(Signin);
 
 const mapStateToProps = state => {
-  return { errorMessage: state.auth.error }
+  return { errorMessage: state.auth.SignInError }
 }
 
 const mapDispatchToProps = dispatch => {

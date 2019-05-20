@@ -5,6 +5,7 @@ body {
   margin: 0;
   padding: 0;
   font-size: 18px;
+  font-weight: 300;
 }
 
 a:visited, a:after, a:active, a:focus, a:checked, a:enabled, a:link {
@@ -30,3 +31,35 @@ h1 {
 p{
   margin: 0;
 }
+
+
+/* 
+:root {
+  --my-mixin: {                
+    .gradientAnimation {
+  background-size: 100%;
+  background-image: linear-gradient(red, blue);
+  position: relative;
+  z-index: 100;
+}
+.gradientAnimation:before {
+  background-image: linear-gradient(blue, red);
+  content: "";
+  display: block;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  z-index: -100;
+  transition: opacity 0.6s;
+}
+.gradientAnimation:hover:before {
+  opacity: 1;
+}
+  }
+}
+body {
+  @apply --my-mixin;
+} */
