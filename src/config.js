@@ -1,2 +1,2 @@
 // export const API_URL = 'http://funnelsmapbackend.qbex.io';
-export const API_URL = 'http://fc61ced6.ngrok.io';
+export const API_URL = 'http://e5f42497.ngrok.io';

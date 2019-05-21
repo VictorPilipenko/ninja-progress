@@ -29,13 +29,14 @@ class FunnelList extends React.Component {
 
   handleCreateFunnel = () => {
     this.props.createFunnel(this.state.funnelName, this.props.projectId)
-    this.hideModal()
+    this.props.error && this.props.error.length > 0 && this.hideModal()
   }
 
   render() {
+    console.log(this.props)
     return (
       <>
-        <Layout title="Funnels List">
+        <Layout title={`Funnels List`}>
           <button className="btn btn-1" onClick={this.showModal}
             style={{
               position: 'absolute',
@@ -45,6 +46,7 @@ class FunnelList extends React.Component {
             }}
           >Create Funnel</button>
           <div className='projects-wrapper'>
+            {console.log(this.props.funnels)}
             {
               this.props.funnels && this.props.funnels.length > 0 ?
                 this.props.funnels.map((funnel, index) => (
@@ -79,9 +81,9 @@ class FunnelList extends React.Component {
             value={this.state.funnelName}
             onChange={this.handleChange}
           />
-          {/* {this.props.error && this.props.error.length > 0 && (
+          {this.props.error && this.props.error.length > 0 && (
             <div className={`input-group`}>{this.props.error}</div>
-          )} */}
+          )}
           <button className='btn btn-1 create-project-button-in-modal' onClick={() => this.handleCreateFunnel()}>Create Funnel</button>
         </Modal>
       </>
@@ -90,17 +92,18 @@ class FunnelList extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  console.log('state.projects.funnelsList', state.projects[`funnelsList${ownProps.match.params.id}`])
+  console.log('state.projects ', state.projects)
   return {
-    funnels: state.projects[`funnelsList${ownProps.match.params.id}`],
-    projectId: ownProps.match.params.id,
+    funnels: state.projects[`funnelsList${ownProps.match.params.projectId}`],
+    projectId: ownProps.match.params.projectId,
+    error: state.projects.createFunnelError,
   };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     getAllFunnels: id => dispatch(getAllFunnels(id)),
-    createFunnel: (projectName, id) => dispatch(createFunnel(projectName, id)),
+    createFunnel: (funnelName, id) => dispatch(createFunnel(funnelName, id)),
   }
 }
 

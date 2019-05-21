@@ -20,7 +20,7 @@ class ProjectList extends React.Component {
                 key={index}
                 _id={project._id}
                 projectName={project.projectName}
-                funnels={project.funnels}
+                funnels={project.projectFunnels}
               />
             ))
           }

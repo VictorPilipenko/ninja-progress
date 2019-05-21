@@ -1,12 +1,19 @@
 import React from 'react';
 import './ProjectItem.css';
 import { NavLink } from "react-router-dom";
+import Modal from '../common/Modal/Modal'
+import ClickOutside from '../common/ClickOutside'
+import { connect } from 'react-redux';
+import { getAllFunnels, createLink } from '../../store/actions/projects'
 
 class ProjectItem extends React.Component {
   state = {
     show: false,
     showDelete: false,
+    showCollaborate: false,
     projectName: '',
+    selectedFunnelsList: [],
+    permission: 'View Only',
   };
 
   showModal = () => {
@@ -25,19 +32,50 @@ class ProjectItem extends React.Component {
     this.setState({ showDelete: false });
   };
 
+  showModalCollaborate = () => {
+    this.setState({ showCollaborate: true, show: false });
+    this.props.getAllFunnels(this.props._id)
+  };
+
+  hideModalCollaborate = () => {
+    this.setState({ showCollaborate: false });
+  };
+
   handleDeleteProject = () => {
     this.props.handleDelete(this.props._id)
     this.hideModalDelete()
     this.hideModal()
   }
 
+  add = e => {
+    this.setState({ selectedFunnelsList: [...this.state.selectedFunnelsList, e.target.name] }, () => console.log(this.state.selectedFunnelsList))
+  }
+
+  remove = e => {
+    this.setState({
+      selectedFunnelsList: this.state.selectedFunnelsList.filter(item => item !== e.target.name)
+    }, () => console.log(this.state.selectedFunnelsList))
+  }
+
+  handleChangePermission = e => {
+    this.setState({ permission: e.target.value }, () => console.log(this.state.permission));
+  }
+
+  handleCreateLink = () => {
+    this.props.createLink(this.state.selectedFunnelsList, this.state.permission)
+  }
+
+
   render() {
     const {
       _id,
       projectName,
-      funnels,
+      funnelsLength,
       // handleDelete,
     } = this.props;
+
+    // console.log(funnelsLength)
+
     return (
       <>
         <div className='project-wrapper'>
@@ -51,7 +89,7 @@ class ProjectItem extends React.Component {
           <div className='project'>
             {projectName}
             <br />
-            {funnels} funnels
+            {funnelsLength} funnels
           </div>
 
           {/* <button className='delete-project' onClick={() => handleDelete(_id)}>Delete</button> */}
@@ -65,7 +103,7 @@ class ProjectItem extends React.Component {
           >
             <Select show={this.state.show} handleClose={this.hideModal} expanded={this.state.expanded}>
               <button className='btn-select btn-select-copy'>Make a copy</button>
-              <button className='btn-select'>Collaborate</button>
+              <button className='btn-select' onClick={this.showModalCollaborate}>Collaborate</button>
               <button className='btn-select btn-select-share'>Share</button>
               <button className='btn-select btn-select-delete' onClick={this.showModalDelete}>Delete</button>
             </Select>
@@ -87,18 +125,73 @@ class ProjectItem extends React.Component {
             )} */}
           </Modal>
 
+          <Modal show={this.state.showCollaborate} handleClose={this.hideModalCollaborate}>
+            <label className='label-create'>Collaborate</label>
+
+            <div style={{
+              height: '125px',
+              overflow: 'auto'
+            }}>
+              {this.props.funnels && this.props.funnels.map((funnel, key) => (
+                <React.Fragment key={key}>
+                  <label className="container-checkbox">{funnel.funnelName}
+                    <input
+                      name={funnel._id}
+                      type="checkbox"
+                      onClick={e => this.state.selectedFunnelsList.includes(e.target.name) ? this.remove(e) : this.add(e)}
+                    />
+                    <span className="checkmark"></span>
+                  </label>
+                </React.Fragment>
+              ))}
+            </div>
+
+            <label>
+              Choose permission:
+              <select value={this.state.permission} onChange={e => this.handleChangePermission(e)}>
+                <option value="View Only">View Only</option>
+                <option value="Edit">Edit</option>
+              </select>
+            </label>
+
+            {
+              this.props.link && this.props.link.length > 0 ?
+                <p style={{
+                  overflow: 'auto',
+                  padding: '20px 0px 0px 0px',
+                }}>{this.props.link}</p>
+                :
+                null
+            }
+            <button className='btn btn-1 btn-delete-modal' style={{ margin: '15px auto' }} onClick={() => this.handleCreateLink()}>Create Link</button>
+
+          </Modal>
+
         </div>
-
-
       </>
     );
   }
 }
 
-export default ProjectItem;
+function mapStateToProps(state, ownProps) {
+
+  // console.log('ownProps ',ownProps)
+  // console.log('funnels ',state.projects[`funnelsList${ownProps._id}`])
+  return {
+    funnels: state.projects[`funnelsList${ownProps._id}`],
+    link: state.projects.createLink,
+  };
+}
+
+const mapDispatchToState = dispatch => ({
+  getAllFunnels: id => dispatch(getAllFunnels(id)),
+  createLink: (selectedFunnelsList, permission) => dispatch(createLink(selectedFunnelsList, permission)),
+});
+
+export default connect(mapStateToProps, mapDispatchToState)(ProjectItem);
 
 //modalka, fuck yeah
-const Select = ({ handleClose, show, expanded, children }) => {
+const Select = ({ show, children }) => {
   const showHideClassName = show ? "select display-block" : "select display-none";
 
   return (
@@ -109,54 +202,3 @@ const Select = ({ handleClose, show, expanded, children }) => {
     </div>
   );
 };
-
-//modalka, fuck yeah
-const Modal = ({ handleClose, show, children }) => {
-  const showHideClassName = show ? "modal display-block" : "modal display-none";
-
-
-  return (
-    <div className={showHideClassName}>
-      <section className="modal-main">
-        <button className="close-modal" onClick={handleClose}>X</button>
-        {children}
-      </section>
-    </div>
-  );
-};
-
-
-export class ClickOutside extends React.Component {
-  constructor(props) {
-    super(props)
-    this.getContainer = this.getContainer.bind(this)
-    this.isTouch = false
-  }
-
-  getContainer(ref) {
-    this.container = ref
-  }
-
-  render() {
-    const { children, onClickOutside, ...props } = this.props
-    return <div {...props} ref={this.getContainer}>{children}</div>
-  }
-
-  componentDidMount() {
-    document.addEventListener('touchend', this.handle, true)
-    document.addEventListener('click', this.handle, true)
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('touchend', this.handle, true)
-    document.removeEventListener('click', this.handle, true)
-  }
-
-  handle = e => {
-    if (e.type === 'touchend') this.isTouch = true
-    if (e.type === 'click' && this.isTouch) return
-    const { onClickOutside } = this.props
-    const el = this.container
-    if (el && !el.contains(e.target)) onClickOutside(e)
-  }
-}

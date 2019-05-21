@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import './header.css'
 import { createProject } from '../../store/actions/projects'
 import { signoutUser } from '../../store/actions/auth'
+import Modal from './Modal/Modal'
 
 
 class Header extends Component {
@@ -26,7 +27,7 @@ class Header extends Component {
 
   handleCreateProject = () => {
     this.props.createProject(this.state.projectName)
-    this.hideModal()
+    this.props.error && this.props.error.length > 0 && this.hideModal()
   }
 
 
@@ -107,18 +108,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
-
-
-//modalka, fuck yeah
-const Modal = ({ handleClose, show, children }) => {
-  const showHideClassName = show ? "modal display-block" : "modal display-none";
-
-  return (
-    <div className={showHideClassName}>
-      <section className="modal-main">
-        <button className="close-modal" onClick={handleClose}>X</button>
-        {children}
-      </section>
-    </div>
-  );
-};

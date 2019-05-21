@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { PrivateRoute } from '../components/RequireAuth';
-// import { PrivateRouteReset } from '../components/RequireAuthReset';
+import { PrivateRouteAddCollaborator } from '../components/PrivateRouteAddCollaborator';
 import Dashboard from '../components/dashboard/Dashboard.jsx';
 // import Welcome from '../components/Welcome';
 // import UserList from '../components/users/UserList.jsx';
@@ -15,6 +15,8 @@ import Questionnaire from '../components/auth/Questionnaire.jsx';
 import PasswordForgot1 from '../components/auth/PasswordForgot1.jsx';
 import PasswordForgot2 from '../components/auth/PasswordForgot2.jsx';
 import PasswordForgot3 from '../components/auth/PasswordForgot3.jsx';
+import AddCollaborators from '../components/projects/AddCollaborators.jsx';
+import Collaborations from '../components/collaborations/Collaborations.jsx';
 
 const AppRouter = () => (
   <>
@@ -26,12 +28,13 @@ const AppRouter = () => (
     <Route path="/password-forgot-step-2" component={PasswordForgot2} />
     <Route path="/password-forgot-step-3" component={PasswordForgot3} />
 
+    <PrivateRouteAddCollaborator path="/add-collaborators/:token" component={AddCollaborators} />
+
     <PrivateRoute exact={true} path="/" component={Dashboard} />
+    <PrivateRoute path="/collaborations" component={Collaborations} />
     <PrivateRoute path="/projects" component={ProjectList} />
-    <PrivateRoute path='/funnels/:id' component={FunnelList} />
-    {/* <PrivateRoute path="/sign-out" component={Signout} /> */}
-    {/* <PrivateRoute path="/create-project" component={CreateProject} /> */}
-    {/* <PrivateRoute path="/users" component={UserList} /> */}
+    <PrivateRoute path='/funnels/:projectId' component={FunnelList} />
+
     <PrivateRoute path="/questionnaire" component={Questionnaire} />
   </>
 );

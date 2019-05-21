@@ -1,5 +1,7 @@
 import React from 'react';
 import './FunnelItem.css';
+import ClickOutside from '../common/ClickOutside'
+import Modal from '../common/Modal/Modal'
 
 class FunnelItem extends React.Component {
   state = {
@@ -34,7 +36,7 @@ class FunnelItem extends React.Component {
     const {
       // _id,
       funnelName,
-      funnels,
+      // funnels,
       // handleDelete,
     } = this.props;
     return (
@@ -93,7 +95,7 @@ class FunnelItem extends React.Component {
 export default FunnelItem;
 
 //modalka, fuck yeah
-const Select = ({ handleClose, show, expanded, children }) => {
+const Select = ({ show, children }) => {
   const showHideClassName = show ? "select display-block" : "select display-none";
 
   return (
@@ -104,54 +106,3 @@ const Select = ({ handleClose, show, expanded, children }) => {
     </div>
   );
 };
-
-//modalka, fuck yeah
-const Modal = ({ handleClose, show, children }) => {
-  const showHideClassName = show ? "modal display-block" : "modal display-none";
-
-
-  return (
-    <div className={showHideClassName}>
-      <section className="modal-main">
-        <button className="close-modal" onClick={handleClose}>X</button>
-        {children}
-      </section>
-    </div>
-  );
-};
-
-
-export class ClickOutside extends React.Component {
-  constructor(props) {
-    super(props)
-    this.getContainer = this.getContainer.bind(this)
-    this.isTouch = false
-  }
-
-  getContainer(ref) {
-    this.container = ref
-  }
-
-  render() {
-    const { children, onClickOutside, ...props } = this.props
-    return <div {...props} ref={this.getContainer}>{children}</div>
-  }
-
-  componentDidMount() {
-    document.addEventListener('touchend', this.handle, true)
-    document.addEventListener('click', this.handle, true)
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('touchend', this.handle, true)
-    document.removeEventListener('click', this.handle, true)
-  }
-
-  handle = e => {
-    if (e.type === 'touchend') this.isTouch = true
-    if (e.type === 'click' && this.isTouch) return
-    const { onClickOutside } = this.props
-    const el = this.container
-    if (el && !el.contains(e.target)) onClickOutside(e)
-  }
-}

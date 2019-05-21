@@ -106,7 +106,10 @@ const formikEnhancer = withFormik({
 })(Signin);
 
 const mapStateToProps = state => {
-  return { errorMessage: state.auth.SignInError }
+  return { 
+    errorMessage: state.auth.SignInError,
+    router: state.router
+  }
 }
 
 const mapDispatchToProps = dispatch => {

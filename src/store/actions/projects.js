@@ -12,6 +12,7 @@ import {
 } from './types/index';
 import { push } from 'connected-react-router'
 
+
 /*
  * get all posts
 //  */
@@ -100,9 +101,9 @@ export function createProject(projectName) {
   }
 }
 
-export function createFunnel(projectName, id) {
+export function createFunnel(projectName, projectId) {
   return function (dispatch) {
-    API.post(`funnel_create/${id}`, {
+    API.post(`funnel_create/${projectId}`, {
       'funnelName': projectName,
     })
       .then(response => {
@@ -110,7 +111,7 @@ export function createFunnel(projectName, id) {
           // console.log(response.data)
           dispatch({
             type: 'CREATE_FUNNEL',
-            payload: [id, response.data.data]
+            payload: [projectId, response.data.data]
           });
           dispatch({ type: 'CREATE_FUNNEL_SUCCESS' });
           // dispatch(push('/projects'));
@@ -129,13 +130,13 @@ export function createFunnel(projectName, id) {
   }
 }
 
-export function getAllFunnels(id) {
+export function getAllFunnels(projectId) {
   return function (dispatch) {
-    API.get(`funnels/${id}`)
+    API.get(`funnels/${projectId}`)
       .then(response => {
         dispatch({
           type: 'GET_ALL_FUNNELS',
-          payload: [response.data.data, id]
+          payload: [projectId, response.data.data]
         });
         dispatch({ type: 'GET_ALL_FUNNELS_SUCCESS' });
       })
@@ -174,5 +175,32 @@ export function deleteFunnel(project_id, funnel_id) {
   }
 }
 
+export function createLink(funnelsId, permissions) {
+  // console.log('funnelsId',funnelsId)
+  // console.log('permissions',permissions)
 
+  return function (dispatch) {
+    API.post(`funnel_col_url`, {
+      'funnelsId': funnelsId,
+      'permissions': permissions,
+    })
+      .then(response => {
+        // console.log(response.data.data) 
+        dispatch({
+          type: 'CREATE_LINK',
+          payload: response.data.data
+        });
+        dispatch({ type: 'CREATE_LINK_SUCCESS' });
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: 'CREATE_LINK_FAILURE',
+            payload: error.response.data.error
+          });
+        }
+      });
+  }
+}
 
