@@ -13,6 +13,7 @@ import {
 } from './types/index'
 
 import { push } from 'connected-react-router'
+// import { LOCATION_CHANGE } from 'connected-react-router'
 import axios from 'axios'
 import { API_URL } from '../../config'
 import Cookies from "js-cookie";
@@ -52,18 +53,20 @@ export function signupUser(props) {
 
         if (response.data) {
           localStorage.setItem('token', JSON.stringify(response.data.token));
-
-          // dispatch({
-          //   type: GET_USER_INFO,
-          //   payload: response.data.user
-          // });
         }
 
-        // console.log(localStorage.getItem('user'))
-        // console.log(localStorage.getItem('token'))
         dispatch({ type: SIGNUP_SUCCESS });
         dispatch({ type: AUTH_USER });
-        dispatch(push('/questionnaire'));
+
+
+        let params = new URLSearchParams(document.location.search);
+        if (params.get('add-collaborations')) {
+          dispatch(push(`/questionnaire?add-collaborations=${params.get('add-collaborations')}`));
+        }
+        else {
+          dispatch(push('/questionnaire'));
+        }
+
       })
       .catch(function (error) {
         if (error.response) {
@@ -79,7 +82,9 @@ export function signupUser(props) {
 export function signinUser(props) {
   const { email, password } = props;
 
-  return function (dispatch) {
+  return function (dispatch, getState) {
+    // let routerState = getState().router
+
     API.post(`sign-in`, {
       'email': email,
       'password': password
@@ -88,19 +93,37 @@ export function signinUser(props) {
         if (response.data) {
           localStorage.setItem('token', JSON.stringify(response.data.token));
 
-          // console.log(response.data)
-
-          // dispatch({
-          //   type: GET_USER_INFO,
-          //   payload: response.data
-          // });
-
           dispatch({ type: AUTH_USER });
 
-          Cookies.set("userFirstName", response.data.firstName );
-          Cookies.set("userID", response.data._id );
+          Cookies.set("userFirstName", response.data.firstName);
+          Cookies.set("userID", response.data._id);
 
-          dispatch(push('/'));
+          console.log('signinUser action')
+
+
+          let params = new URLSearchParams(document.location.search);
+          if (params.get('add-collaborations')) {
+
+            dispatch(push(params.get('add-collaborations')));
+
+            // dispatch({
+            //   type: LOCATION_CHANGE,
+            //   payload: {
+            //     location: {
+            //       pathname: params.get('add-collaborations'),
+            //       search: routerState.location.search,
+            //       hash: routerState.location.hash
+            //     },
+            //     action: "PUSH"
+            //   }
+            // })
+
+            console.log(params.get('add-collaborations'))
+          }
+          else {
+            dispatch(push('/'));
+          }
+
         }
       })
       .catch(function (error) {
@@ -117,7 +140,11 @@ export function validationUser(email) {
       'email': email,
     })
       .then(res => res.json())
-      .catch(error => dispatch(emailValidError(error.response.data.message)));
+      .catch(function (error) {
+        if (error.response) {
+          dispatch(emailValidError(error.response.data.message))
+        }
+      });
   }
 }
 
@@ -165,7 +192,16 @@ export function questionnaireUser(props) {
         localStorage.setItem('profile', JSON.stringify(response.data));
         // console.log(localStorage.getItem('profile'))
         dispatch({ type: QUESTIONNAIRE_SUCCESS });
-        dispatch(push('/'));
+
+        let params = new URLSearchParams(document.location.search);
+        if (params.get('add-collaborations')) {
+          let route = params.get('add-collaborations');
+          dispatch(push(route));
+        }
+        else {
+          dispatch(push('/'));
+        }
+
       })
       .catch(function (error) {
         if (error.response) {

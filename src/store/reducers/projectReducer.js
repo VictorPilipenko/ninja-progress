@@ -25,6 +25,7 @@ const initialState = {
   //     funnels: 2
   //   },
   // ]
+  // createLink: ''
 }
 
 export default function (state = initialState, action) {
@@ -88,10 +89,12 @@ export default function (state = initialState, action) {
     ///////////////////////////////////////////////////////////////////////////
     case 'CREATE_LINK':
       return { ...state, createLink: action.payload };
+    case 'CREATE_LINK_RESET':
+      return { ...state, createLink: '' };
     case 'CREATE_LINK_SUCCESS':
       return { ...state, createLinkError: '' };
     case 'CREATE_LINK_FAILURE':
-      return { ...state, createLinkError: action.payload };
+      return { ...state, createLinkError: action.payload, createLink: '' };
     ///////////////////////////////////////////////////////////////////////////
 
     default: return state;

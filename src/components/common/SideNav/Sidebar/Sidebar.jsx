@@ -10,7 +10,7 @@ const Sidebar = () => {
 	return(
 		<aside className='sidebar'>
 			<Link to="/">
-				<img className='logo' src={logo} alt="Medical Outcomes" />
+				<img className='logo' src={logo} alt="Funnelsmap" />
 			</Link>
 			<Menu />
 		</aside>

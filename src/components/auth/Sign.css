@@ -42,7 +42,7 @@ input[type=text], input[type=password] {
 }
 
 input[type=text]:focus, input[type=password]:focus {
-  border: 1px solid rgb(231, 171, 112);
+  border: 1px solid #F15C22;
 }
 
 .has-error input[type=text], .has-error input[type=password] {
@@ -76,6 +76,7 @@ input[type=text]:focus, input[type=password]:focus {
   display: flex;
   margin: auto;
   padding: 70px 0 70px 0;
+  width: 250px;
 }
 
 .top-text-first{

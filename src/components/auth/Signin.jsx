@@ -7,7 +7,18 @@ import { signinUser } from '../../store/actions/auth'
 import './Sign.css'
 import logo from '../../assets/Logo_invert.png'
 
+let params = new URLSearchParams(document.location.search);
+
 class Signin extends React.Component {
+
+  // componentDidMount = () => {
+  //   console.log('router in signIn: ', this.props.router)
+
+  //   let params = new URLSearchParams(document.location.search);
+    
+  //   console.log('search: ', name)
+  // }
+
   render() {
     const {
       values,
@@ -75,12 +86,26 @@ class Signin extends React.Component {
           </form>
         </div>
 
-        {/* Signup button */}
+        {
+          params.get('add-collaborations') ?
+            <div className="form-bottom">
+              <p>Dont have an account?</p>
+              <NavLink to={`/sign-up?add-collaborations=${params.get('add-collaborations')}`}>Sign up now, it's free!</NavLink>
+            </div>
+            :
+            <div className="form-bottom">
+              <p>Dont have an account?</p>
+              <NavLink to="/sign-up">Sign up now, it's free!</NavLink>
+            </div>
+        }
+
+{/* 
         <div className="form-bottom">
           <p>Dont have an account?</p>
           <NavLink to="/sign-up">Sign up now, it's free!</NavLink>
-        </div>
-        <div className='empty-space'/>
+        </div> */}
+
+        <div className='empty-space' />
       </div>
     );
   }
@@ -106,7 +131,7 @@ const formikEnhancer = withFormik({
 })(Signin);
 
 const mapStateToProps = state => {
-  return { 
+  return {
     errorMessage: state.auth.SignInError,
     router: state.router
   }

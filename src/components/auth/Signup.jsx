@@ -7,6 +7,8 @@ import { signupUser, validationUser } from '../../store/actions/auth'
 import './Sign.css'
 import logo from '../../assets/Logo_invert.png'
 
+let params = new URLSearchParams(document.location.search);
+
 class Signup extends React.Component {
 
   handleEmailFieldBlur = (e, props) => {
@@ -131,11 +133,19 @@ class Signup extends React.Component {
           </form>
         </div>
 
-        {/* Signup button */}
-        <div className="form-bottom-register">
-          <NavLink to="/sign-in">Already have an account?</NavLink>
-        </div>
-        <div className='empty-space'/>
+        {
+          params.get('add-collaborations') ?
+            <div className="form-bottom-register">
+              <NavLink to={`/sign-in?add-collaborations=${params.get('add-collaborations')}`}>Already have an account?</NavLink>
+            </div>
+            :
+            <div className="form-bottom-register">
+              <NavLink to="/sign-in">Already have an account?</NavLink>
+            </div>
+        }
+
+
+        <div className='empty-space' />
       </div>
     );
   }

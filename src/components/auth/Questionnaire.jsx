@@ -8,6 +8,8 @@ import './Sign.css'
 import logo from '../../assets/Logo_invert.png'
 import classNames from "classnames";
 
+let params = new URLSearchParams(document.location.search);
+
 const InputFeedback = ({ error }) =>
   error ? <div className={classNames("input-group")}>{error}</div> : null;
 
@@ -224,21 +226,28 @@ class Questionnaire extends React.Component {
                 Submit
               </button>
 
-              <div className="form-password-forgot">
-                <NavLink to="/">Skip</NavLink>
-              </div>
+              {
+                params.get('add-collaborations') ?
+                  <div className="form-password-forgot">
+                    <NavLink to={params.get('add-collaborations')}>Skip</NavLink>
+                  </div>
+                  :
+                  <div className="form-password-forgot">
+                    <NavLink to="/">Skip</NavLink>
+                  </div>
+              }
 
             </div>
           </form>
-        </div> 
+        </div>
 
         {/* Signup button */}
         <div className="form-bottom-register">
-          <p style={{color: '#848f99'}}>By clicking "Submit" you agree to Funnelsmap</p>
-          <p className='terms-policy' style={{color: '#848f99'}}><NavLink to="/questionnaire">Terms of Use</NavLink> and <NavLink to="/questionnaire">Privacy Policy</NavLink></p>
-          <NavLink to="/sign-in">Already have an account?</NavLink>
+          <p style={{ color: '#848f99' }}>By clicking "Submit" you agree to Funnelsmap</p>
+          <p className='terms-policy' style={{ color: '#848f99' }}><NavLink to="/questionnaire">Terms of Use</NavLink> and <NavLink to="/questionnaire">Privacy Policy</NavLink></p>
+          {/* <NavLink to="/sign-in">Already have an account?</NavLink> */}
         </div>
-        <div className='empty-space'/>
+        <div className='empty-space' />
       </div >
     );
   }

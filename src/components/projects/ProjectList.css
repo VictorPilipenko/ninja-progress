@@ -58,11 +58,12 @@
   transform: translate(-50%,-50%);
   color: white;
   border-radius: 4px;
-  padding: 10px;
+  padding: 5px 10px 5px 10px;
   white-space: pre;
   border: 1px solid;
-
+  -webkit-transition: all 1s ease-in;
   transition: all 1s ease-in;
+  font-size: 14px;
 }
 
 .view-funnels:hover{

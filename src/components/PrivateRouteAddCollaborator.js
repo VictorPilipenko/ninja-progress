@@ -22,15 +22,16 @@ export const PrivateRouteAddCollaborator = ({ component: ComposedComponent, ...r
       //   console.log(this.props.router)
       // }
 
-      console.log(this.props.router)
+      console.log('PrivateRouteAddCollaborator Component')
 
     }
 
-    // redirect if not authenticated; otherwise, return the component imputted into <PrivateRoute />
+    // redirect if not authenticated; otherwise, return the component imputted into <PrivateRouteAddCollaborator />
     handleRender(props) {
       if (!this.props.authenticated) {
         return <Redirect to={{
-          pathname: `/sign-in/${props.location}`,
+          pathname: `/sign-in`,
+          search: `?add-collaborations=${this.props.pathname}`,
           state: {
             from: props.location,
             message: 'You need to sign up'
@@ -42,21 +43,18 @@ export const PrivateRouteAddCollaborator = ({ component: ComposedComponent, ...r
     }
 
     render() {
-
-
-
       return (
         <Route {...rest} render={this.handleRender.bind(this)} />
       )
     }
   }
 
-  function mapStateToProps(state, ownProps) {
-    // console.log('ownProps\n', ownProps)
+  function mapStateToProps(state) {
+    // console.log('state.router: ', state.router.location.pathname)
     return {
-      authenticated: state.auth.authenticatedReset,
+      authenticated: state.auth.authenticated,
       // tokenCollaborator: ownProps.match.params.token,
-      router: state.router
+      pathname: state.router.location.pathname
     };
   }
 

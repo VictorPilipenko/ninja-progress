@@ -4,7 +4,8 @@ import { NavLink } from "react-router-dom";
 import Modal from '../common/Modal/Modal'
 import ClickOutside from '../common/ClickOutside'
 import { connect } from 'react-redux';
-import { getAllFunnels, createLink } from '../../store/actions/projects'
+import { getAllFunnels, createLink, resetLink } from '../../store/actions/projects'
+import { getAllCollaboratorsForFunnels, resetAllCollaboratorsForFunnels } from '../../store/actions/collaborations'
 
 class ProjectItem extends React.Component {
   state = {
@@ -14,6 +15,7 @@ class ProjectItem extends React.Component {
     projectName: '',
     selectedFunnelsList: [],
     permission: 'View Only',
+    copySuccess: '',
   };
 
   showModal = () => {
@@ -39,6 +41,7 @@ class ProjectItem extends React.Component {
 
   hideModalCollaborate = () => {
     this.setState({ showCollaborate: false });
+    this.props.resetLink()
   };
 
   handleDeleteProject = () => {
@@ -48,13 +51,26 @@ class ProjectItem extends React.Component {
   }
 
   add = e => {
-    this.setState({ selectedFunnelsList: [...this.state.selectedFunnelsList, e.target.name] }, () => console.log(this.state.selectedFunnelsList))
+    this.setState({
+      selectedFunnelsList: [...this.state.selectedFunnelsList, e.target.name]
+    },
+      () => {
+        console.log(this.state.selectedFunnelsList)
+        this.props.resetAllCollaboratorsForFunnels()
+        this.props.getAllCollaboratorsForFunnels(this.state.selectedFunnelsList)
+      }
+    )
   }
 
   remove = e => {
     this.setState({
       selectedFunnelsList: this.state.selectedFunnelsList.filter(item => item !== e.target.name)
-    }, () => console.log(this.state.selectedFunnelsList))
+    }, () => {
+        console.log(this.state.selectedFunnelsList)
+        this.props.resetAllCollaboratorsForFunnels()
+        this.props.getAllCollaboratorsForFunnels(this.state.selectedFunnelsList)
+      }
+    )
   }
 
   handleChangePermission = e => {
@@ -64,6 +80,13 @@ class ProjectItem extends React.Component {
   handleCreateLink = () => {
     this.props.createLink(this.state.selectedFunnelsList, this.state.permission)
   }
+
+  copyToClipboard = e => {
+    this.link.select();
+    document.execCommand('copy');
+    e.target.focus();
+    this.setState({ copySuccess: 'Copied!' });
+  };
 
 
   render() {
@@ -128,10 +151,10 @@ class ProjectItem extends React.Component {
           <Modal show={this.state.showCollaborate} handleClose={this.hideModalCollaborate}>
             <label className='label-create'>Collaborate</label>
 
-            <div style={{
-              height: '125px',
-              overflow: 'auto'
-            }}>
+            <label className='label-input' style={{ marginLeft: '15px' }}>
+              Choose Funnels
+            </label>
+            <div className='funnels-checkbox'>
               {this.props.funnels && this.props.funnels.map((funnel, key) => (
                 <React.Fragment key={key}>
                   <label className="container-checkbox">{funnel.funnelName}
@@ -146,24 +169,41 @@ class ProjectItem extends React.Component {
               ))}
             </div>
 
-            <label>
-              Choose permission:
-              <select value={this.state.permission} onChange={e => this.handleChangePermission(e)}>
+            <label style={{
+              fontSize: '12px',
+              margin: '0px 0px 7px 15px',
+              color: '#848F99',
+              fontWeight: 'normal',
+            }}>Choose permission:</label>
+            <div style={{
+              marginLeft: '15px',
+              marginRight: '15px',
+              color: '#848F99',
+              fontSize: '12px',
+            }}>
+              <select className='custom-select' value={this.state.permission} onChange={e => this.handleChangePermission(e)}>
                 <option value="View Only">View Only</option>
                 <option value="Edit">Edit</option>
               </select>
-            </label>
+            </div>
+
+            {
+              console.log('this.props.collaborators: ',this.props.collaborators && this.props.collaborators)
+            }
 
             {
               this.props.link && this.props.link.length > 0 ?
-                <p style={{
-                  overflow: 'auto',
-                  padding: '20px 0px 0px 0px',
-                }}>{this.props.link}</p>
+                <>
+                  <input
+                    className='created-link-wrapper'
+                    ref={ref => this.link = ref}
+                    value={this.props.link}
+                  />
+                  <button className='btn btn-1 btn-delete-modal' style={{ margin: '15px auto' }} onClick={this.copyToClipboard}>Copy Link</button>
+                </>
                 :
-                null
+                <button className='btn btn-1 btn-delete-modal' style={{ margin: '15px auto' }} onClick={() => this.handleCreateLink()}>Create Link</button>
             }
-            <button className='btn btn-1 btn-delete-modal' style={{ margin: '15px auto' }} onClick={() => this.handleCreateLink()}>Create Link</button>
 
           </Modal>
 
@@ -180,12 +220,17 @@ function mapStateToProps(state, ownProps) {
   return {
     funnels: state.projects[`funnelsList${ownProps._id}`],
     link: state.projects.createLink,
+    collaborators: state.collaborations.allCollaboratorsForFunnels,
   };
 }
 
 const mapDispatchToState = dispatch => ({
   getAllFunnels: id => dispatch(getAllFunnels(id)),
   createLink: (selectedFunnelsList, permission) => dispatch(createLink(selectedFunnelsList, permission)),
+  resetLink: () => dispatch(resetLink()),
+
+  getAllCollaboratorsForFunnels: id => dispatch(getAllCollaboratorsForFunnels(id)),
+  resetAllCollaboratorsForFunnels: () => dispatch(resetAllCollaboratorsForFunnels()),
 });
 
 export default connect(mapStateToProps, mapDispatchToState)(ProjectItem);

@@ -13,6 +13,8 @@ const Menu = () => {
 
       <MenuItem exact={false} to="/projects" name="Projects" />
 
+      <MenuItem exact={false} to="/collaborations" name="Collaborations" />
+
       {/* <MenuItem exact={false} to="/questionnaires" name="Questionnaires" /> */}
 
       {/* <MenuItem exact={false} to="/treatments" name="Treatments">

@@ -1,22 +1,58 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Layout from "../common/Layout";
-import Cookies from "js-cookie";
+import { getAllFunnelsCollaboration } from '../../store/actions/collaborations'
+import FunnelItemContainer from '../funnels/FunnelItemContainer.jsx'
 
-const Collaborations = () => {
-  // console.log(console.log(localStorage.getItem('profile')))
+class Collaborations extends Component {
 
-  const userFirstName = Cookies.get("userFirstName");
-  console.log(userFirstName)
+  componentDidMount = () => {
+    this.props.getAllFunnelsCollaboration()
+  }
 
-  return (
-    <Layout title="Collaborations">
-      <div style={{ margin: 8 }}>
-        Collaborations.
-      </div>
-    </Layout>
-  );
+  render() {
+    console.log('funnelsCollaborationsList: ', this.props.data)
+    console.log('funnelsCollaborationsListError: ', this.props.error)
+    return (
+      <Layout title="Collaborations">
+
+        <div className='projects-wrapper'>
+          {console.log(this.props.data)}
+          {
+            this.props.data && this.props.data.length > 0 ?
+              this.props.data.map((funnel, index) => (
+                <FunnelItemContainer
+                  key={index}
+                  _id={funnel._id}
+                  funnelName={funnel.funnelName}
+                  projectId={funnel.funnelProject}
+                />
+              ))
+              :
+              <div className='create-funnels'>
+                No Funnels Collaboration.
+              </div>
+
+          }
+        </div>
+
+      </Layout>
+    );
+  }
 }
 
-export default Collaborations;
+function mapStateToProps(state) {
+  return {
+    data: state.collaborations.funnelsCollaborationsList,
+    error: state.collaborations.funnelsCollaborationsListError,
+  };
+}
 
+const mapDispatchToProps = dispatch => {
+  return {
+    getAllFunnelsCollaboration: () => dispatch(getAllFunnelsCollaboration()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Collaborations);
 

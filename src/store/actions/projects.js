@@ -166,9 +166,10 @@ export function deleteFunnel(project_id, funnel_id) {
       .catch(function (error) {
         if (error.response) {
           console.log(error.response)
+          alert(error.response.data.message)
           dispatch({
             type: 'DELETE_FUNNEL_FAILURE',
-            payload: error.response.data.error
+            payload: error.response.data.message
           });
         }
       });
@@ -180,12 +181,14 @@ export function createLink(funnelsId, permissions) {
   // console.log('permissions',permissions)
 
   return function (dispatch) {
+
     API.post(`funnel_col_url`, {
       'funnelsId': funnelsId,
       'permissions': permissions,
     })
       .then(response => {
-        // console.log(response.data.data) 
+        // console.log(response.data.data)
+
         dispatch({
           type: 'CREATE_LINK',
           payload: response.data.data
@@ -203,4 +206,11 @@ export function createLink(funnelsId, permissions) {
       });
   }
 }
+
+export function resetLink() {
+  return function (dispatch) {
+    dispatch({ type: 'CREATE_LINK_RESET' });
+  }
+}
+
 
