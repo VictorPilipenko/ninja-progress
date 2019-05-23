@@ -51,8 +51,7 @@ class FunnelItem extends React.Component {
             <br />
             {/* {funnels} funnels */}
           </div>
-
-          {/* <button className='delete-project' onClick={() => handleDelete(_id)}>Delete</button> */}
+          
 
           <button className='options-project' onClick={this.showModal}>Options</button>
 

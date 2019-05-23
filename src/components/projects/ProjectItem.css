@@ -93,10 +93,48 @@
   /* background: linear-gradient(263deg, #d6180f 0%, #ef7800 100%); */
 }
 
+.label-choose-permission{
+  font-size: 12px;
+  margin: 0px 0px 7px 15px;
+  color: #848F99;
+  font-weight: normal;
+}
+
+.custom-select-wrapper{
+  margin-left: 15px;
+  margin-right: 15px;
+  color: #848F99;
+  font-size: 12px;
+}
+
 .funnels-checkbox{
-  height: 110px;
+  max-height: 110px;
   overflow: auto;
   padding: 5px 15px 15px 15px;
+}
+
+.funnels-collaborators{
+  max-height: 110px;
+  overflow: auto;
+  padding: 5px 15px 15px 15px;
+}
+
+.button-change-permission{
+  padding: 0;
+  border: none;
+  color: orange;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.button-remove-collaborator{
+  padding: 0;
+  border: none;
+  color: red;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 14px;
 }
 
 .custom-select{
@@ -153,4 +191,9 @@
 
 .created-link{
   overflow: auto;
+}
+
+.collaborators-in-modal{
+  margin: 10px;
+  font-size: 14px;
 }

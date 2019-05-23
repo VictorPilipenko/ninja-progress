@@ -3,9 +3,8 @@ import { connect } from 'react-redux'
 // import { NavLink } from 'react-router-dom'
 import './header.css'
 import { createProject } from '../../store/actions/projects'
-import { signoutUser } from '../../store/actions/auth'
+import { signOutUser } from '../../store/actions/auth'
 import Modal from './Modal/Modal'
-
 
 class Header extends Component {
   state = {
@@ -32,7 +31,6 @@ class Header extends Component {
 
 
   render() {
-    // console.log('this.props.authenticated',this.props.authenticated)
     return (
       <>
         <header>
@@ -41,29 +39,10 @@ class Header extends Component {
             {
               this.props.authenticated ?
                 <div className='header-buttons'>
-                  {/*
-                  <li>
-                    <NavLink to="/create-project">Create project</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/">Dashboard</NavLink>
-                  </li>
-                */}
-
                   <button className='btn btn-1 btn-show-modal-create' onClick={this.showModal}>Create Project</button>
-
-                  <button className='btn btn-1 btn-sign-out' onClick={() => this.props.signoutUser()}>Sign Out</button>
-
+                  <button className='btn btn-1 btn-sign-out' onClick={() => this.props.signOutUser()}>Sign Out</button>
                 </div>
                 :
-                // <ul>
-                //   <li>
-                //     <NavLink to="/sign-in">Sign in</NavLink>
-                //   </li>
-                //   <li>
-                //     <NavLink to="/sign-up">Sign up</NavLink>
-                //   </li>
-                // </ul>
                 null
             }
           </nav>
@@ -93,7 +72,6 @@ class Header extends Component {
 }
 
 function mapStateToProps(state) {
-  // console.log(state)
   return {
     authenticated: state.auth.authenticated,
     error: state.projects.createProjectError,
@@ -103,7 +81,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = dispatch => {
   return {
     createProject: projectName => dispatch(createProject(projectName)),
-    signoutUser: () => dispatch(signoutUser()),
+    signOutUser: () => dispatch(signOutUser()),
   }
 }
 

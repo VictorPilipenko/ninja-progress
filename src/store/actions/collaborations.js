@@ -37,7 +37,10 @@ export function addCollaborator(tokenCollaborator) {
       })
       .catch(function (error) {
         if (error.response) {
-          dispatch('ADD_COLLABORATOR_FAILURE', error.response.data.message)
+          dispatch({
+            type: 'ADD_COLLABORATOR_FAILURE',
+            payload: error.response.data.message
+          });
         }
       });
   }
@@ -46,7 +49,7 @@ export function addCollaborator(tokenCollaborator) {
 
 export function getAllFunnelsCollaboration() {
   return function (dispatch) {
-    API.get(`funnels_col/`)
+    API.get(`funnels_col`)
       .then(response => {
         dispatch({
           type: 'GET_ALL_FUNNELS_COLLABORATION',
@@ -67,11 +70,20 @@ export function getAllFunnelsCollaboration() {
 }
 
 export function getAllCollaboratorsForFunnels(funnelsId) {
+  console.log('funnelsId: ', funnelsId)
   return function (dispatch) {
     API.post(`funnel_col_get`, {
-      'funnelsId': funnelsId,
+      'funnelsId': funnelsId
     })
+
+      // axios.get('/api', {
+      //   params: {
+      //     foo: 'bar'
+      //   }
+      // });
+
       .then(response => {
+        console.log(response.data)
         dispatch({
           type: 'GET_ALL_COLLABORATORS_FOR_FUNNELS',
           payload: response.data.data

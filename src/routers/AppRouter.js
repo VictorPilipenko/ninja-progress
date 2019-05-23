@@ -3,13 +3,9 @@ import { Route } from 'react-router-dom';
 import { PrivateRoute } from '../components/RequireAuth';
 import { PrivateRouteAddCollaborator } from '../components/PrivateRouteAddCollaborator';
 import Dashboard from '../components/dashboard/Dashboard.jsx';
-// import Welcome from '../components/Welcome';
-// import UserList from '../components/users/UserList.jsx';
 import ProjectList from '../components/projects/ProjectList.jsx';
 import FunnelList from '../components/funnels/FunnelList.jsx';
-// import CreateProject from '../components/projects/CreateProject.jsx';
 import Signin from '../components/auth/Signin.jsx';
-// import Signout from '../components/auth/Signout.jsx';
 import Signup from '../components/auth/Signup.jsx';
 import Questionnaire from '../components/auth/Questionnaire.jsx';
 import PasswordForgot1 from '../components/auth/PasswordForgot1.jsx';
@@ -17,16 +13,21 @@ import PasswordForgot2 from '../components/auth/PasswordForgot2.jsx';
 import PasswordForgot3 from '../components/auth/PasswordForgot3.jsx';
 import AddCollaborators from '../components/projects/AddCollaborators.jsx';
 import Collaborations from '../components/collaborations/Collaborations.jsx';
+import SettingsAccountDetails from '../components/settings/SettingsAccountDetails/SettingsAccountDetails.jsx';
+import SettingsMySubscriptions from '../components/settings/SettingsMySubscriptions/SettingsMySubscriptions.jsx';
+import SettingsPaymentMethods from '../components/settings/SettingsPaymentMethods/SettingsPaymentMethods.jsx';
+import SettingsUsers from '../components/settings/SettingsUsers/SettingsUsers.jsx';
 
 const AppRouter = () => (
   <>
-    {/* <Route path="/" exact={true} component={Welcome} /> */}
     <Route path="/sign-in" component={Signin} />
     <Route path="/sign-up" component={Signup} />
 
     <Route path="/password-forgot-step-1" component={PasswordForgot1} />
     <Route path="/password-forgot-step-2" component={PasswordForgot2} />
     <Route path="/password-forgot-step-3" component={PasswordForgot3} />
+
+    <PrivateRoute path="/questionnaire" component={Questionnaire} />
 
     <PrivateRouteAddCollaborator path="/add-collaborators/:token" component={AddCollaborators} />
 
@@ -35,7 +36,10 @@ const AppRouter = () => (
     <PrivateRoute path="/projects" component={ProjectList} />
     <PrivateRoute path='/funnels/:projectId' component={FunnelList} />
 
-    <PrivateRoute path="/questionnaire" component={Questionnaire} />
+    <PrivateRoute exact={true} path="/settings" component={SettingsAccountDetails} />
+    <PrivateRoute path="/settings/my-subscriptions" component={SettingsMySubscriptions} />
+    <PrivateRoute path="/settings/payment-methods" component={SettingsPaymentMethods} />
+    <PrivateRoute path="/settings/users" component={SettingsUsers} />
   </>
 );
 

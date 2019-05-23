@@ -15,7 +15,6 @@ class ProjectItem extends React.Component {
     projectName: '',
     selectedFunnelsList: [],
     permission: 'View Only',
-    copySuccess: '',
   };
 
   showModal = () => {
@@ -65,7 +64,8 @@ class ProjectItem extends React.Component {
   remove = e => {
     this.setState({
       selectedFunnelsList: this.state.selectedFunnelsList.filter(item => item !== e.target.name)
-    }, () => {
+    },
+      () => {
         console.log(this.state.selectedFunnelsList)
         this.props.resetAllCollaboratorsForFunnels()
         this.props.getAllCollaboratorsForFunnels(this.state.selectedFunnelsList)
@@ -85,8 +85,15 @@ class ProjectItem extends React.Component {
     this.link.select();
     document.execCommand('copy');
     e.target.focus();
-    this.setState({ copySuccess: 'Copied!' });
   };
+
+  changePermission = () => {
+
+  }
+
+  removeCollaborator = () => {
+
+  }
 
 
   render() {
@@ -106,7 +113,6 @@ class ProjectItem extends React.Component {
             <NavLink className='view-funnels' to={'/funnels/' + _id} >
               View Funnels
             </NavLink>
-            {/* <button className='view-funnels'>View Funnels</button> */}
           </div>
 
           <div className='project'>
@@ -114,8 +120,6 @@ class ProjectItem extends React.Component {
             <br />
             {funnelsLength} funnels
           </div>
-
-          {/* <button className='delete-project' onClick={() => handleDelete(_id)}>Delete</button> */}
 
           <button className='options-project' onClick={this.showModal}>Options</button>
 
@@ -155,32 +159,26 @@ class ProjectItem extends React.Component {
               Choose Funnels
             </label>
             <div className='funnels-checkbox'>
-              {this.props.funnels && this.props.funnels.map((funnel, key) => (
-                <React.Fragment key={key}>
-                  <label className="container-checkbox">{funnel.funnelName}
-                    <input
-                      name={funnel._id}
-                      type="checkbox"
-                      onClick={e => this.state.selectedFunnelsList.includes(e.target.name) ? this.remove(e) : this.add(e)}
-                    />
-                    <span className="checkmark"></span>
-                  </label>
-                </React.Fragment>
-              ))}
+              {this.props.funnels && this.props.funnels.length > 0 ?
+                this.props.funnels.map((funnel, key) => (
+                  <React.Fragment key={key}>
+                    <label className="container-checkbox">{funnel.funnelName}
+                      <input
+                        name={funnel._id}
+                        type="checkbox"
+                        onClick={e => this.state.selectedFunnelsList.includes(e.target.name) ? this.remove(e) : this.add(e)}
+                      />
+                      <span className="checkmark"></span>
+                    </label>
+                  </React.Fragment>
+                ))
+                :
+                <p className='label-input' style={{ marginLeft: '15px' }}>No funnels</p>
+              }
             </div>
 
-            <label style={{
-              fontSize: '12px',
-              margin: '0px 0px 7px 15px',
-              color: '#848F99',
-              fontWeight: 'normal',
-            }}>Choose permission:</label>
-            <div style={{
-              marginLeft: '15px',
-              marginRight: '15px',
-              color: '#848F99',
-              fontSize: '12px',
-            }}>
+            <label className='label-choose-permission'>Choose Permission:</label>
+            <div className='custom-select-wrapper'>
               <select className='custom-select' value={this.state.permission} onChange={e => this.handleChangePermission(e)}>
                 <option value="View Only">View Only</option>
                 <option value="Edit">Edit</option>
@@ -188,8 +186,34 @@ class ProjectItem extends React.Component {
             </div>
 
             {
-              console.log('this.props.collaborators: ',this.props.collaborators && this.props.collaborators)
+              console.log('this.props.collaborators: ', this.props.collaborators)
             }
+
+            {/* <div className='funnels-collaborators'>
+              {
+                this.props.collaborators && this.props.collaborators.length > 0 && this.props.collaborators.map((item, key) => (
+                  <React.Fragment key={key}>
+
+                    {item.collaborators.map((collaborator, key) =>
+                      <div key={key} style={{ display: 'flex' }}>
+
+                        <p className='collaborators-in-modal'>{collaborator.firstName}</p>
+                        <p className='collaborators-in-modal'>{item.funnelName}</p>
+                        <p className='collaborators-in-modal'>{collaborator.permissions}</p>
+
+                        <button className='button-change-permission' onClick={() => this.changePermission(item._id)}>Change Permission</button>
+                        <button className='button-remove-collaborator' onClick={() => this.removeCollaborator(item._id)}>Remove</button>
+
+                      </div>
+                    )}
+
+                  </React.Fragment>
+                ))
+              }
+            </div> */}
+
+
+
 
             {
               this.props.link && this.props.link.length > 0 ?
@@ -198,6 +222,7 @@ class ProjectItem extends React.Component {
                     className='created-link-wrapper'
                     ref={ref => this.link = ref}
                     value={this.props.link}
+                    onChange={() => { }}
                   />
                   <button className='btn btn-1 btn-delete-modal' style={{ margin: '15px auto' }} onClick={this.copyToClipboard}>Copy Link</button>
                 </>

@@ -6,25 +6,9 @@ export const PrivateRouteAddCollaborator = ({ component: ComposedComponent, ...r
 
   class Authentication extends Component {
 
-    componentDidMount = () => {
-      // this.props.tokenCollaborator && localStorage.setItem('collaborate-confirm-token', JSON.stringify(this.props.tokenCollaborator));
-
-      // let params = (new URL(document.location));
-      // console.log(router)
-      // let arr = []
-      // if (this.props.authenticated && this.props.router && this.props.router.from.pathname) {
-      //   arr = this.props.router.from.pathname.split('/')
-      //   localStorage.setItem('collaborate-confirm-token', JSON.stringify(arr[2]));
-      // }
-      // // console.log(arr[2])
-
-      // if (!this.props.authenticated) {
-      //   console.log(this.props.router)
-      // }
-
-      console.log('PrivateRouteAddCollaborator Component')
-
-    }
+    // componentDidMount = () => {
+    //   console.log('PrivateRouteAddCollaborator Component')
+    // }
 
     // redirect if not authenticated; otherwise, return the component imputted into <PrivateRouteAddCollaborator />
     handleRender(props) {
@@ -50,10 +34,8 @@ export const PrivateRouteAddCollaborator = ({ component: ComposedComponent, ...r
   }
 
   function mapStateToProps(state) {
-    // console.log('state.router: ', state.router.location.pathname)
     return {
       authenticated: state.auth.authenticated,
-      // tokenCollaborator: ownProps.match.params.token,
       pathname: state.router.location.pathname
     };
   }

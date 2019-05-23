@@ -1,9 +1,9 @@
-import React, { Fragment } from "react";
+import React from "react";
 import "./MenuItem.css";
 import { NavLink } from "react-router-dom";
 
 const MenuItem = ({ to, name, exact, sub, children }) => (
-  <Fragment>
+  <React.Fragment>
     <NavLink
       exact={exact}
       className={["menu-item", sub && sub].join(" ")}
@@ -12,7 +12,7 @@ const MenuItem = ({ to, name, exact, sub, children }) => (
       {name}
     </NavLink>
     {children}
-  </Fragment>
+  </React.Fragment>
 );
 
 MenuItem.defaultProps = {

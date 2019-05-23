@@ -264,15 +264,11 @@ export function passwordForgotUserStep3(data, token) {
   }
 }
 
-export function signoutUser() {
+export function signOutUser() {
   return function (dispatch) {
-    // API.get(`signOut`)
-    //   .then(() => {
     localStorage.clear();
     dispatch({ type: UN_AUTH_USER });
     Cookies.remove("userFirstName");
     Cookies.remove("userID");
-    // })
-    // .catch(() => ("error signout"));
   }
 }

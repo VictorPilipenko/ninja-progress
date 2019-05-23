@@ -99,12 +99,6 @@ class Signin extends React.Component {
             </div>
         }
 
-{/* 
-        <div className="form-bottom">
-          <p>Dont have an account?</p>
-          <NavLink to="/sign-up">Sign up now, it's free!</NavLink>
-        </div> */}
-
         <div className='empty-space' />
       </div>
     );

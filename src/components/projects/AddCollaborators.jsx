@@ -28,10 +28,10 @@ class AddCollaborators extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  // console.log('ownProps.match.params.token\n',ownProps.match.params.token)
+  console.log('state.projects.addCollaboratorError: ', state.projects.addCollaboratorError)
   return {
     tokenCollaborator: ownProps.match.params.token,
-    error: state.projects.addCollaboratorError,
+    error: state.collaborations.addCollaboratorError,
   };
 }
 
