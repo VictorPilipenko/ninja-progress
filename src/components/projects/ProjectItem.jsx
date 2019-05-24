@@ -189,7 +189,7 @@ class ProjectItem extends React.Component {
               console.log('this.props.collaborators: ', this.props.collaborators)
             }
 
-            {/* <div className='funnels-collaborators'>
+            <div className='funnels-collaborators'>
               {
                 this.props.collaborators && this.props.collaborators.length > 0 && this.props.collaborators.map((item, key) => (
                   <React.Fragment key={key}>
@@ -210,7 +210,7 @@ class ProjectItem extends React.Component {
                   </React.Fragment>
                 ))
               }
-            </div> */}
+            </div>
 
 
 

@@ -28,7 +28,7 @@ class AddCollaborators extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  console.log('state.projects.addCollaboratorError: ', state.projects.addCollaboratorError)
+  // console.log('state.projects.addCollaboratorError: ', state.projects.addCollaboratorError)
   return {
     tokenCollaborator: ownProps.match.params.token,
     error: state.collaborations.addCollaboratorError,

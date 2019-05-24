@@ -5,10 +5,13 @@ import './header.css'
 import { createProject } from '../../store/actions/projects'
 import { signOutUser } from '../../store/actions/auth'
 import Modal from './Modal/Modal'
+import Cookies from "js-cookie";
+import ClickOutside from '../common/ClickOutside'
 
 class Header extends Component {
   state = {
     show: false,
+    showSignOut: false,
     projectName: ''
   };
 
@@ -18,6 +21,17 @@ class Header extends Component {
 
   hideModal = () => {
     this.setState({ show: false });
+  };
+
+  showModalSignOut = () => {
+    this.setState({
+      showSignOut: true,
+      show: false
+    });
+  };
+
+  hideModalSignOut = () => {
+    this.setState({ showSignOut: false });
   };
 
   handleChange = e => this.setState({
@@ -31,6 +45,7 @@ class Header extends Component {
 
 
   render() {
+    const userAvatar = Cookies.get("userAvatar");
     return (
       <>
         <header>
@@ -40,7 +55,10 @@ class Header extends Component {
               this.props.authenticated ?
                 <div className='header-buttons'>
                   <button className='btn btn-1 btn-show-modal-create' onClick={this.showModal}>Create Project</button>
-                  <button className='btn btn-1 btn-sign-out' onClick={() => this.props.signOutUser()}>Sign Out</button>
+
+                  <div className='header-img-preview' onClick={this.showModalSignOut}>
+                    {!userAvatar ? <div className="header-preview-empty" /> : <img src={userAvatar} alt='Avatar' />}
+                  </div>
                 </div>
                 :
                 null
@@ -66,6 +84,17 @@ class Header extends Component {
           )}
           <button className='btn btn-1 create-project-button-in-modal' onClick={() => this.handleCreateProject()}>Create Project</button>
         </Modal>
+
+        <ClickOutside
+          onClickOutside={() => {
+            this.setState({ showSignOut: false })
+          }}
+        >
+          <Select show={this.state.showSignOut}>
+            <p style={{ fontSize: '13px' }} className='header-select-label'>You are currently on a free subscription!</p>
+            <button className='btn-select btn-select-delete' onClick={() => this.props.signOutUser()}>Log Out</button>
+          </Select>
+        </ClickOutside>
       </>
     )
   }
@@ -86,3 +115,16 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
+
+//modalka, fuck yeah
+const Select = ({ show, children }) => {
+  const showHideClassName = show ? "header-select header-display-block" : "header-select header-display-none";
+
+  return (
+    <div className={showHideClassName}>
+      <section className="header-select-main">
+        {children}
+      </section>
+    </div>
+  );
+};

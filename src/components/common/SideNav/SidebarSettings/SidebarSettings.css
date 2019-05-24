@@ -6,6 +6,7 @@
   position: absolute;
   height: 100vh;
   position: fixed;
+  margin-top: 70px;
 }
 
 .logo {

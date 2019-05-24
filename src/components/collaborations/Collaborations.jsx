@@ -11,8 +11,6 @@ class Collaborations extends Component {
   }
 
   render() {
-    console.log('funnelsCollaborationsList: ', this.props.data)
-    console.log('funnelsCollaborationsListError: ', this.props.error)
     return (
       <Layout title="Collaborations">
 
@@ -32,7 +30,6 @@ class Collaborations extends Component {
               <div className='create-funnels'>
                 No Funnels Collaboration.
               </div>
-
           }
         </div>
 

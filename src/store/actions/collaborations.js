@@ -18,7 +18,7 @@ export function addCollaborator(tokenCollaborator) {
     headers: {
       'collaborate-confirm': tokenCollaborator,
       'authorization': token
-    }
+    },
   };
 
   return function (dispatch) {

@@ -1,32 +1,21 @@
 import { API } from './instance'
 import {
+
   GET_ALL_PROJECTS,
-  CREATE_PROJECT,
-  DELETE_PROJECT,
-  CREATE_PROJECT_FAILURE,
-  DELETE_PROJECT_FAILURE,
-  GET_ALL_PROJECTS_FAILURE,
-  CREATE_PROJECT_SUCCESS,
-  DELETE_PROJECT_SUCCESS,
   GET_ALL_PROJECTS_SUCCESS,
+  GET_ALL_PROJECTS_FAILURE,
+
+  CREATE_PROJECT,
+  CREATE_PROJECT_SUCCESS,
+  CREATE_PROJECT_FAILURE,
+
+  DELETE_PROJECT,
+  DELETE_PROJECT_SUCCESS,
+  DELETE_PROJECT_FAILURE,
+
 } from './types/index';
 import { push } from 'connected-react-router'
 
-
-/*
- * get all posts
-//  */
-// export function getAllPosts() {
-//   return function (dispatch) {
-//     API.get(`posts`)
-//       .then(response => {
-//         dispatch({
-//           type: GET_ALL_POSTS,
-//           payload: response.data
-//         });
-//       });
-//   }
-// }
 
 export function getAllProjects() {
   return function (dispatch) {
@@ -111,10 +100,12 @@ export function createFunnel(projectName, projectId) {
           // console.log(response.data)
           dispatch({
             type: 'CREATE_FUNNEL',
-            payload: [projectId, response.data.data]
+            payload: [
+              projectId,
+              response.data.data
+            ]
           });
           dispatch({ type: 'CREATE_FUNNEL_SUCCESS' });
-          // dispatch(push('/projects'));
         }
 
       })
@@ -136,7 +127,10 @@ export function getAllFunnels(projectId) {
       .then(response => {
         dispatch({
           type: 'GET_ALL_FUNNELS',
-          payload: [projectId, response.data.data]
+          payload: [
+            projectId,
+            response.data.data
+          ]
         });
         dispatch({ type: 'GET_ALL_FUNNELS_SUCCESS' });
       })
@@ -159,7 +153,10 @@ export function deleteFunnel(project_id, funnel_id) {
       .then(() => {
         dispatch({
           type: 'DELETE_FUNNEL',
-          payload: [project_id, funnel_id]
+          payload: [
+            project_id,
+            funnel_id
+          ]
         });
         dispatch({ type: 'DELETE_FUNNEL_SUCCESS' });
       })
@@ -177,18 +174,12 @@ export function deleteFunnel(project_id, funnel_id) {
 }
 
 export function createLink(funnelsId, permissions) {
-  // console.log('funnelsId',funnelsId)
-  // console.log('permissions',permissions)
-
   return function (dispatch) {
-
     API.post(`funnel_col_url`, {
       'funnelsId': funnelsId,
       'permissions': permissions,
     })
       .then(response => {
-        // console.log(response.data.data)
-
         dispatch({
           type: 'CREATE_LINK',
           payload: response.data.data

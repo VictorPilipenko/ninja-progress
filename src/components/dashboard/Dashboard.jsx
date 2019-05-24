@@ -8,8 +8,10 @@ const Dashboard = () => {
 
   return (
     <Layout title="Dashboard">
-      <div style={{ margin: 8 }}>
-        Dashboard.
+      <div className='projects-wrapper'>
+        <div style={{ margin: 8 }}>
+          Dashboard.
+        </div>
       </div>
     </Layout>
   );

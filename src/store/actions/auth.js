@@ -5,7 +5,6 @@ import {
   SIGNIN_FAILURE,
   AUTH_USER,
   UN_AUTH_USER,
-  // GET_USER_INFO,
   QUESTIONNAIRE_SUCCESS,
   QUESTIONNAIRE_FAILURE,
   PASSWORD_FORGOT_SUCCESS,
@@ -91,14 +90,14 @@ export function signinUser(props) {
     })
       .then(response => {
         if (response.data) {
+          console.log(response.data)
           localStorage.setItem('token', JSON.stringify(response.data.token));
 
           dispatch({ type: AUTH_USER });
 
-          Cookies.set("userFirstName", response.data.firstName);
-          Cookies.set("userID", response.data._id);
-
-          console.log('signinUser action')
+          Cookies.set("userFirstName", response.data.data.firstName);
+          Cookies.set("userID", response.data.data._id);
+          Cookies.set('userAvatar', API_URL + response.data.data.photoUrl);
 
 
           let params = new URLSearchParams(document.location.search);
@@ -118,7 +117,7 @@ export function signinUser(props) {
             //   }
             // })
 
-            console.log(params.get('add-collaborations'))
+            // console.log(params.get('add-collaborations'))
           }
           else {
             dispatch(push('/'));
@@ -189,6 +188,7 @@ export function questionnaireUser(props) {
   return function (dispatch) {
     API.patch(`profile`, obj)
       .then(response => {
+
         localStorage.setItem('profile', JSON.stringify(response.data));
         // console.log(localStorage.getItem('profile'))
         dispatch({ type: QUESTIONNAIRE_SUCCESS });
