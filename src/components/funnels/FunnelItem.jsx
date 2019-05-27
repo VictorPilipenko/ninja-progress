@@ -2,6 +2,7 @@ import React from 'react';
 import './FunnelItem.css';
 import ClickOutside from '../common/ClickOutside'
 import Modal from '../common/Modal/Modal'
+import { NavLink } from "react-router-dom";
 
 class FunnelItem extends React.Component {
   state = {
@@ -34,7 +35,8 @@ class FunnelItem extends React.Component {
 
   render() {
     const {
-      // _id,
+      _id,
+      projectId,
       funnelName,
       // funnels,
       // handleDelete,
@@ -43,7 +45,10 @@ class FunnelItem extends React.Component {
       <>
         <div className='project-wrapper'>
           <div className='project-image'>
-            {/* <button className='view-funnels' onClick={this.showModal}>View Funnels</button> */}
+            {/* <button className='view-funnels' onClick={this.showModal}>Open</button> */}
+            <NavLink className='view-funnels' to={'/diagram/' + projectId + '/' + _id } >
+              Open
+            </NavLink>
           </div>
 
           <div className='project'>

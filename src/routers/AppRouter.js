@@ -17,6 +17,7 @@ import SettingsAccountDetails from '../components/settings/SettingsAccountDetail
 import SettingsMySubscriptions from '../components/settings/SettingsMySubscriptions/SettingsMySubscriptions.jsx';
 import SettingsPaymentMethods from '../components/settings/SettingsPaymentMethods/SettingsPaymentMethods.jsx';
 import SettingsUsers from '../components/settings/SettingsUsers/SettingsUsers.jsx';
+import Diagram from '../components/diagram/Diagram.jsx';
 
 const AppRouter = () => (
   <>
@@ -35,6 +36,7 @@ const AppRouter = () => (
     <PrivateRoute path="/collaborations" component={Collaborations} />
     <PrivateRoute path="/projects" component={ProjectList} />
     <PrivateRoute path='/funnels/:projectId' component={FunnelList} />
+    <PrivateRoute path='/diagram/:projectId/:funnelId' component={Diagram} />
 
     <PrivateRoute exact={true} path="/settings" component={SettingsAccountDetails} />
     <PrivateRoute path="/settings/my-subscriptions" component={SettingsMySubscriptions} />

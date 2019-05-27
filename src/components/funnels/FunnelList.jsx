@@ -40,9 +40,10 @@ class FunnelList extends React.Component {
           <button className="btn btn-1" onClick={this.showModal}
             style={{
               position: 'absolute',
-              top: '-9px',
+              top: '10px',
               width: '140px',
               left: '150px',
+              zIndex: 1
             }}
           >Create Funnel</button>
           <div className='projects-wrapper'>

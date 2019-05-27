@@ -8,8 +8,6 @@ import './Sign.css'
 import logo from '../../assets/Logo_invert.png'
 import classNames from "classnames";
 
-let params = new URLSearchParams(document.location.search);
-
 const InputFeedback = ({ error }) =>
   error ? <div className={classNames("input-group")}>{error}</div> : null;
 
@@ -82,6 +80,9 @@ class Questionnaire extends React.Component {
       // handleReset,
       isSubmitting,
     } = this.props;
+
+    let params = new URLSearchParams(this.props.router.location.search);
+
     return (
       <div className='wrapper'>
         <img className='signin-logo' src={logo} alt='logo' />
@@ -273,7 +274,10 @@ const formikEnhancer = withFormik({
 })(Questionnaire);
 
 const mapStateToProps = state => {
-  return { errorMessage: state.auth.questionnaireError }
+  return {
+    errorMessage: state.auth.questionnaireError,
+    router: state.router
+  }
 }
 
 const mapDispatchToProps = dispatch => {

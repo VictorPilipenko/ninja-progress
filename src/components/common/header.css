@@ -180,6 +180,11 @@ header label {
   height: 50px;
   border-radius: 50%;
   background-color: #c1c7cc;
+  font-size: 24px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 
@@ -207,6 +212,7 @@ header label {
   box-shadow: 0 0 28px rgba(0,0,0,0.1);
   background-color: #ffffff;
   border: 1px solid #dce5ec;
+  position: fixed;
 }
 
 .header-display-block {

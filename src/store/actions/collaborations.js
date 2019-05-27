@@ -86,7 +86,7 @@ export function getAllCollaboratorsForFunnels(funnelsId) {
         console.log(response.data)
         dispatch({
           type: 'GET_ALL_COLLABORATORS_FOR_FUNNELS',
-          payload: response.data.data
+          payload: response.data
         });
         dispatch({ type: 'GET_ALL_COLLABORATORS_FOR_FUNNELS_SUCCESS' });
       })

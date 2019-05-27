@@ -7,7 +7,7 @@ import { signinUser } from '../../store/actions/auth'
 import './Sign.css'
 import logo from '../../assets/Logo_invert.png'
 
-let params = new URLSearchParams(document.location.search);
+
 
 class Signin extends React.Component {
 
@@ -31,6 +31,9 @@ class Signin extends React.Component {
       // handleReset,
       isSubmitting,
     } = this.props;
+
+    let params = new URLSearchParams(this.props.router.location.search);
+
     return (
       <div className='wrapper'>
         <img className='signin-logo' src={logo} alt='logo' />
@@ -85,6 +88,8 @@ class Signin extends React.Component {
             </div>
           </form>
         </div>
+
+        {/* {console.log(this.props.router.location.search)} */}
 
         {
           params.get('add-collaborations') ?

@@ -25,11 +25,10 @@ const initialState = {
   //     funnels: 2
   //   },
   // ]
-  // createLink: ''
 }
 
 export default function (state = initialState, action) {
-  // console.log(action.payload)
+  console.log(action.payload)
   switch (action.type) {
     ///////////////////////////////////////////////////////////////////////////
     case GET_ALL_PROJECTS:
@@ -64,22 +63,22 @@ export default function (state = initialState, action) {
       return { ...state, deleteProjectError: action.payload };
     ///////////////////////////////////////////////////////////////////////////
     case 'GET_ALL_FUNNELS':
-      return { [`funnelsList${action.payload[0]}`]: action.payload[1], ...state }; // 0-projectId 1-funnelData
+      return { [`funnelsList${action.payload.projectId}`]: action.payload.res, ...state };
     ///////////////////////////////////////////////////////////////////////////
     case 'DELETE_FUNNEL':
-      const funnelsList = state[`funnelsList${action.payload[0]}`].filter(project => project._id !== action.payload[1]); // 0-projectId 1-funnelId
+      const funnelsList = state[`funnelsList${action.payload.projectId}`].filter(project => project._id !== action.payload.funnelId);
       return {
         ...state,
-        [`funnelsList${action.payload[0]}`]: funnelsList,
+        [`funnelsList${action.payload.projectId}`]: funnelsList,
       };
     ///////////////////////////////////////////////////////////////////////////
     case 'CREATE_FUNNEL':
       return {
         ...state,
-        [`funnelsList${action.payload[0]}`]: [...state[`funnelsList${action.payload[0]}`], { //0-projectId 1-funnelData
-          funnelName: action.payload[1].name,
-          _id: action.payload[1]._id,
-          funnelProject: action.payload[0]
+        [`funnelsList${action.payload.projectId}`]: [...state[`funnelsList${action.payload.projectId}`], {
+          funnelName: action.payload.res.name,
+          _id: action.payload.res._id,
+          funnelProject: action.payload.projectId
         }]
       };
     case 'CREATE_FUNNEL_SUCCESS':
@@ -96,6 +95,15 @@ export default function (state = initialState, action) {
     case 'CREATE_LINK_FAILURE':
       return { ...state, createLinkError: action.payload, createLink: '' };
     ///////////////////////////////////////////////////////////////////////////
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    case 'SAVE_DIAGRAM':
+      return { ...state, [`diagram${action.payload.projectId}${action.payload.funnelId}`]: action.payload.diagramObj };
+    case 'SAVE_DIAGRAM_SUCCESS':
+      return { ...state, createDiagramError: '' };
+    case 'SAVE_DIAGRAM_FAILURE':
+      return { ...state, createDiagramError: action.payload };
 
     default: return state;
   }

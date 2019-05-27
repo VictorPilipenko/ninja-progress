@@ -4,8 +4,9 @@ import { NavLink } from "react-router-dom";
 import Modal from '../common/Modal/Modal'
 import ClickOutside from '../common/ClickOutside'
 import { connect } from 'react-redux';
-import { getAllFunnels, createLink, resetLink } from '../../store/actions/projects'
+import { getAllFunnels, createLink, resetLink, removeCollaborator, changePermission } from '../../store/actions/projects'
 import { getAllCollaboratorsForFunnels, resetAllCollaboratorsForFunnels } from '../../store/actions/collaborations'
+import { API_URL } from '../../config'
 
 class ProjectItem extends React.Component {
   state = {
@@ -88,11 +89,11 @@ class ProjectItem extends React.Component {
   };
 
   changePermission = () => {
-
+    this.props.changePermission();
   }
 
   removeCollaborator = () => {
-
+    this.props.removeCollaborator();
   }
 
 
@@ -194,12 +195,17 @@ class ProjectItem extends React.Component {
                 this.props.collaborators && this.props.collaborators.length > 0 && this.props.collaborators.map((item, key) => (
                   <React.Fragment key={key}>
 
-                    {item.collaborators.map((collaborator, key) =>
-                      <div key={key} style={{ display: 'flex' }}>
+                    {console.log(item)}
 
-                        <p className='collaborators-in-modal'>{collaborator.firstName}</p>
-                        <p className='collaborators-in-modal'>{item.funnelName}</p>
+                    {item.myCollaborations.map((collaborator, key) =>
+                      <div key={key} className='funnels-collaborators-item'>
+   
+                        {item.photoUrl === '' ? <div className="empty-collaborator-photo" ></div> : <img src={API_URL + item.photoUrl} alt='Avatar' />}
+
+                        <p className='collaborators-in-modal'>{item.firstName}</p>
+                        <p className='collaborators-in-modal'>{collaborator.funnelName}</p>
                         <p className='collaborators-in-modal'>{collaborator.permissions}</p>
+
 
                         <button className='button-change-permission' onClick={() => this.changePermission(item._id)}>Change Permission</button>
                         <button className='button-remove-collaborator' onClick={() => this.removeCollaborator(item._id)}>Remove</button>
@@ -241,7 +247,7 @@ class ProjectItem extends React.Component {
 function mapStateToProps(state, ownProps) {
 
   // console.log('ownProps ',ownProps)
-  // console.log('funnels ',state.projects[`funnelsList${ownProps._id}`])
+  console.log('collaborators: ', state.collaborations.allCollaboratorsForFunnels)
   return {
     funnels: state.projects[`funnelsList${ownProps._id}`],
     link: state.projects.createLink,
@@ -256,6 +262,9 @@ const mapDispatchToState = dispatch => ({
 
   getAllCollaboratorsForFunnels: id => dispatch(getAllCollaboratorsForFunnels(id)),
   resetAllCollaboratorsForFunnels: () => dispatch(resetAllCollaboratorsForFunnels()),
+
+  changePermission: () => dispatch(changePermission()),
+  removeCollaborator: () => dispatch(removeCollaborator()),
 });
 
 export default connect(mapStateToProps, mapDispatchToState)(ProjectItem);

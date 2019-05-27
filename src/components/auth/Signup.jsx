@@ -7,7 +7,7 @@ import { signupUser, validationUser } from '../../store/actions/auth'
 import './Sign.css'
 import logo from '../../assets/Logo_invert.png'
 
-let params = new URLSearchParams(document.location.search);
+
 
 class Signup extends React.Component {
 
@@ -32,6 +32,9 @@ class Signup extends React.Component {
       // handleReset,
       isSubmitting,
     } = this.props;
+
+    let params = new URLSearchParams(this.props.router.location.search);
+    
     return (
       <div className='wrapper'>
         <img className='signin-logo' src={logo} alt='logo' />
@@ -134,6 +137,8 @@ class Signup extends React.Component {
         </div>
 
         {
+          
+
           params.get('add-collaborations') ?
             <div className="form-bottom-register">
               <NavLink to={`/sign-in?add-collaborations=${params.get('add-collaborations')}`}>Already have an account?</NavLink>
@@ -189,6 +194,7 @@ const mapStateToProps = state => {
   return {
     errorMessage: state.auth.SignUpError,
     emailValidationInfo: state.auth.emailValidationInfo,
+    router: state.router,
   }
 }
 

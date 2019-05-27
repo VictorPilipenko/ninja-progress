@@ -98,12 +98,13 @@ export function createFunnel(projectName, projectId) {
       .then(response => {
         if (response.data) {
           // console.log(response.data)
+          let res = response.data.data
           dispatch({
             type: 'CREATE_FUNNEL',
-            payload: [
+            payload: {
               projectId,
-              response.data.data
-            ]
+              res,
+            }
           });
           dispatch({ type: 'CREATE_FUNNEL_SUCCESS' });
         }
@@ -125,12 +126,13 @@ export function getAllFunnels(projectId) {
   return function (dispatch) {
     API.get(`funnels/${projectId}`)
       .then(response => {
+        let res = response.data.data;
         dispatch({
           type: 'GET_ALL_FUNNELS',
-          payload: [
+          payload: {
             projectId,
-            response.data.data
-          ]
+            res,
+          }
         });
         dispatch({ type: 'GET_ALL_FUNNELS_SUCCESS' });
       })
@@ -153,10 +155,10 @@ export function deleteFunnel(project_id, funnel_id) {
       .then(() => {
         dispatch({
           type: 'DELETE_FUNNEL',
-          payload: [
+          payload: {
             project_id,
             funnel_id
-          ]
+          }
         });
         dispatch({ type: 'DELETE_FUNNEL_SUCCESS' });
       })
@@ -204,4 +206,80 @@ export function resetLink() {
   }
 }
 
+
+
+export function saveDiagram(projectId, funnelId, diagramObj) {
+  return function (dispatch) {
+    // API.post(`create-diagram`, {
+    //   'funnelsId': funnelsId,
+    //   'permissions': permissions,
+    // })
+    // .then(response => {
+    dispatch({
+      type: 'SAVE_DIAGRAM',
+      payload: { funnelId, projectId, diagramObj }
+    });
+    dispatch({ type: 'SAVE_DIAGRAM_SUCCESS' });
+    // })
+    // .catch(function (error) {
+    //   if (error.response) {
+    //     console.log(error.response)
+    //     dispatch({
+    //       type: 'CREATE_DIAGRAM_FAILURE',
+    //       payload: error.response.data.error
+    //     });
+    //   }
+    // });
+  }
+}
+
+export function changePermission() {
+  return function (dispatch) {
+    API.post(`change-permission`, {
+      // 'funnelsId': funnelsId,
+      // 'permissions': permissions,
+    })
+      .then(response => {
+        dispatch({
+          type: 'CHANGE_PERMISSION',
+          payload: response.data.data
+        });
+        dispatch({ type: 'CHANGE_PERMISSION_SUCCESS' });
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: 'CHANGE_PERMISSION_FAILURE',
+            payload: error.response.data.error
+          });
+        }
+      });
+  }
+}
+
+export function removeCollaborator() {
+  return function (dispatch) {
+    API.post(`remove-collaborator`, {
+      // 'funnelsId': funnelsId,
+      // 'permissions': permissions,
+    })
+      .then(response => {
+        dispatch({
+          type: 'REMOVE_COLLABORATOR',
+          payload: response.data.data
+        });
+        dispatch({ type: 'REMOVE_COLLABORATOR_SUCCESS' });
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: 'REMOVE_COLLABORATOR_FAILURE',
+            payload: error.response.data.error
+          });
+        }
+      });
+  }
+}
 

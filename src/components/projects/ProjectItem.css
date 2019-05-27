@@ -195,5 +195,22 @@
 
 .collaborators-in-modal{
   margin: 10px;
-  font-size: 14px;
+  font-size: 12px;
+}
+
+.empty-collaborator-photo{
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  font-size: 11px;
+  text-align: center;
+  background-color: #c1c7cc;
+  display: flex;
+  align-items: center;
+}
+
+.funnels-collaborators-item{
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
 }

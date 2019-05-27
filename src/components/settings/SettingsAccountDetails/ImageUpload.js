@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import './ImageUpload.css'
 import { changeUserAvatar } from '../../../store/actions/settings'
 import Cookies from "js-cookie";
+import { API_URL } from '../../../config'
 
 class ImageUpload extends React.Component {
 
@@ -15,7 +16,7 @@ class ImageUpload extends React.Component {
     e.preventDefault()
     // console.log(e.target.files[0])
 
-    this.props.changeUserAvatar(e.target.files[0])
+    // this.props.changeUserAvatar(e.target.files[0])
 
 
     try {
@@ -47,7 +48,7 @@ class ImageUpload extends React.Component {
     if (imagePreviewUrl) {
       $imagePreview = (<img src={imagePreviewUrl} alt='Avatar' />);
     } else {
-      $imagePreview = (!userAvatar ? <div className="preview-text">Please select an Image</div> : <img src={userAvatar} alt='Avatar' />);
+      $imagePreview = (userAvatar === API_URL ? <div className="preview-text">Please select an Image</div> : <img src={userAvatar} alt='Avatar' />);
     }
 
     return (

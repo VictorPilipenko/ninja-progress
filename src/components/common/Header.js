@@ -6,6 +6,7 @@ import { createProject } from '../../store/actions/projects'
 import { signOutUser } from '../../store/actions/auth'
 import Modal from './Modal/Modal'
 import Cookies from "js-cookie";
+import { API_URL } from '../../config'
 import ClickOutside from '../common/ClickOutside'
 
 class Header extends Component {
@@ -46,6 +47,7 @@ class Header extends Component {
 
   render() {
     const userAvatar = Cookies.get("userAvatar");
+    const userFirstName = Cookies.get("userFirstName");
     return (
       <>
         <header>
@@ -57,7 +59,7 @@ class Header extends Component {
                   <button className='btn btn-1 btn-show-modal-create' onClick={this.showModal}>Create Project</button>
 
                   <div className='header-img-preview' onClick={this.showModalSignOut}>
-                    {!userAvatar ? <div className="header-preview-empty" /> : <img src={userAvatar} alt='Avatar' />}
+                    {userAvatar === API_URL ? <div className="header-preview-empty">{userFirstName[0] && userFirstName[0].toUpperCase()}</div> : <img src={userAvatar} alt='Avatar' />}
                   </div>
                 </div>
                 :

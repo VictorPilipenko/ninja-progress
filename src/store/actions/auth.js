@@ -40,7 +40,9 @@ export function emailValidError(emailValidationInfo) {
 export function signupUser(props) {
   const { firstName, accountName, email, password } = props;
 
-  return function (dispatch) {
+  return function (dispatch, getState) {
+    let routerState = getState().router
+
     API.post(`sign-up`, {
       'password': password,
       'email': email,
@@ -48,7 +50,7 @@ export function signupUser(props) {
       'accountName': accountName,
     })
       .then(response => {
-        // console.log(response)
+        console.log(response.data)
 
         if (response.data) {
           localStorage.setItem('token', JSON.stringify(response.data.token));
@@ -57,8 +59,12 @@ export function signupUser(props) {
         dispatch({ type: SIGNUP_SUCCESS });
         dispatch({ type: AUTH_USER });
 
+        Cookies.set("userFirstName", response.data.data.firstName);
+        Cookies.set("userID", response.data.data._id);
+        Cookies.set('userAvatar', API_URL + response.data.data.photoUrl);
 
-        let params = new URLSearchParams(document.location.search);
+
+        let params = new URLSearchParams(routerState.location.search);
         if (params.get('add-collaborations')) {
           dispatch(push(`/questionnaire?add-collaborations=${params.get('add-collaborations')}`));
         }
@@ -82,7 +88,7 @@ export function signinUser(props) {
   const { email, password } = props;
 
   return function (dispatch, getState) {
-    // let routerState = getState().router
+    let routerState = getState().router
 
     API.post(`sign-in`, {
       'email': email,
@@ -100,24 +106,9 @@ export function signinUser(props) {
           Cookies.set('userAvatar', API_URL + response.data.data.photoUrl);
 
 
-          let params = new URLSearchParams(document.location.search);
+          let params = new URLSearchParams(routerState.location.search);
           if (params.get('add-collaborations')) {
-
             dispatch(push(params.get('add-collaborations')));
-
-            // dispatch({
-            //   type: LOCATION_CHANGE,
-            //   payload: {
-            //     location: {
-            //       pathname: params.get('add-collaborations'),
-            //       search: routerState.location.search,
-            //       hash: routerState.location.hash
-            //     },
-            //     action: "PUSH"
-            //   }
-            // })
-
-            // console.log(params.get('add-collaborations'))
           }
           else {
             dispatch(push('/'));
@@ -185,15 +176,16 @@ export function questionnaireUser(props) {
     }
   }
 
-  return function (dispatch) {
+  return function (dispatch, getState) {
+    let routerState = getState().router
+
     API.patch(`profile`, obj)
       .then(response => {
+        console.log(response.data)
 
-        localStorage.setItem('profile', JSON.stringify(response.data));
-        // console.log(localStorage.getItem('profile'))
         dispatch({ type: QUESTIONNAIRE_SUCCESS });
 
-        let params = new URLSearchParams(document.location.search);
+        let params = new URLSearchParams(routerState.location.search);
         if (params.get('add-collaborations')) {
           let route = params.get('add-collaborations');
           dispatch(push(route));
@@ -268,6 +260,7 @@ export function signOutUser() {
   return function (dispatch) {
     localStorage.clear();
     dispatch({ type: UN_AUTH_USER });
+    Cookies.remove("userAvatar");
     Cookies.remove("userFirstName");
     Cookies.remove("userID");
   }
