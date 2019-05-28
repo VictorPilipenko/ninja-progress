@@ -33,7 +33,7 @@ class ChangeUserPassword extends React.Component {
             <input
               // className='setting-input'
               id="currentPassword"
-              placeholder="Enter your password"
+              placeholder="Enter your current password"
               type="password"
               value={values.currentPassword}
               onChange={handleChange}
@@ -52,7 +52,7 @@ class ChangeUserPassword extends React.Component {
             <input
               // className='setting-input'
               id="newPassword"
-              placeholder="Enter your password"
+              placeholder="Enter your new password"
               type="password"
               value={values.newPassword}
               onChange={handleChange}
@@ -71,7 +71,7 @@ class ChangeUserPassword extends React.Component {
             <input
               // className='setting-input'
               id="newPasswordConfirm"
-              placeholder="Confirm your password"
+              placeholder="Confirm your new password"
               type="password"
               value={values.newPasswordConfirm}
               onChange={handleChange}

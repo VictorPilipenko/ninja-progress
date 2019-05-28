@@ -21,6 +21,7 @@ export function getAllProjects() {
   return function (dispatch) {
     API.get(`projects`)
       .then(response => {
+        console.log('getAllProjects: ',response.data)
         dispatch({
           type: GET_ALL_PROJECTS,
           payload: response.data.data
@@ -233,24 +234,25 @@ export function saveDiagram(projectId, funnelId, diagramObj) {
   }
 }
 
-export function changePermission() {
+export function changePermission(funnelId, profileId, permissions) {
+  console.log('changePermission action: ' ,funnelId, profileId, permissions)
   return function (dispatch) {
-    API.post(`change-permission`, {
-      // 'funnelsId': funnelsId,
-      // 'permissions': permissions,
+    API.patch(`/collaborators/${profileId}/${funnelId}`, {
+      'permissions': permissions
     })
       .then(response => {
+        console.log('changePermission response: ', response.data.message)
         dispatch({
-          type: 'CHANGE_PERMISSION',
-          payload: response.data.data
+          type: 'COLLABORATORS_MODAL_MESSAGE_SUCCESS',
+          payload: response.data.message
         });
-        dispatch({ type: 'CHANGE_PERMISSION_SUCCESS' });
+        
       })
       .catch(function (error) {
         if (error.response) {
           console.log(error.response)
           dispatch({
-            type: 'CHANGE_PERMISSION_FAILURE',
+            type: 'COLLABORATORS_MODAL_MESSAGE_FAILURE',
             payload: error.response.data.error
           });
         }
@@ -258,28 +260,34 @@ export function changePermission() {
   }
 }
 
-export function removeCollaborator() {
+export function resetCollaboratorsModalMessage() {
   return function (dispatch) {
-    API.post(`remove-collaborator`, {
-      // 'funnelsId': funnelsId,
-      // 'permissions': permissions,
+    dispatch({ type: 'COLLABORATORS_MODAL_MESSAGE_RESET' });
+  }
+}
+
+
+export function removeCollaborator(funnelId, profileId) {
+  return function (dispatch) {
+    API.delete(`/collaborators/${profileId}/${funnelId}`, {
+      // 'funnelId': funnelId,
+      // 'profileId': profileId,
     })
       .then(response => {
+        console.log('removeCollaborator response: ', response.data)
         dispatch({
-          type: 'REMOVE_COLLABORATOR',
-          payload: response.data.data
+          type: 'COLLABORATORS_MODAL_MESSAGE_SUCCESS',
+          payload: response.data.message
         });
-        dispatch({ type: 'REMOVE_COLLABORATOR_SUCCESS' });
       })
       .catch(function (error) {
         if (error.response) {
           console.log(error.response)
           dispatch({
-            type: 'REMOVE_COLLABORATOR_FAILURE',
+            type: 'COLLABORATORS_MODAL_MESSAGE_FAILURE',
             payload: error.response.data.error
           });
         }
       });
   }
 }
-

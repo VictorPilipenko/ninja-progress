@@ -108,33 +108,33 @@
 }
 
 .funnels-checkbox{
-  max-height: 110px;
+  max-height: 128px;
   overflow: auto;
-  padding: 5px 15px 15px 15px;
+  margin: 5px 15px 15px 15px;
 }
 
 .funnels-collaborators{
   max-height: 110px;
   overflow: auto;
-  padding: 5px 15px 15px 15px;
+  margin: 5px 15px 15px 15px;
 }
 
 .button-change-permission{
-  padding: 0;
+  /* padding: 0; */
   border: none;
   color: orange;
   background-color: transparent;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .button-remove-collaborator{
-  padding: 0;
+  /* padding: 0; */
   border: none;
   color: red;
   background-color: transparent;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .custom-select{
@@ -194,8 +194,13 @@
 }
 
 .collaborators-in-modal{
-  margin: 10px;
   font-size: 12px;
+  width: 41px;
+  align-self: center;
+  /* padding: 5px; */
+  /* white-space: pre; */
+  overflow: auto;
+  margin: 0px 4px 0px 4px;
 }
 
 .empty-collaborator-photo{
@@ -209,8 +214,20 @@
   align-items: center;
 }
 
+.collaborator-photo{
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  font-size: 11px;
+  text-align: center;
+  background-color: #c1c7cc;
+  display: flex;
+  align-items: center;
+  object-fit: cover;
+}
+
 .funnels-collaborators-item{
   display: flex;
-  justify-content: space-between;
-  margin: 10px;
+  width: max-content;
+  margin-bottom: 10px;
 }

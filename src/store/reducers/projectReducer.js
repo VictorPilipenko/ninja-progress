@@ -28,7 +28,7 @@ const initialState = {
 }
 
 export default function (state = initialState, action) {
-  console.log(action.payload)
+  // console.log(action.payload)
   switch (action.type) {
     ///////////////////////////////////////////////////////////////////////////
     case GET_ALL_PROJECTS:
@@ -97,6 +97,8 @@ export default function (state = initialState, action) {
     ///////////////////////////////////////////////////////////////////////////
 
 
+
+
     ///////////////////////////////////////////////////////////////////////////
     case 'SAVE_DIAGRAM':
       return { ...state, [`diagram${action.payload.projectId}${action.payload.funnelId}`]: action.payload.diagramObj };
@@ -104,6 +106,20 @@ export default function (state = initialState, action) {
       return { ...state, createDiagramError: '' };
     case 'SAVE_DIAGRAM_FAILURE':
       return { ...state, createDiagramError: action.payload };
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    case 'COLLABORATORS_MODAL_MESSAGE_SUCCESS':
+      return { ...state, collaboratorsModalMessage: action.payload }
+    case 'COLLABORATORS_MODAL_MESSAGE_FAILURE':
+      return { ...state, collaboratorsModalMessage: '' }
+    case 'COLLABORATORS_MODAL_MESSAGE_RESET':
+      return { ...state, collaboratorsModalMessage: '' }
+    ///////////////////////////////////////////////////////////////////////////
+
+    
+
 
     default: return state;
   }

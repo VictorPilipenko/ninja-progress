@@ -22,4 +22,3 @@ class SettingsAccountDetails extends Component {
 }
 
 export default SettingsAccountDetails;
-

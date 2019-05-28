@@ -6,6 +6,7 @@
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
     "connected-react-router": "^6.0.0",
+    "dom-to-image": "^2.6.0",
     "flowpoints": "^1.0.14",
     "formik": "^1.5.4",
     "history": "^4.7.2",

@@ -29,7 +29,7 @@ class FunnelList extends React.Component {
 
   handleCreateFunnel = () => {
     this.props.createFunnel(this.state.funnelName, this.props.projectId)
-    this.props.error && this.props.error.length > 0 && this.hideModal()
+    !this.props.error && this.hideModal()
   }
 
   render() {
@@ -59,10 +59,19 @@ class FunnelList extends React.Component {
                   />
                 ))
                 :
+                // <div className='create-funnels'>
+                //   Create your first funnel
+                //   <br />
+                //   Start bringing your ideas to life
+                //   <button className="btn btn-1" onClick={this.showModal}>Create Funnel</button>
+                // </div>
                 <div className='create-funnels'>
-                  No Funnels. Please, add one
-                  <br />
-                  <button className="btn btn-1" onClick={this.showModal}>Create Funnel</button>
+                  <div style={{ marginBottom: '25px' }}>
+                    <p style={{ fontSize: '25px', marginBottom: '-15px' }}>Create your first funnel</p>
+                    <br />
+                    <p style={{ fontSize: '14px' }}>Start bringing your ideas to life</p>
+                  </div>
+                  <button className="btn btn-1" style={{ width: '125px' }} onClick={this.showModal}>Create Funnel</button>
                 </div>
 
             }

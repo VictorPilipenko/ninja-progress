@@ -4,15 +4,7 @@ import { addCollaborator } from '../../store/actions/collaborations'
 
 class AddCollaborators extends React.Component {
   componentDidMount() {
-    // this.props.addCollaborator(this.props.tokenCollaborator)
-    // this.props.tokenCollaborator && localStorage.setItem('collaborate-confirm-token', JSON.stringify(this.props.tokenCollaborator));
-    console.log('AddCollaborators Component')
-
-    // const token = JSON.parse(localStorage.getItem('token'));
-    // if (token) {
-      // console.log(this.props.tokenCollaborator)
-      this.props.addCollaborator(this.props.tokenCollaborator)
-    // }
+    this.props.addCollaborator(this.props.tokenCollaborator)
   }
 
   render() {
@@ -28,7 +20,6 @@ class AddCollaborators extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  // console.log('state.projects.addCollaboratorError: ', state.projects.addCollaboratorError)
   return {
     tokenCollaborator: ownProps.match.params.token,
     error: state.collaborations.addCollaboratorError,

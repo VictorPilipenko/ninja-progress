@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import './Diagram.css'
 import { Flowpoint, Flowspace } from 'flowpoints';
 import { saveDiagram } from '../../store/actions/projects'
+import domtoimage from 'dom-to-image';
 
 class Diagram extends React.Component {
 
@@ -88,16 +89,48 @@ class Diagram extends React.Component {
   }
 
   handleClick = (id, e) => {
-    this.doFocus = true;
-    var selected = this.state.selected
-    var points = this.state.points
-    if (e.shiftKey) {
+    try {
+      this.doFocus = true;
+      var selected = this.state.selected
+      var points = this.state.points
+      if (e.shiftKey) {
+        if (selected === null) {
+          selected = id
+        } else {
+          if (selected !== id) {
+            var p1 = points[selected]
+            if (id in p1.outputs) {
+              delete p1.outputs[id]
+            } else {
+              p1.outputs[id] = {
+                output: 'auto',
+                input: 'auto',
+                // dash: 10
+              }
+            }
+          }
+        }
+      } else {
+        selected = (selected === null ? id : (selected === id ? null : id))
+      }
+      this.setState({ selected, points })
+    }
+    catch{
+      console.log('fuck you, idiot')
+    }
+  }
+
+  handleTouch = (id, e) => {
+    try {
+      this.doFocus = false;
+      var selected = this.state.selected
+      var points = this.state.points
       if (selected === null) {
         selected = id
       } else {
         if (selected !== id) {
-          const p1 = points[selected]
-          if (id in p1 && p1.outputs) {
+          var p1 = points[selected]
+          if (id in p1.outputs) {
             delete p1.outputs[id]
           } else {
             p1.outputs[id] = {
@@ -108,34 +141,14 @@ class Diagram extends React.Component {
           }
         }
       }
-    } else {
-      selected = (selected === null ? id : (selected === id ? null : id))
+      this.setState({ selected, points })
+
     }
-    this.setState({ selected, points })
+    catch{
+      console.log('fuck you, idiot')
+    }
   }
 
-  handleTouch = (id, e) => {
-    this.doFocus = false;
-    var selected = this.state.selected
-    var points = this.state.points
-    if (selected === null) {
-      selected = id
-    } else {
-      if (selected !== id) {
-        const p1 = points[selected]
-        if (id in p1.outputs) {
-          delete p1.outputs[id]
-        } else {
-          p1.outputs[id] = {
-            output: 'auto',
-            input: 'auto',
-            // dash: 10
-          }
-        }
-      }
-    }
-    this.setState({ selected, points })
-  }
 
   render() {
     // console.log(this.props)
@@ -143,25 +156,44 @@ class Diagram extends React.Component {
       <Layout title='Diagram'>
         <div className='projects-wrapper'>
 
-          <div style={{ paddingBottom: 3 }}>
-            <button
-              // style={{ color: '#ffffff', zIndex: 6, boxShadow: 'none' }}
-              onClick={() => { this.handleAddPoint() }}>
-              Add Point
+          <button
+            onClick={() => { this.handleAddPoint() }}>
+            Add Point
             </button>
 
-            <button onClick={() => console.log(this.state)}>show state</button>
+          <button onClick={() => console.log(this.state)}>show state</button>
 
-            <button onClick={() => this.props.saveDiagram(this.props.projectId, this.props.funnelId, this.state)}>Save Diagram</button>
-          </div>
+          <button onClick={() => this.props.saveDiagram(this.props.projectId, this.props.funnelId, this.state)}>Save Diagram</button>
+
+          <button
+            onClick={(e) => {
+              domtoimage.toPng(this.diagramRef)
+                .then(function (dataUrl) {
+                  var img = new Image();
+                  img.src = dataUrl;
+                  var link = document.createElement('a');
+                  link.download = 'my-diagram.png';
+                  link.href = img.src;
+                  link.click();
+                })
+                .catch(function (error) {
+                  console.error('oops, something went wrong!', error);
+                });
+            }}>
+
+            Export PNG
+              </button>
+
+          <p>hold SHIFT and click left mouse to connect</p>
+
 
           <Flowspace
             theme={this.state.theme}
             variant={this.state.variant}
             background={this.state.background}
-            getDiagramRef={ref => { this.diagramRef = ref }}
+            getDiagramRef={ref => this.diagramRef = ref}
             avoidCollisions
-            style={{ height: '80vh', width: '80vw' }}
+            style={{ height: '100%', width: '100%' }}
             connectionSize={this.state.lineWidth}
             selected={this.state.selected}
             selectedLine={this.state.selectedLine}

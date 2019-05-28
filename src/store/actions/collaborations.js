@@ -83,7 +83,7 @@ export function getAllCollaboratorsForFunnels(funnelsId) {
       // });
 
       .then(response => {
-        console.log(response.data)
+        console.log('getAllCollaboratorsForFunnels action: ',response.data)
         dispatch({
           type: 'GET_ALL_COLLABORATORS_FOR_FUNNELS',
           payload: response.data
