@@ -121,6 +121,8 @@ class ProjectItem extends React.Component {
       // handleDelete,
     } = this.props;
 
+    console.log('funnelsLength: ',funnelsLength)
+
     return (
       <>
         <div className='project-wrapper'>

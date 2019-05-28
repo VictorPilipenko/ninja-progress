@@ -13,15 +13,15 @@ export function changeUserName(data) {
 
   console.log(name)
   return function (dispatch) {
-    API.patch(`profile/name`, {
+    API.patch(`myprofile`, {
       'firstName': name,
     })
       .then(response => {
         if (response.data) {
           console.log(response.data)
-          Cookies.set("userFirstName", response.data.data.firstName);
+          Cookies.set("userFirstName", name);
           dispatch({
-            type: "CHANGE_USER_NAME_SUCCESS",
+            type: "SETTINGS_MESSAGE_NAME_SUCCESS",
             payload: response.data.message
           });
         }
@@ -30,13 +30,20 @@ export function changeUserName(data) {
         if (error.response) {
           console.log(error.response)
           dispatch({
-            type: "CHANGE_USER_NAME_FAILURE",
+            type: "SETTINGS_MESSAGE_NAME_FAILURE",
             payload: error.response.data.error
           });
         }
       });
   }
 }
+
+export function resetSettingsMessageName() {
+  return function (dispatch) {
+    dispatch({ type: 'SETTINGS_MESSAGE_NAME_RESET' });
+  }
+}
+
 
 export function changeUserPassword(data) {
   const {
@@ -47,14 +54,14 @@ export function changeUserPassword(data) {
   console.log('currentPassword: ', currentPassword)
   console.log('newPassword: ', newPassword)
   return function (dispatch) {
-    API.patch(`profile/password`, {
-      'password': currentPassword,
-      'newPassword': newPassword,
+    API.patch(`myprofile`, {
+      'password': newPassword,
+      // 'newPassword': newPassword,
     })
       .then(response => {
         if (response.data) {
           dispatch({
-            type: "CHANGE_USER_PASSWORD_SUCCESS",
+            type: "SETTINGS_MESSAGE_PASSWORD_SUCCESS",
             payload: response.data.message
           });
           // Cookies.set("userFirstName", response.data.firstName);
@@ -64,13 +71,20 @@ export function changeUserPassword(data) {
         if (error.response) {
           console.log(error.response)
           dispatch({
-            type: "CHANGE_USER_PASSWORD_FAILURE",
+            type: "SETTINGS_MESSAGE_PASSWORD_FAILURE",
             payload: error.response.data.message
           });
         }
       });
   }
 }
+
+export function resetSettingsMessagePassword() {
+  return function (dispatch) {
+    dispatch({ type: 'SETTINGS_MESSAGE_PASSWORD_RESET' });
+  }
+}
+
 
 export function changeUserAvatar(avatar) {
   const token = JSON.parse(localStorage.getItem('token'));
@@ -81,7 +95,7 @@ export function changeUserAvatar(avatar) {
   return function (dispatch) {
     axios({
       method: 'patch',
-      url: `${API_URL}/profile/avatar`,
+      url: `${API_URL}/myprofile/avatar`,
       headers: {
         'authorization': token,
         'Content-Type': 'form-data'
@@ -92,7 +106,7 @@ export function changeUserAvatar(avatar) {
         if (response.data) {
           console.log(response.data)
           dispatch({
-            type: "CHANGE_USER_AVATAR_SUCCESS",
+            type: "SETTINGS_MESSAGE_AVATAR_SUCCESS",
             payload: response.data.message
           });
           Cookies.set("userAvatar", API_URL + response.data.data.photoUrl);
@@ -102,10 +116,16 @@ export function changeUserAvatar(avatar) {
         if (error.response) {
           console.log(error.response)
           dispatch({
-            type: "CHANGE_USER_AVATAR_FAILURE",
+            type: "SETTINGS_MESSAGE_AVATAR_FAILURE",
             payload: error.response.data.message
           });
         }
       });
+  }
+}
+
+export function resetSettingsMessageAvatar() {
+  return function (dispatch) {
+    dispatch({ type: 'SETTINGS_MESSAGE_AVATAR_RESET' });
   }
 }

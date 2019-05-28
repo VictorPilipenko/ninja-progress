@@ -113,7 +113,7 @@ export default function (state = initialState, action) {
     case 'COLLABORATORS_MODAL_MESSAGE_SUCCESS':
       return { ...state, collaboratorsModalMessage: action.payload }
     case 'COLLABORATORS_MODAL_MESSAGE_FAILURE':
-      return { ...state, collaboratorsModalMessage: '' }
+      return { ...state, collaboratorsModalMessage: action.payload }
     case 'COLLABORATORS_MODAL_MESSAGE_RESET':
       return { ...state, collaboratorsModalMessage: '' }
     ///////////////////////////////////////////////////////////////////////////

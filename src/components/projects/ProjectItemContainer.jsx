@@ -9,12 +9,12 @@ class ProjectItemContainer extends Component {
   }
 
   render() {
-    const { _id, projectName, funnels } = this.props;
+    const { _id, projectName, funnelsLength } = this.props;
     return (
       <ProjectItem
         _id={_id}
         projectName={projectName}
-        funnelsLength={funnels && funnels.length}
+        funnelsLength={funnelsLength}
         handleDelete={this.handleDelete}
       />
     );

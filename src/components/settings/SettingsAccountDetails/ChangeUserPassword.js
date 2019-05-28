@@ -2,7 +2,7 @@ import React from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
-import { changeUserPassword } from '../../../store/actions/settings'
+import { changeUserPassword, resetSettingsMessagePassword } from '../../../store/actions/settings'
 // import Cookies from "js-cookie";
 
 class ChangeUserPassword extends React.Component {
@@ -44,42 +44,47 @@ class ChangeUserPassword extends React.Component {
             )}
           </div>
 
-          <div className='setting-input-wrapper'>
-            <label className='settings-label-input'>
-              New Password
-            </label>
-            <br />
-            <input
-              // className='setting-input'
-              id="newPassword"
-              placeholder="Enter your new password"
-              type="password"
-              value={values.newPassword}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-            {errors.newPassword && touched.newPassword && (
-              <div className={`input-group ${errors.newPassword && touched.newPassword ? 'has-error' : ''}`}>{errors.newPassword}</div>
-            )}
-          </div>
 
-          <div className='setting-input-wrapper'>
-            <label className='settings-label-input'>
-              Confirm Password
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '-20px' }}>
+            <div className='setting-input-wrapper'>
+              <label className='settings-label-input'>
+                New Password
             </label>
-            <br />
-            <input
-              // className='setting-input'
-              id="newPasswordConfirm"
-              placeholder="Confirm your new password"
-              type="password"
-              value={values.newPasswordConfirm}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-            {errors.newPasswordConfirm && touched.newPasswordConfirm && (
-              <div className={`input-group ${errors.newPasswordConfirm && touched.newPasswordConfirm ? 'has-error' : ''}`}>{errors.newPasswordConfirm}</div>
-            )}
+              <br />
+              <input
+                // className='setting-input'
+                id="newPassword"
+                placeholder="Enter your new password"
+                type="password"
+                value={values.newPassword}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                style={{ width: '210px' }}
+              />
+              {errors.newPassword && touched.newPassword && (
+                <div className={`input-group ${errors.newPassword && touched.newPassword ? 'has-error' : ''}`}>{errors.newPassword}</div>
+              )}
+            </div>
+
+            <div className='setting-input-wrapper'>
+              <label className='settings-label-input'>
+                Confirm Password
+            </label>
+              <br />
+              <input
+                // className='setting-input'
+                id="newPasswordConfirm"
+                placeholder="Confirm your new password"
+                type="password"
+                value={values.newPasswordConfirm}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                style={{ width: '210px' }}
+              />
+              {errors.newPasswordConfirm && touched.newPasswordConfirm && (
+                <div className={`input-group ${errors.newPasswordConfirm && touched.newPasswordConfirm ? 'has-error' : ''}`}>{errors.newPasswordConfirm}</div>
+              )}
+            </div>
           </div>
 
 
@@ -87,7 +92,14 @@ class ChangeUserPassword extends React.Component {
             <div className={`input-group`}>{this.props.changeUserPasswordMessage}</div>
           )}
 
-          <button className='btn btn-1' type="submit">Enter a Valid Password</button>
+          <button className='btn btn-1' type="submit"
+            style={{
+              width: '200px',
+              margin: 'auto',
+              display: 'block',
+              marginBottom: '20px'
+            }}
+          >Enter a Valid Password</button>
         </div>
 
       </form>
@@ -116,6 +128,11 @@ const formikEnhancer = withFormik({
   }),
   handleSubmit: (payload, { props, setSubmitting }) => {
     props.changeUserPassword(payload);
+
+    setTimeout(() => {
+      props.resetSettingsMessagePassword()
+    }, 2000)
+
     setSubmitting(false);
   },
   displayName: 'ChangeUserPassword',
@@ -123,13 +140,14 @@ const formikEnhancer = withFormik({
 
 const mapStateToProps = state => {
   return {
-    changeUserPasswordMessage: state.settings.changeUserPasswordMessage,
+    changeUserPasswordMessage: state.settings.settingsMessagePassword,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     changeUserPassword: data => dispatch(changeUserPassword(data)),
+    resetSettingsMessagePassword: () => dispatch(resetSettingsMessagePassword()),
   }
 }
 

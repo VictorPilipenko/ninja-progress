@@ -2,7 +2,7 @@ import React from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
-import { changeUserName } from '../../../store/actions/settings'
+import { changeUserName, resetSettingsMessageName } from '../../../store/actions/settings'
 import Cookies from "js-cookie";
 
 class ChangeUserName extends React.Component {
@@ -43,10 +43,19 @@ class ChangeUserName extends React.Component {
             {this.props.changeUserNameMessage && this.props.changeUserNameMessage.length > 0 && (
               <div className={`input-group`}>{this.props.changeUserNameMessage}</div>
             )}
+
+
           </div>
 
 
-          <button className='btn btn-1' type="submit">Save</button>
+          <button className='btn btn-1' type="submit"
+            style={{
+              width: '120px',
+              margin: 'auto',
+              display: 'block',
+              marginBottom: '20px'
+            }}
+          >Save</button>
         </div>
       </form>
     );
@@ -65,6 +74,11 @@ const formikEnhancer = withFormik({
   }),
   handleSubmit: (payload, { props, setSubmitting }) => {
     props.changeUserName(payload);
+
+    setTimeout(() => {
+      props.resetSettingsMessageName()
+    }, 2000)
+
     setSubmitting(false);
   },
   displayName: 'ChangeUserName',
@@ -72,13 +86,14 @@ const formikEnhancer = withFormik({
 
 const mapStateToProps = state => {
   return {
-    changeUserNameMessage: state.settings.changeUserNameMessage,
+    changeUserNameMessage: state.settings.settingsMessageName,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     changeUserName: name => dispatch(changeUserName(name)),
+    resetSettingsMessageName: () => dispatch(resetSettingsMessageName()),
   }
 }
 

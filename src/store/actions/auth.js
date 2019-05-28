@@ -152,27 +152,35 @@ export function questionnaireUser(props) {
 
   if (radioGroup === `Company`) {
     obj = {
-      'companyName': Name,
-      'companyWebsite': Website,
+      'description': {
+        'companyName': Name,
+        'companyWebsite': Website,
+      }
     }
   }
 
   if (radioGroup === `Agency`) {
     obj = {
-      'agencyName': Name,
-      'agencyWebsite': Website,
+      'description': {
+        'agencyName': Name,
+        'agencyWebsite': Website,
+      }
     }
   }
 
   if (radioGroup === `Freelancer`) {
     obj = {
-      'Freelancer': radioGroup,
+      'description': {
+        'Freelancer': radioGroup,
+      }
     }
   }
 
   if (radioGroup === `Other`) {
     obj = {
-      'Other': radioGroup,
+      'description': {
+        'Other': radioGroup,
+      }
     }
   }
 

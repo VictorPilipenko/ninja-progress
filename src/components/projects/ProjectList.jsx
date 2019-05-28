@@ -46,6 +46,7 @@ class ProjectList extends React.Component {
                   _id={project._id}
                   projectName={project.projectName}
                   funnels={project.projectFunnels}
+                  funnelsLength={project.projectFunnels.length} 
                 />
               ))
               :

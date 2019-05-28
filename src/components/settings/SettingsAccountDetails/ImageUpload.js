@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import './ImageUpload.css'
-import { changeUserAvatar } from '../../../store/actions/settings'
+import { changeUserAvatar, resetSettingsMessageAvatar } from '../../../store/actions/settings'
 import Cookies from "js-cookie";
 import { API_URL } from '../../../config'
 
@@ -14,10 +14,6 @@ class ImageUpload extends React.Component {
 
   handleImageChange = e => {
     e.preventDefault()
-    // console.log(e.target.files[0])
-
-    // this.props.changeUserAvatar(e.target.files[0])
-
 
     try {
       let reader = new FileReader();
@@ -37,6 +33,10 @@ class ImageUpload extends React.Component {
     catch (error) {
       console.log(error)
     }
+
+    setTimeout(() => {
+      this.props.resetSettingsMessageAvatar()
+    }, 2000)
   }
 
   render() {
@@ -76,6 +76,12 @@ class ImageUpload extends React.Component {
             <label
               htmlFor="file"
               className="btn btn-1"
+              style={{
+                width: '150px',
+                marginBottom: '20px'
+                // margin: 'auto',
+                // display: 'block',
+              }}
             >
               Choose Image
             </label>
@@ -89,13 +95,14 @@ class ImageUpload extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    changeUserAvatarMessage: state.settings.changeUserAvatarMessage,
+    changeUserAvatarMessage: state.settings.settingsMessageAvatar,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     changeUserAvatar: data => dispatch(changeUserAvatar(data)),
+    resetSettingsMessageAvatar: () => dispatch(resetSettingsMessageAvatar()),
   }
 }
 
