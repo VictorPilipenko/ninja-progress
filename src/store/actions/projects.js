@@ -21,7 +21,7 @@ export function getAllProjects() {
   return function (dispatch) {
     API.get(`projects`)
       .then(response => {
-        console.log('getAllProjects: ',response.data)
+        console.log('getAllProjects: ', response.data)
         dispatch({
           type: GET_ALL_PROJECTS,
           payload: response.data.data
@@ -69,19 +69,18 @@ export function createProject(projectName) {
     })
       .then(response => {
         if (response.data) {
-          // console.log(response.data)
           dispatch({
             type: CREATE_PROJECT,
-            payload: response.data
+            payload: response.data.data
           });
           dispatch({ type: CREATE_PROJECT_SUCCESS });
-          dispatch(push('/projects'));
+          dispatch(push('/'));
         }
 
       })
       .catch(function (error) {
         if (error.response) {
-          console.log(error.response)
+          // console.log(error.response)
           dispatch({
             type: CREATE_PROJECT_FAILURE,
             payload: error.response.data.error
@@ -93,12 +92,12 @@ export function createProject(projectName) {
 
 export function createFunnel(projectName, projectId) {
   return function (dispatch) {
-    API.post(`funnel_create/${projectId}`, {
+    API.post(`funnel/${projectId}`, {
       'funnelName': projectName,
     })
       .then(response => {
         if (response.data) {
-          // console.log(response.data)
+          console.log(response.data)
           let res = response.data.data
           dispatch({
             type: 'CREATE_FUNNEL',
@@ -128,6 +127,7 @@ export function getAllFunnels(projectId) {
     API.get(`funnels/${projectId}`)
       .then(response => {
         let res = response.data.data;
+        // console.log(response.data.data)
         dispatch({
           type: 'GET_ALL_FUNNELS',
           payload: {
@@ -142,6 +142,33 @@ export function getAllFunnels(projectId) {
           console.log(error.response)
           dispatch({
             type: 'GET_ALL_FUNNELS_FAILURE',
+            payload: error.response.data.error
+          });
+        }
+      });
+  }
+}
+
+export function getDiagram(funnelId) {
+  return function (dispatch) {
+    API.get(`funnel/diagram/${funnelId}`)
+      .then(response => {
+        let res = response.data.data.funnelBody;
+        console.log(response.data.data.funnelBody)
+        dispatch({
+          type: 'GET_DIAGRAM',
+          payload: {
+            funnelId,
+            res,
+          }
+        });
+        dispatch({ type: 'GET_DIAGRAM_SUCCESS' });
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: 'GET_DIAGRAM_FAILURE',
             payload: error.response.data.error
           });
         }
@@ -178,7 +205,7 @@ export function deleteFunnel(project_id, funnel_id) {
 
 export function createLink(funnelsId, permissions) {
   return function (dispatch) {
-    API.post(`funnel_col_url`, {
+    API.post(`url`, {
       'funnelsId': funnelsId,
       'permissions': permissions,
     })
@@ -209,33 +236,34 @@ export function resetLink() {
 
 
 
-export function saveDiagram(projectId, funnelId, diagramObj) {
+export function saveDiagram(funnelId, diagramObj) {
   return function (dispatch) {
-    // API.post(`create-diagram`, {
-    //   'funnelsId': funnelsId,
-    //   'permissions': permissions,
-    // })
-    // .then(response => {
-    dispatch({
-      type: 'SAVE_DIAGRAM',
-      payload: { funnelId, projectId, diagramObj }
-    });
-    dispatch({ type: 'SAVE_DIAGRAM_SUCCESS' });
-    // })
-    // .catch(function (error) {
-    //   if (error.response) {
-    //     console.log(error.response)
-    //     dispatch({
-    //       type: 'CREATE_DIAGRAM_FAILURE',
-    //       payload: error.response.data.error
-    //     });
-    //   }
-    // });
+    API.patch(`funnel/${funnelId}`, {
+      'funnelBody': diagramObj,
+    })
+      .then(response => {
+        console.log(response.data)
+        let diagramObj = response.data.data.funnelBody
+        dispatch({
+          type: 'SAVE_DIAGRAM',
+          payload: { funnelId, diagramObj }
+        });
+        dispatch({ type: 'SAVE_DIAGRAM_SUCCESS' });
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: 'CREATE_DIAGRAM_FAILURE',
+            payload: error.response.data.error
+          });
+        }
+      });
   }
 }
 
 export function changePermission(funnelId, profileId, permissions) {
-  console.log('changePermission action: ' ,funnelId, profileId, permissions)
+  console.log('changePermission action: ', funnelId, profileId, permissions)
   return function (dispatch) {
     API.patch(`/collaborators/${profileId}/${funnelId}`, {
       'permissions': permissions
@@ -246,7 +274,7 @@ export function changePermission(funnelId, profileId, permissions) {
           type: 'COLLABORATORS_MODAL_MESSAGE_SUCCESS',
           payload: response.data.message
         });
-        
+
       })
       .catch(function (error) {
         if (error.response) {

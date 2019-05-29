@@ -45,7 +45,7 @@ class ChangeUserPassword extends React.Component {
           </div>
 
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '-20px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '-20px', marginRight: '10px' }}>
             <div className='setting-input-wrapper'>
               <label className='settings-label-input'>
                 New Password
@@ -59,7 +59,7 @@ class ChangeUserPassword extends React.Component {
                 value={values.newPassword}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                style={{ width: '210px' }}
+                style={{ width: '200px' }}
               />
               {errors.newPassword && touched.newPassword && (
                 <div className={`input-group ${errors.newPassword && touched.newPassword ? 'has-error' : ''}`}>{errors.newPassword}</div>
@@ -79,7 +79,7 @@ class ChangeUserPassword extends React.Component {
                 value={values.newPasswordConfirm}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                style={{ width: '210px' }}
+                style={{ width: '200px' }}
               />
               {errors.newPasswordConfirm && touched.newPasswordConfirm && (
                 <div className={`input-group ${errors.newPasswordConfirm && touched.newPasswordConfirm ? 'has-error' : ''}`}>{errors.newPasswordConfirm}</div>
@@ -97,7 +97,7 @@ class ChangeUserPassword extends React.Component {
               width: '200px',
               margin: 'auto',
               display: 'block',
-              marginBottom: '20px'
+              marginBottom: '20px',
             }}
           >Enter a Valid Password</button>
         </div>

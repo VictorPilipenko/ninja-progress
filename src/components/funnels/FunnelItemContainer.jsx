@@ -10,12 +10,13 @@ class FunnelItemContainer extends Component {
   }
 
   render() {
-    const { _id, funnelName, projectId } = this.props;
+    const { _id, funnelName, projectId, funnelBody } = this.props;
     // console.log(this.props)
     return (
       <FunnelItem
         _id={_id}
         funnelName={funnelName}
+        funnelBody={funnelBody}
         projectId={projectId}
         handleDelete={this.handleDelete}
       />

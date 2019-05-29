@@ -41,7 +41,10 @@ class Header extends Component {
 
   handleCreateProject = () => {
     this.props.createProject(this.state.projectName)
-    this.props.error && this.props.error.length > 0 && this.hideModal()
+
+    setTimeout(() => {
+      !this.props.error && this.hideModal()
+    }, 1000)
   }
 
 

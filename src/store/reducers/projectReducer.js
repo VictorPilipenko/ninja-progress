@@ -41,10 +41,9 @@ export default function (state = initialState, action) {
     case CREATE_PROJECT:
       return {
         ...state,
-        projectsList: [...state.projectsList, {
-          _id: action.payload._id,
-          projectName: action.payload.name,
-        }]
+        projectsList: [...state.projectsList,
+        action.payload
+        ]
       };
     case CREATE_PROJECT_SUCCESS:
       return { ...state, createProjectError: '' };
@@ -66,20 +65,18 @@ export default function (state = initialState, action) {
       return { [`funnelsList${action.payload.projectId}`]: action.payload.res, ...state };
     ///////////////////////////////////////////////////////////////////////////
     case 'DELETE_FUNNEL':
-      const funnelsList = state[`funnelsList${action.payload.projectId}`].filter(project => project._id !== action.payload.funnelId);
+      const funnelsList = state[`funnelsList${action.payload.project_id}`].filter(funnel => funnel._id !== action.payload.funnel_id);
       return {
         ...state,
-        [`funnelsList${action.payload.projectId}`]: funnelsList,
+        [`funnelsList${action.payload.project_id}`]: funnelsList,
       };
     ///////////////////////////////////////////////////////////////////////////
     case 'CREATE_FUNNEL':
       return {
         ...state,
-        [`funnelsList${action.payload.projectId}`]: [...state[`funnelsList${action.payload.projectId}`], {
-          funnelName: action.payload.res.name,
-          _id: action.payload.res._id,
-          funnelProject: action.payload.projectId
-        }]
+        [`funnelsList${action.payload.projectId}`]: [...state[`funnelsList${action.payload.projectId}`],
+        action.payload.res
+        ]
       };
     case 'CREATE_FUNNEL_SUCCESS':
       return { ...state, createFunnelError: '' };
@@ -108,6 +105,17 @@ export default function (state = initialState, action) {
       return { ...state, createDiagramError: action.payload };
     ///////////////////////////////////////////////////////////////////////////
 
+    ///////////////////////////////////////////////////////////////////////////
+    case 'GET_DIAGRAM':
+      return { ...state, [`diagram${action.payload.funnelId}`]: action.payload.res };
+    case 'GET_DIAGRAM_SUCCESS':
+      return { ...state, getDiagramError: '' };
+    case 'GET_DIAGRAM_FAILURE':
+      return { ...state, getDiagramError: action.payload };
+      ///////////////////////////////////////////////////////////////////////////
+
+      
+
 
     ///////////////////////////////////////////////////////////////////////////
     case 'COLLABORATORS_MODAL_MESSAGE_SUCCESS':
@@ -118,7 +126,7 @@ export default function (state = initialState, action) {
       return { ...state, collaboratorsModalMessage: '' }
     ///////////////////////////////////////////////////////////////////////////
 
-    
+
 
 
     default: return state;

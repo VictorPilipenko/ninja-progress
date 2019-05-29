@@ -5,33 +5,41 @@ import './Diagram.css'
 import { Flowpoint, Flowspace } from 'flowpoints';
 import { saveDiagram } from '../../store/actions/projects'
 import domtoimage from 'dom-to-image';
+import { getDiagram } from '../../store/actions/projects'
 
 class Diagram extends React.Component {
 
   componentDidMount() {
-    if (this.props.diagram) {
-      let newLib = this.props.diagram
-      this.count = newLib.count
-      Object.keys(newLib.points).forEach(p_key => {
-        Object.keys(newLib.points[p_key].outputs).forEach(o_key => {
-          if (!("dash" in newLib.points[p_key].outputs[o_key])) {
-            newLib.points[p_key].outputs[o_key].dash = 0
-          }
-        })
-      })
-      this.setState({
-        variant: newLib.variant,
-        lineWidth: newLib.lineWidth,
-        points: newLib.points,
-        snackShow: true,
-        snackMsg: 'Loaded model from redux',
-      })
-    }
+    this.props.getDiagram(this.props.funnelId);
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    // console.log("nextProps", nextProps, "\nprevState", prevState)
+    if (nextProps.diagram)
+      return {
+        // showSettings: nextProps.diagram.showSettings,
+        // showInfobox: nextProps.diagram.showInfobox,
+        // selected: nextProps.diagram.selected,
+        // selectedLine: nextProps.diagram.selectedLine,
+        // connecting: nextProps.diagram.connecting,
+        // inputColor: nextProps.diagram.inputColor,
+        // outputColor: nextProps.diagram.outputColor,
+        // lineWidth: nextProps.diagram.lineWidth,
+        points: nextProps.diagram.points,
+        // theme: nextProps.diagram.theme,
+        // variant: nextProps.diagram.variant,
+        // lastPos: nextProps.diagram.lastPos,
+        // snackShow: nextProps.diagram.snackShow,
+        // snackMsg: nextProps.diagram.snackMsg,
+        // doFocus: nextProps.diagram.doFocus,
+      };
+    else
+      return null;
+  }
 
   constructor(props) {
     super(props);
+
     this.state = {
       showSettings: true,
       showInfobox: false,
@@ -44,12 +52,10 @@ class Diagram extends React.Component {
       points: {},
       theme: 'indigo',
       variant: 'outlined',
-      // background: 'black',
       lastPos: { x: 300, y: 50 },
       snackShow: false,
       snackMsg: '',
-      // snackColor: blue[500],
-      doFocus: false
+      doFocus: false,
     }
 
     // Helper variables
@@ -58,34 +64,6 @@ class Diagram extends React.Component {
     if (this.baseUrl[this.baseUrl.length - 1] !== '/') this.baseUrl += '/'
     this.count = Object.keys(this.state.points).length
     this.currentQuery = ''
-
-    // Binding class methods
-    // this.handleClick = this.handleClick.bind(this)
-    // this.handleTouch = this.handleTouch.bind(this)
-    // this.settingsBox = this.settingsBox.bind(this)
-    // thi/s.infoBox = this.infoBox.bind(this)
-    // this.handleAddPoint = this.handleAddPoint.bind(this)
-
-    // Adding dash
-    // Object.keys(this.state.points).forEach(p_key => {
-    //   Object.keys(this.state.points[p_key].outputs).forEach(o_key => {
-    //     if (!("dash" in this.state.points[p_key].outputs[o_key])) {
-    //       this.state.points[p_key].outputs[o_key].dash = 0
-    //     }
-    //   })
-    // })
-  }
-
-  handleAddPoint() {
-    var newpoint = {
-      msg: '',
-      pos: { x: this.state.lastPos.x, y: this.state.lastPos.y + 100 },
-      outputs: {},
-    }
-    var points = this.state.points
-    points['' + this.count] = newpoint
-    this.count += 1
-    this.setState({ points, selected: '' + (this.count), lastPos: { x: this.state.lastPos.x, y: this.state.lastPos.y + 100 } })
   }
 
   handleClick = (id, e) => {
@@ -115,8 +93,8 @@ class Diagram extends React.Component {
       }
       this.setState({ selected, points })
     }
-    catch{
-      console.log('fuck you, idiot')
+    catch (error) {
+      console.log(error)
     }
   }
 
@@ -142,29 +120,61 @@ class Diagram extends React.Component {
         }
       }
       this.setState({ selected, points })
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
 
+  handleAddPoint1() {
+    var newpoint = {
+      msg: 'uno',
+      pos: { x: this.state.lastPos.x, y: this.state.lastPos.y + 100 },
+      outputs: {},
+      style: { height: '100px' }
     }
-    catch{
-      console.log('fuck you, idiot')
+    var points = this.state.points
+    points['' + this.count] = newpoint
+    this.count += 1
+    this.setState({ points, selected: '' + (this.count), lastPos: { x: this.state.lastPos.x, y: this.state.lastPos.y + 100 } })
+  }
+
+  handleAddPoint2() {
+    var newpoint = {
+      msg: 'two',
+      pos: { x: this.state.lastPos.x, y: this.state.lastPos.y + 100 },
+      outputs: {},
+      style: { height: '200px' }
     }
+    var points = this.state.points
+    points['' + this.count] = newpoint
+    this.count += 1
+    this.setState({ points, selected: '' + (this.count), lastPos: { x: this.state.lastPos.x, y: this.state.lastPos.y + 100 } })
+  }
+
+  handleAddPoint3() {
+    var newpoint = {
+      msg: 'tres',
+      pos: { x: this.state.lastPos.x, y: this.state.lastPos.y + 100 },
+      outputs: {},
+      style: { height: '150px' }
+    }
+    var points = this.state.points
+    points['' + this.count] = newpoint
+    this.count += 1
+    this.setState({ points, selected: '' + (this.count), lastPos: { x: this.state.lastPos.x, y: this.state.lastPos.y + 100 } })
   }
 
 
   render() {
-    // console.log(this.props)
     return (
       <Layout title='Diagram'>
         <div className='projects-wrapper'>
-
-          <button
-            onClick={() => { this.handleAddPoint() }}>
-            Add Point
-            </button>
-
+          <button onClick={() => { this.handleAddPoint1() }}>Add Point 1</button>
+          <button onClick={() => { this.handleAddPoint2() }}>Add Point 2</button>
+          <button onClick={() => { this.handleAddPoint3() }}>Add Point 3</button>
           <button onClick={() => console.log(this.state)}>show state</button>
-
-          <button onClick={() => this.props.saveDiagram(this.props.projectId, this.props.funnelId, this.state)}>Save Diagram</button>
-
+          <button onClick={() => this.props.saveDiagram(this.props.funnelId, this.state)}>Save Diagram</button>
           <button
             onClick={(e) => {
               domtoimage.toPng(this.diagramRef)
@@ -182,34 +192,57 @@ class Diagram extends React.Component {
             }}>
 
             Export PNG
-              </button>
+          </button>
 
           <p>hold SHIFT and click left mouse to connect</p>
+          {
+            this.state.selected !== null && this.state.selected in this.state.points
+              ? <div style={{ marginTop: 10, zIndex: 100 }}>
+                <div style={{ paddingTop: 0, paddingBottom: 15 }}>
 
+                  <form onSubmit={(e) => { e.preventDefault() }}>
+                    <textarea
+                      id="msgfield"
+                      label="Message"
+                      autoComplete="off"
+                      inputRef={(input) => { if (this.doFocus && input) input.focus() }}
+                      value={this.state.points[this.state.selected].msg}
+                      onChange={(e) => {
+                        var points = this.state.points
+                        var point = points[this.state.selected]
+                        point.msg = e.target.value
+                        this.setState({ points: points })
+                      }}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      style={{ width: '100%' }}
+                      margin="normal" />
+                  </form>
 
+                </div>
+              </div> : null
+          }
           <Flowspace
             theme={this.state.theme}
             variant={this.state.variant}
             background={this.state.background}
             getDiagramRef={ref => this.diagramRef = ref}
             avoidCollisions
-            style={{ height: '100%', width: '100%' }}
+            style={{ height: '100%', width: 'calc(100%-100px)' }}
             connectionSize={this.state.lineWidth}
             selected={this.state.selected}
             selectedLine={this.state.selectedLine}
             onClick={e => { this.setState({ selected: null, selectedLine: null }) }}
             onLineClick={(key_a, key_b) => { this.setState({ selectedLine: { a: key_a, b: key_b } }) }}>
-
             {
               Object.keys(this.state.points).map(key => {
                 var point = this.state.points[key]
-
                 return (
-
                   <Flowpoint
                     key={key}
                     snap={{ x: 10, y: 10 }}
-                    style={{ height: Math.max(50, Math.ceil(point.msg.length / 20) * 30) }}
+                    style={point.style}
                     startPosition={point.pos}
                     outputs={point.outputs}
                     onClick={e => { this.handleClick(key, e) }}
@@ -220,21 +253,17 @@ class Diagram extends React.Component {
                       this.setState({ points, lastPos: pos })
                     }}>
                     <div style={{ display: 'table', width: '100%', height: '100%' }}>
-                      <div style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', paddingLeft: 2, paddingRight: 2 }}>
+                      <div style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', paddingLeft: 2, paddingRight: 2, whiteSpace: 'pre' }}>
                         {
                           point.msg !== '' ? point.msg : 'empty'
                         }
                       </div>
                     </div>
                   </Flowpoint>
-
                 )
-
               })
             }
-
           </Flowspace>
-
         </div>
       </Layout >
     )
@@ -242,11 +271,10 @@ class Diagram extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  console.log('state: ', state)
+  console.log('diagram: ', state.projects[`diagram${ownProps.match.params.funnelId}`])
   // console.log('ownProps: ', ownProps)
   return {
-    diagram: state.projects[`diagram${ownProps.match.params.projectId}${ownProps.match.params.funnelId}`],
-    projectId: ownProps.match.params.projectId,
+    diagram: state.projects[`diagram${ownProps.match.params.funnelId}`],
     funnelId: ownProps.match.params.funnelId,
     // error: state.projects.createFunnelError,
   };
@@ -255,7 +283,8 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = dispatch => {
   return {
     // getDiagram: (projectId, funnelId, obj) => dispatch(getDiagram(projectId, funnelId, obj)),
-    saveDiagram: (projectId, funnelId, obj) => dispatch(saveDiagram(projectId, funnelId, obj)),
+    saveDiagram: (funnelId, obj) => dispatch(saveDiagram(funnelId, obj)),
+    getDiagram: id => dispatch(getDiagram(id)),
   }
 }
 

@@ -8,9 +8,6 @@ import MenuSettings from "../MenuSettings";
 const SidebarSettings = () => {
   return (
     <aside className='sidebar-settings'>
-      {/* <Link to="/">
-				<img className='logo' src={logo} alt="Funnelsmap" />
-			</Link> */}
       <p style={{ color: 'white' }}>Account</p>
       <MenuSettings />
     </aside>

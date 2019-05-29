@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import './FunnelList.css'
 import { getAllFunnels, createFunnel } from '../../store/actions/projects'
 import FunnelItemContainer from './FunnelItemContainer.jsx'
+import Modal from '../common/Modal/Modal'
+import { ReactComponent as CreateFunnelSVG } from '../../assets/new_funnel.svg';
 
 class FunnelList extends React.Component {
   componentDidMount() {
@@ -29,11 +31,13 @@ class FunnelList extends React.Component {
 
   handleCreateFunnel = () => {
     this.props.createFunnel(this.state.funnelName, this.props.projectId)
-    !this.props.error && this.hideModal()
+
+    setTimeout(() => {
+      !this.props.error && this.hideModal()
+    }, 1000)
   }
 
   render() {
-    console.log(this.props)
     return (
       <>
         <Layout title={`Funnels List`}>
@@ -47,7 +51,6 @@ class FunnelList extends React.Component {
             }}
           >Create Funnel</button>
           <div className='projects-wrapper'>
-            {console.log(this.props.funnels)}
             {
               this.props.funnels && this.props.funnels.length > 0 ?
                 this.props.funnels.map((funnel, index) => (
@@ -55,25 +58,21 @@ class FunnelList extends React.Component {
                     key={index}
                     _id={funnel._id}
                     funnelName={funnel.funnelName}
+                    funnelBody={funnel.funnelBody}
                     projectId={funnel.funnelProject}
                   />
                 ))
                 :
-                // <div className='create-funnels'>
-                //   Create your first funnel
-                //   <br />
-                //   Start bringing your ideas to life
-                //   <button className="btn btn-1" onClick={this.showModal}>Create Funnel</button>
-                // </div>
-                <div className='create-funnels'>
-                  <div style={{ marginBottom: '25px' }}>
+                <div className='create-funnels' style={{ display: 'flex' }}>
+                  <CreateFunnelSVG />
+
+                  <div style={{ alignSelf: 'center', width: 'max-content' }}>
                     <p style={{ fontSize: '25px', marginBottom: '-15px' }}>Create your first funnel</p>
                     <br />
                     <p style={{ fontSize: '14px' }}>Start bringing your ideas to life</p>
+                    <button className="btn btn-1" style={{ width: '125px', marginTop: '25px' }} onClick={this.showModal}>Create Funnel</button>
                   </div>
-                  <button className="btn btn-1" style={{ width: '125px' }} onClick={this.showModal}>Create Funnel</button>
                 </div>
-
             }
           </div>
         </Layout>
@@ -102,6 +101,7 @@ class FunnelList extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
+  console.log(state.projects[`funnelsList${ownProps.match.params.projectId}`])
   return {
     funnels: state.projects[`funnelsList${ownProps.match.params.projectId}`],
     projectId: ownProps.match.params.projectId,
@@ -117,17 +117,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FunnelList);
-
-//modalka, fuck yeah
-const Modal = ({ handleClose, show, children }) => {
-  const showHideClassName = show ? "modal display-block" : "modal display-none";
-
-  return (
-    <div className={showHideClassName}>
-      <section className="modal-main">
-        <button className="close-modal" onClick={handleClose}>X</button>
-        {children}
-      </section>
-    </div>
-  );
-};

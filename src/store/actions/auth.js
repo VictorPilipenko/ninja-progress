@@ -187,7 +187,7 @@ export function questionnaireUser(props) {
   return function (dispatch, getState) {
     let routerState = getState().router
 
-    API.patch(`profile`, obj)
+    API.patch(`myprofile`, obj)
       .then(response => {
         console.log(response.data)
 

@@ -2,7 +2,6 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import { PrivateRoute } from '../components/RequireAuth';
 import { PrivateRouteAddCollaborator } from '../components/PrivateRouteAddCollaborator';
-import Dashboard from '../components/dashboard/Dashboard.jsx';
 import ProjectList from '../components/projects/ProjectList.jsx';
 import FunnelList from '../components/funnels/FunnelList.jsx';
 import Signin from '../components/auth/Signin.jsx';
@@ -32,11 +31,10 @@ const AppRouter = () => (
 
     <PrivateRouteAddCollaborator path="/add-collaborators/:token" component={AddCollaborators} />
 
-    <PrivateRoute exact={true} path="/" component={Dashboard} />
+    <PrivateRoute exact={true} path="/" component={ProjectList} />
     <PrivateRoute path="/collaborations" component={Collaborations} />
-    <PrivateRoute path="/projects" component={ProjectList} />
     <PrivateRoute path='/funnels/:projectId' component={FunnelList} />
-    <PrivateRoute path='/diagram/:projectId/:funnelId' component={Diagram} />
+    <PrivateRoute path='/diagram/:funnelId' component={Diagram} />
 
     <PrivateRoute exact={true} path="/settings" component={SettingsAccountDetails} />
     <PrivateRoute path="/settings/my-subscriptions" component={SettingsMySubscriptions} />

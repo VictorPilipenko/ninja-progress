@@ -6,6 +6,7 @@ import { getAllProjects } from '../../store/actions/projects'
 import ProjectItemContainer from './ProjectItemContainer.jsx'
 import { createProject } from '../../store/actions/projects'
 import Modal from '../common/Modal/Modal'
+import { ReactComponent as CreateProjectSVG } from '../../assets/new_project.svg';
 
 class ProjectList extends React.Component {
   componentDidMount() {
@@ -31,7 +32,10 @@ class ProjectList extends React.Component {
 
   handleCreateProject = () => {
     this.props.createProject(this.state.projectName)
-    !this.props.error && this.hideModal()
+
+    setTimeout(() => {
+      !this.props.error && this.hideModal()
+    }, 1000)
   }
 
   render() {
@@ -46,17 +50,19 @@ class ProjectList extends React.Component {
                   _id={project._id}
                   projectName={project.projectName}
                   funnels={project.projectFunnels}
-                  funnelsLength={project.projectFunnels.length} 
+                  funnelsLength={project.projectFunnels && project.projectFunnels.length}
                 />
               ))
               :
-              <div className='create-funnels'>
-                <div style={{ marginBottom: '25px' }}>
+              <div className='create-funnels' style={{display: 'flex'}}>
+                <CreateProjectSVG />
+
+                <div style={{ alignSelf: 'center', width: 'max-content' }}>
                   <p style={{ fontSize: '25px', marginBottom: '-15px' }}>Create your first project</p>
                   <br />
                   <p style={{ fontSize: '14px' }}>Start bringing your ideas to life</p>
+                  <button className="btn btn-1" style={{ width: '125px', marginTop: '25px' }} onClick={this.showModal}>Create Project</button>
                 </div>
-                <button className="btn btn-1" style={{ width: '125px' }} onClick={this.showModal}>Create Project</button>
               </div>
           }
         </div>
@@ -86,6 +92,7 @@ class ProjectList extends React.Component {
 }
 
 function mapStateToProps(state) {
+  console.log(state.projects.projectsList)
   return {
     projects: state.projects.projectsList,
     error: state.projects.createProjectError,

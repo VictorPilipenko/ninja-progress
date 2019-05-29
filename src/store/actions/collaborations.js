@@ -4,11 +4,7 @@ import axios from 'axios'
 import { API_URL } from '../../config'
 
 export function addCollaborator(tokenCollaborator) {
-
   const token = JSON.parse(localStorage.getItem('token'));
-
-  // console.log('token: ', token)
-  // console.log('tokenCollaborator: ', tokenCollaborator)
 
   const postData = {
     // 'password': password
@@ -22,7 +18,7 @@ export function addCollaborator(tokenCollaborator) {
   };
 
   return function (dispatch) {
-    axios.post(`${API_URL}/funnel_col_add`, postData, axiosConfig)
+    axios.post(`${API_URL}/collaborator`, postData, axiosConfig)
       .then(response => {
         dispatch({ type: 'ADD_COLLABORATOR_RESET' });
 
@@ -49,7 +45,7 @@ export function addCollaborator(tokenCollaborator) {
 
 export function getAllFunnelsCollaboration() {
   return function (dispatch) {
-    API.get(`funnels_col`)
+    API.get(`funnel`)
       .then(response => {
         dispatch({
           type: 'GET_ALL_FUNNELS_COLLABORATION',
@@ -72,7 +68,7 @@ export function getAllFunnelsCollaboration() {
 export function getAllCollaboratorsForFunnels(funnelsId) {
   console.log('funnelsId: ', funnelsId)
   return function (dispatch) {
-    API.post(`funnel_col_get`, {
+    API.post(`collaborators`, {
       'funnelsId': funnelsId
     })
 
