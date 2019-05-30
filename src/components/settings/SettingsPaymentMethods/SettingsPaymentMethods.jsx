@@ -17,27 +17,19 @@ class SettingsPaymentMethods extends Component {
               </label>
               <br />
               <input
-                autoComplete="off"
                 id='name'
-                className='input-payment-card-top'
                 placeholder="**** **** **** 3496"
                 type="text"
               />
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-
                 <input
-                  autoComplete="off"
                   id='name'
-                  className='input-payment-calendar'
                   placeholder="01 /2024"
                   type="text"
                   style={{ width: '200px' }}
                 />
-
                 <input
-                  autoComplete="off"
                   id='name'
-                  className='input-payment-card'
                   placeholder="***"
                   type="text"
                   style={{ width: '200px' }}
@@ -50,9 +42,9 @@ class SettingsPaymentMethods extends Component {
                 className='btn btn-1 generate-link-user-settings'
                 type="submit"
                 style={{
-                  border: '1px #848f99 solid',
+                  border: '1px black solid',
                   background: 'white',
-                  color: '#848f99'
+                  color: 'black'
                 }}
               >Remove</button>
             </div>

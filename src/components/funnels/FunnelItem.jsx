@@ -36,7 +36,7 @@ class FunnelItem extends React.Component {
   render() {
     const {
       _id,
-      // projectId,
+      projectId,
       funnelName,
       // funnelBody,
       // handleDelete,
@@ -45,19 +45,12 @@ class FunnelItem extends React.Component {
       <>
         <div className='project-wrapper'>
           <div className='project-image'>
-            {/* <NavLink
+            <NavLink
               className='view-funnels'
               to={'/diagram/' + _id}
             >
               Open
-            </NavLink> */}
-
-            <div
-              className='view-funnels'
-              // to={'/diagram/' + _id}
-            >
-              Open
-            </div>
+            </NavLink>
           </div>
 
           <div className='project'>

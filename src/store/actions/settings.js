@@ -9,15 +9,12 @@ import { API_URL } from '../../config'
 export function changeUserName(data) {
   const {
     name,
-    email,
   } = data;
 
-  console.log(data)
+  console.log(name)
   return function (dispatch) {
     API.patch(`myprofile`, {
       'firstName': name,
-      'password': '',
-      "email": email,
     })
       .then(response => {
         if (response.data) {
@@ -58,9 +55,8 @@ export function changeUserPassword(data) {
   console.log('newPassword: ', newPassword)
   return function (dispatch) {
     API.patch(`myprofile`, {
-      "firstName": "",
       'password': newPassword,
-      "email": "",
+      // 'newPassword': newPassword,
     })
       .then(response => {
         if (response.data) {

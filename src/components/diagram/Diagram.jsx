@@ -14,50 +14,56 @@ class Diagram extends React.Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log("nextProps", nextProps, "\nprevState", prevState)
+    // console.log("nextProps", nextProps, "\nprevState", prevState)
     if (nextProps.diagram)
-      if (nextProps.diagram.snackMsg !== prevState.snackMsg)
-
-        return {
-          // showSettings: nextProps.diagram.showSettings,
-          // showInfobox: nextProps.diagram.showInfobox,
-          // selected: nextProps.diagram.selected,
-          // selectedLine: nextProps.diagram.selectedLine,
-          // connecting: nextProps.diagram.connecting,
-          // inputColor: nextProps.diagram.inputColor,
-          // outputColor: nextProps.diagram.outputColor,
-          // lineWidth: nextProps.diagram.lineWidth,
-          points: nextProps.diagram.points,
-          snackMsg: 'default',
-          // theme: nextProps.diagram.theme,
-          // variant: nextProps.diagram.variant,
-          // lastPos: nextProps.diagram.lastPos,
-          // snackShow: nextProps.diagram.snackShow,
-          // snackMsg: nextProps.diagram.snackMsg,
-          // doFocus: nextProps.diagram.doFocus,
-        };
-      else
-        return null;
+      return {
+        // showSettings: nextProps.diagram.showSettings,
+        // showInfobox: nextProps.diagram.showInfobox,
+        // selected: nextProps.diagram.selected,
+        // selectedLine: nextProps.diagram.selectedLine,
+        // connecting: nextProps.diagram.connecting,
+        // inputColor: nextProps.diagram.inputColor,
+        // outputColor: nextProps.diagram.outputColor,
+        // lineWidth: nextProps.diagram.lineWidth,
+        points: nextProps.diagram.points,
+        // theme: nextProps.diagram.theme,
+        // variant: nextProps.diagram.variant,
+        // lastPos: nextProps.diagram.lastPos,
+        // snackShow: nextProps.diagram.snackShow,
+        // snackMsg: nextProps.diagram.snackMsg,
+        // doFocus: nextProps.diagram.doFocus,
+      };
     else
       return null;
   }
 
-  state = {
-    showSettings: true,
-    showInfobox: false,
-    selected: null,
-    selectedLine: null,
-    connecting: null,
-    inputColor: '#00fff2',
-    outputColor: '#0c00ff',
-    lineWidth: 4,
-    points: {},
-    theme: 'indigo',
-    variant: 'outlined',
-    lastPos: { x: 300, y: 50 },
-    snackShow: false,
-    snackMsg: 'instate',
-    doFocus: false,
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showSettings: true,
+      showInfobox: false,
+      selected: null,
+      selectedLine: null,
+      connecting: null,
+      inputColor: '#00fff2',
+      outputColor: '#0c00ff',
+      lineWidth: 4,
+      points: {},
+      theme: 'indigo',
+      variant: 'outlined',
+      lastPos: { x: 300, y: 50 },
+      snackShow: false,
+      snackMsg: '',
+      doFocus: false,
+    }
+
+    // Helper variables
+    this.diagramRef = null;
+    this.baseUrl = window.location.href.split('/?p=')[0]
+    if (this.baseUrl[this.baseUrl.length - 1] !== '/') this.baseUrl += '/'
+    this.count = Object.keys(this.state.points).length
+    this.currentQuery = ''
   }
 
   handleClick = (id, e) => {
@@ -161,9 +167,6 @@ class Diagram extends React.Component {
 
 
   render() {
-    this.diagramRef = null;
-    this.count = Object.keys(this.state.points).length
-    // console.log('this.count: ', this.count)
     return (
       <Layout title='Diagram'>
         <div className='projects-wrapper'>
@@ -187,60 +190,35 @@ class Diagram extends React.Component {
                   console.error('oops, something went wrong!', error);
                 });
             }}>
+
             Export PNG
           </button>
+
           <p>hold SHIFT and click left mouse to connect</p>
           {
             this.state.selected !== null && this.state.selected in this.state.points
               ? <div style={{ marginTop: 10, zIndex: 100 }}>
                 <div style={{ paddingTop: 0, paddingBottom: 15 }}>
 
-                  <textarea
-                    id="msgfield"
-                    autoComplete="off"
-                    value={this.state.points[this.state.selected].msg}
-                    onChange={(e) => {
-                      var points = this.state.points
-                      var point = points[this.state.selected]
-                      point.msg = e.target.value
-                      this.setState({ points: points })
-                    }}
-                    style={{ width: '100%' }}
-                    margin="normal"
-                  />
-
-                  <button
-                    onClick={() => {
-                      let selected = this.state.selected
-                      let points = {}
-
-                      Object.keys(this.state.points).forEach(testkey => {
-                        console.log(testkey, selected)
-                        if (testkey !== selected) {
-                          points[testkey] = this.state.points[testkey]
-                        }
-                      })
-
-                      if (Object.keys(points).length === 0) {
-                        this.count = 0
-                      }
-
-                      this.setState({ snackMsg: 'default' })
-
-                      this.setState(prevState => {
-                        if (prevState.snackMsg === 'default')
-                          console.log('prevState.points: ', prevState.points)
-                        console.log('points: ', points)
-                        return {
-                          points: points,
-                          selected: null,
-                        };
-                      }, () => console.log('this.state.points: ', this.state.points));
-
-                      // this.setState({ points }, () => console.log(this.state.points))
-                    }}>
-                    Delete
-                  </button>
+                  <form onSubmit={(e) => { e.preventDefault() }}>
+                    <textarea
+                      id="msgfield"
+                      label="Message"
+                      autoComplete="off"
+                      inputRef={(input) => { if (this.doFocus && input) input.focus() }}
+                      value={this.state.points[this.state.selected].msg}
+                      onChange={(e) => {
+                        var points = this.state.points
+                        var point = points[this.state.selected]
+                        point.msg = e.target.value
+                        this.setState({ points: points })
+                      }}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      style={{ width: '100%' }}
+                      margin="normal" />
+                  </form>
 
                 </div>
               </div> : null
@@ -273,9 +251,7 @@ class Diagram extends React.Component {
                       var points = this.state.points;
                       points[key].pos = pos;
                       this.setState({ points, lastPos: pos })
-                    }}
-                  // onHover={(isHovering) => { console.log(isHovering ? 'Hovering' : 'Not hovering') }}
-                  >
+                    }}>
                     <div style={{ display: 'table', width: '100%', height: '100%' }}>
                       <div style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', paddingLeft: 2, paddingRight: 2, whiteSpace: 'pre' }}>
                         {

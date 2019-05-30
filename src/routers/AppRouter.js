@@ -13,6 +13,7 @@ import PasswordForgot3 from '../components/auth/PasswordForgot3.jsx';
 import AddCollaborators from '../components/projects/AddCollaborators.jsx';
 import Collaborations from '../components/collaborations/Collaborations.jsx';
 import SettingsAccountDetails from '../components/settings/SettingsAccountDetails/SettingsAccountDetails.jsx';
+import SettingsMySubscriptions from '../components/settings/SettingsMySubscriptions/SettingsMySubscriptions.jsx';
 import SettingsPaymentMethods from '../components/settings/SettingsPaymentMethods/SettingsPaymentMethods.jsx';
 import SettingsUsers from '../components/settings/SettingsUsers/SettingsUsers.jsx';
 import Diagram from '../components/diagram/Diagram.jsx';
@@ -36,6 +37,7 @@ const AppRouter = () => (
     <PrivateRoute path='/diagram/:funnelId' component={Diagram} />
 
     <PrivateRoute exact={true} path="/settings" component={SettingsAccountDetails} />
+    <PrivateRoute path="/settings/my-subscriptions" component={SettingsMySubscriptions} />
     <PrivateRoute path="/settings/payment-methods" component={SettingsPaymentMethods} />
     <PrivateRoute path="/settings/users" component={SettingsUsers} />
   </>

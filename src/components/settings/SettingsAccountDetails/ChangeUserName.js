@@ -40,22 +40,6 @@ class ChangeUserName extends React.Component {
             {errors.name && touched.name && (
               <div className={`input-group ${errors.name && touched.name ? 'has-error' : ''}`}>{errors.name}</div>
             )}
-
-            <label htmlFor="email" className='label' style={{ height: '24px' }}>
-              Email address
-            </label>
-            <input
-              id="email"
-              placeholder="Email Address"
-              type="text"
-              value={values.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-
-            {errors.email && touched.email && (
-              <div className={`input-group ${errors.email && touched.email ? 'has-error' : ''}`}>{errors.email}</div>
-            )}
             {this.props.changeUserNameMessage && this.props.changeUserNameMessage.length > 0 && (
               <div className={`input-group`}>{this.props.changeUserNameMessage}</div>
             )}
@@ -82,12 +66,11 @@ const formikEnhancer = withFormik({
   validationSchema: Yup.object().shape({
     name: Yup.string()
       .min(2, 'Minimum 2 letters')
-      .max(25, 'Maximum 25 letters'),
-    email: Yup.string().email('Invalid email address')
+      .max(25, 'Maximum 25 letters')
+      .required('Name is required.')
   }),
   mapPropsToValues: () => ({
     name: Cookies.get("userFirstName"),
-    email: '',
   }),
   handleSubmit: (payload, { props, setSubmitting }) => {
     props.changeUserName(payload);

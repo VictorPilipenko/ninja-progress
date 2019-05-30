@@ -2,18 +2,17 @@ import React from "react";
 import "./MenuSettingsItem.css";
 import { NavLink } from "react-router-dom";
 
-const MenuSettingsItem = ({ to, name, exact, sub, icon, children }) => (
-  <div style={{display: 'flex', justifyContent: 'space-between'}}>
+const MenuSettingsItem = ({ to, name, exact, sub, children }) => (
+  <React.Fragment>
     <NavLink
       exact={exact}
       className={["menu-settings-item", sub && sub].join(" ")}
       activeClassName="menu-settings-item-active"
       to={to}>
       {name}
-      {icon}
     </NavLink>
     {children}
-  </div>
+  </React.Fragment>
 );
 
 MenuSettingsItem.defaultProps = {

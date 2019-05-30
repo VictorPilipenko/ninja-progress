@@ -121,7 +121,7 @@ class ProjectItem extends React.Component {
       // handleDelete,
     } = this.props;
 
-    console.log('funnelsLength: ', funnelsLength)
+    console.log('funnelsLength: ',funnelsLength)
 
     return (
       <>
@@ -202,59 +202,51 @@ class ProjectItem extends React.Component {
               </select>
             </div>
 
-            {
+            <label className='label-input' style={{ marginLeft: '15px' }}>
+              Collaborators:
+            </label>
+            <div className='funnels-collaborators'>
+              {
+                this.props.collaborators && this.props.collaborators.length > 0 ? this.props.collaborators.map((item, key) => (
+                  <React.Fragment key={key}>
 
-              this.props.collaborators && this.props.collaborators.length > 0
-                ?
-                <>
-                  <label className='label-input' style={{ marginLeft: '15px' }}>
-                    Collaborators:
-                  </label>
-                  <div className='funnels-collaborators'>
-                    {
-                      this.props.collaborators.map((item, key) => (
-                        <React.Fragment key={key}>
+                    {/* {console.log(item)} */}
 
-                          {/* {console.log(item)} */}
+                    {item.myCollaborations.map((collaborator, key) =>
+                      <div key={key} className='funnels-collaborators-item'>
 
-                          {item.myCollaborations.map((collaborator, key) =>
-                            <div key={key} className='funnels-collaborators-item'>
+                        {item.photoUrl === '' ? <div className="empty-collaborator-photo" ></div> : <img className="collaborator-photo" src={API_URL + item.photoUrl} alt='Avatar' />}
 
-                              {item.photoUrl === '' ? <div className="empty-collaborator-photo" >{item.firstName[0] && item.firstName[0].toUpperCase()}</div> : <img className="collaborator-photo" src={API_URL + item.photoUrl} alt='Avatar' />}
-
-                              <p className='collaborators-in-modal'>{item.firstName}</p>
-                              <p className='collaborators-in-modal'>{collaborator.funnel.funnelName}</p>
-                              <p className='collaborators-in-modal'>{collaborator.permissions}</p>
+                        <p className='collaborators-in-modal'>{item.firstName}</p>
+                        <p className='collaborators-in-modal'>{collaborator.funnel.funnelName}</p>
+                        <p className='collaborators-in-modal'>{collaborator.permissions}</p>
 
 
-                              <button
-                                className='button-change-permission'
-                                onClick={() => this.changePermission(collaborator.funnelId, item._id, collaborator.permissions)}
-                              >
-                                Change Permission
+                        <button
+                          className='button-change-permission'
+                          onClick={() => this.changePermission(collaborator.funnelId, item._id, collaborator.permissions)}
+                        >
+                          Change Permission
                         </button>
-                              <button
-                                className='button-remove-collaborator'
-                                onClick={() => this.removeCollaborator(collaborator.funnelId, item._id)}
-                              >
-                                Remove
+                        <button
+                          className='button-remove-collaborator'
+                          onClick={() => this.removeCollaborator(collaborator.funnelId, item._id)}
+                        >
+                          Remove
                         </button>
 
-                            </div>
-                          )}
+                      </div>
+                    )}
 
-                        </React.Fragment>
-                      ))
-
-                    }
-                  </div>
-                </>
-                :
-                null
-            }
+                  </React.Fragment>
+                ))
+                  :
+                  <p className='label-input' style={{ marginLeft: '15px' }}>No collaborators</p>
+              }
+            </div>
 
             {this.props.collaboratorsModalMessage && this.props.collaboratorsModalMessage.length > 0 && (
-              <div className={`input-group`} style={{marginTop: '10px', margin: 'auto', display: 'flex'}}>{this.props.collaboratorsModalMessage}</div>
+              <div className={`input-group`}>{this.props.collaboratorsModalMessage}</div>
             )}
             {
               this.props.link && this.props.link.length > 0 ?

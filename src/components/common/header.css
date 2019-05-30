@@ -207,7 +207,7 @@ header label {
   position: absolute;
   top: 67px;
   right: 15px;
-  width: 250px;
+  width: 150px;
   z-index: 1;
   border-radius: 5px;
   box-shadow: 0 0 28px rgba(0,0,0,0.1);

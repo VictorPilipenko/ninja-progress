@@ -49,19 +49,19 @@ class SettingsUsers extends Component {
             <div className='setting-input-wrapper'>
               <div className='funnels-collaborators' style={{ maxHeight: '180px' }}>
                 <div className='funnels-collaborators-item'>
-                  <div className="empty-collaborator-photo" >V</div>
+                  <div className="empty-collaborator-photo" ></div>
                   <p style={{ width: '212px' }} className='collaborators-in-modal'>Vladyslav Huntyk</p>
                   <button className='button-change-permission'>Change Permission</button>
                   <button className='button-remove-collaborator'>Remove</button>
                 </div>
                 <div className='funnels-collaborators-item'>
-                  <div className="empty-collaborator-photo" >N</div>
+                  <div className="empty-collaborator-photo" ></div>
                   <p style={{ width: '212px' }} className='collaborators-in-modal'>Nataliya Nerubenko</p>
                   <button className='button-change-permission'>Change Permission</button>
                   <button className='button-remove-collaborator'>Remove</button>
                 </div>
                 <div className='funnels-collaborators-item'>
-                  <div className="empty-collaborator-photo" >D</div>
+                  <div className="empty-collaborator-photo" ></div>
                   <p style={{ width: '212px' }} className='collaborators-in-modal'>Dmitro Sparta</p>
                   <button className='button-change-permission'>Change Permission</button>
                   <button className='button-remove-collaborator'>Remove</button>
