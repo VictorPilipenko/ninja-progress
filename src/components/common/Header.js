@@ -182,7 +182,7 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
 
-//modalka, fuck yeah
+//fuck yeah
 const Select = ({ show, children }) => {
   const showHideClassName = show ? "header-select header-display-block" : "header-select header-display-none";
 
