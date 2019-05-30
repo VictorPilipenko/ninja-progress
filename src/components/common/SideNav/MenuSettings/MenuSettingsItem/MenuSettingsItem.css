@@ -1,7 +1,9 @@
 .menu-settings-item {
 	padding: 10px 20px;
 	box-sizing: border-box;
-	display: block;
+	display: flex;
+  justify-content: space-between;
+  align-items: center;
 	width: 100%;
 	color: #9ca6af;
 	margin: 6px 0;
@@ -14,7 +16,8 @@
 }
 
 .menu-settings-item.menu-settings-item-active {
-	background: linear-gradient(84deg, #E62D24, #FD8F21);
+	/* background: linear-gradient(84deg, #E62D24, #FD8F21); */
+  background: #3b4049;
 }
 
 .menu-settings-item.sub {

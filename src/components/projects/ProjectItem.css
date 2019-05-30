@@ -198,20 +198,22 @@
   width: 41px;
   align-self: center;
   /* padding: 5px; */
-  /* white-space: pre; */
-  overflow: auto;
+  white-space: pre;
   margin: 0px 4px 0px 4px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .empty-collaborator-photo{
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  font-size: 11px;
+  font-size: 21px;
   text-align: center;
   background-color: #c1c7cc;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .collaborator-photo{

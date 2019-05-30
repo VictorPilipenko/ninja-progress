@@ -19,3 +19,32 @@
   font-family: "Roboto";
   font-weight: 300;
 }
+
+.input-payment-card-top{
+  background: left 55% / 13% 52% no-repeat url(/static/media/credit-card-top.bd6f7be4.svg);
+  padding-left: 59px !important;
+  width: 87% !important;
+  z-index: 22;
+}
+
+.input-payment-calendar{
+  background: left 50% / 28% 55% no-repeat url(/static/media/calendar.ac9498b4.svg);
+  padding-left: 59px !important;
+  width: 37% !important;
+  z-index: 22;
+}
+
+.input-payment-card{
+  background: left 57% / 28% 52% no-repeat url(/static/media/credit-card.bbab6cec.svg);
+  padding-left: 61px !important;
+  width: 35% !important;
+  z-index: 22;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  background-image: initial;
+  background-color: inherit;
+}
