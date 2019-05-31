@@ -10,6 +10,7 @@ import { ReactComponent as CreateProjectSVG } from '../../assets/new_project.svg
 
 class ProjectList extends React.Component {
   componentDidMount() {
+    console.log('componentDidMount getAllProject')
     this.props.getAllProjects();
   }
 
@@ -49,14 +50,12 @@ class ProjectList extends React.Component {
                   key={index}
                   _id={project._id}
                   projectName={project.projectName}
-                  funnels={project.projectFunnels}
                   funnelsLength={project.projectFunnels && project.projectFunnels.length}
                 />
               ))
               :
               <div className='create-funnels' style={{display: 'flex'}}>
                 <CreateProjectSVG />
-
                 <div style={{ alignSelf: 'center', width: 'max-content' }}>
                   <p style={{ fontSize: '25px', marginBottom: '-15px' }}>Create your first project</p>
                   <br />

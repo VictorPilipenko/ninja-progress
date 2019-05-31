@@ -21,6 +21,7 @@ export function getAllProjects() {
   return function (dispatch) {
     API.get(`projects`)
       .then(response => {
+        dispatch({ type: 'RESET_ALL_PROJECTS' });
         console.log('getAllProjects: ', response.data)
         dispatch({
           type: GET_ALL_PROJECTS,
@@ -149,34 +150,6 @@ export function getAllFunnels(projectId) {
   }
 }
 
-export function getDiagram(funnelId) {
-  return function (dispatch) {
-    API.get(`funnel/diagram/${funnelId}`)
-      .then(response => {
-        let res = response.data.data.funnelBody;
-        console.log(response.data.data.funnelBody)
-        dispatch({
-          type: 'GET_DIAGRAM',
-          payload: {
-            funnelId,
-            res,
-          }
-        });
-        dispatch({ type: 'GET_DIAGRAM_SUCCESS' });
-      })
-      .catch(function (error) {
-        if (error.response) {
-          console.log(error.response)
-          dispatch({
-            type: 'GET_DIAGRAM_FAILURE',
-            payload: error.response.data.error
-          });
-        }
-      });
-  }
-}
-
-
 export function deleteFunnel(project_id, funnel_id) {
   return function (dispatch) {
     API.delete(`funnel/${project_id}/${funnel_id}`)
@@ -243,18 +216,53 @@ export function saveDiagram(funnelId, diagramObj) {
     })
       .then(response => {
         console.log(response.data)
-        let diagramObj = response.data.data.funnelBody
-        dispatch({
-          type: 'SAVE_DIAGRAM',
-          payload: { funnelId, diagramObj }
+        // let diagramObj = response.data.data.funnelBody
+        // dispatch({
+        //   type: 'SAVE_DIAGRAM',
+        //   payload: { funnelId, diagramObj }
+        // });
+        dispatch({ 
+          type: 'SAVE_DIAGRAM_SUCCESS',
+          payload: response.data.message
         });
-        dispatch({ type: 'SAVE_DIAGRAM_SUCCESS' });
       })
       .catch(function (error) {
         if (error.response) {
           console.log(error.response)
           dispatch({
             type: 'CREATE_DIAGRAM_FAILURE',
+            payload: error.response.data.error
+          });
+        }
+      });
+  }
+}
+
+
+export function getDiagram(funnelId) {
+  return function (dispatch) {
+    API.get(`funnel/diagram/${funnelId}`)
+      .then(response => {
+        dispatch({ 
+          type: 'RESET_GET_DIAGRAM',
+          payload: funnelId
+        });
+        let res = response.data.data.funnelBody;
+        // console.log(response.data.data.funnelBody)
+        dispatch({
+          type: 'GET_DIAGRAM',
+          payload: {
+            funnelId,
+            res,
+          }
+        });
+        dispatch({ type: 'GET_DIAGRAM_SUCCESS' });
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: 'GET_DIAGRAM_FAILURE',
             payload: error.response.data.error
           });
         }

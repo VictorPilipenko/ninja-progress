@@ -145,14 +145,25 @@ class Header extends Component {
         >
           <Select show={this.state.showSignOut}>
             <p style={{
-              fontSize: '13px', textAlign: 'left',
-              marginLeft: 11
-            }} className='header-select-label'>You are currently on a free subscription!<br /><span style={{color: '#fd8f21'}}>Upgrade</span></p>
-
-            <p className='text-settings-payment' style={{ display: 'flex', marginLeft: 15, marginBottom: 10 }}><span style={{ color: '#fd8f21', marginRight: 8 }}>✓</span>Funnelsmap UI/UX design</p>
+              fontSize: '13px',
+              textAlign: 'left',
+              paddingLeft: '11px',
+              background: '#f6f8f9',
+              margin: '0',
+              paddingTop: '20px',
+              paddingBottom: '20px',
+            }}
+              className='header-select-label'>You are currently on a free subscription!<br /><span style={{ color: '#fd8f21' }}>Upgrade</span></p>
+            <p className='text-settings-payment' style={{
+              display: 'flex',
+              paddingLeft: '15px',
+              marginBottom: '10px',
+              borderTop: '1px solid rgb(220, 229, 236)',
+              paddingTop: '15px',
+            }}
+            ><span style={{ color: '#fd8f21', marginRight: 8 }}>✓</span>Funnelsmap UI/UX design</p>
             <p className='text-settings-payment' style={{ display: 'flex', marginLeft: 15 }}><li style={{ color: '#ea4e9d' }}></li>MOSKALOW</p>
             <p className='text-settings-payment' style={{ display: 'flex', marginLeft: 15, marginBottom: 25, marginTop: 10 }}><li style={{ color: '#4186e0' }}></li>TRIOLUX</p>
-
 
             <button className='btn-select btn-select-delete' onClick={() => this.props.signOutUser()}>Log Out</button>
           </Select>

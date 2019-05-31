@@ -27,6 +27,10 @@ export function changeUserName(data) {
             type: "SETTINGS_MESSAGE_NAME_SUCCESS",
             payload: response.data.message
           });
+
+          setTimeout(() => {
+             dispatch({ type: 'SETTINGS_MESSAGE_NAME_RESET' });
+          }, 2000)
         }
       })
       .catch(function (error) {
@@ -69,6 +73,10 @@ export function changeUserPassword(data) {
             payload: response.data.message
           });
           // Cookies.set("userFirstName", response.data.firstName);
+
+          setTimeout(() => {
+             dispatch({ type: 'SETTINGS_MESSAGE_PASSWORD_RESET' });
+          }, 2000)
         }
       })
       .catch(function (error) {
@@ -114,6 +122,10 @@ export function changeUserAvatar(avatar) {
             payload: response.data.message
           });
           Cookies.set("userAvatar", API_URL + response.data.data.photoUrl);
+
+          setTimeout(() => {
+             dispatch({ type: 'SETTINGS_MESSAGE_AVATAR_RESET' });
+          }, 2000)
         }
       })
       .catch(function (error) {

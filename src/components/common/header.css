@@ -214,6 +214,7 @@ header label {
   background-color: #ffffff;
   border: 1px solid #dce5ec;
   position: fixed;
+  z-index: 1000;
 }
 
 .header-display-block {

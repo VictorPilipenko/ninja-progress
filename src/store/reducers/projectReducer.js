@@ -28,11 +28,13 @@ const initialState = {
 }
 
 export default function (state = initialState, action) {
-  // console.log(action.payload)
+  console.log(action.payload)
   switch (action.type) {
     ///////////////////////////////////////////////////////////////////////////
+    case 'RESET_ALL_PROJECTS':
+      return { ...state, projectsList: [] };
     case GET_ALL_PROJECTS:
-      return { projectsList: action.payload, ...state };
+      return { ...state, projectsList: action.payload };
     case GET_ALL_PROJECTS_SUCCESS:
       return { ...state, getAllProjectsError: '' };
     case GET_ALL_PROJECTS_FAILURE:
@@ -97,24 +99,26 @@ export default function (state = initialState, action) {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    case 'SAVE_DIAGRAM':
-      return { ...state, [`diagram${action.payload.projectId}${action.payload.funnelId}`]: action.payload.diagramObj };
+    // case 'SAVE_DIAGRAM':
+    //   return { ...state, [`diagram${action.payload.funnelId}`]: action.payload.diagramObj };
     case 'SAVE_DIAGRAM_SUCCESS':
-      return { ...state, createDiagramError: '' };
+      return { ...state, saveDiagramMessage: action.payload };
     case 'SAVE_DIAGRAM_FAILURE':
-      return { ...state, createDiagramError: action.payload };
+      return { ...state, saveDiagramMessage: action.payload };
     ///////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////////////////////////////////////////////
+    case 'RESET_GET_DIAGRAM':
+      return { ...state, [`diagram${action.payload.funnelId}`]: {} }
     case 'GET_DIAGRAM':
       return { ...state, [`diagram${action.payload.funnelId}`]: action.payload.res };
     case 'GET_DIAGRAM_SUCCESS':
       return { ...state, getDiagramError: '' };
     case 'GET_DIAGRAM_FAILURE':
       return { ...state, getDiagramError: action.payload };
-      ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
 
-      
+
 
 
     ///////////////////////////////////////////////////////////////////////////

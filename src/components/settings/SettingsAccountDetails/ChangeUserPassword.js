@@ -129,9 +129,9 @@ const formikEnhancer = withFormik({
   handleSubmit: (payload, { props, setSubmitting }) => {
     props.changeUserPassword(payload);
 
-    setTimeout(() => {
-      props.resetSettingsMessagePassword()
-    }, 2000)
+    // setTimeout(() => {
+    //   props.resetSettingsMessagePassword()
+    // }, 2000)
 
     setSubmitting(false);
   },

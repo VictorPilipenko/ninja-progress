@@ -92,9 +92,9 @@ const formikEnhancer = withFormik({
   handleSubmit: (payload, { props, setSubmitting }) => {
     props.changeUserName(payload);
 
-    setTimeout(() => {
-      props.resetSettingsMessageName()
-    }, 2000)
+    // setTimeout(() => {
+    //   props.resetSettingsMessageName()
+    // }, 2000)
 
     setSubmitting(false);
   },

@@ -45,19 +45,19 @@ class FunnelItem extends React.Component {
       <>
         <div className='project-wrapper'>
           <div className='project-image'>
-            {/* <NavLink
+            <NavLink
               className='view-funnels'
               to={'/diagram/' + _id}
             >
               Open
-            </NavLink> */}
-
-            <div
+            </NavLink>
+ 
+            {/* <div
               className='view-funnels'
               // to={'/diagram/' + _id}
             >
               Open
-            </div>
+            </div>  */}
           </div>
 
           <div className='project'>

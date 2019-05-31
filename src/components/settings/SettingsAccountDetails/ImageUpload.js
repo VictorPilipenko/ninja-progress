@@ -34,9 +34,9 @@ class ImageUpload extends React.Component {
       console.log(error)
     }
 
-    setTimeout(() => {
-      this.props.resetSettingsMessageAvatar()
-    }, 2000)
+    // setTimeout(() => {
+    //   this.props.resetSettingsMessageAvatar()
+    // }, 2000)
   }
 
   render() {

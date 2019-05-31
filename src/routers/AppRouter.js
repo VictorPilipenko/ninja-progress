@@ -15,7 +15,7 @@ import Collaborations from '../components/collaborations/Collaborations.jsx';
 import SettingsAccountDetails from '../components/settings/SettingsAccountDetails/SettingsAccountDetails.jsx';
 import SettingsPaymentMethods from '../components/settings/SettingsPaymentMethods/SettingsPaymentMethods.jsx';
 import SettingsUsers from '../components/settings/SettingsUsers/SettingsUsers.jsx';
-import Diagram from '../components/diagram/Diagram.jsx';
+import Diagram from '../components/diagram/storm';
 
 const AppRouter = () => (
   <>

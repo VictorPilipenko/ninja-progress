@@ -1,0 +1,51 @@
+.body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+.body .header {
+  display: flex;
+  background: #1e1e1e;
+  flex-grow: 0;
+  flex-shrink: 0;
+  color: white;
+  font-family: Helvetica, Arial;
+  padding: 10px;
+}
+.body .header > * {
+  align-self: center;
+}
+.body .content {
+  display: flex;
+  flex-grow: 1;
+}
+.body .content .diagram-layer {
+  position: relative;
+  flex-grow: 1;
+  display: flex;
+  cursor: move;
+  overflow: hidden;
+  height: 100vh ;
+  background-color: #3c3c3c;
+}
+.body .content .tray {
+  min-width: 200px;
+  background: #141414;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+.body .content .tray .tray-item {
+  color: white;
+  font-family: Helvetica, Arial;
+  padding: 5px;
+  margin: 0px 10px;
+  border: solid 1px;
+  border-radius: 5px;
+  margin-bottom: 2px;
+  cursor: pointer;
+}
+
+.srd-default-node{
+  width: 200px !important;
+}

@@ -13,8 +13,18 @@ class Diagram extends React.Component {
     this.props.getDiagram(this.props.funnelId);
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.diagram) {
+      console.log('componentDidUpdate prevProps.diagram.snackMsg: ', prevProps.diagram.snackMsg)
+      console.log('componentDidUpdate this.state.snackMsg: ', this.state.snackMsg)
+      if (prevProps.diagram.snackMsg !== this.state.snackMsg) {
+        this.props.getDiagram(this.props.funnelId);
+      }
+    }
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log("nextProps", nextProps, "\nprevState", prevState)
+    console.log("getDerivedStateFromProps nextProps: ", nextProps.diagram && nextProps.diagram.snackMsg, "\ngetDerivedStateFromProps prevState: ", prevState.snackMsg)
     if (nextProps.diagram)
       if (nextProps.diagram.snackMsg !== prevState.snackMsg)
 
@@ -28,7 +38,7 @@ class Diagram extends React.Component {
           // outputColor: nextProps.diagram.outputColor,
           // lineWidth: nextProps.diagram.lineWidth,
           points: nextProps.diagram.points,
-          snackMsg: 'default',
+          snackMsg: 'next',
           // theme: nextProps.diagram.theme,
           // variant: nextProps.diagram.variant,
           // lastPos: nextProps.diagram.lastPos,
@@ -43,8 +53,8 @@ class Diagram extends React.Component {
   }
 
   state = {
-    showSettings: true,
-    showInfobox: false,
+    // showSettings: true,
+    // showInfobox: false,
     selected: null,
     selectedLine: null,
     connecting: null,
@@ -56,8 +66,9 @@ class Diagram extends React.Component {
     variant: 'outlined',
     lastPos: { x: 300, y: 50 },
     snackShow: false,
-    snackMsg: 'instate',
     doFocus: false,
+
+    snackMsg: 'prev',
   }
 
   handleClick = (id, e) => {
@@ -71,6 +82,7 @@ class Diagram extends React.Component {
         } else {
           if (selected !== id) {
             var p1 = points[selected]
+            console.log(p1.outputs)
             if (id in p1.outputs) {
               delete p1.outputs[id]
             } else {
@@ -92,33 +104,33 @@ class Diagram extends React.Component {
     }
   }
 
-  handleTouch = (id, e) => {
-    try {
-      this.doFocus = false;
-      var selected = this.state.selected
-      var points = this.state.points
-      if (selected === null) {
-        selected = id
-      } else {
-        if (selected !== id) {
-          var p1 = points[selected]
-          if (id in p1.outputs) {
-            delete p1.outputs[id]
-          } else {
-            p1.outputs[id] = {
-              output: 'auto',
-              input: 'auto',
-              // dash: 10
-            }
-          }
-        }
-      }
-      this.setState({ selected, points })
-    }
-    catch (error) {
-      console.log(error)
-    }
-  }
+  // handleTouch = (id, e) => {
+  //   try {
+  //     this.doFocus = false;
+  //     var selected = this.state.selected
+  //     var points = this.state.points
+  //     if (selected === null) {
+  //       selected = id
+  //     } else {
+  //       if (selected !== id) {
+  //         var p1 = points[selected]
+  //         if (id in p1.outputs) {
+  //           delete p1.outputs[id]
+  //         } else {
+  //           p1.outputs[id] = {
+  //             output: 'auto',
+  //             input: 'auto',
+  //             // dash: 10
+  //           }
+  //         }
+  //       }
+  //     }
+  //     this.setState({ selected, points })
+  //   }
+  //   catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   handleAddPoint1() {
     var newpoint = {
@@ -130,7 +142,7 @@ class Diagram extends React.Component {
     var points = this.state.points
     points['' + this.count] = newpoint
     this.count += 1
-    this.setState({ points, selected: '' + (this.count), lastPos: { x: this.state.lastPos.x, y: this.state.lastPos.y + 100 } })
+    this.setState({ points, selected: '' + (this.count), lastPos: { x: this.state.lastPos.x, y: this.state.lastPos.y + 100 } }, () => console.log(this.state))
   }
 
   handleAddPoint2() {
@@ -159,6 +171,14 @@ class Diagram extends React.Component {
     this.setState({ points, selected: '' + (this.count), lastPos: { x: this.state.lastPos.x, y: this.state.lastPos.y + 100 } })
   }
 
+  saveDiagramHandle = () => {
+    this.setState({ snackMsg: 'next' },
+      () => (
+        this.props.saveDiagram(this.props.funnelId, this.state)
+      )
+    )
+  }
+
 
   render() {
     this.diagramRef = null;
@@ -166,12 +186,12 @@ class Diagram extends React.Component {
     // console.log('this.count: ', this.count)
     return (
       <Layout title='Diagram'>
-        <div className='projects-wrapper'>
+        <div className='diagram-wrapper'>
           <button onClick={() => { this.handleAddPoint1() }}>Add Point 1</button>
           <button onClick={() => { this.handleAddPoint2() }}>Add Point 2</button>
           <button onClick={() => { this.handleAddPoint3() }}>Add Point 3</button>
           <button onClick={() => console.log(this.state)}>show state</button>
-          <button onClick={() => this.props.saveDiagram(this.props.funnelId, this.state)}>Save Diagram</button>
+          <button onClick={(e) => this.saveDiagramHandle(e)}>Save Diagram</button>
           <button
             onClick={(e) => {
               domtoimage.toPng(this.diagramRef)
@@ -211,33 +231,53 @@ class Diagram extends React.Component {
 
                   <button
                     onClick={() => {
-                      let selected = this.state.selected
-                      let points = {}
+                      var selected = this.state.selected
+                      var points = {}
+
+                      console.log('this.state.selected: ', this.state.selected)
+                      console.log('this.state.points: ', this.state.points)
 
                       Object.keys(this.state.points).forEach(testkey => {
-                        console.log(testkey, selected)
+                        // console.log(testkey, selected)
                         if (testkey !== selected) {
                           points[testkey] = this.state.points[testkey]
                         }
                       })
 
+                      console.log('points: ', points)
+
+
+
                       if (Object.keys(points).length === 0) {
-                        this.count = 0
+                        // this.count = 0
                       }
 
-                      this.setState({ snackMsg: 'default' })
+                      // this.setState({ points: points }, () => console.log(this.state.points))
 
-                      this.setState(prevState => {
-                        if (prevState.snackMsg === 'default')
-                          console.log('prevState.points: ', prevState.points)
-                        console.log('points: ', points)
-                        return {
-                          points: points,
-                          selected: null,
-                        };
-                      }, () => console.log('this.state.points: ', this.state.points));
 
-                      // this.setState({ points }, () => console.log(this.state.points))
+                      Object.keys(points).forEach(id => {
+                        if (id === selected) {
+
+                          var p1 = points[selected]
+                          console.log(p1)
+                        }
+
+                        // console.log('pi: ', p1)
+
+                        // console.log(points && points.outputs)
+                        // if (id in p1.outputs) {
+                        // delete p1.outputs[id]
+                        // } else {
+                        // p1.outputs[id] = {
+                        //   output: 'auto',
+                        //   input: 'auto',
+                        // }
+                        // }
+                        // }
+                      })
+
+
+                      // this.setState({ selected, points })
                     }}>
                     Delete
                   </button>
@@ -306,7 +346,6 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = dispatch => {
   return {
-    // getDiagram: (projectId, funnelId, obj) => dispatch(getDiagram(projectId, funnelId, obj)),
     saveDiagram: (funnelId, obj) => dispatch(saveDiagram(funnelId, obj)),
     getDiagram: id => dispatch(getDiagram(id)),
   }

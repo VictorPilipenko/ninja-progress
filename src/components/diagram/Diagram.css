@@ -1,3 +1,10 @@
 .flowspace{
   width: calc(100vw - 255px) !important;
 }
+
+.diagram-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 70px;
+}
