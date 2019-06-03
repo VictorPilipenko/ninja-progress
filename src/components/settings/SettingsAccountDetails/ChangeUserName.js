@@ -2,7 +2,7 @@ import React from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
-import { changeUserName, resetSettingsMessageName } from '../../../store/actions/settings'
+import { changeUserName } from '../../../store/actions/settings'
 import Cookies from "js-cookie";
 
 class ChangeUserName extends React.Component {
@@ -91,11 +91,6 @@ const formikEnhancer = withFormik({
   }),
   handleSubmit: (payload, { props, setSubmitting }) => {
     props.changeUserName(payload);
-
-    // setTimeout(() => {
-    //   props.resetSettingsMessageName()
-    // }, 2000)
-
     setSubmitting(false);
   },
   displayName: 'ChangeUserName',
@@ -109,8 +104,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeUserName: name => dispatch(changeUserName(name)),
-    resetSettingsMessageName: () => dispatch(resetSettingsMessageName()),
+    changeUserName: name => dispatch(changeUserName(name))
   }
 }
 

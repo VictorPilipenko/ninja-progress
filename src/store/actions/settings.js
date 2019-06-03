@@ -5,7 +5,6 @@ import axios from 'axios'
 import { API_URL } from '../../config'
 
 
-
 export function changeUserName(data) {
   const {
     name,
@@ -42,12 +41,6 @@ export function changeUserName(data) {
           });
         }
       });
-  }
-}
-
-export function resetSettingsMessageName() {
-  return function (dispatch) {
-    dispatch({ type: 'SETTINGS_MESSAGE_NAME_RESET' });
   }
 }
 
@@ -91,12 +84,6 @@ export function changeUserPassword(data) {
   }
 }
 
-export function resetSettingsMessagePassword() {
-  return function (dispatch) {
-    dispatch({ type: 'SETTINGS_MESSAGE_PASSWORD_RESET' });
-  }
-}
-
 
 export function changeUserAvatar(avatar) {
   const token = JSON.parse(localStorage.getItem('token'));
@@ -137,11 +124,5 @@ export function changeUserAvatar(avatar) {
           });
         }
       });
-  }
-}
-
-export function resetSettingsMessageAvatar() {
-  return function (dispatch) {
-    dispatch({ type: 'SETTINGS_MESSAGE_AVATAR_RESET' });
   }
 }

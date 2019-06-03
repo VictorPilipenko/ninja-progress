@@ -2,8 +2,7 @@ import React from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
-import { changeUserPassword, resetSettingsMessagePassword } from '../../../store/actions/settings'
-// import Cookies from "js-cookie";
+import { changeUserPassword } from '../../../store/actions/settings'
 
 class ChangeUserPassword extends React.Component {
   render() {
@@ -128,11 +127,6 @@ const formikEnhancer = withFormik({
   }),
   handleSubmit: (payload, { props, setSubmitting }) => {
     props.changeUserPassword(payload);
-
-    // setTimeout(() => {
-    //   props.resetSettingsMessagePassword()
-    // }, 2000)
-
     setSubmitting(false);
   },
   displayName: 'ChangeUserPassword',
@@ -147,7 +141,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     changeUserPassword: data => dispatch(changeUserPassword(data)),
-    resetSettingsMessagePassword: () => dispatch(resetSettingsMessagePassword()),
   }
 }
 

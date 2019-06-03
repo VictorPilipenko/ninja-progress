@@ -10,32 +10,32 @@ import { connect } from 'react-redux'
 import { saveDiagram } from '../../../store/actions/projects'
 import { getDiagram } from '../../../store/actions/projects'
 
-import { parse, stringify } from 'flatted/esm';
+import { parse } from 'flatted/esm';
 
 
 class App extends React.Component {
 
   componentDidMount() {
     this.props.getDiagram(this.props.funnelId);
-    // console.log('this.props: ', this.props)
+    console.log('componentDidMount this.props: ', this.props)
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.diagram) {
-      console.log('componentDidUpdate prevProps.diagram.snackMsg: ', prevProps.diagram.snackMsg)
-      console.log('componentDidUpdate this.state.snackMsg: ', this.state.snackMsg)
-      if (prevProps.diagram.snackMsg !== this.state.snackMsg) {
+      console.log('componentDidUpdate prevProps: ', prevProps)
+      console.log('componentDidUpdate this.state: ', this.state)
+      if (prevProps.snackMsg !== this.state.snackMsg) {
         this.props.getDiagram(this.props.funnelId);
       }
     }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log("getDerivedStateFromProps nextProps: ", nextProps.diagram && nextProps.diagram, "\ngetDerivedStateFromProps prevState: ", prevState)
+    console.log("getDerivedStateFromProps nextProps: ", nextProps, "\ngetDerivedStateFromProps prevState: ", prevState)
     if (nextProps.diagram)
       if (nextProps.diagram.snackMsg !== prevState.snackMsg)
         return {
-          diagram: parse(nextProps.diagram.funnelBody),
+          diagram: parse(nextProps.diagram.converted),
           snackMsg: 'next',
         };
       else
@@ -52,9 +52,9 @@ class App extends React.Component {
   }
   render() {
 
-    console.log(this.state.diagram)
+    console.log(this.state && this.state)
 
-    var app = new Application(this.state.diagram);
+    var app = new Application(this.state.diagram && this.state.diagram);
 
     return (
       <BodyWidget app={app} work={this.props} />

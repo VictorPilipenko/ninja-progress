@@ -34,7 +34,7 @@ class FunnelList extends React.Component {
 
     setTimeout(() => {
       !this.props.error && this.hideModal()
-    }, 1000)
+    }, 500)
   }
 
   render() {

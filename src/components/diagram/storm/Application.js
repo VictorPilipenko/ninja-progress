@@ -19,9 +19,8 @@ import { DiamondPortModel } from "./custom/DiamondPortModel";
 export default class Application {
 
   constructor(props) {
-    // super(props)
     
-    // console.log(props)
+    console.log(props)
 
     this.engine = new DiagramEngine();
     this.engine.installDefaultFactories();
@@ -33,11 +32,6 @@ export default class Application {
 
     this.activeModel = new DiagramModel();
 
-    console.log(this.activeModel)
-    console.log(props)
-
-
-    
 
     // register some other factories as well
     this.engine.registerPortFactory(new SimplePortFactory("diamond", config => new DiamondPortModel()));
@@ -47,14 +41,14 @@ export default class Application {
     // var model = new DiagramModel();
 
     //3-A) create a default node
-    var node1 = new DiamondNodeModel("Node 1");
+    var node1 = new DiamondNodeModel();
     node1.setPosition(390, 120);
 
     //3-B) create our new custom node
-    var node2 = new DiamondNodeModel("Node 2");
+    var node2 = new DiamondNodeModel();
     node2.setPosition(650, 158);
 
-    var node3 = new DiamondNodeModel("Node 3");
+    var node3 = new DiamondNodeModel();
     node3.setPosition(500, 350);
 
     //4) add the models to the root graph
@@ -62,6 +56,9 @@ export default class Application {
 
     //5) load model into engine
     // this.engine.setDiagramModel(this.activeModel);
+
+    console.log(this.activeModel)
+    console.log(props)
 
     this.engine.setDiagramModel(props ? props : this.activeModel);
   }

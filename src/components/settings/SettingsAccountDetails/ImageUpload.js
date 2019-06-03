@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import './ImageUpload.css'
-import { changeUserAvatar, resetSettingsMessageAvatar } from '../../../store/actions/settings'
+import { changeUserAvatar } from '../../../store/actions/settings'
 import Cookies from "js-cookie";
 import { API_URL } from '../../../config'
 
@@ -33,10 +33,6 @@ class ImageUpload extends React.Component {
     catch (error) {
       console.log(error)
     }
-
-    // setTimeout(() => {
-    //   this.props.resetSettingsMessageAvatar()
-    // }, 2000)
   }
 
   render() {
@@ -102,7 +98,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     changeUserAvatar: data => dispatch(changeUserAvatar(data)),
-    resetSettingsMessageAvatar: () => dispatch(resetSettingsMessageAvatar()),
   }
 }
 

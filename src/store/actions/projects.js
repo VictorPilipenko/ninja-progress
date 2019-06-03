@@ -227,6 +227,7 @@ export function saveDiagram(funnelId, diagramObj) {
         //   type: 'SAVE_DIAGRAM',
         //   payload: { funnelId, diagramObj }
         // });
+
         dispatch({ 
           type: 'SAVE_DIAGRAM_SUCCESS',
           payload: response.data.message
