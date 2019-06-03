@@ -66,9 +66,11 @@ class FunnelList extends React.Component {
                 <div className='create-funnels' style={{ display: 'flex' }}>
                   <CreateFunnelSVG />
                   <div style={{ alignSelf: 'center', width: 'max-content' }}>
-                    <p style={{ fontSize: '25px', marginBottom: '-15px' }}>Create your first funnel</p>
-                    <br />
-                    <p style={{ fontSize: '14px' }}>Start bringing your ideas to life</p>
+                    <p style={{ fontSize: '25px', marginBottom: '-15px' }}>
+                      Create your first funnel
+                      <br />
+                      <span style={{ fontSize: '14px' }}>Start bringing your ideas to life</span>
+                    </p>
                     <button className="btn btn-1" style={{ width: '125px', marginTop: '25px' }} onClick={this.showModal}>Create Funnel</button>
                   </div>
                 </div>

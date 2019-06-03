@@ -210,10 +210,16 @@ export function resetLink() {
 
 
 export function saveDiagram(funnelId, diagramObj) {
+  console.log('saveDiagram funnelId: ',funnelId)
+  console.log('saveDiagram diagramObj: ',diagramObj)
+
+
   return function (dispatch) {
     API.patch(`funnel/${funnelId}`, {
-      'funnelBody': diagramObj,
+      'funnelBody': diagramObj
     })
+
+    // API.patch(`funnel/${funnelId}`, diagramObj)
       .then(response => {
         console.log(response.data)
         // let diagramObj = response.data.data.funnelBody
@@ -240,15 +246,18 @@ export function saveDiagram(funnelId, diagramObj) {
 
 
 export function getDiagram(funnelId) {
+  console.log('getDiagram funnelId: ', funnelId)
   return function (dispatch) {
     API.get(`funnel/diagram/${funnelId}`)
       .then(response => {
+        console.log('getDiagram response:',response.data)
+
         dispatch({ 
           type: 'RESET_GET_DIAGRAM',
           payload: funnelId
         });
+        
         let res = response.data.data.funnelBody;
-        // console.log(response.data.data.funnelBody)
         dispatch({
           type: 'GET_DIAGRAM',
           payload: {

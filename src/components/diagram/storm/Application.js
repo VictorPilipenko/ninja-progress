@@ -1,38 +1,79 @@
-import * as SRD from "storm-react-diagrams";
+import {
+  DiagramEngine,
+  DiagramModel,
+} from "storm-react-diagrams";
 
-export class Application {
-	constructor() {
-		this.diagramEngine = new SRD.DiagramEngine();
-		this.diagramEngine.installDefaultFactories();
+// import the custom models
+import { DiamondNodeModel } from "./custom/DiamondNodeModel";
+import { DiamondNodeFactory } from "./custom/DiamondNodeFactory";
+import { SimplePortFactory } from "./custom/SimplePortFactory";
+import { DiamondPortModel } from "./custom/DiamondPortModel";
 
-		this.newModel();
-	}
+// import { connect } from 'react-redux'
+// import { saveDiagram } from '../../../store/actions/projects'
+// import { getDiagram } from '../../../store/actions/projects'
 
-	newModel() {
-		this.activeModel = new SRD.DiagramModel();
-		this.diagramEngine.setDiagramModel(this.activeModel);
+// import { parse } from 'flatted/esm';
 
-		//3-A) create a default node
-		var node1 = new SRD.DefaultNodeModel("Node 1", "rgb(0,192,255)");
-		let port = node1.addOutPort("Out");
-		node1.setPosition(100, 100);
 
-		//3-B) create another default node
-		var node2 = new SRD.DefaultNodeModel("Node 2", "rgb(92,255,0)");
-		let port2 = node2.addInPort("In");
-		node2.setPosition(400, 100);
+export default class Application {
 
-		// link the ports
-		let link1 = port.link(port2);
+  constructor(props) {
+    // super(props)
+    
+    // console.log(props)
 
-		this.activeModel.addAll(node1, node2, link1);
-	}
+    this.engine = new DiagramEngine();
+    this.engine.installDefaultFactories();
 
-	getActiveDiagram(){
-		return this.activeModel;
-	}
+    this.newModel(props);
+  }
 
-	getDiagramEngine() {
-		return this.diagramEngine;
-	}
+  newModel(props) {
+
+    this.activeModel = new DiagramModel();
+
+    console.log(this.activeModel)
+    console.log(props)
+
+
+    
+
+    // register some other factories as well
+    this.engine.registerPortFactory(new SimplePortFactory("diamond", config => new DiamondPortModel()));
+    this.engine.registerNodeFactory(new DiamondNodeFactory());
+
+    //2) setup the diagram model
+    // var model = new DiagramModel();
+
+    //3-A) create a default node
+    var node1 = new DiamondNodeModel("Node 1");
+    node1.setPosition(390, 120);
+
+    //3-B) create our new custom node
+    var node2 = new DiamondNodeModel("Node 2");
+    node2.setPosition(650, 158);
+
+    var node3 = new DiamondNodeModel("Node 3");
+    node3.setPosition(500, 350);
+
+    //4) add the models to the root graph
+    this.activeModel.addAll(node1, node2, node3);
+
+    //5) load model into engine
+    // this.engine.setDiagramModel(this.activeModel);
+
+    this.engine.setDiagramModel(props ? props : this.activeModel);
+  }
+
+  getDiagramEngine() {
+    return this.engine;
+  }
+
+  getActiveDiagram() {
+    return this.activeModel;
+  }
 }
+
+
+

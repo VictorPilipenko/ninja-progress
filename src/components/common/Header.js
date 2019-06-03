@@ -9,6 +9,10 @@ import Cookies from "js-cookie";
 import { API_URL } from '../../config'
 import ClickOutside from '../common/ClickOutside'
 
+import { ReactComponent as RingSVG } from '../../assets/ring.svg'
+import { ReactComponent as SearchSVG } from '../../assets/search.svg';
+import { ReactComponent as QuestionSVG } from '../../assets/question-mark.svg';
+
 class Header extends Component {
   state = {
     show: false,
@@ -79,12 +83,23 @@ class Header extends Component {
               this.props.authenticated ?
                 <div className='header-buttons'>
 
+                  <div style={{ marginLeft: 15, marginRight: 15, display: 'flex' }}>
+                    <SearchSVG />
+                  </div>
 
                   {this.props.pathname.includes('funnels') ?
                     <button className='btn btn-1 btn-show-modal-create' onClick={this.showModalFunnel}>Create Funnel</button>
                     :
                     <button className='btn btn-1 btn-show-modal-create' onClick={this.showModal}>Create Project</button>
                   }
+
+                  <div style={{ marginLeft: 15, marginRight: 5, display: 'flex'}}>
+                    <QuestionSVG />
+                  </div>
+
+                  <div style={{ marginLeft: 5, marginRight: 15, display: 'flex' }}>
+                    <RingSVG />
+                  </div>
 
                   <div className='header-img-preview' onClick={this.showModalSignOut}>
                     {userAvatar === API_URL ? <div className="header-preview-empty">{userFirstName[0] && userFirstName[0].toUpperCase()}</div> : <img src={userAvatar} alt='Avatar' />}

@@ -36,7 +36,7 @@ header nav ul li a {
 
 .header-buttons{
   display: flex;
-  width: 250px;
+  width: 400px;
   justify-content: space-evenly;
   /* height: 50px; */
   align-items: center;
