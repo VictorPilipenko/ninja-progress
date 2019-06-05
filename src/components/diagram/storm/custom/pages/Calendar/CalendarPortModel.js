@@ -1,11 +1,13 @@
 import * as _ from "lodash";
-import { PortModel, DefaultLinkModel } from "storm-react-diagrams";
+import { PortModel } from "storm-react-diagrams";
+import { AdvancedLinkModel } from "../../customLink";
 
-export class DiamondPortModel extends PortModel {
+
+export class CalendarPortModel extends PortModel {
 	// position: string | "top" | "bottom" | "left" | "right";
 
 	constructor(pos = "top") {
-		super(pos, "diamond");
+		super(pos, "Calendar");
 		this.position = pos;
 	}
 
@@ -21,6 +23,6 @@ export class DiamondPortModel extends PortModel {
 	}
 
 	createLinkModel() {
-		return new DefaultLinkModel();
+		return new AdvancedLinkModel();
 	}
 }

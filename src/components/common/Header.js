@@ -59,7 +59,7 @@ class Header extends Component {
 
     setTimeout(() => {
       !this.props.error && this.hideModal()
-    }, 500)
+    }, 1500)
   }
 
   handleCreateFunnel = () => {
@@ -67,7 +67,7 @@ class Header extends Component {
 
     setTimeout(() => {
       !this.props.errorFunnel && this.hideModalFunnel()
-    }, 500)
+    }, 1500)
   }
 
 

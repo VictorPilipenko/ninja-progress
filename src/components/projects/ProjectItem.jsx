@@ -96,7 +96,7 @@ class ProjectItem extends React.Component {
     setTimeout(() => {
       this.props.resetAllCollaboratorsForFunnels()
       this.props.getAllCollaboratorsForFunnels(this.state.selectedFunnelsList)
-    }, 500)
+    }, 1500)
   }
 
   removeCollaborator = (funnelId, _id) => {
@@ -109,7 +109,7 @@ class ProjectItem extends React.Component {
     setTimeout(() => {
       this.props.resetAllCollaboratorsForFunnels()
       this.props.getAllCollaboratorsForFunnels(this.state.selectedFunnelsList)
-    }, 500)
+    }, 1500)
   }
 
 

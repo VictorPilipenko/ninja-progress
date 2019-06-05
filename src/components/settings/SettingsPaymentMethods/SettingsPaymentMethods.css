@@ -21,11 +21,7 @@
 }
 
 .input-payment-card-top{
-  /* background: left 55% / 13% 52% no-repeat url(
-    "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28.5' height='19' viewBox='0 0 28.5 19'><g id='credit-card' transform='translate(0 -85.333)'><g id='Group_74' data-name='Group 74' transform='translate(0 85.333)'><g id='Group_73' data-name='Group 73' transform='translate(0 0)'><path id='Path_1079' data-name='Path 1079' d='M25.531,85.333H2.969A2.973,2.973,0,0,0,0,88.3v13.063a2.973,2.973,0,0,0,2.969,2.969H25.531a2.973,2.973,0,0,0,2.969-2.969V88.3A2.973,2.973,0,0,0,25.531,85.333Zm1.781,16.031a1.783,1.783,0,0,1-1.781,1.781H2.969a1.783,1.783,0,0,1-1.781-1.781V88.3a1.783,1.783,0,0,1,1.781-1.781H25.531A1.783,1.783,0,0,1,27.312,88.3v13.062Z' transform='translate(0 -85.333)' fill='#848f99'/></g></g><g id='Group_76' data-name='Group 76' transform='translate(0 88.895)'><g id='Group_75' data-name='Group 75' transform='translate(0 0)'><path id='Path_1080' data-name='Path 1080' d='M27.906,149.333H.594a.594.594,0,0,0-.594.594v3.563a.594.594,0,0,0,.594.594H27.906a.594.594,0,0,0,.594-.594v-3.562A.594.594,0,0,0,27.906,149.333Zm-.594,3.563H1.187V150.52H27.312V152.9Z' transform='translate(0 -149.333)' fill='#848f99'/></g></g><g id='Group_78' data-name='Group 78' transform='translate(3.562 97.208)'><g id='Group_77' data-name='Group 77' transform='translate(0 0)'><path id='Path_1081' data-name='Path 1081' d='M71.719,298.667H64.594a.594.594,0,1,0,0,1.187h7.125a.594.594,0,1,0,0-1.187Z' transform='translate(-64 -298.667)' fill='#848f99'/></g></g><g id='Group_80' data-name='Group 80' transform='translate(3.562 99.583)'><g id='Group_79' data-name='Group 79'><path id='Path_1082' data-name='Path 1082' d='M71.719,341.333H64.594a.594.594,0,0,0,0,1.188h7.125a.594.594,0,0,0,0-1.188Z' transform='translate(-64 -341.333)' fill='#848f99'/></g></g><g id='Group_82' data-name='Group 82' transform='translate(20.187 96.02)'><g id='Group_81' data-name='Group 81' transform='translate(0 0)'><path id='Path_1083' data-name='Path 1083' d='M365.636,277.333h-1.187a1.783,1.783,0,0,0-1.781,1.781V280.3a1.783,1.783,0,0,0,1.781,1.781h1.188a1.783,1.783,0,0,0,1.781-1.781v-1.187A1.783,1.783,0,0,0,365.636,277.333Zm.594,2.969a.594.594,0,0,1-.594.594h-1.187a.594.594,0,0,1-.594-.594v-1.187a.594.594,0,0,1,.594-.594h1.188a.594.594,0,0,1,.594.594Z' transform='translate(-362.667 -277.333)' fill='#848f99'/></g></g></g></svg>"
-  ); */
-
-  background: 3% 52% / 7% 48% no-repeat url(
+  background: 3% 52% / 6% 40% no-repeat url(
    '../../../assets/credit-card.png'
   );
 
@@ -35,28 +31,18 @@
 }
 
 .input-payment-calendar{
-  /* background: left 50% / 28% 55% no-repeat url(
-    "data:image/svg+xml;utf8,<svg id='calendar' xmlns='http://www.w3.org/2000/svg' width='20.333' height='20.333' viewBox='0 0 20.333 20.333'> <g id='Group_84' data-name='Group 84'> <g id='Group_83' data-name='Group 83'> <path id='Path_1084' data-name='Path 1084' d='M18.546,2.383h-.6v-.6a1.787,1.787,0,1,0-3.574,0v.6H11.994v-.6a1.787,1.787,0,1,0-3.574,0v.6H5.957v-.6a1.787,1.787,0,1,0-3.574,0v.6h-.6A1.789,1.789,0,0,0,0,4.17V18.546a1.789,1.789,0,0,0,1.787,1.787H18.546a1.789,1.789,0,0,0,1.787-1.787V4.17A1.789,1.789,0,0,0,18.546,2.383Zm-2.979-.6a.6.6,0,1,1,1.191,0V4.17a.6.6,0,1,1-1.191,0Zm-5.957,0a.6.6,0,1,1,1.191,0V4.17a.6.6,0,0,1-1.191,0Zm-6.037,0a.6.6,0,1,1,1.191,0V4.17a.6.6,0,1,1-1.191,0ZM19.142,18.546a.6.6,0,0,1-.6.6H1.787a.6.6,0,0,1-.6-.6V8.419H19.142Zm0-11.318H1.191V4.17a.6.6,0,0,1,.6-.6h.6v.6a1.787,1.787,0,0,0,3.574,0v-.6H8.419v.6a1.787,1.787,0,0,0,3.574,0v-.6h2.383v.6a1.787,1.787,0,1,0,3.574,0v-.6h.6a.6.6,0,0,1,.6.6Z' fill='#848f99'/> </g> </g> <g id='Group_86' data-name='Group 86' transform='translate(2.383 9.611)'> <g id='Group_85' data-name='Group 85'> <path id='Path_1085' data-name='Path 1085' d='M74.972,242H60.6a.6.6,0,0,0-.6.6v7.148a.6.6,0,0,0,.6.6H74.972a.6.6,0,0,0,.6-.6V242.6A.6.6,0,0,0,74.972,242Zm-11.4,7.148H61.191v-2.383h2.383Zm0-3.574H61.191v-2.383h2.383Zm3.654,3.574H64.766v-2.383h2.462Zm0-3.574H64.766v-2.383h2.462Zm3.574,3.574H68.419v-2.383H70.8Zm0-3.574H68.419v-2.383H70.8Zm3.574,3.574H71.994v-2.383h2.383Zm0-3.574H71.994v-2.383h2.383Z' transform='translate(-60 -242)' fill='#848f99'/> </g> </g> </svg>"
-  ); */
-
-  background: 8% 54% / 11% 51% no-repeat url(
+  background: 8% 54% / 9% 43% no-repeat url(
    '../../../assets/calendar.png'
   );
-
   padding-left: 59px !important;
   width: 37% !important;
   z-index: 22;
 }
 
 .input-payment-card{
-  /* background: left 57% / 28% 52% no-repeat url(
-    "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28.5' height='19' viewBox='0 0 28.5 19'> <g id='credit-card' transform='translate(0 -85.333)'> <g id='Group_74' data-name='Group 74' transform='translate(0 85.333)'> <g id='Group_73' data-name='Group 73' transform='translate(0 0)'> <path id='Path_1079' data-name='Path 1079' d='M25.531,85.333H2.969A2.973,2.973,0,0,0,0,88.3v13.063a2.973,2.973,0,0,0,2.969,2.969H25.531a2.973,2.973,0,0,0,2.969-2.969V88.3A2.973,2.973,0,0,0,25.531,85.333Zm1.781,16.031a1.783,1.783,0,0,1-1.781,1.781H2.969a1.783,1.783,0,0,1-1.781-1.781V88.3a1.783,1.783,0,0,1,1.781-1.781H25.531A1.783,1.783,0,0,1,27.312,88.3v13.062Z' transform='translate(0 -85.333)' fill='#848f99'/> </g> </g> <g id='Group_76' data-name='Group 76' transform='translate(0 88.895)'> <g id='Group_75' data-name='Group 75' transform='translate(0 0)'> <path id='Path_1080' data-name='Path 1080' d='M27.906,149.333H.594a.594.594,0,0,0-.594.594v3.563a.594.594,0,0,0,.594.594H27.906a.594.594,0,0,0,.594-.594v-3.562A.594.594,0,0,0,27.906,149.333Zm-.594,3.563H1.187V150.52H27.312V152.9Z' transform='translate(0 -149.333)' fill='#848f99'/> </g> </g> <g id='Group_78' data-name='Group 78' transform='translate(3.562 97.208)'> <g id='Group_77' data-name='Group 77' transform='translate(0 0)'> <path id='Path_1081' data-name='Path 1081' d='M71.719,298.667H64.594a.594.594,0,1,0,0,1.187h7.125a.594.594,0,1,0,0-1.187Z' transform='translate(-64 -298.667)' fill='#848f99'/> </g> </g> <g id='Group_80' data-name='Group 80' transform='translate(3.562 99.583)'> <g id='Group_79' data-name='Group 79'> <path id='Path_1082' data-name='Path 1082' d='M71.719,341.333H64.594a.594.594,0,0,0,0,1.188h7.125a.594.594,0,0,0,0-1.188Z' transform='translate(-64 -341.333)' fill='#848f99'/> </g> </g> </g> </svg>"
-  ); */
-
-  background: 5% 54% / 15% 50% no-repeat url(
+  background: 6% 54% / 13% 40% no-repeat url(
    '../../../assets/credit-card-2.png'
   );
-
   padding-left: 61px !important;
   width: 35% !important;
   z-index: 22;

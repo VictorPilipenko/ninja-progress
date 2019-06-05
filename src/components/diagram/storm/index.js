@@ -10,36 +10,39 @@ import { connect } from 'react-redux'
 import { saveDiagram } from '../../../store/actions/projects'
 import { getDiagram } from '../../../store/actions/projects'
 
-import { parse } from 'flatted/esm';
-
 
 class App extends React.Component {
 
   componentDidMount() {
+    console.log('componentDidMount')
     this.props.getDiagram(this.props.funnelId);
-    console.log('componentDidMount this.props: ', this.props)
   }
 
   componentDidUpdate(prevProps) {
+    console.log('componentDidUpdate')
     if (prevProps.diagram) {
-      console.log('componentDidUpdate prevProps: ', prevProps)
-      console.log('componentDidUpdate this.state: ', this.state)
-      if (prevProps.snackMsg !== this.state.snackMsg) {
+      // console.log('componentDidUpdate prevProps: ', prevProps)
+      // console.log('componentDidUpdate this.state: ', this.state)
+      if (prevProps.diagram.funnelBody.snackMsg !== this.state.snackMsg) {
         this.props.getDiagram(this.props.funnelId);
       }
     }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log("getDerivedStateFromProps nextProps: ", nextProps, "\ngetDerivedStateFromProps prevState: ", prevState)
+    console.log('getDerivedStateFromProps')
+    // console.log("getDerivedStateFromProps nextProps: ", nextProps, "\ngetDerivedStateFromProps prevState: ", prevState)
     if (nextProps.diagram)
-      if (nextProps.diagram.snackMsg !== prevState.snackMsg)
+      if (nextProps.diagram.funnelBody.snackMsg !== prevState.snackMsg)
         return {
-          diagram: parse(nextProps.diagram.converted),
+          diagram: nextProps.diagram.funnelBody.converted,
           snackMsg: 'next',
         };
       else
-        return null;
+        return {
+          diagram: null,
+          snackMsg: 'prev',
+        };
     else
       return null;
   }
@@ -47,12 +50,14 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      snackMsg: 'prev'
+      snackMsg: 'prev',
+      // diagram: this.props.diagram ? this.props.diagram.funnelBody.converted : null,
     };
   }
+
   render() {
 
-    console.log(this.state && this.state)
+    console.log(this.state)
 
     var app = new Application(this.state.diagram && this.state.diagram);
 
@@ -63,12 +68,11 @@ class App extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  // console.log('diagram: ', state.projects[`diagram${ownProps.match.params.funnelId}`])
-
+  console.log('diagram: ', state.projects[`diagram${ownProps.match.params.funnelId}`])
   return {
     diagram: state.projects[`diagram${ownProps.match.params.funnelId}`],
     funnelId: ownProps.match.params.funnelId,
-    // error: state.projects.createFunnelError,
+    message: state.projects.saveDiagramMessage,
   };
 }
 

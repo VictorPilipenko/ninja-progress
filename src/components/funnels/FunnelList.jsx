@@ -6,6 +6,7 @@ import { getAllFunnels, createFunnel } from '../../store/actions/projects'
 import FunnelItemContainer from './FunnelItemContainer.jsx'
 import Modal from '../common/Modal/Modal'
 import { ReactComponent as CreateFunnelSVG } from '../../assets/new_funnel.svg';
+// import { ReactComponent as TestSVG } from '../../assets/Blog_Post.svg';
 
 class FunnelList extends React.Component {
   componentDidMount() {
@@ -34,7 +35,7 @@ class FunnelList extends React.Component {
 
     setTimeout(() => {
       !this.props.error && this.hideModal()
-    }, 500)
+    }, 1500)
   }
 
   render() {
@@ -64,6 +65,7 @@ class FunnelList extends React.Component {
                 ))
                 :
                 <div className='create-funnels' style={{ display: 'flex' }}>
+                  {/* <TestSVG /> */}
                   <CreateFunnelSVG />
                   <div style={{ alignSelf: 'center', width: 'max-content' }}>
                     <p style={{ fontSize: '25px', marginBottom: '-15px' }}>

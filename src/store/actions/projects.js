@@ -210,8 +210,8 @@ export function resetLink() {
 
 
 export function saveDiagram(funnelId, diagramObj) {
-  console.log('saveDiagram funnelId: ',funnelId)
-  console.log('saveDiagram diagramObj: ',diagramObj)
+  // console.log('saveDiagram funnelId: ',funnelId)
+  // console.log('saveDiagram diagramObj: ',diagramObj)
 
 
   return function (dispatch) {
@@ -219,7 +219,7 @@ export function saveDiagram(funnelId, diagramObj) {
       'funnelBody': diagramObj
     })
 
-    // API.patch(`funnel/${funnelId}`, diagramObj)
+      // API.patch(`funnel/${funnelId}`, diagramObj)
       .then(response => {
         console.log(response.data)
         // let diagramObj = response.data.data.funnelBody
@@ -228,10 +228,14 @@ export function saveDiagram(funnelId, diagramObj) {
         //   payload: { funnelId, diagramObj }
         // });
 
-        dispatch({ 
+        dispatch({
           type: 'SAVE_DIAGRAM_SUCCESS',
           payload: response.data.message
         });
+
+        // setTimeout(() => {
+        //   dispatch({ type: 'SAVE_DIAGRAM_SUCCESS_RESET' });
+        // }, 2000)
       })
       .catch(function (error) {
         if (error.response) {
@@ -245,19 +249,18 @@ export function saveDiagram(funnelId, diagramObj) {
   }
 }
 
-
 export function getDiagram(funnelId) {
-  console.log('getDiagram funnelId: ', funnelId)
+  // console.log('getDiagram funnelId: ', funnelId)
   return function (dispatch) {
     API.get(`funnel/diagram/${funnelId}`)
       .then(response => {
-        console.log('getDiagram response:',response.data)
+        // console.log('getDiagram response:', typeof response.data.data.funnelBody)
 
-        dispatch({ 
+        dispatch({
           type: 'RESET_GET_DIAGRAM',
           payload: funnelId
         });
-        
+
         let res = response.data.data.funnelBody;
         dispatch({
           type: 'GET_DIAGRAM',

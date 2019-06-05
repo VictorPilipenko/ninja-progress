@@ -1,10 +1,9 @@
 import * as React from "react";
 import { PortWidget } from "storm-react-diagrams";
-import "./DiamondNodeWidget.css";
-import { ReactComponent as WebinarReplaySVG } from '../../../../assets/Webinar_Replay.svg';
+import { ReactComponent as PopupSVG } from '../../../../../../assets/pages/popup.svg';
 
 
-export class DiamonNodeWidget extends React.Component {
+export class PopupNodeWidget extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,19 +15,19 @@ export class DiamonNodeWidget extends React.Component {
   render() {
     return (
       <div
-        className="diamond-node"
+        // className="diamond-node"
         style={{
           position: "relative",
         }}
       >
-        <WebinarReplaySVG />
+        <PopupSVG />
 
         <div
           style={{
             position: "absolute",
             zIndex: 10,
-            top: 75,
-            left: -14
+            top: 55,
+            left: -13,
           }}
         >
           <PortWidget name="left" node={this.props.node} />
@@ -38,8 +37,8 @@ export class DiamonNodeWidget extends React.Component {
           style={{
             position: "absolute",
             zIndex: 10,
-            left: 55,
-            top: -13
+            top: -13,
+            left: 38,
           }}
         >
           <PortWidget name="top" node={this.props.node} />
@@ -49,8 +48,8 @@ export class DiamonNodeWidget extends React.Component {
           style={{
             position: "absolute",
             zIndex: 10,
-            left: 121,
-            top: 75
+            top: 55,
+            left: 90,
           }}
         >
           <PortWidget name="right" node={this.props.node} />
@@ -60,8 +59,8 @@ export class DiamonNodeWidget extends React.Component {
           style={{
             position: "absolute",
             zIndex: 10,
-            left: 55,
-            top: 160
+            top: 119,
+            left: 38,
           }}
         >
           <PortWidget name="bottom" node={this.props.node} />

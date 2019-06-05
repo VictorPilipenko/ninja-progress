@@ -11,7 +11,8 @@
   flex-shrink: 0;
   color: white;
   font-family: Helvetica, Arial;
-  padding: 10px;
+  padding: 3px;
+  justify-content: flex-end;
 }
 .body .header > * {
   align-self: center;
@@ -19,8 +20,10 @@
 .body .content {
   display: flex;
   flex-grow: 1;
+  padding: 0px !important;
 }
-.body .content .diagram-layer {
+
+.diagram-layer {
   position: relative;
   flex-grow: 1;
   display: flex;
@@ -30,14 +33,14 @@
   background-color: #3c3c3c;
 }
 
-.body .content .tray-wrapper {
-  width: 300px;
+.tray-wrapper {
+  width: 270px;
   flex-grow: 0;
   flex-shrink: 0;
   position: absolute;
-  top: 65px;
+  top: 70px;
   z-index: 100;
-  left: 45px;
+  left: 75px;
   padding: 0px;
   display: flex;
   flex-wrap: wrap;
@@ -49,7 +52,7 @@
 }
 
 .body .content .tray {
-  width: 300px;
+  width: 270px;
   flex-grow: 0;
   flex-shrink: 0;
   height: 337px;
@@ -65,6 +68,7 @@
   border-radius: 4px;
   background-color: #ffffff;
   border-top: 1px solid #dce5ec;
+  padding-top: 10px;
 }
 
 .body .content .tray .tray-item-body {
@@ -76,7 +80,7 @@
 .body .content .tray .tray-item-wrapper {
   color: white;
   font-family: Helvetica, Arial;
-  margin: 10px;
+  margin: 5px;
   border: solid 1px;
   border-radius: 5px;
   margin-bottom: 2px;
@@ -84,6 +88,7 @@
   border-radius: 2px;
   background-color: #ffffff;
   border: 1px solid #dce5ec;
+  padding: 5px 10px 5px 10px;
 }
 
 
@@ -101,4 +106,39 @@
 
 .srd-port{
   border-radius: 50% !important;
+}
+
+.panel-buttons{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  top: 70px;
+  left: 15px;
+}
+
+.panel-button{
+    background-color: #212939;
+    width: 100%;
+    height: 50px;
+    color: white;
+    border: 0;
+    border-radius: 2px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    /* border: 1px solid #dce5ec; */
+}
+
+.panel-button-first{
+  border-radius: 5px 5px 0px 0px;
+}
+
+.panel-button-last{
+  border-radius: 0px 0px 5px 5px;
+}
+
+.diagram-header-buttons-wrapper{
+  width: 300px;
+  display: flex;
 }

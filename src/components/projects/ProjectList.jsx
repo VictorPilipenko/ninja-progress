@@ -36,7 +36,7 @@ class ProjectList extends React.Component {
 
     setTimeout(() => {
       !this.props.error && this.hideModal()
-    }, 500)
+    }, 1500)
   }
 
   render() {

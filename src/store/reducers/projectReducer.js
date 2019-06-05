@@ -101,6 +101,8 @@ export default function (state = initialState, action) {
     ///////////////////////////////////////////////////////////////////////////
     // case 'SAVE_DIAGRAM':
     //   return { ...state, [`diagram${action.payload.funnelId}`]: action.payload.diagramObj };
+    case 'SAVE_DIAGRAM_SUCCESS_RESET':
+      return { ...state, saveDiagramMessage: null }
     case 'SAVE_DIAGRAM_SUCCESS':
       return { ...state, saveDiagramMessage: action.payload };
     case 'SAVE_DIAGRAM_FAILURE':
