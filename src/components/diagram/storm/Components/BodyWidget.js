@@ -4,6 +4,8 @@ import { TrayItemWidget } from "./TrayItemWidget";
 import * as RJD from "storm-react-diagrams";
 import domtoimage from 'dom-to-image';
 import ClickOutside from '../../../common/ClickOutside'
+import Modal from '../../../common/Modal/Modal'
+import randomString from 'random-string';
 // import the custom models
 import { BlogPostNodeModel } from "../custom/pages/BlogPost/BlogPostNodeModel";
 import { CalendarNodeModel } from "../custom/pages/Calendar/CalendarNodeModel";
@@ -39,35 +41,30 @@ import { ReactComponent as WebinarReplaySVG } from '../../../../assets/pages/web
 
 
 export default class BodyWidget extends React.Component {
-
   state = {
     serialization: null,
     deSerialization: null,
-
     show: false,
+    showTemplateModal: false,
     toggle: 'first',
-    background: 'linear-gradient(90deg, #e62d24 0%, #fd8f21 100%)',
+    backgroundActive: 'linear-gradient(90deg, #e62d24 0%, #fd8f21 100%)',
+    backgroundDefault: '#212939',
   }
 
-  button = e => this.setState({
-    toggle: e.target.name,
-    background: 'linear-gradient(90deg, #e62d24 0%, #fd8f21 100%)',
-    show: true,
+  handleChange = e => this.setState({
+    templateName: e.target.value
   });
 
-  //linear-gradient(90deg, #e62d24 0%, #fd8f21 100%)
+  showTemplateModal = () => {
+    this.setState({ showTemplateModal: true });
+  };
+
+  hideTemplateModal = () => {
+    this.setState({ showTemplateModal: false });
+  };
+
 
   saveDiagramHandle = () => {
-    // let test = this.props.app.getElements();
-    // let mass = Object.entries(test)
-    // let converted = [];
-    // mass.map(item => {
-    //   converted.push({
-    //     x: item[1].x,
-    //     y: item[1].y,
-    //     type: item[1].type,
-    //   })
-    // })
     this.setState({
       snackMsg: 'next',
       converted: this.props.app.serialization(this.props.app.getDiagramEngine(), this.props.app.getDiagramEngine().getDiagramModel())
@@ -78,191 +75,266 @@ export default class BodyWidget extends React.Component {
     )
   }
 
+  saveTemplateHandle = () => {
+    this.saveDiagramHandle()
+    this.props.work.saveTemplate(this.props.work.funnelId, this.state.templateName)
+  }
+
+  toggle = e => this.setState({
+    toggle: e.target.name,
+    show: true,
+  });
+
+  button = (name, text, className) => {
+    return (
+      <button
+        name={name}
+        onClick={e => this.toggle(e)}
+        className={className}
+        style={{ background: this.state.toggle === name ? this.state.backgroundActive : this.state.backgroundDefault }}
+      >
+        {text}
+      </button>
+    );
+  }
+
+  copyToClipboard = e => {
+    this.link.select();
+    document.execCommand('copy');
+    e.target.focus();
+    this.props.work.resetSendImageToCollaborateLink();
+  };
+
   render() {
 
     return (
-      <div className="body">
-        <div className="header">
-          {/* <div className="title">Storm React Diagrams</div> */}
-
-
-
-          {/* <button onClick={() => console.log(this.props.app.getDiagramEngine().getDiagramModel())}>show diagram engine</button> */}
-
-          {/* <button onClick={() => this.setState({
-            serialization: this.props.app.serialization(this.props.app.getDiagramEngine(), this.props.app.getDiagramEngine().getDiagramModel())
-          }, () => console.log(this.state.serialization))}>show serialization</button>
-
-          {
-            this.state.serialization ?
-              <button onClick={() => this.setState({
-                deSerialization: this.props.app.deSerialization(this.props.app.getDiagramEngine(), this.state.serialization)
-              }, () => console.log(this.state.deSerialization))}>show deSerialization</button>
-              : null
-          } */}
-          <div className='diagram-header-buttons-wrapper'>
-            <button
-              className="btn btn-1"
-              onClick={(e) => {
-                domtoimage.toPng(this.diagramRef)
-                  .then(function (dataUrl) {
-                    var img = new Image();
-                    img.src = dataUrl;
-                    var link = document.createElement('a');
-                    link.download = 'my-diagram.png';
-                    link.href = img.src;
-                    link.click();
-                  })
-                  .catch(function (error) {
-                    console.error('oops, something went wrong!', error);
-                  });
-              }}>
-              Export PNG
-            </button>
-            <button className="btn btn-1" onClick={() => this.saveDiagramHandle()}>Save Diagram</button>
-          </div>
-
+      <>
+        <div className='message-diagram'>
+          {this.props.work.message ? this.props.work.message : null}
         </div>
-        <div className="content">
+        <div className="body">
+          <div className="header">
+            {/* <div className="title">Storm React Diagrams</div> */}
 
-          <div className='panel-buttons'>
+            {
+              this.props.work.link ?
+                <>
+                  <input
+                    className='created-link-wrapper'
+                    ref={ref => this.link = ref}
+                    value={this.props.work.link}
+                    onChange={() => { }}
+                  />
+                  <button className='btn btn-1 btn-delete-modal' style={{ margin: '15px auto' }} onClick={this.copyToClipboard}>Copy Link</button>
+                </>
+                :
+                null
+            }
 
-            <button
-              name={'first'}
-              onClick={e => this.button(e)}
-              className="panel-button panel-button-first"
-              style={{ background: this.state.toggle === 'first' ? this.state.background : '#212939' }}
-            >
-              pages
-            </button>
+            <div className='diagram-header-buttons-wrapper'>
+              <button
+                className="btn btn-1"
+                onClick={() => {
+                  domtoimage.toBlob(this.diagramRef)
+                    .then(data => {
+                      // var img = new Image();
+                      // img.src = data;
 
-            <button
-              name={'second'}
-              onClick={e => this.button(e)}
-              className="panel-button panel-button-last"
-              style={{ background: this.state.toggle === 'second' ? this.state.background : '#212939' }}
-            >
-              button
-            </button>
+                      let name = randomString({length: 10});
+                      var file = new File([data], name);
+
+                      // console.log(file)
+
+                      // this.setState({
+                      //   img: img.src
+                      // }, () => console.log(this.state))
+
+                      // console.log(name)
+
+        
+
+                      this.props.work.sendImageToCollaborate(this.props.work.funnelId, file)
+
+                      // console.log(img.src)
+
+                      // fetch(img.src)
+                      //   .then(res => res.blob())
+                      //   .then(blob => console.log(blob))
+
+                      // var link = document.createElement('a');
+                      // link.download = 'my-diagram.png';
+                      // link.href = img.src;
+                      // link.click();
+
+                    })
+                    .catch(function (error) {
+                      console.error('oops, something went wrong!', error);
+                    });
+                }}>
+                Export PNG
+              </button>
+              <button className="btn btn-1" onClick={() => this.saveDiagramHandle()}>Save Diagram</button>
+              <button className="btn btn-1" onClick={this.showTemplateModal}>Save As Template</button>
+            </div>
+
           </div>
+          <div className="content">
 
-          {this.state.toggle === 'first' ?
-            <ClickOutside
-              onClickOutside={() => {
-                this.setState({ show: false })
+            <Modal show={this.state.showTemplateModal} handleClose={this.hideTemplateModal}>
+              <label className='label-create'>Create Template</label>
+
+              <label htmlFor="Name" className='label-input'>
+                Name
+              </label>
+              <input
+                id="Name"
+                placeholder="Template Name"
+                type="text"
+                value={this.state.templateName}
+                onChange={this.handleChange}
+              />
+              {/* {this.props.work.templateError && this.props.work.templateError.length > 0 && (
+                <div className={`input-group`}>{this.props.work.templateError}</div>
+              )} */}
+              <button className='btn btn-1 create-project-button-in-modal' onClick={() => this.saveTemplateHandle()}>Create Template</button>
+            </Modal>
+
+            <div className='panel-buttons'>
+              {this.button('first', 'pages', 'panel-button panel-button-first')}
+              {this.button('second', '2', 'panel-button')}
+              {this.button('third', '3', 'panel-button')}
+              {this.button('fourth', '4', 'panel-button')}
+              {this.button('fifth', '5', 'panel-button panel-button-last')}
+            </div>
+
+            {this.state.toggle === 'first' ?
+              <ClickOutside
+                onClickOutside={() => {
+                  this.setState({ show: false })
+                }}
+              >
+                <TrayWidget show={this.state.show}>
+                  <TrayItemWidget model={{ type: "BlogPost" }} name="Blog post" icon={<BlogPostSVG />} />
+                  <TrayItemWidget model={{ type: "Calendar" }} name="Calendar" icon={<CalendarSVG />} />
+                  <TrayItemWidget model={{ type: "Download" }} name="Download" icon={<DownloadSVG />} />
+                  <TrayItemWidget model={{ type: "Generic" }} name="Generic" icon={<GenericSVG />} />
+                  <TrayItemWidget model={{ type: "MembersArea" }} name="Members area" icon={<MembersAreaSVG />} />
+                  <TrayItemWidget model={{ type: "OptIn" }} name="Opt in" icon={<OptInSVG />} />
+                  <TrayItemWidget model={{ type: "OrderPage" }} name="Order page" icon={<OrderPageSVG />} />
+                  <TrayItemWidget model={{ type: "Popup" }} name="Popup" icon={<PopupSVG />} />
+                  <TrayItemWidget model={{ type: "SalesPage" }} name="SalesPage" icon={<SalesPageSVG />} />
+                  <TrayItemWidget model={{ type: "SalesVideo" }} name="SalesVideo" icon={<SalesVideoSVG />} />
+                  <TrayItemWidget model={{ type: "Survey" }} name="Survey" icon={<SurveySVG />} />
+                  <TrayItemWidget model={{ type: "ThankYou" }} name="ThankYou" icon={<ThankYouSVG />} />
+                  <TrayItemWidget model={{ type: "Upsell" }} name="Upsell" icon={<UpsellSVG />} />
+                  <TrayItemWidget model={{ type: "Webinar" }} name="Webinar" icon={<WebinarSVG />} />
+                  <TrayItemWidget model={{ type: "WebinarReplay" }} name="WebinarReplay" icon={<WebinarReplaySVG />} />
+                </TrayWidget>
+              </ClickOutside> : null}
+
+            {this.state.toggle === 'second' ?
+              <ClickOutside
+                onClickOutside={() => {
+                  this.setState({ show: false })
+                }}
+              >
+                <TrayWidget show={this.state.show}>
+                  <TrayItemWidget model={{ type: "BlogPost" }} name="second" icon={<BlogPostSVG />} />
+                  <TrayItemWidget model={{ type: "BlogPost" }} name="second" icon={<BlogPostSVG />} />
+                </TrayWidget>
+              </ClickOutside> : null}
+
+            {this.state.toggle === 'third' ?
+              <ClickOutside
+                onClickOutside={() => {
+                  this.setState({ show: false })
+                }}
+              >
+                <TrayWidget show={this.state.show}>
+                  <TrayItemWidget model={{ type: "BlogPost" }} name="third" icon={<BlogPostSVG />} />
+                  <TrayItemWidget model={{ type: "BlogPost" }} name="third" icon={<BlogPostSVG />} />
+                </TrayWidget>
+              </ClickOutside> : null}
+
+            {this.state.toggle === 'fourth' ?
+              <ClickOutside
+                onClickOutside={() => {
+                  this.setState({ show: false })
+                }}
+              >
+                <TrayWidget show={this.state.show}>
+                  <TrayItemWidget model={{ type: "BlogPost" }} name="fourth" icon={<BlogPostSVG />} />
+                  <TrayItemWidget model={{ type: "BlogPost" }} name="fourth" icon={<BlogPostSVG />} />
+                </TrayWidget>
+              </ClickOutside> : null}
+
+            {this.state.toggle === 'fifth' ?
+              <ClickOutside
+                onClickOutside={() => {
+                  this.setState({ show: false })
+                }}
+              >
+                <TrayWidget show={this.state.show}>
+                  <TrayItemWidget model={{ type: "BlogPost" }} name="fifth" icon={<BlogPostSVG />} />
+                  <TrayItemWidget model={{ type: "BlogPost" }} name="fifth" icon={<BlogPostSVG />} />
+                </TrayWidget>
+              </ClickOutside> : null}
+
+            <div
+              className="diagram-layer"
+              ref={ref => this.diagramRef = ref}
+              onDrop={event => {
+                var data = JSON.parse(event.dataTransfer.getData("storm-diagram-node"));
+
+                // var nodesCount = _.keys(
+                //   this.props.app
+                //     .getDiagramEngine()
+                //     .getDiagramModel()
+                //     .getNodes()
+                // ).length;
+
+
+                var node = null;
+
+
+                switch (data.type) {
+                  case "BlogPost": node = new BlogPostNodeModel(); break;
+                  case "Calendar": node = new CalendarNodeModel(); break;
+                  case "Download": node = new DownloadNodeModel(); break;
+                  case "Generic": node = new GenericNodeModel(); break;
+                  case "MembersArea": node = new MembersAreaNodeModel(); break;
+                  case "OptIn": node = new OptInNodeModel(); break;
+                  case "OrderPage": node = new OrderPageNodeModel(); break;
+                  case "Popup": node = new PopupNodeModel(); break;
+                  case "SalesPage": node = new SalesPageNodeModel(); break;
+                  case "SalesVideo": node = new SalesVideoNodeModel(); break;
+                  case "Survey": node = new SurveyNodeModel(); break;
+                  case "ThankYou": node = new ThankYouNodeModel(); break;
+                  case "Upsell": node = new UpsellNodeModel(); break;
+                  case "Webinar": node = new WebinarNodeModel(); break;
+                  case "WebinarReplay": node = new WebinarReplayNodeModel(); break;
+                  default: break;
+                }
+
+
+                var points = this.props.app.getDiagramEngine().getRelativeMousePoint(event);
+                node.x = points.x;
+                node.y = points.y;
+                this.props.app
+                  .getDiagramEngine()
+                  .getDiagramModel()
+                  .addNode(node);
+                this.forceUpdate();
+              }}
+              onDragOver={event => {
+                event.preventDefault();
               }}
             >
-              <TrayWidget show={this.state.show}>
-                <TrayItemWidget model={{ type: "BlogPost" }} name="Blog post" icon={<BlogPostSVG />} />
-                <TrayItemWidget model={{ type: "Calendar" }} name="Calendar" icon={<CalendarSVG />} />
-                <TrayItemWidget model={{ type: "Download" }} name="Download" icon={<DownloadSVG />} />
-                <TrayItemWidget model={{ type: "Generic" }} name="Generic" icon={<GenericSVG />} />
-                <TrayItemWidget model={{ type: "MembersArea" }} name="Members area" icon={<MembersAreaSVG />} />
-                <TrayItemWidget model={{ type: "OptIn" }} name="Opt in" icon={<OptInSVG />} />
-                <TrayItemWidget model={{ type: "OrderPage" }} name="Order page" icon={<OrderPageSVG />} />
-                <TrayItemWidget model={{ type: "Popup" }} name="Popup" icon={<PopupSVG />} />
-                <TrayItemWidget model={{ type: "SalesPage" }} name="SalesPage" icon={<SalesPageSVG />} />
-                <TrayItemWidget model={{ type: "SalesVideo" }} name="SalesVideo" icon={<SalesVideoSVG />} />
-                <TrayItemWidget model={{ type: "Survey" }} name="Survey" icon={<SurveySVG />} />
-                <TrayItemWidget model={{ type: "ThankYou" }} name="ThankYou" icon={<ThankYouSVG />} />
-                <TrayItemWidget model={{ type: "Upsell" }} name="Upsell" icon={<UpsellSVG />} />
-                <TrayItemWidget model={{ type: "Webinar" }} name="Webinar" icon={<WebinarSVG />} />
-                <TrayItemWidget model={{ type: "WebinarReplay" }} name="WebinarReplay" icon={<WebinarReplaySVG />} />
-              </TrayWidget>
-            </ClickOutside> : null}
-
-          {this.state.toggle === 'second' ?
-            <ClickOutside
-              onClickOutside={() => {
-                this.setState({ show: false })
-              }}
-            >
-              <TrayWidget show={this.state.show}>
-                <TrayItemWidget model={{ type: "BlogPost" }} name="second" icon={<BlogPostSVG />} />
-                <TrayItemWidget model={{ type: "BlogPost" }} name="second" icon={<BlogPostSVG />} />
-              </TrayWidget>
-            </ClickOutside> : null}
-
-          <div
-            className="diagram-layer"
-            ref={ref => this.diagramRef = ref}
-            onDrop={event => {
-              var data = JSON.parse(event.dataTransfer.getData("storm-diagram-node"));
-
-              // var nodesCount = _.keys(
-              //   this.props.app
-              //     .getDiagramEngine()
-              //     .getDiagramModel()
-              //     .getNodes()
-              // ).length;
-
-              var node = null;
-
-              if (data.type === "BlogPost") {
-                node = new BlogPostNodeModel();
-              }
-              if (data.type === "Calendar") {
-                node = new CalendarNodeModel();
-              }
-              if (data.type === "Download") {
-                node = new DownloadNodeModel();
-              }
-              if (data.type === "Generic") {
-                node = new GenericNodeModel();
-              }
-              if (data.type === "MembersArea") {
-                node = new MembersAreaNodeModel();
-              }
-              if (data.type === "OptIn") {
-                node = new OptInNodeModel();
-              }
-              if (data.type === "OrderPage") {
-                node = new OrderPageNodeModel();
-              }
-              if (data.type === "Popup") {
-                node = new PopupNodeModel();
-              }
-              if (data.type === "SalesPage") {
-                node = new SalesPageNodeModel();
-              }
-              if (data.type === "SalesVideo") {
-                node = new SalesVideoNodeModel();
-              }
-              if (data.type === "Survey") {
-                node = new SurveyNodeModel();
-              }
-              if (data.type === "ThankYou") {
-                node = new ThankYouNodeModel();
-              }
-              if (data.type === "Upsell") {
-                node = new UpsellNodeModel();
-              }
-              if (data.type === "Webinar") {
-                node = new WebinarNodeModel();
-              }
-              if (data.type === "WebinarReplay") {
-                node = new WebinarReplayNodeModel();
-              }
-
-              var points = this.props.app.getDiagramEngine().getRelativeMousePoint(event);
-              node.x = points.x;
-              node.y = points.y;
-              this.props.app
-                .getDiagramEngine()
-                .getDiagramModel()
-                .addNode(node);
-              this.forceUpdate();
-            }}
-            onDragOver={event => {
-              event.preventDefault();
-            }}
-          >
-
-
-            <RJD.DiagramWidget className="srd-demo-canvas" diagramEngine={this.props.app.getDiagramEngine()} />
+              <RJD.DiagramWidget className="srd-demo-canvas" diagramEngine={this.props.app.getDiagramEngine()} />
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }

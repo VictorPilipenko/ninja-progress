@@ -4,6 +4,7 @@ import { PrivateRoute } from '../components/RequireAuth';
 import { PrivateRouteAddCollaborator } from '../components/PrivateRouteAddCollaborator';
 import ProjectList from '../components/projects/ProjectList.jsx';
 import FunnelList from '../components/funnels/FunnelList.jsx';
+import TemplatesList from '../components/templates/FunnelList.jsx';
 import Signin from '../components/auth/Signin.jsx';
 import Signup from '../components/auth/Signup.jsx';
 import Questionnaire from '../components/auth/Questionnaire.jsx';
@@ -11,6 +12,7 @@ import PasswordForgot1 from '../components/auth/PasswordForgot1.jsx';
 import PasswordForgot2 from '../components/auth/PasswordForgot2.jsx';
 import PasswordForgot3 from '../components/auth/PasswordForgot3.jsx';
 import AddCollaborators from '../components/projects/AddCollaborators.jsx';
+import AddCollaboratorsImage from '../components/projects/AddCollaboratorsImage.jsx';
 import Collaborations from '../components/collaborations/Collaborations.jsx';
 import SettingsAccountDetails from '../components/settings/SettingsAccountDetails/SettingsAccountDetails.jsx';
 import SettingsPaymentMethods from '../components/settings/SettingsPaymentMethods/SettingsPaymentMethods.jsx';
@@ -29,11 +31,13 @@ const AppRouter = () => (
     <PrivateRoute path="/questionnaire" component={Questionnaire} />
 
     <PrivateRouteAddCollaborator path="/add-collaborators/:token" component={AddCollaborators} />
+    <Route path="/add-collaborators-image" component={AddCollaboratorsImage} />
 
     <PrivateRoute exact={true} path="/" component={ProjectList} />
     <PrivateRoute path="/collaborations" component={Collaborations} />
     <PrivateRoute path='/funnels/:projectId' component={FunnelList} />
     <PrivateRoute path='/diagram/:funnelId' component={Diagram} />
+    <PrivateRoute path='/templates' component={TemplatesList} />
 
     <PrivateRoute exact={true} path="/settings" component={SettingsAccountDetails} />
     <PrivateRoute path="/settings/payment-methods" component={SettingsPaymentMethods} />
@@ -42,3 +46,4 @@ const AppRouter = () => (
 );
 
 export default AppRouter;
+

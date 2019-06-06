@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom'
 
-export const PrivateRoute = ({component: ComposedComponent, ...rest}) => {
+export const PrivateRoute = ({ component: ComposedComponent, ...rest }) => {
 
   class Authentication extends Component {
 
@@ -15,23 +15,23 @@ export const PrivateRoute = ({component: ComposedComponent, ...rest}) => {
             from: props.location,
             message: 'You need to sign up'
           }
-        }}/>
+        }} />
       } else {
-        return <ComposedComponent {...props}/>
+        return <ComposedComponent {...props} />
       }
     }
 
     render() {
       return (
-        <Route {...rest} render={this.handleRender.bind(this)}/>
+        <Route {...rest} render={this.handleRender.bind(this)} />
       )
     }
   }
 
   function mapStateToProps(state) {
-    return {authenticated: state.auth.authenticated};
+    return { authenticated: state.auth.authenticated };
   }
 
   const AuthenticationContainer = connect(mapStateToProps)(Authentication)
-  return <AuthenticationContainer/>
+  return <AuthenticationContainer />
 }

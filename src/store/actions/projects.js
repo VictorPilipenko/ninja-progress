@@ -1,4 +1,6 @@
 import { API } from './instance'
+import axios from 'axios'
+import { API_URL } from '../../config'
 import {
 
   GET_ALL_PROJECTS,
@@ -22,12 +24,36 @@ export function getAllProjects() {
     API.get(`projects`)
       .then(response => {
         dispatch({ type: 'RESET_ALL_PROJECTS' });
-        console.log('getAllProjects: ', response.data)
+        // console.log('getAllProjects: ', response.data)
         dispatch({
           type: GET_ALL_PROJECTS,
           payload: response.data.data
         });
         dispatch({ type: GET_ALL_PROJECTS_SUCCESS });
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: GET_ALL_PROJECTS_FAILURE,
+            payload: error.response.data.error
+          });
+        }
+      });
+  }
+}
+
+export function getAllTemplates() {
+  return function (dispatch) {
+    API.get(`templates`)
+      .then(response => {
+        // dispatch({ type: 'RESET_ALL_TEMPLATES' });
+        // console.log('get all templates: ', response.data)
+        dispatch({
+          type: 'GET_ALL_TEMPLATES',
+          payload: response.data.data
+        });
+        dispatch({ type: 'GET_ALL_TEMPLATES_SUCCESS' });
       })
       .catch(function (error) {
         if (error.response) {
@@ -176,6 +202,29 @@ export function deleteFunnel(project_id, funnel_id) {
   }
 }
 
+export function deleteTemplate(template_id) {
+  return function (dispatch) {
+    API.delete(`template/${template_id}`)
+      .then(() => {
+        dispatch({
+          type: 'DELETE_TEMPLATE',
+          payload: template_id,
+        });
+        dispatch({ type: 'DELETE_TEMPLATE_SUCCESS' });
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          alert(error.response.data.message)
+          dispatch({
+            type: 'DELETE_TEMPLATE_FAILURE',
+            payload: error.response.data.message
+          });
+        }
+      });
+  }
+}
+
 export function createLink(funnelsId, permissions) {
   return function (dispatch) {
     API.post(`url`, {
@@ -207,35 +256,43 @@ export function resetLink() {
   }
 }
 
-
-
 export function saveDiagram(funnelId, diagramObj) {
-  // console.log('saveDiagram funnelId: ',funnelId)
-  // console.log('saveDiagram diagramObj: ',diagramObj)
-
-
   return function (dispatch) {
     API.patch(`funnel/${funnelId}`, {
       'funnelBody': diagramObj
     })
-
-      // API.patch(`funnel/${funnelId}`, diagramObj)
       .then(response => {
         console.log(response.data)
-        // let diagramObj = response.data.data.funnelBody
-        // dispatch({
-        //   type: 'SAVE_DIAGRAM',
-        //   payload: { funnelId, diagramObj }
-        // });
+        /************************************/
+        dispatch({
+          type: 'RESET_GET_DIAGRAM',
+          payload: funnelId
+        });
 
+        let res = {
+          funnelBody: {
+            converted: response.data.data.funnelBody.funnelBody.converted,
+            snackMsg: 'next'
+          }
+        }
+
+        dispatch({
+          type: 'GET_DIAGRAM',
+          payload: {
+            funnelId,
+            res,
+          }
+        });
+        /************************************/
         dispatch({
           type: 'SAVE_DIAGRAM_SUCCESS',
           payload: response.data.message
         });
 
-        // setTimeout(() => {
-        //   dispatch({ type: 'SAVE_DIAGRAM_SUCCESS_RESET' });
-        // }, 2000)
+        setTimeout(() => {
+          dispatch({ type: 'SAVE_DIAGRAM_SUCCESS_RESET' });
+        }, 1000)
+
       })
       .catch(function (error) {
         if (error.response) {
@@ -249,12 +306,66 @@ export function saveDiagram(funnelId, diagramObj) {
   }
 }
 
+export function saveTemplate(funnelId, templateName) {
+  // console.log(funnelId, templateName)
+  return function (dispatch) {
+    API.post(`template/${funnelId}`, {
+      'templateName': templateName
+    })
+      .then(response => {
+        console.log(response.data)
+        dispatch({
+          type: 'SAVE_TEMPLATE_SUCCESS',
+          payload: response.data.message
+        });
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: 'SAVE_TEMPLATE_FAILURE',
+            payload: error.response.data.error
+          });
+        }
+      });
+  }
+}
+
+export function createNewProjectWithTemplate(templateId, projectName) {
+  console.log(templateId, projectName)
+  return function (dispatch) {
+    API.post(`funnel/template/${templateId}`, {
+      'projectName': projectName
+    })
+      .then(response => {
+        console.log(response.data)
+        dispatch({
+          type: 'CREATE_NEW_PROJECT_WITH_TEMPLATE_SUCCESS',
+          payload: response.data.message
+        });
+
+        setTimeout(() => {
+          dispatch({ type: 'CREATE_NEW_PROJECT_WITH_TEMPLATE_RESET' });
+        }, 2000)
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: 'SAVE_TEMPLATE_FAILURE',
+            payload: error.response.data.error
+          });
+        }
+      });
+  }
+}
+
 export function getDiagram(funnelId) {
   // console.log('getDiagram funnelId: ', funnelId)
   return function (dispatch) {
     API.get(`funnel/diagram/${funnelId}`)
       .then(response => {
-        // console.log('getDiagram response:', typeof response.data.data.funnelBody)
+        console.log('getDiagram response: ', response.data)
 
         dispatch({
           type: 'RESET_GET_DIAGRAM',
@@ -262,6 +373,40 @@ export function getDiagram(funnelId) {
         });
 
         let res = response.data.data.funnelBody;
+        dispatch({
+          type: 'GET_DIAGRAM',
+          payload: {
+            funnelId,
+            res,
+          }
+        });
+        dispatch({ type: 'GET_DIAGRAM_SUCCESS' });
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: 'GET_DIAGRAM_FAILURE',
+            payload: error.response.data.error
+          });
+        }
+      });
+  }
+}
+
+export function getTemplate(funnelId) {
+  // console.log('getDiagram funnelId: ', funnelId)
+  return function (dispatch) {
+    API.get(`template/${funnelId}`)
+      .then(response => {
+        console.log('getTemplate response: ', response.data)
+
+        dispatch({
+          type: 'RESET_GET_DIAGRAM',
+          payload: funnelId
+        });
+
+        let res = response.data.data.templateBody;
         dispatch({
           type: 'GET_DIAGRAM',
           payload: {
@@ -338,5 +483,91 @@ export function removeCollaborator(funnelId, profileId) {
           });
         }
       });
+  }
+}
+
+// export function sendImageToCollaborate(funnelId, image) {
+
+//   console.log(funnelId, image)
+
+//   return function (dispatch) {
+//     API.post(`funnel/diagram/screenshot`, {
+//       'funnelId': funnelId,
+//       "permissions": "View Only",
+//       "image": image,
+//     })
+//       .then(response => {
+//         console.log('sendImageToCollaborate response: ', response.data)
+//         // dispatch({
+//         //   type: 'SEND_IMAGE_TO_COLLABORATE_LINK',
+//         //   payload: response.data.link
+//         // });
+//         // dispatch({
+//         //   type: 'SEND_IMAGE_TO_COLLABORATE_LINK_SUCCESS',
+//         //   payload: response.data.message
+//         // });
+//         // setTimeout(() => {
+//         //   dispatch({ type: 'SEND_IMAGE_TO_COLLABORATE_LINK_RESET' });
+//         // }, 2000)
+//       })
+//       .catch(function (error) {
+//         if (error.response) {
+//           console.log(error.response)
+//           dispatch({
+//             type: 'SEND_IMAGE_TO_COLLABORATE_LINK_FAILURE',
+//             payload: error.response.data.error
+//           });
+//         }
+//       });
+//   }
+// }
+
+
+export function sendImageToCollaborate(funnelId, image) {
+  const token = JSON.parse(localStorage.getItem('token'));
+
+  let bodyFormData = new FormData();
+  bodyFormData.append('screenshot', image);
+  bodyFormData.append('funnelId', funnelId);
+  bodyFormData.append('permissions', 'View Only');
+
+  return function (dispatch) {
+    axios({
+      method: 'post',
+      url: `${API_URL}/funnel/diagram/screenshot`,
+      headers: {
+        'authorization': token,
+        'Content-Type': 'form-data'
+      },
+      data: bodyFormData
+    })
+      .then(response => {
+        if (response.data) {
+          console.log('sendImageToCollaborate response: ', response)
+          dispatch({
+            type: 'SEND_IMAGE_TO_COLLABORATE_LINK',
+            payload: response.data.link
+          });
+          // dispatch({
+          //   type: 'SEND_IMAGE_TO_COLLABORATE_LINK_SUCCESS',
+          //   payload: response.data.message
+          // });
+        }
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: 'SEND_IMAGE_TO_COLLABORATE_LINK_FAILURE',
+            payload: error.response.data.error
+          });
+        }
+      });
+  }
+}
+
+export function resetSendImageToCollaborateLink() {
+  return function (dispatch) {
+    dispatch({ type: 'SEND_IMAGE_TO_COLLABORATE_LINK_RESET' });
   }
 }

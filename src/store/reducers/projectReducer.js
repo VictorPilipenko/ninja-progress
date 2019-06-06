@@ -39,6 +39,19 @@ export default function (state = initialState, action) {
       return { ...state, getAllProjectsError: '' };
     case GET_ALL_PROJECTS_FAILURE:
       return { ...state, getAllProjectsError: action.payload };
+    ///////////////////////////////////////////////////////////////////////////    
+
+    ///////////////////////////////////////////////////////////////////////////
+    case 'RESET_ALL_TEMPLATES':
+      return { ...state, templatesList: [] };
+    case 'GET_ALL_TEMPLATES':
+      return { ...state, templatesList: action.payload };
+    case 'GET_ALL_TEMPLATES_SUCCESS':
+      return { ...state, getAllTemplatesError: '' };
+    case 'GET_ALL_TEMPLATES_FAILURE':
+      return { ...state, getAllTemplatesError: action.payload };
+    ///////////////////////////////////////////////////////////////////////////
+
     ///////////////////////////////////////////////////////////////////////////
     case CREATE_PROJECT:
       return {
@@ -62,6 +75,23 @@ export default function (state = initialState, action) {
       return { ...state, deleteProjectError: '' };
     case DELETE_PROJECT_FAILURE:
       return { ...state, deleteProjectError: action.payload };
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    case 'DELETE_TEMPLATE':
+      const ttemplatesList = state.templatesList.filter(template => template._id !== action.payload);
+      return {
+        ...state,
+        templatesList: ttemplatesList,
+      };
+    case 'DELETE_TEMPLATE_SUCCESS':
+      return { ...state, deleteTemplateError: '' };
+    case 'DELETE_TEMPLATE_FAILURE':
+      return { ...state, deleteTemplateError: action.payload };
+    ///////////////////////////////////////////////////////////////////////////
+
+
     ///////////////////////////////////////////////////////////////////////////
     case 'GET_ALL_FUNNELS':
       return { [`funnelsList${action.payload.projectId}`]: action.payload.res, ...state };
@@ -96,6 +126,26 @@ export default function (state = initialState, action) {
     ///////////////////////////////////////////////////////////////////////////
 
 
+    ///////////////////////////////////////////////////////////////////////////
+    case 'CREATE_NEW_PROJECT_WITH_TEMPLATE_RESET':
+      return { ...state, createNewProjectWithTemplateMessage: null }
+    case 'CREATE_NEW_PROJECT_WITH_TEMPLATE_SUCCESS':
+      return { ...state, createNewProjectWithTemplateMessage: action.payload };
+    case 'CREATE_NEW_PROJECT_WITH_TEMPLATE_FAILURE':
+      return { ...state, createNewProjectWithTemplateMessage: action.payload };
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    case 'SEND_IMAGE_TO_COLLABORATE_LINK':
+      return { ...state, sendImageToCollaborateLink: action.payload }
+    case 'SEND_IMAGE_TO_COLLABORATE_LINK_RESET':
+      return { ...state, sendImageToCollaborateLink: null }
+    case 'SEND_IMAGE_TO_COLLABORATE_LINK_SUCCESS':
+      return { ...state, sendImageToCollaborateMessage: action.payload };
+    case 'SEND_IMAGE_TO_COLLABORATE_LINK_FAILURE':
+      return { ...state, sendImageToCollaborateMessage: action.payload, sendImageToCollaborateLink: null };
+    ///////////////////////////////////////////////////////////////////////////
 
 
     ///////////////////////////////////////////////////////////////////////////
@@ -107,6 +157,15 @@ export default function (state = initialState, action) {
       return { ...state, saveDiagramMessage: action.payload };
     case 'SAVE_DIAGRAM_FAILURE':
       return { ...state, saveDiagramMessage: action.payload };
+    ///////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////////////////////////////////////////////////////////
+    case 'SAVE_TEMPLATE_SUCCESS_RESET':
+      return { ...state, saveTemplateMessage: null }
+    case 'SAVE_TEMPLATE_SUCCESS':
+      return { ...state, saveTemplateMessage: action.payload };
+    case 'SAVE_TEMPLATE_FAILURE':
+      return { ...state, saveTemplateMessage: action.payload };
     ///////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////////////////////////////////////////////
