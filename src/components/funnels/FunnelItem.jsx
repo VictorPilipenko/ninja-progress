@@ -51,13 +51,6 @@ class FunnelItem extends React.Component {
             >
               Open
             </NavLink>
-{/*  
-            <div
-              className='view-funnels'
-              // to={'/diagram/' + _id}
-            >
-              Open
-            </div>  */}
           </div>
 
           <div className='project'>

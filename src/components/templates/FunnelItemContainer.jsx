@@ -24,14 +24,22 @@ class FunnelItemContainer extends Component {
         projectId={projectId}
         handleDelete={this.handleDelete}
         createNewProjectWithTemplate={this.createNewProjectWithTemplate}
+        messageCreateProject={this.props.messageCreateProject}
       />
     );
   }
 }
+
+function mapStateToProps(state, ownProps) {
+  return {
+    messageCreateProject: state.projects.createNewProjectWithTemplateMessage,
+  };
+}
+
 
 const mapDispatchToState = dispatch => ({
   deleteTemplate: (funnelId) => dispatch(deleteTemplate(funnelId)),
   createNewProjectWithTemplate: (id, name) => dispatch(createNewProjectWithTemplate(id, name)),
 });
 
-export default connect(null, mapDispatchToState)(FunnelItemContainer);
+export default connect(mapStateToProps, mapDispatchToState)(FunnelItemContainer);

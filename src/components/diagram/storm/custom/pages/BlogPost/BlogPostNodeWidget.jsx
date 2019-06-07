@@ -1,7 +1,7 @@
 import * as React from "react";
 import { PortWidget } from "storm-react-diagrams";
-import { ReactComponent as BlogPostSVG } from '../../../../../../assets/pages/blog-post.svg';
-
+import BlogPostSVG from '../../../../../../assets/pages/blog-post.svg';
+import ReactSVG from 'react-svg';
 
 export class BlogPostNodeWidget extends React.Component {
   constructor(props) {
@@ -20,7 +20,7 @@ export class BlogPostNodeWidget extends React.Component {
           position: "relative",
         }}
       >
-        <BlogPostSVG />
+        <ReactSVG src={BlogPostSVG} />
 
         <div
           style={{
@@ -43,7 +43,7 @@ export class BlogPostNodeWidget extends React.Component {
         >
           <PortWidget name="top" node={this.props.node} />
         </div>
-        
+
         <div
           style={{
             position: "absolute",

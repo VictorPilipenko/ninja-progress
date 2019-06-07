@@ -1,7 +1,7 @@
 import * as React from "react";
 import { PortWidget } from "storm-react-diagrams";
-import { ReactComponent as SurveySVG } from '../../../../../../assets/pages/survey.svg';
-
+import SurveySVG from '../../../../../../assets/pages/survey.svg';
+import ReactSVG from 'react-svg';
 
 export class SurveyNodeWidget extends React.Component {
   constructor(props) {
@@ -20,7 +20,7 @@ export class SurveyNodeWidget extends React.Component {
           position: "relative",
         }}
       >
-        <SurveySVG />
+        <ReactSVG src={SurveySVG} />
 
         <div
           style={{

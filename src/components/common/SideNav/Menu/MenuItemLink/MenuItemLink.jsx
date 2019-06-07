@@ -6,7 +6,6 @@ const MenuItemLink = ({ href, name, target, sub, icon, children }) => (
   <React.Fragment>
     <a
       className={["menu-item", sub && sub].join(" ")}
-      // activeClassName="menu-item-active"
       href={href}
       target={target}
     >

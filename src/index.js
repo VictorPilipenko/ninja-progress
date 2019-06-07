@@ -5,7 +5,6 @@ import allReducers from './store/reducers/allReducers';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
-import promise from 'redux-promise';
 // import logger from 'redux-logger';
 import * as serviceWorker from './serviceWorker';
 import { AUTH_USER } from './store/actions/types/index';
@@ -24,11 +23,11 @@ const store = createStore(
     ...allReducers,
     router: connectRouter(history),
   }),
-  applyMiddleware(thunk, middleware, promise, /*logger*/)
+  applyMiddleware(thunk, middleware, /*logger*/)
 );
 
 const token = JSON.parse(localStorage.getItem('token'));
-// if (token && token.access_token) {
+
 if (token) {
   store.dispatch({ type: AUTH_USER });
 }

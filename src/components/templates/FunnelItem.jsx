@@ -100,10 +100,10 @@ class FunnelItem extends React.Component {
               value={this.state.NewProjectWithTemplateName}
               onChange={this.handleChange}
             />
-            {/* {this.props.work.templateError && this.props.work.templateError.length > 0 && (
-                <div className={`input-group`}>{this.props.work.templateError}</div>
-              )} */}
-            <button className='btn btn-1 create-project-button-in-modal' onClick={() => this.createNewProjectWithTemplate()}>Create Project With This Temple</button>
+            {this.props.messageCreateProject && (
+              <div className={`input-group`}>{this.props.messageCreateProject}</div>
+            )}
+            <button className='btn btn-1 create-project-button-in-modal' onClick={() => this.createNewProjectWithTemplate()}>Create Project With Template</button>
           </Modal>
 
 

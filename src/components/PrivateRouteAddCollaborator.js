@@ -5,11 +5,7 @@ import { Route, Redirect } from 'react-router-dom'
 export const PrivateRouteAddCollaborator = ({ component: ComposedComponent, ...rest }) => {
 
   class Authentication extends Component {
-
-    // componentDidMount = () => {
-    //   console.log('PrivateRouteAddCollaborator Component')
-    // }
-
+    
     // redirect if not authenticated; otherwise, return the component imputted into <PrivateRouteAddCollaborator />
     handleRender(props) {
       if (!this.props.authenticated) {

@@ -1,4 +1,5 @@
 import * as React from "react";
+import ReactSVG from 'react-svg';
 
 export class TrayItemWidget extends React.Component {
   constructor(props) {
@@ -15,11 +16,9 @@ export class TrayItemWidget extends React.Component {
             onDragStart={event => {
               event.dataTransfer.setData("storm-diagram-node", JSON.stringify(this.props.model));
             }}
-          // className="tray-item"
           >
             <div style={{ width: '100%' }}>
-              {/* {this.props.icon} */}
-              <img src={this.props.icon} alt='icon' />
+              <ReactSVG src={this.props.icon} />
             </div>
           </div>
         </div>

@@ -4,7 +4,9 @@ import axios from 'axios'
 import { API_URL } from '../../config'
 
 export function addCollaborator(tokenCollaborator) {
+  console.log('addCollaborator fun')
   const token = JSON.parse(localStorage.getItem('token'));
+  console.log(tokenCollaborator)
 
   const postData = {
     // 'password': password

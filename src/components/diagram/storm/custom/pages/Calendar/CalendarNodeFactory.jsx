@@ -16,3 +16,21 @@ export class CalendarNodeFactory extends SRD.AbstractNodeFactory {
 		return new CalendarNodeModel();
 	}
 }
+
+
+// export class NodeFactory extends SRD.AbstractNodeFactory {
+
+// 	constructor(name, reactWidget, model ) {
+// 		super(name);
+//     this.generateReactWidget = reactWidget;
+//     this.model = model;
+// 	}
+
+//   generateReactWidget(node) {
+// 		return <reactWidget node={node} />;
+// 	}
+
+// 	getNewInstance() {
+// 		return new this.model();
+// 	}
+// }

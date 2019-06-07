@@ -1,7 +1,6 @@
 .menu-item-upgrade {
 	padding: 10px 20px;
 	box-sizing: border-box;
-	/* display: block; */
 	width: 100%;
 	color: #fff;
 	margin: 6px 0;
@@ -13,9 +12,6 @@
   background: linear-gradient(84deg, #E62D24, #FD8F21);
   bottom: -5px;
   position: absolute;
-
-
-  /* user-select: none; */
 }
 
 .menu-item-upgrade:hover {

@@ -14,7 +14,7 @@ class Layout extends React.Component {
         {this.props.pathname.includes('settings') ?
           <>
             <Sidebar />
-              <Header title={this.props.title} />
+            <Header title={this.props.title} />
             <main className='main-settings'>
               <SidebarSettings />
               {children}
@@ -23,7 +23,7 @@ class Layout extends React.Component {
           :
           <>
             <Sidebar />
-              <Header title={this.props.title} />
+            <Header title={this.props.title} />
             <main className='main-settings'>
               {children}
             </main>

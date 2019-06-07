@@ -12,7 +12,6 @@ import {
 } from './types/index'
 
 import { push } from 'connected-react-router'
-// import { LOCATION_CHANGE } from 'connected-react-router'
 import axios from 'axios'
 import { API_URL } from '../../config'
 import Cookies from "js-cookie";

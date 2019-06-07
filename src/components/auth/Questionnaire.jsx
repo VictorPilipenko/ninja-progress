@@ -9,7 +9,7 @@ import logo from '../../assets/Logo_invert.png'
 import classNames from "classnames";
 
 const InputFeedback = ({ error }) =>
-  error ? <div className={classNames("input-group")}>{error}</div> : null;
+  error ? <div className={("input-group")}>{error}</div> : null;
 
 // Radio input
 const RadioButton = ({

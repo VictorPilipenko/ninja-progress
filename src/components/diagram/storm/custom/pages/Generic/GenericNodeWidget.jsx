@@ -1,7 +1,7 @@
 import * as React from "react";
 import { PortWidget } from "storm-react-diagrams";
-import { ReactComponent as GenericSVG } from '../../../../../../assets/pages/generic.svg';
-
+import GenericSVG from '../../../../../../assets/pages/generic.svg';
+import ReactSVG from 'react-svg';
 
 export class GenericNodeWidget extends React.Component {
   constructor(props) {
@@ -20,7 +20,7 @@ export class GenericNodeWidget extends React.Component {
           position: "relative",
         }}
       >
-        <GenericSVG />
+        <ReactSVG src={GenericSVG} />
 
         <div
           style={{

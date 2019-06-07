@@ -291,7 +291,7 @@ export function saveDiagram(funnelId, diagramObj) {
 
         setTimeout(() => {
           dispatch({ type: 'SAVE_DIAGRAM_SUCCESS_RESET' });
-        }, 1000)
+        }, 2000)
 
       })
       .catch(function (error) {
@@ -318,6 +318,10 @@ export function saveTemplate(funnelId, templateName) {
           type: 'SAVE_TEMPLATE_SUCCESS',
           payload: response.data.message
         });
+
+        setTimeout(() => {
+          dispatch({ type: 'SAVE_TEMPLATE_RESET' });
+        }, 2000)
       })
       .catch(function (error) {
         if (error.response) {
@@ -486,49 +490,12 @@ export function removeCollaborator(funnelId, profileId) {
   }
 }
 
-// export function sendImageToCollaborate(funnelId, image) {
-
-//   console.log(funnelId, image)
-
-//   return function (dispatch) {
-//     API.post(`funnel/diagram/screenshot`, {
-//       'funnelId': funnelId,
-//       "permissions": "View Only",
-//       "image": image,
-//     })
-//       .then(response => {
-//         console.log('sendImageToCollaborate response: ', response.data)
-//         // dispatch({
-//         //   type: 'SEND_IMAGE_TO_COLLABORATE_LINK',
-//         //   payload: response.data.link
-//         // });
-//         // dispatch({
-//         //   type: 'SEND_IMAGE_TO_COLLABORATE_LINK_SUCCESS',
-//         //   payload: response.data.message
-//         // });
-//         // setTimeout(() => {
-//         //   dispatch({ type: 'SEND_IMAGE_TO_COLLABORATE_LINK_RESET' });
-//         // }, 2000)
-//       })
-//       .catch(function (error) {
-//         if (error.response) {
-//           console.log(error.response)
-//           dispatch({
-//             type: 'SEND_IMAGE_TO_COLLABORATE_LINK_FAILURE',
-//             payload: error.response.data.error
-//           });
-//         }
-//       });
-//   }
-// }
-
-
 export function sendImageToCollaborate(funnelId, image) {
   const token = JSON.parse(localStorage.getItem('token'));
 
   let bodyFormData = new FormData();
   bodyFormData.append('screenshot', image);
-  bodyFormData.append('funnelId', funnelId);
+  bodyFormData.append('funnelsId', funnelId);
   bodyFormData.append('permissions', 'View Only');
 
   return function (dispatch) {

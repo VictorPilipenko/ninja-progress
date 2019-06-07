@@ -14,26 +14,20 @@ class AddCollaboratorsImage extends React.Component {
   };
 
   redirectToAddCollaborators = () => {
-    // console.log('Button is cliked!');
     let params = new URLSearchParams(this.props.router.location.search);
     this.setState({ referrer: `/add-collaborators/${params.get('add-collaborators-image')}` });
   }
 
-
   render() {
-
     let params = new URLSearchParams(this.props.router.location.search);
-    // console.log(params.get('image'))
-    // console.log(params.get('add-collaborators-image'))
+
 
     const { referrer } = this.state;
     if (referrer) return <Redirect to={referrer} />;
 
     return (
       <div className='add-collaborators-img-body'>
-
         <img className='add-collaborators-img-image' src={API_URL + '/' + params.get('image')} alt='img' />
-
         <div className='add-collaborators-img-right-panel-wrapper'>
           <div className='add-collaborators-img-right-panel'>
             <img className='signin-logo' src={logo} alt='logo' />
@@ -43,9 +37,6 @@ class AddCollaboratorsImage extends React.Component {
             <button className="btn btn-1" onClick={() => this.redirectToAddCollaborators()}>Add to My Dashboard</button>
           </div>
         </div>
-
-
-
         {/* {
           this.props.error && this.props.error.length > 0 ?
             <p className='create-funnels'>{this.props.error}</p> : null

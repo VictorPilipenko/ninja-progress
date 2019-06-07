@@ -1,7 +1,7 @@
 import * as React from "react";
 import { PortWidget } from "storm-react-diagrams";
-import { ReactComponent as UpsellSVG } from '../../../../../../assets/pages/upsell.svg';
-
+import UpsellSVG from '../../../../../../assets/pages/upsell.svg';
+import ReactSVG from 'react-svg';
 
 export class UpsellNodeWidget extends React.Component {
   constructor(props) {
@@ -20,7 +20,7 @@ export class UpsellNodeWidget extends React.Component {
           position: "relative",
         }}
       >
-        <UpsellSVG />
+        <ReactSVG src={UpsellSVG} />
 
         <div
           style={{

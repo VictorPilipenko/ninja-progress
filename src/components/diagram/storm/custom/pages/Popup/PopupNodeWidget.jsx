@@ -1,7 +1,7 @@
 import * as React from "react";
 import { PortWidget } from "storm-react-diagrams";
-import { ReactComponent as PopupSVG } from '../../../../../../assets/pages/popup.svg';
-
+import PopupSVG from '../../../../../../assets/pages/popup.svg';
+import ReactSVG from 'react-svg';
 
 export class PopupNodeWidget extends React.Component {
   constructor(props) {
@@ -20,7 +20,7 @@ export class PopupNodeWidget extends React.Component {
           position: "relative",
         }}
       >
-        <PopupSVG />
+        <ReactSVG src={PopupSVG} />
 
         <div
           style={{

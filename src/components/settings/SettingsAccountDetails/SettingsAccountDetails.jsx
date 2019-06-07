@@ -15,7 +15,6 @@ class SettingsAccountDetails extends Component {
           <ImageUpload />
           <ChangePassword />
         </div>
-
       </Layout>
     );
   }

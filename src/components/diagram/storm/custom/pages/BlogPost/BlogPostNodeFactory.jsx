@@ -16,3 +16,4 @@ export class BlogPostNodeFactory extends SRD.AbstractNodeFactory {
 		return new BlogPostNodeModel();
 	}
 }
+

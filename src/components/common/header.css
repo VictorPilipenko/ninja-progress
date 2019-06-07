@@ -30,15 +30,11 @@ header nav ul li {
 header nav ul li a {
   color: black;
 }
-/* header nav ul li a:hover {
-  color: blue;
-} */
 
 .header-buttons{
   display: flex;
   width: 400px;
   justify-content: space-evenly;
-  /* height: 50px; */
   align-items: center;
 }
 
@@ -49,9 +45,6 @@ header nav ul li a {
 .btn-sign-out{
   width: 80px !important;
 }
-
-
-
 
 
 .modal {

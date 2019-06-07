@@ -36,6 +36,18 @@ import { AddToCartNodeFactory } from "./custom/events/AddToCart/AddToCartNodeFac
 import { AddToCartPortModel } from "./custom/events/AddToCart/AddToCartPortModel";
 import { ClickButtonNodeFactory } from "./custom/events/ClickButton/ClickButtonNodeFactory";
 import { ClickButtonPortModel } from "./custom/events/ClickButton/ClickButtonPortModel";
+import { CompleteFormNodeFactory } from "./custom/events/CompleteForm/CompleteFormNodeFactory";
+import { CompleteFormPortModel } from "./custom/events/CompleteForm/CompleteFormPortModel";
+import { GenericEventNodeFactory } from "./custom/events/GenericEvent/GenericEventNodeFactory";
+import { GenericEventPortModel } from "./custom/events/GenericEvent/GenericEventPortModel";
+import { PopUpBoxNodeFactory } from "./custom/events/PopUpBox/PopUpBoxNodeFactory";
+import { PopUpBoxPortModel } from "./custom/events/PopUpBox/PopUpBoxPortModel";
+import { PurchaseNodeFactory } from "./custom/events/Purchase/PurchaseNodeFactory";
+import { PurchasePortModel } from "./custom/events/Purchase/PurchasePortModel";
+import { ScrollNodeFactory } from "./custom/events/Scroll/ScrollNodeFactory";
+import { ScrollPortModel } from "./custom/events/Scroll/ScrollPortModel";
+import { WatchVideoNodeFactory } from "./custom/events/WatchVideo/WatchVideoNodeFactory";
+import { WatchVideoPortModel } from "./custom/events/WatchVideo/WatchVideoPortModel";
 
 
 //import custom link and fuck
@@ -44,21 +56,7 @@ import { AdvancedLinkFactory } from "./custom/customLink";
 
 
 export default class Application {
-
   constructor(props) {
-
-    // console.log(props)
-
-    // this.mass = [
-    //   { type: "diamond", x: 390, y: 120 },
-    //   { type: "diamond", x: 650, y: 158 },
-    //   { type: "diamond", x: 500, y: 350 }
-    // ];
-
-    // this.vocabulary = {
-    //   diamond: DiamondNodeModel
-    // }
-
     this.engine = new RJD.DiagramEngine();
     this.engine.installDefaultFactories();
     this.engine.registerLinkFactory(new AdvancedLinkFactory());
@@ -98,6 +96,18 @@ export default class Application {
     this.engine.registerNodeFactory(new AddToCartNodeFactory());
     this.engine.registerPortFactory(new SimplePortFactory("ClickButton", config => new ClickButtonPortModel()));
     this.engine.registerNodeFactory(new ClickButtonNodeFactory());
+    this.engine.registerPortFactory(new SimplePortFactory("CompleteForm", config => new CompleteFormPortModel()));
+    this.engine.registerNodeFactory(new CompleteFormNodeFactory());
+    this.engine.registerPortFactory(new SimplePortFactory("GenericEvent", config => new GenericEventPortModel()));
+    this.engine.registerNodeFactory(new GenericEventNodeFactory());
+    this.engine.registerPortFactory(new SimplePortFactory("PopUpBox", config => new PopUpBoxPortModel()));
+    this.engine.registerNodeFactory(new PopUpBoxNodeFactory());
+    this.engine.registerPortFactory(new SimplePortFactory("Purchase", config => new PurchasePortModel()));
+    this.engine.registerNodeFactory(new PurchaseNodeFactory());
+    this.engine.registerPortFactory(new SimplePortFactory("Scroll", config => new ScrollPortModel()));
+    this.engine.registerNodeFactory(new ScrollNodeFactory());
+    this.engine.registerPortFactory(new SimplePortFactory("WatchVideo", config => new WatchVideoPortModel()));
+    this.engine.registerNodeFactory(new WatchVideoNodeFactory());
 
     props ? this.deSerialization(this.engine, props) : this.newModel()
   }
@@ -112,40 +122,12 @@ export default class Application {
 
   newModel() {
     this.activeModel = new RJD.DiagramModel();
-
-    // var node1 = new DiamondNodeModel();
-    // node1.setPosition(390, 120);
-
-    // var node2 = new DiamondNodeModel();
-    // node2.setPosition(650, 158);
-
-    // // Add the nodes and link to the model
-    // this.activeModel.addNode(node1);
-    // this.activeModel.addNode(node2);
-    // this.activeModel.addLink(this.linkNodes(node1.getPort('right'), node2.getPort('left')));
-
-
-    // this.activeModel.addAll( /*...this.createElements(this.massProps ? this.massProps : this.mass),*/node1, node2, this.linkNodes(node1.getPort('top'), node2.getPort('left')));
     this.engine.setDiagramModel(this.activeModel);
   }
 
   getDiagramEngine() {
     return this.engine;
   }
-
-  // getElements() {
-  //   return this
-  //     .engine
-  //     .getDiagramModel()
-  //     .getNodes();
-  // }
-
-  // linkNodes(port1, port2) {
-  //   const link = new AdvancedLinkModel();
-  //   link.setSourcePort(port1);
-  //   link.setTargetPort(port2);
-  //   return link;
-  // }
 
   serialization(engine, activeModel) {
     // We need this to help the system know what models to create form the JSON
@@ -188,12 +170,21 @@ export default class Application {
     engine.registerNodeFactory(new AddToCartNodeFactory());
     engine.registerPortFactory(new SimplePortFactory("ClickButton", config => new ClickButtonPortModel()));
     engine.registerNodeFactory(new ClickButtonNodeFactory());
-
+    engine.registerPortFactory(new SimplePortFactory("CompleteForm", config => new CompleteFormPortModel()));
+    engine.registerNodeFactory(new CompleteFormNodeFactory());
+    engine.registerPortFactory(new SimplePortFactory("GenericEvent", config => new GenericEventPortModel()));
+    engine.registerNodeFactory(new GenericEventNodeFactory());
+    engine.registerPortFactory(new SimplePortFactory("PopUpBox", config => new PopUpBoxPortModel()));
+    engine.registerNodeFactory(new PopUpBoxNodeFactory());
+    engine.registerPortFactory(new SimplePortFactory("Purchase", config => new PurchasePortModel()));
+    engine.registerNodeFactory(new PurchaseNodeFactory());
+    engine.registerPortFactory(new SimplePortFactory("Scroll", config => new ScrollPortModel()));
+    engine.registerNodeFactory(new ScrollNodeFactory());
+    engine.registerPortFactory(new SimplePortFactory("WatchVideo", config => new WatchVideoPortModel()));
+    engine.registerNodeFactory(new WatchVideoNodeFactory());
 
     // Serialize the model
     const str = JSON.stringify(activeModel.serializeDiagram());
-
-    // console.log(str);
     return str;
   }
 
@@ -202,11 +193,8 @@ export default class Application {
     const model2 = new RJD.DiagramModel();
     model2.deSerializeDiagram(JSON.parse(str), engine);
     engine.setDiagramModel(model2);
-
-    // console.log(model2);
     return model2;
   }
-
 }
 
 

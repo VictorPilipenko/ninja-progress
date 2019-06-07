@@ -160,7 +160,7 @@ export default function (state = initialState, action) {
     ///////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////////////////////////////////////////////
-    case 'SAVE_TEMPLATE_SUCCESS_RESET':
+    case 'SAVE_TEMPLATE_RESET':
       return { ...state, saveTemplateMessage: null }
     case 'SAVE_TEMPLATE_SUCCESS':
       return { ...state, saveTemplateMessage: action.payload };

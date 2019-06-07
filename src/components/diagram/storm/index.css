@@ -128,7 +128,6 @@
   cursor: pointer;
   font-weight: 500;
   font-size: 14px;
-  /* border: 0.3px solid #dce5ec */
 }
 
 
@@ -141,7 +140,7 @@
 }
 
 .diagram-header-buttons-wrapper{
-  width: 300px;
+  width: 460px;
   display: flex;
 }
 

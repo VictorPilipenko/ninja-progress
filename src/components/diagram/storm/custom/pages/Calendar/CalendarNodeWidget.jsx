@@ -1,7 +1,7 @@
-import * as React from "react";
+import React from 'react';
 import { PortWidget } from "storm-react-diagrams";
-import { ReactComponent as CalendarSVG } from '../../../../../../assets/pages/calendar.svg';
-
+import CalendarSVG from '../../../../../../assets/pages/calendar.svg';
+import ReactSVG from 'react-svg';
 
 export class CalendarNodeWidget extends React.Component {
   constructor(props) {
@@ -20,7 +20,7 @@ export class CalendarNodeWidget extends React.Component {
           position: "relative",
         }}
       >
-        <CalendarSVG />
+        <ReactSVG src={CalendarSVG} />
 
         <div
           style={{

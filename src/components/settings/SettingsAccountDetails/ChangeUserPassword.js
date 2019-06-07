@@ -30,7 +30,6 @@ class ChangeUserPassword extends React.Component {
             </label>
             <br />
             <input
-              // className='setting-input'
               id="currentPassword"
               placeholder="Enter your current password"
               type="password"
@@ -51,7 +50,6 @@ class ChangeUserPassword extends React.Component {
             </label>
               <br />
               <input
-                // className='setting-input'
                 id="newPassword"
                 placeholder="Enter your new password"
                 type="password"
@@ -71,7 +69,6 @@ class ChangeUserPassword extends React.Component {
             </label>
               <br />
               <input
-                // className='setting-input'
                 id="newPasswordConfirm"
                 placeholder="Confirm your new password"
                 type="password"

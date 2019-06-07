@@ -1,7 +1,8 @@
 import * as React from "react";
 import { PortWidget } from "storm-react-diagrams";
-import { ReactComponent as ClickButtonSVG } from '../../../../../../assets/Events/ClickButton.svg';
+import ClickButtonSVG from '../../../../../../assets/Events/ClickButton.svg';
 import './ClickButtonNodeWidget.css'
+import ReactSVG from 'react-svg';
 
 
 export class ClickButtonNodeWidget extends React.Component {
@@ -22,9 +23,13 @@ export class ClickButtonNodeWidget extends React.Component {
         }}
       >
         <div className='add-to-cart-model-wrapper'>
-          <ClickButtonSVG style={{ padding: 5, width: 40, height: 40 }} />
+          <div style={{ padding: 5, width: 40, height: 40 }}>
+            <ReactSVG src={ClickButtonSVG} beforeInjection={svg => {
+              svg.setAttribute('style', 'width: 40px; height: 40px;')
+            }} />
+          </div>
           <div className='add-to-cart-model-text-wrapper'>
-            <p className='add-to-cart-model-text'>sssssss</p>
+            <p className='add-to-cart-model-text'>test</p>
           </div>
         </div>
 

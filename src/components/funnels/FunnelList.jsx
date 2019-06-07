@@ -6,7 +6,6 @@ import { getAllFunnels, createFunnel } from '../../store/actions/projects'
 import FunnelItemContainer from './FunnelItemContainer.jsx'
 import Modal from '../common/Modal/Modal'
 import { ReactComponent as CreateFunnelSVG } from '../../assets/new_funnel.svg';
-// import { ReactComponent as TestSVG } from '../../assets/Blog_Post.svg';
 
 class FunnelList extends React.Component {
   componentDidMount() {
@@ -42,15 +41,6 @@ class FunnelList extends React.Component {
     return (
       <>
         <Layout title={`Funnels List`}>
-          {/* <button className="btn btn-1" onClick={this.showModal}
-            style={{
-              position: 'absolute',
-              top: '10px',
-              width: '150px',
-              left: '91px',
-              zIndex: 1
-            }}
-          >Create Funnel</button> */}
           <div className='projects-wrapper'>
             {
               this.props.funnels && this.props.funnels.length > 0 ?
@@ -65,7 +55,6 @@ class FunnelList extends React.Component {
                 ))
                 :
                 <div className='create-funnels' style={{ display: 'flex' }}>
-                  {/* <TestSVG /> */}
                   <CreateFunnelSVG />
                   <div style={{ alignSelf: 'center', width: 'max-content' }}>
                     <p style={{ fontSize: '25px', marginBottom: '-15px' }}>

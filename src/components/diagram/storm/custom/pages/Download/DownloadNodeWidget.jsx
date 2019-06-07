@@ -1,6 +1,7 @@
 import * as React from "react";
 import { PortWidget } from "storm-react-diagrams";
-import { ReactComponent as DownloadSVG } from '../../../../../../assets/pages/download.svg';
+import DownloadSVG from '../../../../../../assets/pages/download.svg';
+import ReactSVG from 'react-svg';
 
 
 export class DownloadNodeWidget extends React.Component {
@@ -20,7 +21,7 @@ export class DownloadNodeWidget extends React.Component {
           position: "relative",
         }}
       >
-        <DownloadSVG />
+        <ReactSVG src={DownloadSVG} />
 
         <div
           style={{

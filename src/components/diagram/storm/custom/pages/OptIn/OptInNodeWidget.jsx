@@ -1,7 +1,7 @@
 import * as React from "react";
 import { PortWidget } from "storm-react-diagrams";
-import { ReactComponent as OptInSVG } from '../../../../../../assets/pages/opt-in.svg';
-
+import OptInSVG from '../../../../../../assets/pages/opt-in.svg';
+import ReactSVG from 'react-svg';
 
 export class OptInNodeWidget extends React.Component {
   constructor(props) {
@@ -20,7 +20,7 @@ export class OptInNodeWidget extends React.Component {
           position: "relative",
         }}
       >
-        <OptInSVG />
+        <ReactSVG src={OptInSVG} />
 
         <div
           style={{

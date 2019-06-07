@@ -121,8 +121,6 @@ class ProjectItem extends React.Component {
       // handleDelete,
     } = this.props;
 
-    console.log('funnelsLength: ', funnelsLength)
-
     return (
       <>
         <div className='project-wrapper'>
@@ -214,9 +212,6 @@ class ProjectItem extends React.Component {
                     {
                       this.props.collaborators.map((item, key) => (
                         <React.Fragment key={key}>
-
-                          {/* {console.log(item)} */}
-
                           {item.myCollaborations.map((collaborator, key) =>
                             <div key={key} className='funnels-collaborators-item'>
 
@@ -232,17 +227,16 @@ class ProjectItem extends React.Component {
                                 onClick={() => this.changePermission(collaborator.funnelId, item._id, collaborator.permissions)}
                               >
                                 Change Permission
-                        </button>
+                              </button>
                               <button
                                 className='button-remove-collaborator'
                                 onClick={() => this.removeCollaborator(collaborator.funnelId, item._id)}
                               >
                                 Remove
-                        </button>
+                              </button>
 
                             </div>
                           )}
-
                         </React.Fragment>
                       ))
 
@@ -254,7 +248,7 @@ class ProjectItem extends React.Component {
             }
 
             {this.props.collaboratorsModalMessage && this.props.collaboratorsModalMessage.length > 0 && (
-              <div className={`input-group`} style={{marginTop: '10px', margin: 'auto', display: 'flex'}}>{this.props.collaboratorsModalMessage}</div>
+              <div className={`input-group`} style={{ marginTop: '10px', margin: 'auto', display: 'flex' }}>{this.props.collaboratorsModalMessage}</div>
             )}
             {
               this.props.link && this.props.link.length > 0 ?

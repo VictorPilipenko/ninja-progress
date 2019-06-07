@@ -22,27 +22,39 @@ import { ThankYouNodeModel } from "../custom/pages/ThankYou/ThankYouNodeModel";
 import { UpsellNodeModel } from "../custom/pages/Upsell/UpsellNodeModel";
 import { WebinarNodeModel } from "../custom/pages/Webinar/WebinarNodeModel";
 import { WebinarReplayNodeModel } from "../custom/pages/WebinarReplay/WebinarReplayNodeModel";
-import BlogPostPNG from '../../../../assets/pages/blog-post.png'
-import CalendarPNG from '../../../../assets/pages/calendar.png'
-import DownloadPNG from '../../../../assets/pages/download.png'
-import GenericPNG from '../../../../assets/pages/generic.png'
-import MembersAreaPNG from '../../../../assets/pages/members-area.png'
-import OptInPNG from '../../../../assets/pages/opt-in.png'
-import OrderPagePNG from '../../../../assets/pages/order-page.png'
-import PopupPNG from '../../../../assets/pages/popup.png'
-import SalesPagePNG from '../../../../assets/pages/sales-page.png'
-import SalesVideoPNG from '../../../../assets/pages/sales-video.png'
-import SurveyPNG from '../../../../assets/pages/survey.png'
-import ThankYouPNG from '../../../../assets/pages/thank-you.png'
-import UpsellPNG from '../../../../assets/pages/upsell.png'
-import WebinarPNG from '../../../../assets/pages/webinar.png'
-import WebinarReplayPNG from '../../../../assets/pages/webinar-replay.png'
+import BlogPostSVG from '../../../../assets/pages/blog-post.svg'
+import CalendarSVG from '../../../../assets/pages/calendar.svg'
+import DownloadSVG from '../../../../assets/pages/download.svg'
+import GenericSVG from '../../../../assets/pages/generic.svg'
+import MembersAreaSVG from '../../../../assets/pages/members-area.svg'
+import OptInSVG from '../../../../assets/pages/opt-in.svg'
+import OrderPageSVG from '../../../../assets/pages/order-page.svg'
+import PopupSVG from '../../../../assets/pages/popup.svg'
+import SalesPageSVG from '../../../../assets/pages/sales-page.svg'
+import SalesVideoSVG from '../../../../assets/pages/sales-video.svg'
+import SurveySVG from '../../../../assets/pages/survey.svg'
+import ThankYouSVG from '../../../../assets/pages/thank-you.svg'
+import UpsellSVG from '../../../../assets/pages/upsell.svg'
+import WebinarSVG from '../../../../assets/pages/webinar.svg'
+import WebinarReplaySVG from '../../../../assets/pages/webinar-replay.svg'
 
 import { AddToCartNodeModel } from "../custom/events/AddToCart/AddToCartNodeModel";
 import { ClickButtonNodeModel } from "../custom/events/ClickButton/ClickButtonNodeModel";
+import { CompleteFormNodeModel } from "../custom/events/CompleteForm/CompleteFormNodeModel";
+import { GenericEventNodeModel } from "../custom/events/GenericEvent/GenericEventNodeModel";
+import { PopUpBoxNodeModel } from "../custom/events/PopUpBox/PopUpBoxNodeModel";
+import { PurchaseNodeModel } from "../custom/events/Purchase/PurchaseNodeModel";
+import { ScrollNodeModel } from "../custom/events/Scroll/ScrollNodeModel";
+import { WatchVideoNodeModel } from "../custom/events/WatchVideo/WatchVideoNodeModel";
+import AddToCartSVG from '../../../../assets/Events/AddToCart.svg'
+import ClickButtonSVG from '../../../../assets/Events/ClickButton.svg'
+import CompleteFormSVG from '../../../../assets/Events/CompleteForm.svg'
+import GenericEventSVG from '../../../../assets/Events/GenericEvent.svg'
+import PopUpBoxSVG from '../../../../assets/Events/PopUpBox.svg'
+import PurchaseSVG from '../../../../assets/Events/Purchase.svg'
+import ScrollSVG from '../../../../assets/Events/Scroll.svg'
+import WatchVideoSVG from '../../../../assets/Events/WatchVideo.svg'
 
-import AddToCartPNG from '../../../../assets/Events/AddToCart.png'
-import ClickButtonPNG from '../../../../assets/Events/ClickButton.png'
 
 
 export default class BodyWidget extends React.Component {
@@ -110,6 +122,35 @@ export default class BodyWidget extends React.Component {
     this.props.work.resetSendImageToCollaborateLink();
   };
 
+  nodeFactory(data) {
+    switch (data.type) {
+      case "BlogPost": return new BlogPostNodeModel();
+      case "Calendar": return new CalendarNodeModel();
+      case "Download": return new DownloadNodeModel();
+      case "Generic": return new GenericNodeModel();
+      case "MembersArea": return new MembersAreaNodeModel();
+      case "OptIn": return new OptInNodeModel();
+      case "OrderPage": return new OrderPageNodeModel();
+      case "Popup": return new PopupNodeModel();
+      case "SalesPage": return new SalesPageNodeModel();
+      case "SalesVideo": return new SalesVideoNodeModel();
+      case "Survey": return new SurveyNodeModel();
+      case "ThankYou": return new ThankYouNodeModel();
+      case "Upsell": return new UpsellNodeModel();
+      case "Webinar": return new WebinarNodeModel();
+      case "WebinarReplay": return new WebinarReplayNodeModel();
+      case "AddToCart": return new AddToCartNodeModel();
+      case "ClickButton": return new ClickButtonNodeModel();
+      case "CompleteForm": return new CompleteFormNodeModel();
+      case "GenericEvent": return new GenericEventNodeModel();
+      case "PopUpBox": return new PopUpBoxNodeModel();
+      case "Purchase": return new PurchaseNodeModel();
+      case "Scroll": return new ScrollNodeModel();
+      case "WatchVideo": return new WatchVideoNodeModel();
+      default: return new AddToCartNodeModel();
+    }
+  }
+
   render() {
 
     return (
@@ -144,7 +185,8 @@ export default class BodyWidget extends React.Component {
                     .then(data => {
                       let name = randomString({ length: 10 });
                       var file = new File([data], name);
-                      this.props.work.sendImageToCollaborate(this.props.work.funnelId, file)
+                      this.saveDiagramHandle();
+                      this.props.work.sendImageToCollaborate(this.props.work.funnelId, file);
                     })
                     .catch(function (error) {
                       console.error('oops, something went wrong!', error);
@@ -190,9 +232,9 @@ export default class BodyWidget extends React.Component {
                 value={this.state.templateName}
                 onChange={this.handleChange}
               />
-              {/* {this.props.work.templateError && this.props.work.templateError.length > 0 && (
-                <div className={`input-group`}>{this.props.work.templateError}</div>
-              )} */}
+              {this.props.work.saveTemplateMessage && (
+                <div className={`input-group`}>{this.props.work.saveTemplateMessage}</div>
+              )}
               <button className='btn btn-1 create-project-button-in-modal' onClick={() => this.saveTemplateHandle()}>Create Template</button>
             </Modal>
 
@@ -211,21 +253,21 @@ export default class BodyWidget extends React.Component {
                 }}
               >
                 <TrayWidget show={this.state.show}>
-                  <TrayItemWidget model={{ type: "BlogPost" }} name="Blog post" icon={BlogPostPNG} />
-                  <TrayItemWidget model={{ type: "Calendar" }} name="Calendar" icon={CalendarPNG} />
-                  <TrayItemWidget model={{ type: "Download" }} name="Download" icon={DownloadPNG} />
-                  <TrayItemWidget model={{ type: "Generic" }} name="Generic" icon={GenericPNG} />
-                  <TrayItemWidget model={{ type: "MembersArea" }} name="Members area" icon={MembersAreaPNG} />
-                  <TrayItemWidget model={{ type: "OptIn" }} name="Opt in" icon={OptInPNG} />
-                  <TrayItemWidget model={{ type: "OrderPage" }} name="Order page" icon={OrderPagePNG} />
-                  <TrayItemWidget model={{ type: "Popup" }} name="Popup" icon={PopupPNG} />
-                  <TrayItemWidget model={{ type: "SalesPage" }} name="SalesPage" icon={SalesPagePNG} />
-                  <TrayItemWidget model={{ type: "SalesVideo" }} name="SalesVideo" icon={SalesVideoPNG} />
-                  <TrayItemWidget model={{ type: "Survey" }} name="Survey" icon={SurveyPNG} />
-                  <TrayItemWidget model={{ type: "ThankYou" }} name="ThankYou" icon={ThankYouPNG} />
-                  <TrayItemWidget model={{ type: "Upsell" }} name="Upsell" icon={UpsellPNG} />
-                  <TrayItemWidget model={{ type: "Webinar" }} name="Webinar" icon={WebinarPNG} />
-                  <TrayItemWidget model={{ type: "WebinarReplay" }} name="WebinarReplay" icon={WebinarReplayPNG} />
+                  <TrayItemWidget model={{ type: "BlogPost" }} name="Blog post" icon={BlogPostSVG} />
+                  <TrayItemWidget model={{ type: "Calendar" }} name="Calendar" icon={CalendarSVG} />
+                  <TrayItemWidget model={{ type: "Download" }} name="Download" icon={DownloadSVG} />
+                  <TrayItemWidget model={{ type: "Generic" }} name="Generic" icon={GenericSVG} />
+                  <TrayItemWidget model={{ type: "MembersArea" }} name="Members area" icon={MembersAreaSVG} />
+                  <TrayItemWidget model={{ type: "OptIn" }} name="Opt in" icon={OptInSVG} />
+                  <TrayItemWidget model={{ type: "OrderPage" }} name="Order page" icon={OrderPageSVG} />
+                  <TrayItemWidget model={{ type: "Popup" }} name="Popup" icon={PopupSVG} />
+                  <TrayItemWidget model={{ type: "SalesPage" }} name="SalesPage" icon={SalesPageSVG} />
+                  <TrayItemWidget model={{ type: "SalesVideo" }} name="SalesVideo" icon={SalesVideoSVG} />
+                  <TrayItemWidget model={{ type: "Survey" }} name="Survey" icon={SurveySVG} />
+                  <TrayItemWidget model={{ type: "ThankYou" }} name="ThankYou" icon={ThankYouSVG} />
+                  <TrayItemWidget model={{ type: "Upsell" }} name="Upsell" icon={UpsellSVG} />
+                  <TrayItemWidget model={{ type: "Webinar" }} name="Webinar" icon={WebinarSVG} />
+                  <TrayItemWidget model={{ type: "WebinarReplay" }} name="WebinarReplay" icon={WebinarReplaySVG} />
                 </TrayWidget>
               </ClickOutside> : null}
 
@@ -248,8 +290,14 @@ export default class BodyWidget extends React.Component {
                 }}
               >
                 <TrayWidget show={this.state.show}>
-                  <TrayItemWidget model={{ type: "AddToCart" }} name="AddToCart" icon={AddToCartPNG} />
-                  <TrayItemWidget model={{ type: "ClickButton" }} name="ClickButton" icon={ClickButtonPNG} />
+                  <TrayItemWidget model={{ type: "AddToCart" }} name="AddToCart" icon={AddToCartSVG} />
+                  <TrayItemWidget model={{ type: "ClickButton" }} name="ClickButton" icon={ClickButtonSVG} />
+                  <TrayItemWidget model={{ type: "CompleteForm" }} name="CompleteForm" icon={CompleteFormSVG} />
+                  <TrayItemWidget model={{ type: "GenericEvent" }} name="GenericEvent" icon={GenericEventSVG} />
+                  <TrayItemWidget model={{ type: "PopUpBox" }} name="PopUpBox" icon={PopUpBoxSVG} />
+                  <TrayItemWidget model={{ type: "Purchase" }} name="Purchase" icon={PurchaseSVG} />
+                  <TrayItemWidget model={{ type: "Scroll" }} name="Scroll" icon={ScrollSVG} />
+                  <TrayItemWidget model={{ type: "WatchVideo" }} name="WatchVideo" icon={WatchVideoSVG} />
                 </TrayWidget>
               </ClickOutside> : null}
 
@@ -283,50 +331,23 @@ export default class BodyWidget extends React.Component {
               onDrop={event => {
                 var data = JSON.parse(event.dataTransfer.getData("storm-diagram-node"));
 
-                // var nodesCount = _.keys(
-                //   this.props.app
-                //     .getDiagramEngine()
-                //     .getDiagramModel()
-                //     .getNodes()
-                // ).length;
+                const node = this.nodeFactory(data);
 
+                const points = this.props.app.getDiagramEngine().getRelativeMousePoint(event);
 
-                var node = null;
-
-
-                switch (data.type) {
-                  case "BlogPost": node = new BlogPostNodeModel(); break;
-                  case "Calendar": node = new CalendarNodeModel(); break;
-                  case "Download": node = new DownloadNodeModel(); break;
-                  case "Generic": node = new GenericNodeModel(); break;
-                  case "MembersArea": node = new MembersAreaNodeModel(); break;
-                  case "OptIn": node = new OptInNodeModel(); break;
-                  case "OrderPage": node = new OrderPageNodeModel(); break;
-                  case "Popup": node = new PopupNodeModel(); break;
-                  case "SalesPage": node = new SalesPageNodeModel(); break;
-                  case "SalesVideo": node = new SalesVideoNodeModel(); break;
-                  case "Survey": node = new SurveyNodeModel(); break;
-                  case "ThankYou": node = new ThankYouNodeModel(); break;
-                  case "Upsell": node = new UpsellNodeModel(); break;
-                  case "Webinar": node = new WebinarNodeModel(); break;
-                  case "WebinarReplay": node = new WebinarReplayNodeModel(); break;
-
-                  case "AddToCart": node = new AddToCartNodeModel(); break;
-                  case "ClickButton": node = new ClickButtonNodeModel(); break;
-
-                  default: break;
-                }
-
-
-                var points = this.props.app.getDiagramEngine().getRelativeMousePoint(event);
                 node.x = points.x;
                 node.y = points.y;
-                this.props.app
+
+                this
+                  .props
+                  .app
                   .getDiagramEngine()
                   .getDiagramModel()
                   .addNode(node);
+
                 this.forceUpdate();
               }}
+
               onDragOver={event => {
                 event.preventDefault();
               }}

@@ -1,9 +1,7 @@
-// import { push } from 'connected-react-router'
 import Cookies from "js-cookie";
 import { API } from './instance'
 import axios from 'axios'
 import { API_URL } from '../../config'
-
 
 export function changeUserName(data) {
   const {
@@ -44,7 +42,6 @@ export function changeUserName(data) {
   }
 }
 
-
 export function changeUserPassword(data) {
   const {
     currentPassword,
@@ -65,7 +62,6 @@ export function changeUserPassword(data) {
             type: "SETTINGS_MESSAGE_PASSWORD_SUCCESS",
             payload: response.data.message
           });
-          // Cookies.set("userFirstName", response.data.firstName);
 
           setTimeout(() => {
              dispatch({ type: 'SETTINGS_MESSAGE_PASSWORD_RESET' });
@@ -83,7 +79,6 @@ export function changeUserPassword(data) {
       });
   }
 }
-
 
 export function changeUserAvatar(avatar) {
   const token = JSON.parse(localStorage.getItem('token'));

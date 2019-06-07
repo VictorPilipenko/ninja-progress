@@ -4,14 +4,12 @@ import FunnelItem from './FunnelItem.jsx';
 import { deleteFunnel } from '../../store/actions/projects'
 
 class FunnelItemContainer extends Component {
-
   handleDelete = (projectId, funnelId) => {
     this.props.deleteFunnel(projectId, funnelId)
   }
 
   render() {
     const { _id, funnelName, projectId, funnelBody } = this.props;
-    // console.log(this.props)
     return (
       <FunnelItem
         _id={_id}

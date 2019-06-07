@@ -37,7 +37,6 @@ class ImageUpload extends React.Component {
 
   render() {
     const userAvatar = Cookies.get("userAvatar");
-    // console.log(userAvatar)
 
     let { imagePreviewUrl } = this.state;
     let $imagePreview = null;
@@ -75,8 +74,6 @@ class ImageUpload extends React.Component {
               style={{
                 width: '150px',
                 marginBottom: '20px'
-                // margin: 'auto',
-                // display: 'block',
               }}
             >
               Choose Image
