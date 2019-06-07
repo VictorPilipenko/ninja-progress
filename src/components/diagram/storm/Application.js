@@ -32,6 +32,11 @@ import { WebinarPortModel } from "./custom/pages/Webinar/WebinarPortModel";
 import { WebinarReplayNodeFactory } from "./custom/pages/WebinarReplay/WebinarReplayNodeFactory";
 import { WebinarReplayPortModel } from "./custom/pages/WebinarReplay/WebinarReplayPortModel";
 
+import { AddToCartNodeFactory } from "./custom/events/AddToCart/AddToCartNodeFactory";
+import { AddToCartPortModel } from "./custom/events/AddToCart/AddToCartPortModel";
+import { ClickButtonNodeFactory } from "./custom/events/ClickButton/ClickButtonNodeFactory";
+import { ClickButtonPortModel } from "./custom/events/ClickButton/ClickButtonPortModel";
+
 
 //import custom link and fuck
 import { SimplePortFactory } from "./custom/SimplePortFactory";
@@ -88,6 +93,11 @@ export default class Application {
     this.engine.registerNodeFactory(new WebinarNodeFactory());
     this.engine.registerPortFactory(new SimplePortFactory("WebinarReplay", config => new WebinarReplayPortModel()));
     this.engine.registerNodeFactory(new WebinarReplayNodeFactory());
+
+    this.engine.registerPortFactory(new SimplePortFactory("AddToCart", config => new AddToCartPortModel()));
+    this.engine.registerNodeFactory(new AddToCartNodeFactory());
+    this.engine.registerPortFactory(new SimplePortFactory("ClickButton", config => new ClickButtonPortModel()));
+    this.engine.registerNodeFactory(new ClickButtonNodeFactory());
 
     props ? this.deSerialization(this.engine, props) : this.newModel()
   }
@@ -173,6 +183,11 @@ export default class Application {
     engine.registerNodeFactory(new WebinarNodeFactory());
     engine.registerPortFactory(new SimplePortFactory("WebinarReplay", config => new WebinarReplayPortModel()));
     engine.registerNodeFactory(new WebinarReplayNodeFactory());
+
+    engine.registerPortFactory(new SimplePortFactory("AddToCart", config => new AddToCartPortModel()));
+    engine.registerNodeFactory(new AddToCartNodeFactory());
+    engine.registerPortFactory(new SimplePortFactory("ClickButton", config => new ClickButtonPortModel()));
+    engine.registerNodeFactory(new ClickButtonNodeFactory());
 
 
     // Serialize the model

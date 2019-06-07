@@ -22,22 +22,27 @@ import { ThankYouNodeModel } from "../custom/pages/ThankYou/ThankYouNodeModel";
 import { UpsellNodeModel } from "../custom/pages/Upsell/UpsellNodeModel";
 import { WebinarNodeModel } from "../custom/pages/Webinar/WebinarNodeModel";
 import { WebinarReplayNodeModel } from "../custom/pages/WebinarReplay/WebinarReplayNodeModel";
+import BlogPostPNG from '../../../../assets/pages/blog-post.png'
+import CalendarPNG from '../../../../assets/pages/calendar.png'
+import DownloadPNG from '../../../../assets/pages/download.png'
+import GenericPNG from '../../../../assets/pages/generic.png'
+import MembersAreaPNG from '../../../../assets/pages/members-area.png'
+import OptInPNG from '../../../../assets/pages/opt-in.png'
+import OrderPagePNG from '../../../../assets/pages/order-page.png'
+import PopupPNG from '../../../../assets/pages/popup.png'
+import SalesPagePNG from '../../../../assets/pages/sales-page.png'
+import SalesVideoPNG from '../../../../assets/pages/sales-video.png'
+import SurveyPNG from '../../../../assets/pages/survey.png'
+import ThankYouPNG from '../../../../assets/pages/thank-you.png'
+import UpsellPNG from '../../../../assets/pages/upsell.png'
+import WebinarPNG from '../../../../assets/pages/webinar.png'
+import WebinarReplayPNG from '../../../../assets/pages/webinar-replay.png'
 
-import { ReactComponent as BlogPostSVG } from '../../../../assets/pages/blog-post.svg'
-import { ReactComponent as CalendarSVG } from '../../../../assets/pages/calendar.svg'
-import { ReactComponent as DownloadSVG } from '../../../../assets/pages/download.svg'
-import { ReactComponent as GenericSVG } from '../../../../assets/pages/generic.svg'
-import { ReactComponent as MembersAreaSVG } from '../../../../assets/pages/members-area.svg'
-import { ReactComponent as OptInSVG } from '../../../../assets/pages/opt-in.svg'
-import { ReactComponent as OrderPageSVG } from '../../../../assets/pages/order-page.svg'
-import { ReactComponent as PopupSVG } from '../../../../assets/pages/popup.svg'
-import { ReactComponent as SalesPageSVG } from '../../../../assets/pages/sales-page.svg'
-import { ReactComponent as SalesVideoSVG } from '../../../../assets/pages/sales-video.svg'
-import { ReactComponent as SurveySVG } from '../../../../assets/pages/survey.svg'
-import { ReactComponent as ThankYouSVG } from '../../../../assets/pages/thank-you.svg'
-import { ReactComponent as UpsellSVG } from '../../../../assets/pages/upsell.svg'
-import { ReactComponent as WebinarSVG } from '../../../../assets/pages/webinar.svg'
-import { ReactComponent as WebinarReplaySVG } from '../../../../assets/pages/webinar-replay.svg'
+import { AddToCartNodeModel } from "../custom/events/AddToCart/AddToCartNodeModel";
+import { ClickButtonNodeModel } from "../custom/events/ClickButton/ClickButtonNodeModel";
+
+import AddToCartPNG from '../../../../assets/Events/AddToCart.png'
+import ClickButtonPNG from '../../../../assets/Events/ClickButton.png'
 
 
 export default class BodyWidget extends React.Component {
@@ -137,35 +142,27 @@ export default class BodyWidget extends React.Component {
                 onClick={() => {
                   domtoimage.toBlob(this.diagramRef)
                     .then(data => {
-                      // var img = new Image();
-                      // img.src = data;
-
-                      let name = randomString({length: 10});
+                      let name = randomString({ length: 10 });
                       var file = new File([data], name);
-
-                      // console.log(file)
-
-                      // this.setState({
-                      //   img: img.src
-                      // }, () => console.log(this.state))
-
-                      // console.log(name)
-
-        
-
                       this.props.work.sendImageToCollaborate(this.props.work.funnelId, file)
-
-                      // console.log(img.src)
-
-                      // fetch(img.src)
-                      //   .then(res => res.blob())
-                      //   .then(blob => console.log(blob))
-
-                      // var link = document.createElement('a');
-                      // link.download = 'my-diagram.png';
-                      // link.href = img.src;
-                      // link.click();
-
+                    })
+                    .catch(function (error) {
+                      console.error('oops, something went wrong!', error);
+                    });
+                }}>
+                Create Link To Collaborate With Image
+              </button>
+              <button
+                className="btn btn-1"
+                onClick={() => {
+                  domtoimage.toPng(this.diagramRef)
+                    .then(data => {
+                      var img = new Image();
+                      img.src = data;
+                      var link = document.createElement('a');
+                      link.download = 'my-diagram.png';
+                      link.href = img.src;
+                      link.click();
                     })
                     .catch(function (error) {
                       console.error('oops, something went wrong!', error);
@@ -202,7 +199,7 @@ export default class BodyWidget extends React.Component {
             <div className='panel-buttons'>
               {this.button('first', 'pages', 'panel-button panel-button-first')}
               {this.button('second', '2', 'panel-button')}
-              {this.button('third', '3', 'panel-button')}
+              {this.button('third', 'events', 'panel-button')}
               {this.button('fourth', '4', 'panel-button')}
               {this.button('fifth', '5', 'panel-button panel-button-last')}
             </div>
@@ -214,21 +211,21 @@ export default class BodyWidget extends React.Component {
                 }}
               >
                 <TrayWidget show={this.state.show}>
-                  <TrayItemWidget model={{ type: "BlogPost" }} name="Blog post" icon={<BlogPostSVG />} />
-                  <TrayItemWidget model={{ type: "Calendar" }} name="Calendar" icon={<CalendarSVG />} />
-                  <TrayItemWidget model={{ type: "Download" }} name="Download" icon={<DownloadSVG />} />
-                  <TrayItemWidget model={{ type: "Generic" }} name="Generic" icon={<GenericSVG />} />
-                  <TrayItemWidget model={{ type: "MembersArea" }} name="Members area" icon={<MembersAreaSVG />} />
-                  <TrayItemWidget model={{ type: "OptIn" }} name="Opt in" icon={<OptInSVG />} />
-                  <TrayItemWidget model={{ type: "OrderPage" }} name="Order page" icon={<OrderPageSVG />} />
-                  <TrayItemWidget model={{ type: "Popup" }} name="Popup" icon={<PopupSVG />} />
-                  <TrayItemWidget model={{ type: "SalesPage" }} name="SalesPage" icon={<SalesPageSVG />} />
-                  <TrayItemWidget model={{ type: "SalesVideo" }} name="SalesVideo" icon={<SalesVideoSVG />} />
-                  <TrayItemWidget model={{ type: "Survey" }} name="Survey" icon={<SurveySVG />} />
-                  <TrayItemWidget model={{ type: "ThankYou" }} name="ThankYou" icon={<ThankYouSVG />} />
-                  <TrayItemWidget model={{ type: "Upsell" }} name="Upsell" icon={<UpsellSVG />} />
-                  <TrayItemWidget model={{ type: "Webinar" }} name="Webinar" icon={<WebinarSVG />} />
-                  <TrayItemWidget model={{ type: "WebinarReplay" }} name="WebinarReplay" icon={<WebinarReplaySVG />} />
+                  <TrayItemWidget model={{ type: "BlogPost" }} name="Blog post" icon={BlogPostPNG} />
+                  <TrayItemWidget model={{ type: "Calendar" }} name="Calendar" icon={CalendarPNG} />
+                  <TrayItemWidget model={{ type: "Download" }} name="Download" icon={DownloadPNG} />
+                  <TrayItemWidget model={{ type: "Generic" }} name="Generic" icon={GenericPNG} />
+                  <TrayItemWidget model={{ type: "MembersArea" }} name="Members area" icon={MembersAreaPNG} />
+                  <TrayItemWidget model={{ type: "OptIn" }} name="Opt in" icon={OptInPNG} />
+                  <TrayItemWidget model={{ type: "OrderPage" }} name="Order page" icon={OrderPagePNG} />
+                  <TrayItemWidget model={{ type: "Popup" }} name="Popup" icon={PopupPNG} />
+                  <TrayItemWidget model={{ type: "SalesPage" }} name="SalesPage" icon={SalesPagePNG} />
+                  <TrayItemWidget model={{ type: "SalesVideo" }} name="SalesVideo" icon={SalesVideoPNG} />
+                  <TrayItemWidget model={{ type: "Survey" }} name="Survey" icon={SurveyPNG} />
+                  <TrayItemWidget model={{ type: "ThankYou" }} name="ThankYou" icon={ThankYouPNG} />
+                  <TrayItemWidget model={{ type: "Upsell" }} name="Upsell" icon={UpsellPNG} />
+                  <TrayItemWidget model={{ type: "Webinar" }} name="Webinar" icon={WebinarPNG} />
+                  <TrayItemWidget model={{ type: "WebinarReplay" }} name="WebinarReplay" icon={WebinarReplayPNG} />
                 </TrayWidget>
               </ClickOutside> : null}
 
@@ -239,8 +236,8 @@ export default class BodyWidget extends React.Component {
                 }}
               >
                 <TrayWidget show={this.state.show}>
-                  <TrayItemWidget model={{ type: "BlogPost" }} name="second" icon={<BlogPostSVG />} />
-                  <TrayItemWidget model={{ type: "BlogPost" }} name="second" icon={<BlogPostSVG />} />
+                  {/* <TrayItemWidget model={{ type: "BlogPost" }} name="second" icon={<BlogPostSVG />} /> */}
+                  {/* <TrayItemWidget model={{ type: "BlogPost" }} name="second" icon={<BlogPostSVG />} /> */}
                 </TrayWidget>
               </ClickOutside> : null}
 
@@ -251,8 +248,8 @@ export default class BodyWidget extends React.Component {
                 }}
               >
                 <TrayWidget show={this.state.show}>
-                  <TrayItemWidget model={{ type: "BlogPost" }} name="third" icon={<BlogPostSVG />} />
-                  <TrayItemWidget model={{ type: "BlogPost" }} name="third" icon={<BlogPostSVG />} />
+                  <TrayItemWidget model={{ type: "AddToCart" }} name="AddToCart" icon={AddToCartPNG} />
+                  <TrayItemWidget model={{ type: "ClickButton" }} name="ClickButton" icon={ClickButtonPNG} />
                 </TrayWidget>
               </ClickOutside> : null}
 
@@ -263,8 +260,8 @@ export default class BodyWidget extends React.Component {
                 }}
               >
                 <TrayWidget show={this.state.show}>
-                  <TrayItemWidget model={{ type: "BlogPost" }} name="fourth" icon={<BlogPostSVG />} />
-                  <TrayItemWidget model={{ type: "BlogPost" }} name="fourth" icon={<BlogPostSVG />} />
+                  {/* <TrayItemWidget model={{ type: "BlogPost" }} name="fourth" icon={<BlogPostSVG />} /> */}
+                  {/* <TrayItemWidget model={{ type: "BlogPost" }} name="fourth" icon={<BlogPostSVG />} /> */}
                 </TrayWidget>
               </ClickOutside> : null}
 
@@ -275,8 +272,8 @@ export default class BodyWidget extends React.Component {
                 }}
               >
                 <TrayWidget show={this.state.show}>
-                  <TrayItemWidget model={{ type: "BlogPost" }} name="fifth" icon={<BlogPostSVG />} />
-                  <TrayItemWidget model={{ type: "BlogPost" }} name="fifth" icon={<BlogPostSVG />} />
+                  {/* <TrayItemWidget model={{ type: "BlogPost" }} name="fifth" icon={<BlogPostSVG />} /> */}
+                  {/* <TrayItemWidget model={{ type: "BlogPost" }} name="fifth" icon={<BlogPostSVG />} /> */}
                 </TrayWidget>
               </ClickOutside> : null}
 
@@ -313,6 +310,10 @@ export default class BodyWidget extends React.Component {
                   case "Upsell": node = new UpsellNodeModel(); break;
                   case "Webinar": node = new WebinarNodeModel(); break;
                   case "WebinarReplay": node = new WebinarReplayNodeModel(); break;
+
+                  case "AddToCart": node = new AddToCartNodeModel(); break;
+                  case "ClickButton": node = new ClickButtonNodeModel(); break;
+
                   default: break;
                 }
 

@@ -37,11 +37,8 @@ class AddCollaboratorsImage extends React.Component {
         <div className='add-collaborators-img-right-panel-wrapper'>
           <div className='add-collaborators-img-right-panel'>
             <img className='signin-logo' src={logo} alt='logo' />
-
             <p className='add-collaborators-img-text-first'>The Following Funnel Has<br /> Been Shared with You</p>
-
             <CollaborateSVG />
-
             <p className='add-collaborators-img-text-second'>Click below to add to this funnel to <br /> your dashboard</p>
             <button className="btn btn-1" onClick={() => this.redirectToAddCollaborators()}>Add to My Dashboard</button>
           </div>
