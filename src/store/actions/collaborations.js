@@ -6,7 +6,7 @@ import { API_URL } from '../../config'
 export function addCollaborator(tokenCollaborator) {
   console.log('addCollaborator fun')
   const token = JSON.parse(localStorage.getItem('token'));
-  console.log(tokenCollaborator)
+  // console.log(tokenCollaborator)
 
   const postData = {
     // 'password': password
@@ -24,7 +24,7 @@ export function addCollaborator(tokenCollaborator) {
       .then(response => {
         dispatch({ type: 'ADD_COLLABORATOR_RESET' });
 
-        console.log('response.data.data: ', response.data.data)
+        // console.log('response.data.data: ', response.data.data)
 
         dispatch({
           type: 'ADD_COLLABORATOR',
@@ -57,7 +57,7 @@ export function getAllFunnelsCollaboration() {
       })
       .catch(function (error) {
         if (error.response) {
-          console.log(error.response)
+          // console.log(error.response)
           dispatch({
             type: 'GET_ALL_FUNNELS_COLLABORATION_FAILURE',
             payload: error.response.data.error
@@ -68,7 +68,7 @@ export function getAllFunnelsCollaboration() {
 }
 
 export function getAllCollaboratorsForFunnels(funnelsId) {
-  console.log('funnelsId: ', funnelsId)
+  // console.log('funnelsId: ', funnelsId)
   return function (dispatch) {
     API.post(`collaborators`, {
       'funnelsId': funnelsId
@@ -81,7 +81,7 @@ export function getAllCollaboratorsForFunnels(funnelsId) {
       // });
 
       .then(response => {
-        console.log('getAllCollaboratorsForFunnels action: ',response.data)
+        // console.log('getAllCollaboratorsForFunnels action: ',response.data)
         dispatch({
           type: 'GET_ALL_COLLABORATORS_FOR_FUNNELS',
           payload: response.data
@@ -90,7 +90,7 @@ export function getAllCollaboratorsForFunnels(funnelsId) {
       })
       .catch(function (error) {
         if (error.response) {
-          console.log(error.response)
+          // console.log(error.response)
           dispatch({
             type: 'GET_ALL_COLLABORATORS_FOR_FUNNELS_FAILURE',
             payload: error.response.data.error

@@ -55,6 +55,13 @@ import PurchaseSVG from '../../../../assets/Events/Purchase.svg'
 import ScrollSVG from '../../../../assets/Events/Scroll.svg'
 import WatchVideoSVG from '../../../../assets/Events/WatchVideo.svg'
 
+import { AddTagNodeModel } from "../custom/emailMarketing/AddTag/AddTagNodeModel";
+import { ConditionNodeModel } from "../custom/emailMarketing/Condition/ConditionNodeModel";
+
+import AddTagSVG from '../../../../assets/EmailMarketing/AddTag.svg'
+import ConditionSVG from '../../../../assets/EmailMarketing/Condition.svg'
+
+
 
 
 export default class BodyWidget extends React.Component {
@@ -93,8 +100,19 @@ export default class BodyWidget extends React.Component {
   }
 
   saveTemplateHandle = () => {
+    this.setState({
+      snackMsg: 'next',
+      converted: this.props.app.serialization(this.props.app.getDiagramEngine(), this.props.app.getDiagramEngine().getDiagramModel())
+    },
+      () => (
+        this.props.work.saveTemplate(this.props.work.funnelId, this.state)
+      )
+    )
+  }
+
+  createTemplateHandle = () => {
     this.saveDiagramHandle()
-    this.props.work.saveTemplate(this.props.work.funnelId, this.state.templateName)
+    this.props.work.createTemplate(this.props.work.funnelId, this.state.templateName)
   }
 
   toggle = e => this.setState({
@@ -147,11 +165,15 @@ export default class BodyWidget extends React.Component {
       case "Purchase": return new PurchaseNodeModel();
       case "Scroll": return new ScrollNodeModel();
       case "WatchVideo": return new WatchVideoNodeModel();
+      case "AddTag": return new AddTagNodeModel();
+      case "Condition": return new ConditionNodeModel();
       default: return new AddToCartNodeModel();
     }
   }
 
   render() {
+
+    // console.log(this.props)
 
     return (
       <>
@@ -178,22 +200,7 @@ export default class BodyWidget extends React.Component {
             }
 
             <div className='diagram-header-buttons-wrapper'>
-              <button
-                className="btn btn-1"
-                onClick={() => {
-                  domtoimage.toBlob(this.diagramRef)
-                    .then(data => {
-                      let name = randomString({ length: 10 });
-                      var file = new File([data], name);
-                      this.saveDiagramHandle();
-                      this.props.work.sendImageToCollaborate(this.props.work.funnelId, file);
-                    })
-                    .catch(function (error) {
-                      console.error('oops, something went wrong!', error);
-                    });
-                }}>
-                Create Link To Collaborate With Image
-              </button>
+
               <button
                 className="btn btn-1"
                 onClick={() => {
@@ -212,8 +219,34 @@ export default class BodyWidget extends React.Component {
                 }}>
                 Export PNG
               </button>
-              <button className="btn btn-1" onClick={() => this.saveDiagramHandle()}>Save Diagram</button>
-              <button className="btn btn-1" onClick={this.showTemplateModal}>Save As Template</button>
+
+
+              {this.props.work.pathname.includes('diagram') ?
+                <>
+                  <button
+                    className="btn btn-1"
+                    onClick={() => {
+                      domtoimage.toBlob(this.diagramRef)
+                        .then(data => {
+                          let name = randomString({ length: 10 });
+                          var file = new File([data], name);
+                          this.saveDiagramHandle();
+                          this.props.work.sendImageToCollaborate(this.props.work.funnelId, file);
+                        })
+                        .catch(function (error) {
+                          console.error('oops, something went wrong!', error);
+                        });
+                    }}>
+                    Create Link To Collaborate With Image
+                  </button>
+                  <button className="btn btn-1" onClick={() => this.saveDiagramHandle()}>Save Diagram</button>
+                  <button className="btn btn-1" onClick={this.showTemplateModal}>Save As Template</button>
+                </>
+                :
+                <button className="btn btn-1" onClick={() => this.saveTemplateHandle()}>Update Template</button>
+              }
+
+
             </div>
 
           </div>
@@ -232,17 +265,17 @@ export default class BodyWidget extends React.Component {
                 value={this.state.templateName}
                 onChange={this.handleChange}
               />
-              {this.props.work.saveTemplateMessage && (
-                <div className={`input-group`}>{this.props.work.saveTemplateMessage}</div>
+              {this.props.work.createTemplateMessage && (
+                <div className={`input-group`}>{this.props.work.createTemplateMessage}</div>
               )}
-              <button className='btn btn-1 create-project-button-in-modal' onClick={() => this.saveTemplateHandle()}>Create Template</button>
+              <button className='btn btn-1 create-project-button-in-modal' onClick={() => this.createTemplateHandle()}>Create Template</button>
             </Modal>
 
             <div className='panel-buttons'>
               {this.button('first', 'pages', 'panel-button panel-button-first')}
               {this.button('second', '2', 'panel-button')}
               {this.button('third', 'events', 'panel-button')}
-              {this.button('fourth', '4', 'panel-button')}
+              {this.button('fourth', 'EM', 'panel-button')}
               {this.button('fifth', '5', 'panel-button panel-button-last')}
             </div>
 
@@ -278,8 +311,7 @@ export default class BodyWidget extends React.Component {
                 }}
               >
                 <TrayWidget show={this.state.show}>
-                  {/* <TrayItemWidget model={{ type: "BlogPost" }} name="second" icon={<BlogPostSVG />} /> */}
-                  {/* <TrayItemWidget model={{ type: "BlogPost" }} name="second" icon={<BlogPostSVG />} /> */}
+                  {/* <TrayItemWidget model={{ type: "AddTag" }} name="AddTag" icon={AddTagSVG} /> */}
                 </TrayWidget>
               </ClickOutside> : null}
 
@@ -308,8 +340,8 @@ export default class BodyWidget extends React.Component {
                 }}
               >
                 <TrayWidget show={this.state.show}>
-                  {/* <TrayItemWidget model={{ type: "BlogPost" }} name="fourth" icon={<BlogPostSVG />} /> */}
-                  {/* <TrayItemWidget model={{ type: "BlogPost" }} name="fourth" icon={<BlogPostSVG />} /> */}
+                  <TrayItemWidget model={{ type: "AddTag" }} name="AddTag" icon={AddTagSVG} />
+                  <TrayItemWidget model={{ type: "Condition" }} name="Condition" icon={ConditionSVG} />
                 </TrayWidget>
               </ClickOutside> : null}
 
@@ -320,8 +352,7 @@ export default class BodyWidget extends React.Component {
                 }}
               >
                 <TrayWidget show={this.state.show}>
-                  {/* <TrayItemWidget model={{ type: "BlogPost" }} name="fifth" icon={<BlogPostSVG />} /> */}
-                  {/* <TrayItemWidget model={{ type: "BlogPost" }} name="fifth" icon={<BlogPostSVG />} /> */}
+                  {/* <TrayItemWidget model={{ type: "AddTag" }} name="AddTag" icon={AddTagSVG} /> */}
                 </TrayWidget>
               </ClickOutside> : null}
 

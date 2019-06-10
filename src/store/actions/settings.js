@@ -9,7 +9,7 @@ export function changeUserName(data) {
     email,
   } = data;
 
-  console.log(data)
+  // console.log(data)
   return function (dispatch) {
     API.patch(`myprofile`, {
       'firstName': name,
@@ -18,7 +18,7 @@ export function changeUserName(data) {
     })
       .then(response => {
         if (response.data) {
-          console.log(response.data)
+          // console.log(response.data)
           Cookies.set("userFirstName", name);
           dispatch({
             type: "SETTINGS_MESSAGE_NAME_SUCCESS",
@@ -44,12 +44,12 @@ export function changeUserName(data) {
 
 export function changeUserPassword(data) {
   const {
-    currentPassword,
+    // currentPassword,
     newPassword,
   } = data;
 
-  console.log('currentPassword: ', currentPassword)
-  console.log('newPassword: ', newPassword)
+  // console.log('currentPassword: ', currentPassword)
+  // console.log('newPassword: ', newPassword)
   return function (dispatch) {
     API.patch(`myprofile`, {
       "firstName": "",
@@ -70,7 +70,7 @@ export function changeUserPassword(data) {
       })
       .catch(function (error) {
         if (error.response) {
-          console.log(error.response)
+          // console.log(error.response)
           dispatch({
             type: "SETTINGS_MESSAGE_PASSWORD_FAILURE",
             payload: error.response.data.message
@@ -98,7 +98,7 @@ export function changeUserAvatar(avatar) {
     })
       .then(response => {
         if (response.data) {
-          console.log(response.data)
+          // console.log(response.data)
           dispatch({
             type: "SETTINGS_MESSAGE_AVATAR_SUCCESS",
             payload: response.data.message
@@ -112,7 +112,7 @@ export function changeUserAvatar(avatar) {
       })
       .catch(function (error) {
         if (error.response) {
-          console.log(error.response)
+          // console.log(error.response)
           dispatch({
             type: "SETTINGS_MESSAGE_AVATAR_FAILURE",
             payload: error.response.data.message

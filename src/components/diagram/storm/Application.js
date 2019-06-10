@@ -49,6 +49,11 @@ import { ScrollPortModel } from "./custom/events/Scroll/ScrollPortModel";
 import { WatchVideoNodeFactory } from "./custom/events/WatchVideo/WatchVideoNodeFactory";
 import { WatchVideoPortModel } from "./custom/events/WatchVideo/WatchVideoPortModel";
 
+import { AddTagNodeFactory } from "./custom/emailMarketing/AddTag/AddTagNodeFactory";
+import { AddTagPortModel } from "./custom/emailMarketing/AddTag/AddTagPortModel";
+import { ConditionNodeFactory } from "./custom/emailMarketing/Condition/ConditionNodeFactory";
+import { ConditionPortModel } from "./custom/emailMarketing/Condition/ConditionPortModel";
+
 
 //import custom link and fuck
 import { SimplePortFactory } from "./custom/SimplePortFactory";
@@ -108,6 +113,11 @@ export default class Application {
     this.engine.registerNodeFactory(new ScrollNodeFactory());
     this.engine.registerPortFactory(new SimplePortFactory("WatchVideo", config => new WatchVideoPortModel()));
     this.engine.registerNodeFactory(new WatchVideoNodeFactory());
+
+    this.engine.registerPortFactory(new SimplePortFactory("AddTag", config => new AddTagPortModel()));
+    this.engine.registerNodeFactory(new AddTagNodeFactory());
+    this.engine.registerPortFactory(new SimplePortFactory("Condition", config => new ConditionPortModel()));
+    this.engine.registerNodeFactory(new ConditionNodeFactory());
 
     props ? this.deSerialization(this.engine, props) : this.newModel()
   }
@@ -182,6 +192,11 @@ export default class Application {
     engine.registerNodeFactory(new ScrollNodeFactory());
     engine.registerPortFactory(new SimplePortFactory("WatchVideo", config => new WatchVideoPortModel()));
     engine.registerNodeFactory(new WatchVideoNodeFactory());
+
+    engine.registerPortFactory(new SimplePortFactory("AddTag", config => new AddTagPortModel()));
+    engine.registerNodeFactory(new AddTagNodeFactory());
+    engine.registerPortFactory(new SimplePortFactory("Condition", config => new ConditionPortModel()));
+    engine.registerNodeFactory(new ConditionNodeFactory());
 
     // Serialize the model
     const str = JSON.stringify(activeModel.serializeDiagram());

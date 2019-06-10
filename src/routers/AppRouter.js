@@ -37,6 +37,7 @@ const AppRouter = () => (
     <PrivateRoute path="/collaborations" component={Collaborations} />
     <PrivateRoute path='/funnels/:projectId' component={FunnelList} />
     <PrivateRoute path='/diagram/:funnelId' component={Diagram} />
+    <PrivateRoute path='/template/:funnelId' component={Diagram} />
     <PrivateRoute path='/templates' component={TemplatesList} />
 
     <PrivateRoute exact={true} path="/settings" component={SettingsAccountDetails} />

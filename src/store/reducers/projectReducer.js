@@ -28,7 +28,7 @@ const initialState = {
 }
 
 export default function (state = initialState, action) {
-  console.log(action.payload)
+  // console.log(action.payload)
   switch (action.type) {
     ///////////////////////////////////////////////////////////////////////////
     case 'RESET_ALL_PROJECTS':
@@ -157,6 +157,15 @@ export default function (state = initialState, action) {
       return { ...state, saveDiagramMessage: action.payload };
     case 'SAVE_DIAGRAM_FAILURE':
       return { ...state, saveDiagramMessage: action.payload };
+    ///////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////////////////////////////////////////////////////////
+    case 'CREATE_TEMPLATE_RESET':
+      return { ...state, createTemplateMessage: null }
+    case 'CREATE_TEMPLATE_SUCCESS':
+      return { ...state, createTemplateMessage: action.payload };
+    case 'CREATE_TEMPLATE_FAILURE':
+      return { ...state, createTemplateMessage: action.payload };
     ///////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////////////////////////////////////////////

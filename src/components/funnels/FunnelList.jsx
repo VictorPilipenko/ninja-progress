@@ -93,7 +93,7 @@ class FunnelList extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  console.log(state.projects[`funnelsList${ownProps.match.params.projectId}`])
+  // console.log(state.projects[`funnelsList${ownProps.match.params.projectId}`])
   return {
     funnels: state.projects[`funnelsList${ownProps.match.params.projectId}`],
     projectId: ownProps.match.params.projectId,

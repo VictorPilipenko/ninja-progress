@@ -6,7 +6,7 @@ import "storm-react-diagrams/dist/style.min.css";
 import { connect } from 'react-redux'
 import { saveDiagram, getTemplate, sendImageToCollaborate, resetSendImageToCollaborateLink } from '../../../store/actions/projects'
 import { getDiagram } from '../../../store/actions/projects'
-import { saveTemplate } from '../../../store/actions/projects'
+import { createTemplate, saveTemplate } from '../../../store/actions/projects'
 
 
 class App extends React.Component {
@@ -26,7 +26,7 @@ class App extends React.Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log("getDerivedStateFromProps nextProps: ", nextProps, "\ngetDerivedStateFromProps prevState: ", prevState)
+    // console.log("getDerivedStateFromProps nextProps: ", nextProps, "\ngetDerivedStateFromProps prevState: ", prevState)
     if (nextProps.diagram)
       if (nextProps.diagram.funnelBody.snackMsg !== prevState.snackMsg)
         return {
@@ -63,17 +63,19 @@ function mapStateToProps(state, ownProps) {
     diagram: state.projects[`diagram${ownProps.match.params.funnelId}`],
     funnelId: ownProps.match.params.funnelId,
     message: state.projects.saveDiagramMessage,
-    saveTemplateMessage: state.projects.saveTemplateMessage,
-    link: state.projects.sendImageToCollaborateLink
+    createTemplateMessage: state.projects.createTemplateMessage,
+    link: state.projects.sendImageToCollaborateLink,
+    pathname: state.router.location.pathname,
   };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     saveDiagram: (funnelId, obj) => dispatch(saveDiagram(funnelId, obj)),
+    saveTemplate: (funnelId, obj) => dispatch(saveTemplate(funnelId, obj)),
     getDiagram: id => dispatch(getDiagram(id)),
     getTemplate: id => dispatch(getTemplate(id)),
-    saveTemplate: (id, name) => dispatch(saveTemplate(id, name)),
+    createTemplate: (id, name) => dispatch(createTemplate(id, name)),
     sendImageToCollaborate: (id, data) => dispatch(sendImageToCollaborate(id, data)),
     resetSendImageToCollaborateLink: () => dispatch(resetSendImageToCollaborateLink()),
   }

@@ -10,7 +10,7 @@ import { ReactComponent as CreateProjectSVG } from '../../assets/new_project.svg
 
 class ProjectList extends React.Component {
   componentDidMount() {
-    console.log('componentDidMount getAllProject')
+    // console.log('componentDidMount getAllProject')
     this.props.getAllProjects();
   }
 
@@ -92,7 +92,7 @@ class ProjectList extends React.Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state.projects.projectsList)
+  // console.log(state.projects.projectsList)
   return {
     projects: state.projects.projectsList,
     error: state.projects.createProjectError,

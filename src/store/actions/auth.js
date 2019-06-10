@@ -49,7 +49,7 @@ export function signupUser(props) {
       'accountName': accountName,
     })
       .then(response => {
-        console.log(response.data)
+        // console.log(response.data)
 
         if (response.data) {
           localStorage.setItem('token', JSON.stringify(response.data.token));
@@ -95,7 +95,7 @@ export function signinUser(props) {
     })
       .then(response => {
         if (response.data) {
-          console.log(response.data)
+          // console.log(response.data)
           localStorage.setItem('token', JSON.stringify(response.data.token));
 
           dispatch({ type: AUTH_USER });
@@ -188,7 +188,7 @@ export function questionnaireUser(props) {
 
     API.patch(`myprofile`, obj)
       .then(response => {
-        console.log(response.data)
+        // console.log(response.data)
 
         dispatch({ type: QUESTIONNAIRE_SUCCESS });
 

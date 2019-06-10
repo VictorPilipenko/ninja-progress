@@ -306,7 +306,57 @@ export function saveDiagram(funnelId, diagramObj) {
   }
 }
 
-export function saveTemplate(funnelId, templateName) {
+export function saveTemplate(funnelId, diagramObj) {
+  return function (dispatch) {
+    API.patch(`template/update/${funnelId}`, {
+      'funnelBody': diagramObj
+    })
+      .then(response => {
+        console.log(response.data)
+        /************************************/
+        dispatch({
+          type: 'RESET_GET_DIAGRAM',
+          payload: funnelId
+        });
+
+        let res = {
+          funnelBody: {
+            converted: response.data.data.templateBody.funnelBody.converted,
+            snackMsg: 'next'
+          }
+        }
+
+        dispatch({
+          type: 'GET_DIAGRAM',
+          payload: {
+            funnelId,
+            res,
+          }
+        });
+        /************************************/
+        dispatch({
+          type: 'SAVE_DIAGRAM_SUCCESS',
+          payload: response.data.message
+        });
+
+        setTimeout(() => {
+          dispatch({ type: 'SAVE_DIAGRAM_SUCCESS_RESET' });
+        }, 2000)
+
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: 'CREATE_DIAGRAM_FAILURE',
+            payload: error.response.data.error
+          });
+        }
+      });
+  }
+}
+
+export function createTemplate(funnelId, templateName) {
   // console.log(funnelId, templateName)
   return function (dispatch) {
     API.post(`template/${funnelId}`, {
@@ -315,19 +365,19 @@ export function saveTemplate(funnelId, templateName) {
       .then(response => {
         console.log(response.data)
         dispatch({
-          type: 'SAVE_TEMPLATE_SUCCESS',
+          type: 'CREATE_TEMPLATE_SUCCESS',
           payload: response.data.message
         });
 
         setTimeout(() => {
-          dispatch({ type: 'SAVE_TEMPLATE_RESET' });
+          dispatch({ type: 'CREATE_TEMPLATE_RESET' });
         }, 2000)
       })
       .catch(function (error) {
         if (error.response) {
           console.log(error.response)
           dispatch({
-            type: 'SAVE_TEMPLATE_FAILURE',
+            type: 'CREATE_TEMPLATE_FAILURE',
             payload: error.response.data.error
           });
         }
