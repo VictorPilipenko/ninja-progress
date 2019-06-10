@@ -57,10 +57,18 @@ import WatchVideoSVG from '../../../../assets/Events/WatchVideo.svg'
 
 import { AddTagNodeModel } from "../custom/emailMarketing/AddTag/AddTagNodeModel";
 import { ConditionNodeModel } from "../custom/emailMarketing/Condition/ConditionNodeModel";
+import { CustomActionNodeModel } from "../custom/emailMarketing/CustomAction/CustomActionNodeModel";
+import { RemoveTagNodeModel } from "../custom/emailMarketing/RemoveTag/RemoveTagNodeModel";
+import { SendEmailNodeModel } from "../custom/emailMarketing/SendEmail/SendEmailNodeModel";
+import { SendNotificationNodeModel } from "../custom/emailMarketing/SendNotification/SendNotificationNodeModel";
+
 
 import AddTagSVG from '../../../../assets/EmailMarketing/AddTag.svg'
 import ConditionSVG from '../../../../assets/EmailMarketing/Condition.svg'
-
+import CustomActionSVG from '../../../../assets/EmailMarketing/CustomAction.svg'
+import RemoveTagSVG from '../../../../assets/EmailMarketing/RemoveTag.svg'
+import SendEmailSVG from '../../../../assets/EmailMarketing/SendEmail.svg'
+import SendNotificationSVG from '../../../../assets/EmailMarketing/SendNotification.svg'
 
 
 
@@ -167,13 +175,25 @@ export default class BodyWidget extends React.Component {
       case "WatchVideo": return new WatchVideoNodeModel();
       case "AddTag": return new AddTagNodeModel();
       case "Condition": return new ConditionNodeModel();
+      case "CustomAction": return new CustomActionNodeModel();
+      case "RemoveTag": return new RemoveTagNodeModel();
+      case "SendEmail": return new SendEmailNodeModel();
+      case "SendNotification": return new SendNotificationNodeModel();
+
       default: return new AddToCartNodeModel();
     }
   }
 
+  // createItemWidget(configElements) {
+  //   return configElements.forEach(item => {
+  //     engine.registerPortFactory(new PortFactory(item.name, config => new item.port()));
+  //     engine.registerNodeFactory(new NodeFactory(item.name, item.widget, item.nodeModel, item.svg));
+  //   })
+  // }
+
   render() {
 
-    // console.log(this.props)
+    // console.log(this.props.work.svg)
 
     return (
       <>
@@ -223,7 +243,7 @@ export default class BodyWidget extends React.Component {
 
               {this.props.work.pathname.includes('diagram') ?
                 <>
-                  <button
+                  {/* <button
                     className="btn btn-1"
                     onClick={() => {
                       domtoimage.toBlob(this.diagramRef)
@@ -238,12 +258,13 @@ export default class BodyWidget extends React.Component {
                         });
                     }}>
                     Create Link To Collaborate With Image
-                  </button>
+                  </button> // на будущее */}
                   <button className="btn btn-1" onClick={() => this.saveDiagramHandle()}>Save Diagram</button>
                   <button className="btn btn-1" onClick={this.showTemplateModal}>Save As Template</button>
                 </>
                 :
-                <button className="btn btn-1" onClick={() => this.saveTemplateHandle()}>Update Template</button>
+                null
+                // <button className="btn btn-1" onClick={() => this.saveTemplateHandle()}>Update Template</button> // на будущее
               }
 
 
@@ -342,6 +363,10 @@ export default class BodyWidget extends React.Component {
                 <TrayWidget show={this.state.show}>
                   <TrayItemWidget model={{ type: "AddTag" }} name="AddTag" icon={AddTagSVG} />
                   <TrayItemWidget model={{ type: "Condition" }} name="Condition" icon={ConditionSVG} />
+                  <TrayItemWidget model={{ type: "CustomAction" }} name="CustomAction" icon={CustomActionSVG} />
+                  <TrayItemWidget model={{ type: "RemoveTag" }} name="RemoveTag" icon={RemoveTagSVG} />
+                  <TrayItemWidget model={{ type: "SendEmail" }} name="SendEmail" icon={SendEmailSVG} />
+                  <TrayItemWidget model={{ type: "SendNotification" }} name="SendNotification" icon={SendNotificationSVG} />
                 </TrayWidget>
               </ClickOutside> : null}
 

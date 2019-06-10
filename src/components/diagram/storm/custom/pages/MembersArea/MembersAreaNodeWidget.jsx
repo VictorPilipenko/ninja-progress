@@ -1,6 +1,5 @@
 import * as React from "react";
 import { PortWidget } from "storm-react-diagrams";
-import MembersAreaSVG from '../../../../../../assets/pages/members-area.svg';
 import ReactSVG from 'react-svg';
 
 export class MembersAreaNodeWidget extends React.Component {
@@ -20,7 +19,7 @@ export class MembersAreaNodeWidget extends React.Component {
           position: "relative",
         }}
       >
-        <ReactSVG src={MembersAreaSVG} />
+        <ReactSVG src={this.props.svg} />
 
         <div
           style={{

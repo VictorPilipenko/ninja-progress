@@ -1,26 +1,16 @@
 import * as React from "react";
 import { PortWidget } from "storm-react-diagrams";
-import BlogPostSVG from '../../../../../../assets/pages/blog-post.svg';
 import ReactSVG from 'react-svg';
 
 export class BlogPostNodeWidget extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      // size: 90,
-      node: null
-    };
-  }
-
   render() {
     return (
       <div
-        // className="diamond-node"
         style={{
           position: "relative",
         }}
       >
-        <ReactSVG src={BlogPostSVG} />
+        <ReactSVG src={this.props.svg} />
 
         <div
           style={{

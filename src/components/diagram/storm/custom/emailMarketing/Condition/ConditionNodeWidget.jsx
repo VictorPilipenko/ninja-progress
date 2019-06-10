@@ -1,6 +1,5 @@
 import * as React from "react";
 import { PortWidget } from "storm-react-diagrams";
-import ConditionSVG from '../../../../../../assets/EmailMarketing/Condition.svg';
 import './ConditionNodeWidget.css';
 import ReactSVG from 'react-svg';
 
@@ -24,7 +23,7 @@ export class ConditionNodeWidget extends React.Component {
       >
         <div className='add-to-cart-model-wrapper'>
           <div style={{ padding: 5, width: 40, height: 40 }}>
-            <ReactSVG src={ConditionSVG} beforeInjection={svg => {
+            <ReactSVG src={this.props.svg} beforeInjection={svg => {
               svg.setAttribute('style', 'width: 40px; height: 40px;')
             }} />
           </div>

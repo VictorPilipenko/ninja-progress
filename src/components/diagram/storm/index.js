@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { saveDiagram, getTemplate, sendImageToCollaborate, resetSendImageToCollaborateLink } from '../../../store/actions/projects'
 import { getDiagram } from '../../../store/actions/projects'
 import { createTemplate, saveTemplate } from '../../../store/actions/projects'
+import { getSVG } from '../../../store/actions/projects'
 
 
 class App extends React.Component {
@@ -14,6 +15,7 @@ class App extends React.Component {
   componentDidMount() {
     this.props.getDiagram(this.props.funnelId);
     this.props.getTemplate(this.props.funnelId);
+    this.props.getSVG();
   }
 
   componentDidUpdate(prevProps) {
@@ -21,12 +23,13 @@ class App extends React.Component {
       if (prevProps.diagram.funnelBody.snackMsg !== this.state.snackMsg) {
         this.props.getDiagram(this.props.funnelId);
         this.props.getTemplate(this.props.funnelId);
+        // this.props.getSVG();
       }
     }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    // console.log("getDerivedStateFromProps nextProps: ", nextProps, "\ngetDerivedStateFromProps prevState: ", prevState)
+    console.log("getDerivedStateFromProps nextProps: ", nextProps, "\ngetDerivedStateFromProps prevState: ", prevState)
     if (nextProps.diagram)
       if (nextProps.diagram.funnelBody.snackMsg !== prevState.snackMsg)
         return {
@@ -50,7 +53,8 @@ class App extends React.Component {
   }
 
   render() {
-    var app = new Application(this.state.diagram && this.state.diagram);
+    // console.log(this.props.svg)
+    var app = new Application(this.state.diagram && this.state.diagram, this.props.svg && this.props.svg );
 
     return (
       <BodyWidget app={app} work={this.props} />
@@ -61,6 +65,7 @@ class App extends React.Component {
 function mapStateToProps(state, ownProps) {
   return {
     diagram: state.projects[`diagram${ownProps.match.params.funnelId}`],
+    svg: state.projects.svgList,
     funnelId: ownProps.match.params.funnelId,
     message: state.projects.saveDiagramMessage,
     createTemplateMessage: state.projects.createTemplateMessage,
@@ -71,6 +76,7 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = dispatch => {
   return {
+    getSVG: () => dispatch(getSVG()),
     saveDiagram: (funnelId, obj) => dispatch(saveDiagram(funnelId, obj)),
     saveTemplate: (funnelId, obj) => dispatch(saveTemplate(funnelId, obj)),
     getDiagram: id => dispatch(getDiagram(id)),

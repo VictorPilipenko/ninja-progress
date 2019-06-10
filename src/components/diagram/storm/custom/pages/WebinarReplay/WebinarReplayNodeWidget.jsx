@@ -1,6 +1,5 @@
 import * as React from "react";
 import { PortWidget } from "storm-react-diagrams";
-import WebinarReplaySVG from '../../../../../../assets/pages/webinar-replay.svg';
 import ReactSVG from 'react-svg';
 
 export class WebinarReplayNodeWidget extends React.Component {
@@ -20,7 +19,7 @@ export class WebinarReplayNodeWidget extends React.Component {
           position: "relative",
         }}
       >
-        <ReactSVG src={WebinarReplaySVG} />
+        <ReactSVG src={this.props.svg} />
 
         <div
           style={{

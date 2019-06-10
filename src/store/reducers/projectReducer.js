@@ -189,8 +189,6 @@ export default function (state = initialState, action) {
     ///////////////////////////////////////////////////////////////////////////
 
 
-
-
     ///////////////////////////////////////////////////////////////////////////
     case 'COLLABORATORS_MODAL_MESSAGE_SUCCESS':
       return { ...state, collaboratorsModalMessage: action.payload }
@@ -200,6 +198,19 @@ export default function (state = initialState, action) {
       return { ...state, collaboratorsModalMessage: '' }
     ///////////////////////////////////////////////////////////////////////////
 
+
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    case 'RESET_ALL_SVG':
+      return { ...state, svgList: [] };
+    case 'GET_ALL_SVG':
+      return { ...state, svgList: action.payload };
+    case 'GET_ALL_SVG_SUCCESS':
+      return { ...state, getAllSvgMessage: '' };
+    case 'GET_ALL_SVG_FAILURE':
+      return { ...state, getAllSvgMessage: action.payload };
+    ///////////////////////////////////////////////////////////////////////////  
 
 
 

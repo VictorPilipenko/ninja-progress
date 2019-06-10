@@ -588,3 +588,35 @@ export function resetSendImageToCollaborateLink() {
     dispatch({ type: 'SEND_IMAGE_TO_COLLABORATE_LINK_RESET' });
   }
 }
+
+export function getSVG() {
+  return function (dispatch) {
+
+    // dispatch({ type: 'GET_ALL_SVG' });
+    API.get(`funnel/svg`)
+      .then(response => {
+        // console.log('getSVG response: ', response.data)
+
+        // dispatch({
+        //   type: 'RESET_GET_SVG',
+        //   payload: funnelId
+        // });
+
+        dispatch({
+          type: 'GET_ALL_SVG',
+          payload: response.data,
+        });
+
+        dispatch({ type: 'GET_ALL_SVG_SUCCESS' });
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: 'GET_DIAGRAM_FAILURE',
+            payload: error.response.data.error
+          });
+        }
+      });
+  }
+}

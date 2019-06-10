@@ -3,10 +3,11 @@ import { PortModel } from "storm-react-diagrams";
 import { AdvancedLinkModel } from "../../customLink";
 
 
-export class BlogPostPortModel extends PortModel {
+export class SendNotificationPortModel extends PortModel {
+	// position: string | "top" | "bottom" | "left" | "right";
 
 	constructor(pos = "top") {
-		super(pos, "BlogPost");
+		super(pos, "SendNotification");
 		this.position = pos;
 	}
 

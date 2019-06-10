@@ -1,6 +1,5 @@
 import * as React from "react";
 import { PortWidget } from "storm-react-diagrams";
-import CompleteFormSVG from '../../../../../../assets/Events/CompleteForm.svg';
 import './CompleteFormNodeWidget.css'
 import ReactSVG from 'react-svg';
 
@@ -23,7 +22,7 @@ export class CompleteFormNodeWidget extends React.Component {
       >
         <div className='add-to-cart-model-wrapper'>
          <div style={{ padding: 5, width: 40, height: 40 }}>
-            <ReactSVG src={CompleteFormSVG} beforeInjection={svg => {
+            <ReactSVG src={this.props.svg} beforeInjection={svg => {
               svg.setAttribute('style', 'width: 40px; height: 40px;')
             }} />
           </div>
