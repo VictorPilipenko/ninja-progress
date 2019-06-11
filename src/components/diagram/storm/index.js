@@ -23,7 +23,6 @@ class App extends React.Component {
       if (prevProps.diagram.funnelBody.snackMsg !== this.state.snackMsg) {
         this.props.getDiagram(this.props.funnelId);
         this.props.getTemplate(this.props.funnelId);
-        // this.props.getSVG();
       }
     }
   }

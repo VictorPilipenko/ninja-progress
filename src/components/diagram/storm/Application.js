@@ -216,8 +216,8 @@ export default class Application  {
 
   createElements(configElements, engine) {
     return configElements.forEach(item => {
-      engine.registerPortFactory(new PortFactory(item.name, config => new item.port()));
-      engine.registerNodeFactory(new NodeFactory(item.name, item.widget, item.nodeModel, item.svg));
+      engine.registerPortFactory(new PortFactory(item.name, () => new item.port(item.name)));
+      engine.registerNodeFactory(new NodeFactory(item.name, item.widget, () => new item.nodeModel(item.name), item.svg));
     })
   }
 

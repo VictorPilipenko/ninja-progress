@@ -8,6 +8,7 @@ export class TrayItemWidget extends React.Component {
   }
 
   render() {
+    // console.log(this.props)
     return (
       <div className='tray-item-body'>
         <div className='tray-item-wrapper'>

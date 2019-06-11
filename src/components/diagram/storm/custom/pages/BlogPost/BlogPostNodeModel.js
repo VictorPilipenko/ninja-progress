@@ -2,8 +2,9 @@ import { NodeModel } from "storm-react-diagrams";
 import { BlogPostPortModel } from "./BlogPostPortModel";
 
 export class BlogPostNodeModel extends NodeModel {
-	constructor() {
-		super("BlogPost");
+	constructor(name) {
+		// console.log('BlogPostNodeModel: ', name)
+		super('BlogPost');
 		this.addPort(new BlogPostPortModel("top"));
 		this.addPort(new BlogPostPortModel("left"));
 		this.addPort(new BlogPostPortModel("bottom"));

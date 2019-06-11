@@ -6,7 +6,8 @@ import { AdvancedLinkModel } from "../../customLink";
 export class BlogPostPortModel extends PortModel {
 
 	constructor(pos = "top") {
-		super(pos, "BlogPost");
+		// console.log('BlogPostPortModel: ', name)
+		super(pos, 'BlogPost');
 		this.position = pos;
 	}
 
