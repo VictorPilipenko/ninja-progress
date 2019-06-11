@@ -604,7 +604,7 @@ export function getSVG() {
 
         dispatch({
           type: 'GET_ALL_SVG',
-          payload: response.data,
+          payload: response.data.response,
         });
 
         dispatch({ type: 'GET_ALL_SVG_SUCCESS' });

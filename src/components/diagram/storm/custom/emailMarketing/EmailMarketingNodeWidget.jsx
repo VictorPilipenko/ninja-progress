@@ -1,10 +1,11 @@
 import * as React from "react";
 import { PortWidget } from "storm-react-diagrams";
 import ReactSVG from 'react-svg';
-import ClickOutside from '../../../../../common/ClickOutside'
-import ModalNodeWidget from '../../../../../common/ModalNodeWidget'
+import ClickOutside from '../../../../common/ClickOutside'
+import ModalNodeWidget from '../../../../common/ModalNodeWidget'
+import './EmailMarketingNodeWidget.css'
 
-export class BlogPostNodeWidget extends React.Component {
+export class EmailMarketingNodeWidget extends React.Component {
   state = {
     show: false,
     label: this.props.label,
@@ -41,9 +42,9 @@ export class BlogPostNodeWidget extends React.Component {
           }}
         >
           <Select show={this.state.show} handleClose={this.hideModal} expanded={this.state.expanded}>
-            <button className='btn-select ' onClick={this.showSettingsModal}>1</button>
-            <button className='btn-select '>2</button>
-            <button className='btn-select '>3</button>
+            <button className='btn-select' onClick={this.showSettingsModal}>1</button>
+            <button className='btn-select'>2</button>
+            <button className='btn-select'>3</button>
             <button className='btn-select'>4</button>
           </Select>
         </ClickOutside>
@@ -84,14 +85,23 @@ export class BlogPostNodeWidget extends React.Component {
             onClick={this.showModal}
           >
 
-            <ReactSVG src={this.props.svg} />
+            <div className='add-to-cart-model-wrapper'>
+              <div style={{ padding: 5, width: 40, height: 40 }}>
+                <ReactSVG src={this.props.svg} beforeInjection={svg => {
+                  svg.setAttribute('style', 'width: 40px; height: 40px;')
+                }} />
+              </div>
+              <div className='add-to-cart-model-text-wrapper'>
+                <p className='add-to-cart-model-text'>test</p>
+              </div>
+            </div>
 
             <div
               style={{
                 position: "absolute",
                 zIndex: 10,
-                top: 55,
-                left: -13,
+                top: 19,
+                left: -15,
               }}
             >
               <PortWidget name="left" node={this.props.node} />
@@ -101,8 +111,8 @@ export class BlogPostNodeWidget extends React.Component {
               style={{
                 position: "absolute",
                 zIndex: 10,
-                top: -13,
-                left: 38,
+                top: -14,
+                left: 75,
               }}
             >
               <PortWidget name="top" node={this.props.node} />
@@ -112,8 +122,8 @@ export class BlogPostNodeWidget extends React.Component {
               style={{
                 position: "absolute",
                 zIndex: 10,
-                top: 55,
-                left: 90,
+                top: 19,
+                left: 152,
               }}
             >
               <PortWidget name="right" node={this.props.node} />
@@ -123,8 +133,8 @@ export class BlogPostNodeWidget extends React.Component {
               style={{
                 position: "absolute",
                 zIndex: 10,
-                top: 119,
-                left: 38,
+                top: 49,
+                left: 75,
               }}
             >
               <PortWidget name="bottom" node={this.props.node} />

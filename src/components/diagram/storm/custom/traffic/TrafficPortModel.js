@@ -1,13 +1,12 @@
 import * as _ from "lodash";
 import { PortModel } from "storm-react-diagrams";
-import { AdvancedLinkModel } from "../../customLink";
+import { AdvancedLinkModel } from "../customLink";
 
 
-export class ConditionPortModel extends PortModel {
-	// position: string | "top" | "bottom" | "left" | "right";
+export class TrafficPortModel extends PortModel {
 
-	constructor(pos = "top") {
-		super(pos, "Condition");
+	constructor(name, pos = "top") {
+		super(pos, name);
 		this.position = pos;
 	}
 

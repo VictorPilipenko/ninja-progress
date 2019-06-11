@@ -19,7 +19,12 @@ export class TrayItemWidget extends React.Component {
             }}
           >
             <div style={{ width: '100%' }}>
-              <ReactSVG src={this.props.icon} />
+              <ReactSVG
+                src={this.props.icon}
+                // beforeInjection={svg => {
+                //   svg.setAttribute('style', 'width: 51px; height: 51px;')
+                // }}
+              />
             </div>
           </div>
         </div>

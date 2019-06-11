@@ -11,20 +11,31 @@ import { getSVG } from '../../../store/actions/projects'
 
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      snackMsg: 'prev',
+    };
+  }
 
   componentDidMount() {
+    console.log('componentDidMount this.props: ', this.props)
     this.props.getDiagram(this.props.funnelId);
     this.props.getTemplate(this.props.funnelId);
     this.props.getSVG();
   }
 
   componentDidUpdate(prevProps) {
+    console.log('componentDidUpdate prevProps: ', prevProps)
     if (prevProps.diagram) {
       if (prevProps.diagram.funnelBody.snackMsg !== this.state.snackMsg) {
         this.props.getDiagram(this.props.funnelId);
         this.props.getTemplate(this.props.funnelId);
       }
     }
+    else return null;
+
+    if (prevProps.svg === undefined) this.props.getSVG()
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -44,16 +55,9 @@ class App extends React.Component {
       return null;
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      snackMsg: 'prev',
-    };
-  }
 
   render() {
-    // console.log(this.props.svg)
-    var app = new Application(this.state.diagram && this.state.diagram, this.props.svg && this.props.svg );
+    var app = new Application(this.state.diagram && this.state.diagram, this.props.svg && this.props.svg);
 
     return (
       <BodyWidget app={app} work={this.props} />

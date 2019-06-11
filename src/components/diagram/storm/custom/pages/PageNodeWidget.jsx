@@ -1,52 +1,70 @@
 import * as React from "react";
 import { PortWidget } from "storm-react-diagrams";
 import ReactSVG from 'react-svg';
+import ClickOutside from '../../../../common/ClickOutside'
+import ModalNodeWidget from '../../../../common/ModalNodeWidget'
 
-export class MembersAreaNodeWidget extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      // size: 90,
-      node: null
-    };
+export class PageNodeWidget extends React.Component {
+  state = {
+    show: false,
+    label: this.props.node.extras.name,
   }
+  showModal = () => {
+    this.setState({ show: true });
+  };
+
+  hideModal = () => {
+    this.setState({ show: false });
+  };
+
+  showSettingsModal = () => {
+    this.setState({ showSettings: true });
+  };
+
+  hideSettingsModal = () => {
+    this.setState({ showSettings: false });
+  };
+
+  handleChange = e => this.setState({
+    label: e.target.value
+  });
+
 
   render() {
-    return (
-       <>
 
-        {/* <ClickOutside
+    console.log(this.props)
+
+    return (
+      <>
+
+        <ClickOutside
           onClickOutside={() => {
             this.setState({ show: false })
           }}
         >
           <Select show={this.state.show} handleClose={this.hideModal} expanded={this.state.expanded}>
-            <button className='btn-select btn-select-copy' onClick={this.showSettingsModal}>settings</button>
-            <button className='btn-select btn-select-copy'>Make a copy</button>
-            <button className='btn-select btn-select-share'>Share</button>
-            <button className='btn-select btn-select-delete'>Delete</button>
+            <button className='btn-select' onClick={this.showSettingsModal}>1</button>
+            <button className='btn-select'>2</button>
+            <button className='btn-select'>3</button>
+            <button className='btn-select'>4</button>
           </Select>
         </ClickOutside>
 
         <ModalNodeWidget show={this.state.showSettings} handleClose={this.hideSettingsModal}>
-          <label className='label-create'>Create New Project</label>
+          <label className='label-create'>Settings</label>
 
           <label htmlFor="Name" className='label-input'>
             Name
-
           </label>
           <input
             id="Name"
-            placeholder="Template Name"
+            placeholder="Label Name"
             type="text"
-            value={this.state.NewProjectWithTemplateName}
+            value={this.state.label}
             onChange={this.handleChange}
           />
-          {this.props.messageCreateProject && (
-            <div className={`input-group`}>{this.props.messageCreateProject}</div>
-          )}
-          <button className='btn btn-1 create-project-button-in-modal' onClick={() => this.createNewProjectWithTemplate()}>Create Project With Template</button>
-        </ModalNodeWidget> */}
+          <button onClick={() => this.props.node.extras.setName(this.state.label)}>Update</button>
+        </ModalNodeWidget>
 
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -55,9 +73,10 @@ export class MembersAreaNodeWidget extends React.Component {
               position: 'absolute',
               zIndex: 10,
               top: -40,
+              color: '#fff',
             }}
           >
-            {this.props.label}
+            {this.state.label}
           </div>
 
 
@@ -120,3 +139,16 @@ export class MembersAreaNodeWidget extends React.Component {
     );
   }
 }
+
+//modalka, fuck yeah
+const Select = ({ show, children }) => {
+  const showHideClassName = show ? "select-modal-node-widget display-block" : "select-modal-node-widget display-none";
+
+  return (
+    <div className={showHideClassName}>
+      <section className="select-main-modal-node-widget  up-arrow ">
+        {children}
+      </section>
+    </div>
+  );
+};

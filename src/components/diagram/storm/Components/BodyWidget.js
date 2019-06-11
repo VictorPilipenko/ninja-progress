@@ -7,69 +7,18 @@ import ClickOutside from '../../../common/ClickOutside'
 import Modal from '../../../common/Modal/Modal'
 import randomString from 'random-string';
 // import the custom models
-import { BlogPostNodeModel } from "../custom/pages/BlogPost/BlogPostNodeModel";
-import { CalendarNodeModel } from "../custom/pages/Calendar/CalendarNodeModel";
-import { DownloadNodeModel } from "../custom/pages/Download/DownloadNodeModel";
-import { GenericNodeModel } from "../custom/pages/Generic/GenericNodeModel";
-import { MembersAreaNodeModel } from "../custom/pages/MembersArea/MembersAreaNodeModel";
-import { OptInNodeModel } from "../custom/pages/OptIn/OptInNodeModel";
-import { OrderPageNodeModel } from "../custom/pages/OrderPage/OrderPageNodeModel";
-import { PopupNodeModel } from "../custom/pages/Popup/PopupNodeModel";
-import { SalesPageNodeModel } from "../custom/pages/SalesPage/SalesPageNodeModel";
-import { SalesVideoNodeModel } from "../custom/pages/SalesVideo/SalesVideoNodeModel";
-import { SurveyNodeModel } from "../custom/pages/Survey/SurveyNodeModel";
-import { ThankYouNodeModel } from "../custom/pages/ThankYou/ThankYouNodeModel";
-import { UpsellNodeModel } from "../custom/pages/Upsell/UpsellNodeModel";
-import { WebinarNodeModel } from "../custom/pages/Webinar/WebinarNodeModel";
-import { WebinarReplayNodeModel } from "../custom/pages/WebinarReplay/WebinarReplayNodeModel";
-import BlogPostSVG from '../../../../assets/pages/blog-post.svg'
-import CalendarSVG from '../../../../assets/pages/calendar.svg'
-import DownloadSVG from '../../../../assets/pages/download.svg'
-import GenericSVG from '../../../../assets/pages/generic.svg'
-import MembersAreaSVG from '../../../../assets/pages/members-area.svg'
-import OptInSVG from '../../../../assets/pages/opt-in.svg'
-import OrderPageSVG from '../../../../assets/pages/order-page.svg'
-import PopupSVG from '../../../../assets/pages/popup.svg'
-import SalesPageSVG from '../../../../assets/pages/sales-page.svg'
-import SalesVideoSVG from '../../../../assets/pages/sales-video.svg'
-import SurveySVG from '../../../../assets/pages/survey.svg'
-import ThankYouSVG from '../../../../assets/pages/thank-you.svg'
-import UpsellSVG from '../../../../assets/pages/upsell.svg'
-import WebinarSVG from '../../../../assets/pages/webinar.svg'
-import WebinarReplaySVG from '../../../../assets/pages/webinar-replay.svg'
+import { PageNodeModel } from "../custom/pages/PageNodeModel";
+import { EventNodeModel } from "../custom/events/EventNodeModel";
+import { TrafficNodeModel } from "../custom/traffic/TrafficNodeModel";
+import { EmailMarketingNodeModel } from "../custom/emailMarketing/EmailMarketingNodeModel";
 
-import { AddToCartNodeModel } from "../custom/events/AddToCart/AddToCartNodeModel";
-import { ClickButtonNodeModel } from "../custom/events/ClickButton/ClickButtonNodeModel";
-import { CompleteFormNodeModel } from "../custom/events/CompleteForm/CompleteFormNodeModel";
-import { GenericEventNodeModel } from "../custom/events/GenericEvent/GenericEventNodeModel";
-import { PopUpBoxNodeModel } from "../custom/events/PopUpBox/PopUpBoxNodeModel";
-import { PurchaseNodeModel } from "../custom/events/Purchase/PurchaseNodeModel";
-import { ScrollNodeModel } from "../custom/events/Scroll/ScrollNodeModel";
-import { WatchVideoNodeModel } from "../custom/events/WatchVideo/WatchVideoNodeModel";
-import AddToCartSVG from '../../../../assets/Events/AddToCart.svg'
-import ClickButtonSVG from '../../../../assets/Events/ClickButton.svg'
-import CompleteFormSVG from '../../../../assets/Events/CompleteForm.svg'
-import GenericEventSVG from '../../../../assets/Events/GenericEvent.svg'
-import PopUpBoxSVG from '../../../../assets/Events/PopUpBox.svg'
-import PurchaseSVG from '../../../../assets/Events/Purchase.svg'
-import ScrollSVG from '../../../../assets/Events/Scroll.svg'
-import WatchVideoSVG from '../../../../assets/Events/WatchVideo.svg'
+import PagesButton from '../../../../assets/PagesButton.svg'
+import EventsButton from '../../../../assets/EventsButton.svg'
+import TrafficButton from '../../../../assets/TrafficButton.svg'
+import EmailMarketingButton from '../../../../assets/EmailMarketingButton.svg'
 
-import { AddTagNodeModel } from "../custom/emailMarketing/AddTag/AddTagNodeModel";
-import { ConditionNodeModel } from "../custom/emailMarketing/Condition/ConditionNodeModel";
-import { CustomActionNodeModel } from "../custom/emailMarketing/CustomAction/CustomActionNodeModel";
-import { RemoveTagNodeModel } from "../custom/emailMarketing/RemoveTag/RemoveTagNodeModel";
-import { SendEmailNodeModel } from "../custom/emailMarketing/SendEmail/SendEmailNodeModel";
-import { SendNotificationNodeModel } from "../custom/emailMarketing/SendNotification/SendNotificationNodeModel";
-
-
-import AddTagSVG from '../../../../assets/EmailMarketing/AddTag.svg'
-import ConditionSVG from '../../../../assets/EmailMarketing/Condition.svg'
-import CustomActionSVG from '../../../../assets/EmailMarketing/CustomAction.svg'
-import RemoveTagSVG from '../../../../assets/EmailMarketing/RemoveTag.svg'
-import SendEmailSVG from '../../../../assets/EmailMarketing/SendEmail.svg'
-import SendNotificationSVG from '../../../../assets/EmailMarketing/SendNotification.svg'
-
+import { API_URL } from '../../../../config'
+import ReactSVG from 'react-svg';
 
 
 export default class BodyWidget extends React.Component {
@@ -94,7 +43,6 @@ export default class BodyWidget extends React.Component {
   hideTemplateModal = () => {
     this.setState({ showTemplateModal: false });
   };
-
 
   saveDiagramHandle = () => {
     this.setState({
@@ -123,21 +71,28 @@ export default class BodyWidget extends React.Component {
     this.props.work.createTemplate(this.props.work.funnelId, this.state.templateName)
   }
 
-  toggle = e => this.setState({
-    toggle: e.target.name,
+  toggle = name => this.setState({
+    toggle: name,
     show: true,
   });
 
-  button = (name, text, className) => {
+  button = (name, icon, className) => {
     return (
-      <button
-        name={name}
-        onClick={e => this.toggle(e)}
-        className={className}
-        style={{ background: this.state.toggle === name ? this.state.backgroundActive : this.state.backgroundDefault }}
+      <div
+        onClick={() => this.toggle(name)}
+      // className={className}
+      // style={{ background: this.state.toggle === name ? this.state.backgroundActive : this.state.backgroundDefault, padding: 10 }}
       >
-        {text}
-      </button>
+        <ReactSVG
+          src={icon}
+          alt=''
+          className={className}
+          onClick={() => console.log(name)}
+          beforeInjection={svg => {
+            svg.setAttribute('style', 'padding: 10;')
+          }}
+        />
+      </div>
     );
   }
 
@@ -150,51 +105,74 @@ export default class BodyWidget extends React.Component {
 
   nodeFactory(data) {
     switch (data.type) {
-      case "BlogPost": return new BlogPostNodeModel();
-      case "Calendar": return new CalendarNodeModel();
-      case "Download": return new DownloadNodeModel();
-      case "Generic": return new GenericNodeModel();
-      case "MembersArea": return new MembersAreaNodeModel();
-      case "OptIn": return new OptInNodeModel();
-      case "OrderPage": return new OrderPageNodeModel();
-      case "Popup": return new PopupNodeModel();
-      case "SalesPage": return new SalesPageNodeModel();
-      case "SalesVideo": return new SalesVideoNodeModel();
-      case "Survey": return new SurveyNodeModel();
-      case "ThankYou": return new ThankYouNodeModel();
-      case "Upsell": return new UpsellNodeModel();
-      case "Webinar": return new WebinarNodeModel();
-      case "WebinarReplay": return new WebinarReplayNodeModel();
-      case "AddToCart": return new AddToCartNodeModel();
-      case "ClickButton": return new ClickButtonNodeModel();
-      case "CompleteForm": return new CompleteFormNodeModel();
-      case "GenericEvent": return new GenericEventNodeModel();
-      case "PopUpBox": return new PopUpBoxNodeModel();
-      case "Purchase": return new PurchaseNodeModel();
-      case "Scroll": return new ScrollNodeModel();
-      case "WatchVideo": return new WatchVideoNodeModel();
-      case "AddTag": return new AddTagNodeModel();
-      case "Condition": return new ConditionNodeModel();
-      case "CustomAction": return new CustomActionNodeModel();
-      case "RemoveTag": return new RemoveTagNodeModel();
-      case "SendEmail": return new SendEmailNodeModel();
-      case "SendNotification": return new SendNotificationNodeModel();
+      case "BlogPost": return new PageNodeModel("BlogPost");
+      case "Calendar": return new PageNodeModel("Calendar");
+      case "Download": return new PageNodeModel("Download");
+      case "Generic": return new PageNodeModel("Generic");
+      case "MembersArea": return new PageNodeModel("MembersArea");
+      case "OptIn": return new PageNodeModel("OptIn");
+      case "OrderPage": return new PageNodeModel("OrderPage");
+      case "Popup": return new PageNodeModel("Popup");
+      case "SalesPage": return new PageNodeModel("SalesPage");
+      case "SalesVideo": return new PageNodeModel("SalesVideo");
+      case "Survey": return new PageNodeModel("Survey");
+      case "ThankYou": return new PageNodeModel("ThankYou");
+      case "Upsell": return new PageNodeModel("Upsell");
+      case "Webinar": return new PageNodeModel("Webinar");
+      case "WebinarReplay": return new PageNodeModel("WebinarReplay");
 
-      default: return new AddToCartNodeModel();
+      case "AddToCart": return new EventNodeModel('AddToCart');
+      case "ClickButton": return new EventNodeModel('ClickButton');
+      case "CompleteForm": return new EventNodeModel('CompleteForm');
+      case "GenericEvent": return new EventNodeModel('GenericEvent');
+      case "PopUpBox": return new EventNodeModel('PopUpBox');
+      case "Purchase": return new EventNodeModel('Purchase');
+      case "Scroll": return new EventNodeModel('Scroll');
+      case "WatchVideo": return new EventNodeModel('WatchVideo');
+
+      case "AddTag": return new EmailMarketingNodeModel('AddTag');
+      case "Condition": return new EmailMarketingNodeModel('Condition');
+      case "CustomAction": return new EmailMarketingNodeModel('CustomAction');
+      case "RemoveTag": return new EmailMarketingNodeModel('RemoveTag');
+      case "SendEmail": return new EmailMarketingNodeModel('SendEmail');
+      case "SendNotification": return new EmailMarketingNodeModel('SendNotification');
+      case "SendSMS": return new EmailMarketingNodeModel('SendSMS');
+      case "Subscribe": return new EmailMarketingNodeModel('Subscribe');
+      case "Unsubscribe": return new EmailMarketingNodeModel('Unsubscribe');
+      case "Wait": return new EmailMarketingNodeModel('Wait');
+
+      case "Adwords": return new TrafficNodeModel("Adwords");
+      case "ChatBox": return new TrafficNodeModel("ChatBox");
+      case "CustomSource": return new TrafficNodeModel("CustomSource");
+      case "Email": return new TrafficNodeModel("Email");
+      case "FacebookAds": return new TrafficNodeModel("FacebookAds");
+      case "Facebook": return new TrafficNodeModel("Facebook");
+      case "InstagramAds": return new TrafficNodeModel("InstagramAds");
+      case "Instagram": return new TrafficNodeModel("Instagram");
+      case "LinkedInAds": return new TrafficNodeModel("LinkedInAds");
+      case "LinkedIn": return new TrafficNodeModel("LinkedIn");
+      case "Messenger": return new TrafficNodeModel("Messenger");
+      case "Search": return new TrafficNodeModel("Search");
+      case "TrackingLink": return new TrafficNodeModel("TrackingLink");
+      case "TwitterAds": return new TrafficNodeModel("TwitterAds");
+      case "Twitter": return new TrafficNodeModel("Twitter");
+      case "YoutubeAds": return new TrafficNodeModel("YoutubeAds");
+      case "Youtube": return new TrafficNodeModel("Youtube");
+
+      default: return new PageNodeModel("BlogPost");
     }
   }
 
-  // createItemWidget(configElements) {
-  //   return configElements.forEach(item => {
-  //     engine.registerPortFactory(new PortFactory(item.name, config => new item.port()));
-  //     engine.registerNodeFactory(new NodeFactory(item.name, item.widget, item.nodeModel, item.svg));
-  //   })
-  // }
+  createItemsWidget(name) {
+    if (this.props.work.svg) {
+      let allItemsByName = this.props.app.getValues(this.props.work.svg, name)
+      return allItemsByName.map((item, key) => (
+        <TrayItemWidget key={key} model={{ type: item.name }} name={item.name} icon={API_URL + item.url} />
+      ))
+    }
+  }
 
   render() {
-
-    // console.log(this.props.work.svg)
-
     return (
       <>
         <div className='message-diagram'>
@@ -240,6 +218,7 @@ export default class BodyWidget extends React.Component {
                 Export PNG
               </button>
 
+              <button onClick={() => console.log(this.props.app.getDiagramEngine().getDiagramModel())}>model</button>
 
               {this.props.work.pathname.includes('diagram') ?
                 <>
@@ -293,10 +272,10 @@ export default class BodyWidget extends React.Component {
             </Modal>
 
             <div className='panel-buttons'>
-              {this.button('first', 'pages', 'panel-button panel-button-first')}
-              {this.button('second', '2', 'panel-button')}
-              {this.button('third', 'events', 'panel-button')}
-              {this.button('fourth', 'EM', 'panel-button')}
+              {this.button('first', PagesButton, 'panel-button panel-button-first')}
+              {this.button('second', TrafficButton, 'panel-button')}
+              {this.button('third', EventsButton, 'panel-button')}
+              {this.button('fourth', EmailMarketingButton, 'panel-button')}
               {this.button('fifth', '5', 'panel-button panel-button-last')}
             </div>
 
@@ -307,21 +286,7 @@ export default class BodyWidget extends React.Component {
                 }}
               >
                 <TrayWidget show={this.state.show}>
-                  <TrayItemWidget model={{ type: "BlogPost" }} name="Blog post" icon={BlogPostSVG} />
-                  <TrayItemWidget model={{ type: "Calendar" }} name="Calendar" icon={CalendarSVG} />
-                  <TrayItemWidget model={{ type: "Download" }} name="Download" icon={DownloadSVG} />
-                  <TrayItemWidget model={{ type: "Generic" }} name="Generic" icon={GenericSVG} />
-                  <TrayItemWidget model={{ type: "MembersArea" }} name="Members area" icon={MembersAreaSVG} />
-                  <TrayItemWidget model={{ type: "OptIn" }} name="Opt in" icon={OptInSVG} />
-                  <TrayItemWidget model={{ type: "OrderPage" }} name="Order page" icon={OrderPageSVG} />
-                  <TrayItemWidget model={{ type: "Popup" }} name="Popup" icon={PopupSVG} />
-                  <TrayItemWidget model={{ type: "SalesPage" }} name="SalesPage" icon={SalesPageSVG} />
-                  <TrayItemWidget model={{ type: "SalesVideo" }} name="SalesVideo" icon={SalesVideoSVG} />
-                  <TrayItemWidget model={{ type: "Survey" }} name="Survey" icon={SurveySVG} />
-                  <TrayItemWidget model={{ type: "ThankYou" }} name="ThankYou" icon={ThankYouSVG} />
-                  <TrayItemWidget model={{ type: "Upsell" }} name="Upsell" icon={UpsellSVG} />
-                  <TrayItemWidget model={{ type: "Webinar" }} name="Webinar" icon={WebinarSVG} />
-                  <TrayItemWidget model={{ type: "WebinarReplay" }} name="WebinarReplay" icon={WebinarReplaySVG} />
+                  {this.createItemsWidget('Pages')}
                 </TrayWidget>
               </ClickOutside> : null}
 
@@ -332,7 +297,7 @@ export default class BodyWidget extends React.Component {
                 }}
               >
                 <TrayWidget show={this.state.show}>
-                  {/* <TrayItemWidget model={{ type: "AddTag" }} name="AddTag" icon={AddTagSVG} /> */}
+                  {this.createItemsWidget('Traffic')}
                 </TrayWidget>
               </ClickOutside> : null}
 
@@ -343,14 +308,7 @@ export default class BodyWidget extends React.Component {
                 }}
               >
                 <TrayWidget show={this.state.show}>
-                  <TrayItemWidget model={{ type: "AddToCart" }} name="AddToCart" icon={AddToCartSVG} />
-                  <TrayItemWidget model={{ type: "ClickButton" }} name="ClickButton" icon={ClickButtonSVG} />
-                  <TrayItemWidget model={{ type: "CompleteForm" }} name="CompleteForm" icon={CompleteFormSVG} />
-                  <TrayItemWidget model={{ type: "GenericEvent" }} name="GenericEvent" icon={GenericEventSVG} />
-                  <TrayItemWidget model={{ type: "PopUpBox" }} name="PopUpBox" icon={PopUpBoxSVG} />
-                  <TrayItemWidget model={{ type: "Purchase" }} name="Purchase" icon={PurchaseSVG} />
-                  <TrayItemWidget model={{ type: "Scroll" }} name="Scroll" icon={ScrollSVG} />
-                  <TrayItemWidget model={{ type: "WatchVideo" }} name="WatchVideo" icon={WatchVideoSVG} />
+                  {this.createItemsWidget('Events')}
                 </TrayWidget>
               </ClickOutside> : null}
 
@@ -361,12 +319,7 @@ export default class BodyWidget extends React.Component {
                 }}
               >
                 <TrayWidget show={this.state.show}>
-                  <TrayItemWidget model={{ type: "AddTag" }} name="AddTag" icon={AddTagSVG} />
-                  <TrayItemWidget model={{ type: "Condition" }} name="Condition" icon={ConditionSVG} />
-                  <TrayItemWidget model={{ type: "CustomAction" }} name="CustomAction" icon={CustomActionSVG} />
-                  <TrayItemWidget model={{ type: "RemoveTag" }} name="RemoveTag" icon={RemoveTagSVG} />
-                  <TrayItemWidget model={{ type: "SendEmail" }} name="SendEmail" icon={SendEmailSVG} />
-                  <TrayItemWidget model={{ type: "SendNotification" }} name="SendNotification" icon={SendNotificationSVG} />
+                  {this.createItemsWidget('EmailMarketing')}
                 </TrayWidget>
               </ClickOutside> : null}
 
