@@ -12,19 +12,7 @@ import {
 
 
 const initialState = {
-  // projectsList: [
-  //   {
-  //     id: '123',
-  //     projectName: 'asdasd',
-  //     funnels: 3
-
-  //   },
-  //   {
-  //     id: '1234',
-  //     projectName: 'asdasd',
-  //     funnels: 2
-  //   },
-  // ]
+  showSettingsWidgetBoolean: false
 }
 
 export default function (state = initialState, action) {
@@ -199,8 +187,6 @@ export default function (state = initialState, action) {
     ///////////////////////////////////////////////////////////////////////////
 
 
-
-
     ///////////////////////////////////////////////////////////////////////////
     case 'RESET_ALL_SVG':
       return { ...state, svgList: [] };
@@ -210,8 +196,7 @@ export default function (state = initialState, action) {
       return { ...state, getAllSvgMessage: '' };
     case 'GET_ALL_SVG_FAILURE':
       return { ...state, getAllSvgMessage: action.payload };
-    ///////////////////////////////////////////////////////////////////////////  
-
+    /////////////////////////////////////////////////////////////////////////// 
 
 
     default: return state;

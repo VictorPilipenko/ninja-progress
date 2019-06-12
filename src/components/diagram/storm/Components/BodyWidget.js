@@ -20,7 +20,6 @@ import EmailMarketingButton from '../../../../assets/EmailMarketingButton.svg'
 import { API_URL } from '../../../../config'
 import ReactSVG from 'react-svg';
 
-
 export default class BodyWidget extends React.Component {
   state = {
     serialization: null,
@@ -30,6 +29,7 @@ export default class BodyWidget extends React.Component {
     toggle: 'first',
     backgroundActive: 'linear-gradient(90deg, #e62d24 0%, #fd8f21 100%)',
     backgroundDefault: '#212939',
+    polyline: {}
   }
 
   handleChange = e => this.setState({
@@ -47,7 +47,7 @@ export default class BodyWidget extends React.Component {
   saveDiagramHandle = () => {
     this.setState({
       snackMsg: 'next',
-      converted: this.props.app.serialization(this.props.app.getDiagramEngine(), this.props.app.getDiagramEngine().getDiagramModel())
+      converted: this.props.app.serialization(this.props.app.getDiagramEngine().getDiagramModel())
     },
       () => (
         this.props.work.saveDiagram(this.props.work.funnelId, this.state)
@@ -58,12 +58,15 @@ export default class BodyWidget extends React.Component {
   saveTemplateHandle = () => {
     this.setState({
       snackMsg: 'next',
-      converted: this.props.app.serialization(this.props.app.getDiagramEngine(), this.props.app.getDiagramEngine().getDiagramModel())
+      converted: this.props.app.serialization(this.props.app.getDiagramEngine().getDiagramModel())
     },
       () => (
         this.props.work.saveTemplate(this.props.work.funnelId, this.state)
       )
     )
+  }
+  componentDidMount() {
+
   }
 
   createTemplateHandle = () => {
@@ -80,17 +83,33 @@ export default class BodyWidget extends React.Component {
     return (
       <div
         onClick={() => this.toggle(name)}
-      // className={className}
-      // style={{ background: this.state.toggle === name ? this.state.backgroundActive : this.state.backgroundDefault, padding: 10 }}
+        className={className}
+        style={{
+          background: this.state.toggle === name ? this.state.backgroundActive : this.state.backgroundDefault,
+          // padding: 10,
+          justifyContent: 'center',
+          alignItems: 'center',
+          display: 'flex',
+        }}
       >
+        <div
+          style={{
+            width: '50px',
+            height: '50px',
+            backgroundColor: 'transparent',
+            position: 'absolute'
+          }}
+          onClick={() => this.toggle(name)}
+        ></div>
+
         <ReactSVG
           src={icon}
           alt=''
-          className={className}
-          onClick={() => console.log(name)}
+          // className={className}
           beforeInjection={svg => {
-            svg.setAttribute('style', 'padding: 10;')
+            svg.setAttribute('style', `padding: 10; background: ${this.state.toggle === name ? this.state.backgroundActive : this.state.backgroundDefault},`)
           }}
+          onClick={() => this.toggle(name)}
         />
       </div>
     );
@@ -136,7 +155,7 @@ export default class BodyWidget extends React.Component {
       case "RemoveTag": return new EmailMarketingNodeModel('RemoveTag');
       case "SendEmail": return new EmailMarketingNodeModel('SendEmail');
       case "SendNotification": return new EmailMarketingNodeModel('SendNotification');
-      case "SendSMS": return new EmailMarketingNodeModel('SendSMS');
+      case "SendSms": return new EmailMarketingNodeModel('SendSms');
       case "Subscribe": return new EmailMarketingNodeModel('Subscribe');
       case "Unsubscribe": return new EmailMarketingNodeModel('Unsubscribe');
       case "Wait": return new EmailMarketingNodeModel('Wait');
@@ -171,6 +190,10 @@ export default class BodyWidget extends React.Component {
       ))
     }
   }
+
+  hideSettingsModal = () => {
+    this.props.work.showSettingsWidget(false, this.props.app.serialization(this.props.app.getDiagramEngine().getDiagramModel()))
+  };
 
   render() {
     return (
@@ -218,11 +241,9 @@ export default class BodyWidget extends React.Component {
                 Export PNG
               </button>
 
-              <button onClick={() => console.log(this.props.app.getDiagramEngine().getDiagramModel())}>model</button>
-
               {this.props.work.pathname.includes('diagram') ?
                 <>
-                  {/* <button
+                  <button
                     className="btn btn-1"
                     onClick={() => {
                       domtoimage.toBlob(this.diagramRef)
@@ -237,13 +258,12 @@ export default class BodyWidget extends React.Component {
                         });
                     }}>
                     Create Link To Collaborate With Image
-                  </button> // на будущее */}
+                  </button>
                   <button className="btn btn-1" onClick={() => this.saveDiagramHandle()}>Save Diagram</button>
                   <button className="btn btn-1" onClick={this.showTemplateModal}>Save As Template</button>
                 </>
                 :
-                null
-                // <button className="btn btn-1" onClick={() => this.saveTemplateHandle()}>Update Template</button> // на будущее
+                <button className="btn btn-1" onClick={() => this.saveTemplateHandle()}>Update Template</button> // на будущее
               }
 
 
@@ -251,6 +271,8 @@ export default class BodyWidget extends React.Component {
 
           </div>
           <div className="content">
+
+
 
             <Modal show={this.state.showTemplateModal} handleClose={this.hideTemplateModal}>
               <label className='label-create'>Create Template</label>
@@ -276,7 +298,7 @@ export default class BodyWidget extends React.Component {
               {this.button('second', TrafficButton, 'panel-button')}
               {this.button('third', EventsButton, 'panel-button')}
               {this.button('fourth', EmailMarketingButton, 'panel-button')}
-              {this.button('fifth', '5', 'panel-button panel-button-last')}
+              {this.button('fifth', EmailMarketingButton, 'panel-button panel-button-last')}
             </div>
 
             {this.state.toggle === 'first' ?
@@ -361,7 +383,15 @@ export default class BodyWidget extends React.Component {
                 event.preventDefault();
               }}
             >
-              <RJD.DiagramWidget className="srd-demo-canvas" diagramEngine={this.props.app.getDiagramEngine()} />
+              <RJD.DiagramWidget
+                // supressDeleteAction={true}
+                deleteKeys={[46]}
+                // smartRouting={true}
+                allowCanvasZoom={false}
+                allowCanvasTranslation={false}
+                className="srd-demo-canvas"
+                diagramEngine={this.props.app.getDiagramEngine()}
+              />
             </div>
           </div>
         </div>

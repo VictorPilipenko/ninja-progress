@@ -19,14 +19,13 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount this.props: ', this.props)
     this.props.getDiagram(this.props.funnelId);
     this.props.getTemplate(this.props.funnelId);
     this.props.getSVG();
   }
 
   componentDidUpdate(prevProps) {
-    console.log('componentDidUpdate prevProps: ', prevProps)
+    // console.log('componentDidUpdate prevProps: ', prevProps)
     if (prevProps.diagram) {
       if (prevProps.diagram.funnelBody.snackMsg !== this.state.snackMsg) {
         this.props.getDiagram(this.props.funnelId);
@@ -34,12 +33,10 @@ class App extends React.Component {
       }
     }
     else return null;
-
-    if (prevProps.svg === undefined) this.props.getSVG()
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log("getDerivedStateFromProps nextProps: ", nextProps, "\ngetDerivedStateFromProps prevState: ", prevState)
+    // console.log("getDerivedStateFromProps nextProps: ", nextProps, "\ngetDerivedStateFromProps prevState: ", prevState)
     if (nextProps.diagram)
       if (nextProps.diagram.funnelBody.snackMsg !== prevState.snackMsg)
         return {
@@ -52,12 +49,19 @@ class App extends React.Component {
           snackMsg: 'prev',
         };
     else
-      return null;
+      return null
   }
 
 
   render() {
-    var app = new Application(this.state.diagram && this.state.diagram, this.props.svg && this.props.svg);
+
+    // console.log(this.state)
+
+    var app = new Application(
+      this.state.diagram && this.state.diagram,
+      this.props.svg && this.props.svg,
+      this.props.showSettingsWidget,
+    );
 
     return (
       <BodyWidget app={app} work={this.props} />
@@ -66,6 +70,7 @@ class App extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
+  // console.log('state:', state)
   return {
     diagram: state.projects[`diagram${ownProps.match.params.funnelId}`],
     svg: state.projects.svgList,

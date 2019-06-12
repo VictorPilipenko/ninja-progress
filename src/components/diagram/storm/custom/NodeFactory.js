@@ -3,7 +3,7 @@ import * as SRD from "storm-react-diagrams";
 
 export class NodeFactory extends SRD.AbstractNodeFactory {
 
-  constructor(name, reactWidget, nodeModel, svg, label) {
+  constructor(name, reactWidget, nodeModel, svg) {
     super(name);
     this.name = name;
     this.reactWidget = reactWidget;
@@ -12,10 +12,13 @@ export class NodeFactory extends SRD.AbstractNodeFactory {
   }
 
   generateReactWidget(diagramEngine, node) {
-    return <this.reactWidget node={node} svg={this.svg} />;
+    return <this.reactWidget
+      node={node}
+      svg={this.svg}
+    />
   }
 
-  getNewInstance(name) {
-    return this.nodeModel(name);
+  getNewInstance() {
+    return new this.nodeModel();
   }
 }

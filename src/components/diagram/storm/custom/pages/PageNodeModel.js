@@ -8,12 +8,16 @@ export class PageNodeModel extends NodeModel {
     this.addPort(new PagePortModel(name, "left"));
     this.addPort(new PagePortModel(name, "bottom"));
     this.addPort(new PagePortModel(name, "right"));
-    this.extras.name = name;
-    this.extras.setName = this.setName;
+    this.extras.name = this.named;
+    this.extras.setNameExtras = this.setNameExtras;
+    this.setName = this.setName;
+  }
+
+  setNameExtras(name) {
+    this.named = name;
   }
 
   setName(name) {
-    console.log(name)
-    this.extras.name = name;
+    this.extras.named = name;
   }
 }

@@ -385,7 +385,7 @@ export function createTemplate(funnelId, templateName) {
   }
 }
 
-export function createNewProjectWithTemplate(templateId, projectName) {
+export function createNewProjectWithTemplate(templateId, projectName, funnelId) {
   console.log(templateId, projectName)
   return function (dispatch) {
     API.post(`funnel/template/${templateId}`, {
@@ -401,6 +401,12 @@ export function createNewProjectWithTemplate(templateId, projectName) {
         setTimeout(() => {
           dispatch({ type: 'CREATE_NEW_PROJECT_WITH_TEMPLATE_RESET' });
         }, 2000)
+
+        setTimeout(() => {
+          dispatch(push(`/`));
+        }, 1000)
+
+        
       })
       .catch(function (error) {
         if (error.response) {

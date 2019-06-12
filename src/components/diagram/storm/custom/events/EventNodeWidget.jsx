@@ -5,10 +5,17 @@ import ClickOutside from '../../../../common/ClickOutside'
 import ModalNodeWidget from '../../../../common/ModalNodeWidget'
 import './EventNodeWidget.css'
 
+import { ReactComponent as CopySVG } from '../../../../../assets/selectForWidget/copy.svg';
+import { ReactComponent as DeleteAllLinksSVG } from '../../../../../assets/selectForWidget/delete-all-links.svg';
+import { ReactComponent as DeleteSVG } from '../../../../../assets/selectForWidget/delete.svg';
+import { ReactComponent as NotesSVG } from '../../../../../assets/selectForWidget/notes.svg';
+import { ReactComponent as SettingsSVG } from '../../../../../assets/selectForWidget/settings.svg';
+
+
 export class EventNodeWidget extends React.Component {
   state = {
     show: false,
-    label: this.props.label,
+    label: this.props.node.extras.named,
   }
   showModal = () => {
     this.setState({ show: true });
@@ -28,8 +35,11 @@ export class EventNodeWidget extends React.Component {
 
   handleChange = e => this.setState({
     label: e.target.value
-  });
-
+  }, () =>
+      this.props.node.extras.setNameExtras && this.props.node.extras.setNameExtras(this.state.label)
+      ||
+      this.props.node.setName && this.props.node.setName(this.state.label)
+  );
 
   render() {
 
@@ -41,11 +51,12 @@ export class EventNodeWidget extends React.Component {
             this.setState({ show: false })
           }}
         >
-          <Select show={this.state.show} handleClose={this.hideModal} expanded={this.state.expanded}>
-            <button className='btn-select' onClick={this.showSettingsModal}>1</button>
-            <button className='btn-select'>2</button>
-            <button className='btn-select'>3</button>
-            <button className='btn-select'>4</button>
+         <Select show={this.state.show}>
+            <button className='btn-select' style={{padding: 6 }} onClick={this.showSettingsModal}><SettingsSVG /></button>
+            <button className='btn-select' style={{padding: 6 }} ><NotesSVG /></button>
+            <button className='btn-select' style={{padding: 6 }} ><CopySVG /></button>
+            <button className='btn-select' style={{padding: 6 }} ><DeleteSVG /></button>
+            <button className='btn-select' style={{padding: 6 }} ><DeleteAllLinksSVG /></button>
           </Select>
         </ClickOutside>
 
@@ -153,7 +164,7 @@ const Select = ({ show, children }) => {
 
   return (
     <div className={showHideClassName}>
-      <section className="select-main-modal-node-widget  up-arrow ">
+      <section className="select-main-modal-node-widget-horizontally  up-arrow-horizontally ">
         {children}
       </section>
     </div>

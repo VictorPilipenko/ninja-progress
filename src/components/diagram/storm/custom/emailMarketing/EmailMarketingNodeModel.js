@@ -8,5 +8,16 @@ export class EmailMarketingNodeModel extends NodeModel {
     this.addPort(new EmailMarketingPortModel(name, "left"));
     this.addPort(new EmailMarketingPortModel(name, "bottom"));
     this.addPort(new EmailMarketingPortModel(name, "right"));
+    this.extras.name = this.named;
+    this.extras.setNameExtras = this.setNameExtras;
+    this.setName = this.setName;
+  }
+
+  setNameExtras(name) {
+    this.named = name;
+  }
+
+  setName(name) {
+    this.extras.named = name;
   }
 }

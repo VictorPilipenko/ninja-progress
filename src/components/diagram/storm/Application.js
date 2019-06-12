@@ -25,11 +25,13 @@ import { TrafficNodeWidget } from "./custom/traffic/TrafficNodeWidget";
 import { API_URL } from '../../../config'
 
 export default class Application {
-  constructor(props, svg) {
+  constructor(props, svg, showSettingsWidget) {
 
-    // console.log(svg)
+    this.engine = new RJD.DiagramEngine();
+    this.engine.installDefaultFactories();
+    this.engine.registerLinkFactory(new AdvancedLinkFactory());
 
-    this.elements = []
+    this.allElements = []
 
     this.elementsPages = []
     this.elementsTraffic = []
@@ -42,8 +44,6 @@ export default class Application {
       let allTraffic = this.getValues(svg, 'Traffic')
       let allEmailMarketing = this.getValues(svg, 'EmailMarketing')
       let allEvents = this.getValues(svg, 'Events')
-
-      // console.log(allPages)
 
       allPages.forEach((item) => (
         this.elementsPages.push(
@@ -92,22 +92,14 @@ export default class Application {
           }
         )
       ))
+
+      this.allElements = this.allElements.concat(this.elementsPages, this.elementsTraffic, this.elementsEmailMarketing, this.elementsEvents);
+
+      this.createElements(this.allElements, this.engine)
+
+      props ? this.deSerialization(this.engine, props) : this.newModel()
     }
 
-
-    this.elements = this.elements.concat(this.elementsPages, this.elementsTraffic, this.elementsEmailMarketing, this.elementsEvents);
-
-
-
-    // console.log('elementsConcat: ', this.elements)
-
-    this.engine = new RJD.DiagramEngine();
-    this.engine.installDefaultFactories();
-    this.engine.registerLinkFactory(new AdvancedLinkFactory());
-
-    this.createElements(this.elements, this.engine)
-
-    props ? this.deSerialization(this.engine, props) : this.newModel()
   }
 
   getValues(array, value) {
@@ -121,7 +113,12 @@ export default class Application {
   createElements(configElements, engine) {
     return configElements.forEach(item => {
       engine.registerPortFactory(new PortFactory(item.name, () => new item.port(item.name)));
-      engine.registerNodeFactory(new NodeFactory(item.name, item.widget, () => new item.nodeModel(item.name), item.svg));
+      engine.registerNodeFactory(new NodeFactory(
+        item.name,
+        item.widget,
+        item.nodeModel,
+        item.svg,
+      ));
     })
   }
 
@@ -134,13 +131,13 @@ export default class Application {
     return this.engine;
   }
 
-  serialization(engine, activeModel) {
+  serialization(activeModel) {
     // We need this to help the system know what models to create form the JSON
-    engine = new RJD.DiagramEngine();
+    let engine = new RJD.DiagramEngine();
     engine.installDefaultFactories();
     engine.registerLinkFactory(new AdvancedLinkFactory());
 
-    this.createElements(this.elements, engine)
+    this.createElements(this.allElements, engine)
 
     // Serialize the model
     const str = JSON.stringify(activeModel.serializeDiagram());
@@ -148,7 +145,6 @@ export default class Application {
   }
 
   deSerialization(engine, str) {
-    // Deserialize the model
     const model2 = new RJD.DiagramModel();
     model2.deSerializeDiagram(JSON.parse(str), engine);
     engine.setDiagramModel(model2);

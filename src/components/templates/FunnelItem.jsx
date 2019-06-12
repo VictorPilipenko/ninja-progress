@@ -27,7 +27,7 @@ class FunnelItem extends React.Component {
   };
 
   createNewProjectWithTemplate = () => {
-    this.props.createNewProjectWithTemplate(this.props._id, this.state.NewProjectWithTemplateName)
+    this.props.createNewProjectWithTemplate(this.props._id, this.state.NewProjectWithTemplateName, this.props._id)
   }
 
   //...................................................................................................
@@ -55,6 +55,7 @@ class FunnelItem extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     const {
       _id,
       // projectId,
@@ -103,7 +104,7 @@ class FunnelItem extends React.Component {
             {this.props.messageCreateProject && (
               <div className={`input-group`}>{this.props.messageCreateProject}</div>
             )}
-            <button className='btn btn-1 create-project-button-in-modal' onClick={() => this.createNewProjectWithTemplate()}>Create Project With Template</button>
+            <button className='btn btn-1 create-project-button-in-modal' onClick={() => this.createNewProjectWithTemplate()}>Use This Template</button>
           </Modal>
 
 

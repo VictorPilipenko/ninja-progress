@@ -4,10 +4,17 @@ import ReactSVG from 'react-svg';
 import ClickOutside from '../../../../common/ClickOutside'
 import ModalNodeWidget from '../../../../common/ModalNodeWidget'
 
+import { ReactComponent as CopySVG } from '../../../../../assets/selectForWidget/copy.svg';
+import { ReactComponent as DeleteAllLinksSVG } from '../../../../../assets/selectForWidget/delete-all-links.svg';
+import { ReactComponent as DeleteSVG } from '../../../../../assets/selectForWidget/delete.svg';
+import { ReactComponent as NotesSVG } from '../../../../../assets/selectForWidget/notes.svg';
+import { ReactComponent as SettingsSVG } from '../../../../../assets/selectForWidget/settings.svg';
+
+
 export class PageNodeWidget extends React.Component {
   state = {
     show: false,
-    label: this.props.node.extras.name,
+    label: this.props.node.extras.named,
   }
   showModal = () => {
     this.setState({ show: true });
@@ -27,13 +34,14 @@ export class PageNodeWidget extends React.Component {
 
   handleChange = e => this.setState({
     label: e.target.value
-  });
+  }, () =>
+      this.props.node.extras.setNameExtras && this.props.node.extras.setNameExtras(this.state.label)
+      ||
+      this.props.node.setName && this.props.node.setName(this.state.label)
+  );
 
 
   render() {
-
-    console.log(this.props)
-
     return (
       <>
 
@@ -42,11 +50,12 @@ export class PageNodeWidget extends React.Component {
             this.setState({ show: false })
           }}
         >
-          <Select show={this.state.show} handleClose={this.hideModal} expanded={this.state.expanded}>
-            <button className='btn-select' onClick={this.showSettingsModal}>1</button>
-            <button className='btn-select'>2</button>
-            <button className='btn-select'>3</button>
-            <button className='btn-select'>4</button>
+          <Select show={this.state.show}>
+            <button className='btn-select' style={{ padding: 6 }} onClick={this.showSettingsModal}><SettingsSVG /></button>
+            <button className='btn-select' style={{ padding: 6 }} ><NotesSVG /></button>
+            <button className='btn-select' style={{ padding: 6 }} ><CopySVG /></button>
+            <button className='btn-select' style={{ padding: 6 }} ><DeleteSVG /></button>
+            <button className='btn-select' style={{ padding: 6 }} ><DeleteAllLinksSVG /></button>
           </Select>
         </ClickOutside>
 
@@ -63,7 +72,6 @@ export class PageNodeWidget extends React.Component {
             value={this.state.label}
             onChange={this.handleChange}
           />
-          <button onClick={() => this.props.node.extras.setName(this.state.label)}>Update</button>
         </ModalNodeWidget>
 
 

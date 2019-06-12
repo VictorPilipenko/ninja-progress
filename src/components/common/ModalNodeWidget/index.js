@@ -2,7 +2,7 @@ import React from 'react';
 import './index.css'
 
 const ModalNodeWidget = ({ handleClose, show, children }) => {
-  const showHideClassName = show ? "modal-node-widget display-block" : "modal-node-widget display-none";
+  const showHideClassName = show ? "display-block" : "display-none";
 
   return (
     <div className={showHideClassName}>

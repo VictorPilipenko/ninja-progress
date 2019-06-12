@@ -9,8 +9,8 @@ class FunnelItemContainer extends Component {
     this.props.deleteTemplate(funnelId)
   }
 
-  createNewProjectWithTemplate = (id, projectName) => {
-    this.props.createNewProjectWithTemplate(id, projectName)
+  createNewProjectWithTemplate = (id, projectName, projectId) => {
+    this.props.createNewProjectWithTemplate(id, projectName, projectId)
   }
 
   render() {
@@ -39,7 +39,7 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToState = dispatch => ({
   deleteTemplate: (funnelId) => dispatch(deleteTemplate(funnelId)),
-  createNewProjectWithTemplate: (id, name) => dispatch(createNewProjectWithTemplate(id, name)),
+  createNewProjectWithTemplate: (id, name, projectId) => dispatch(createNewProjectWithTemplate(id, name, projectId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToState)(FunnelItemContainer);
