@@ -3,10 +3,7 @@ import './Sign.css'
 import logo from '../../assets/Logo_invert.png'
 import { ReactComponent as EmailSVG } from '../../assets/email.svg';
 
-
 const Dashboard = () => {
-  // console.log(console.log(localStorage.getItem('profile')))
-
   return (
     <div className='wrapper'>
       <img className='signin-logo' src={logo} alt='logo' />

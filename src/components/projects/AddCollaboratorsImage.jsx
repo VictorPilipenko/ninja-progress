@@ -47,7 +47,7 @@ class AddCollaboratorsImage extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  console.log('ownProps: ', ownProps.location.search.image)
+  // console.log('ownProps: ', ownProps.location.search.image)
   return {
     router: state.router,
     tokenCollaborator: ownProps.match.params.token,

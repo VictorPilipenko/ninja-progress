@@ -81,8 +81,10 @@ export default function (state = initialState, action) {
 
 
     ///////////////////////////////////////////////////////////////////////////
+    case 'RESET_ALL_FUNNELS':
+      return { ...state, [`funnelsList${action.payload.projectId}`]: [] };
     case 'GET_ALL_FUNNELS':
-      return { [`funnelsList${action.payload.projectId}`]: action.payload.res, ...state };
+      return { ...state, [`funnelsList${action.payload.projectId}`]: action.payload.res };
     ///////////////////////////////////////////////////////////////////////////
     case 'DELETE_FUNNEL':
       const funnelsList = state[`funnelsList${action.payload.project_id}`].filter(funnel => funnel._id !== action.payload.funnel_id);

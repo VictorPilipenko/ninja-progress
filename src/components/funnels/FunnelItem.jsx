@@ -3,6 +3,7 @@ import './FunnelItem.css';
 import ClickOutside from '../common/ClickOutside'
 import Modal from '../common/Modal/Modal'
 import { NavLink } from "react-router-dom";
+import { API_URL } from '../../config'
 
 class FunnelItem extends React.Component {
   state = {
@@ -40,11 +41,19 @@ class FunnelItem extends React.Component {
       funnelName,
       // funnelBody,
       // handleDelete,
+      backgroundImg,
     } = this.props;
+
+    // console.log(API_URL + backgroundImg)
     return (
       <>
         <div className='project-wrapper'>
-          <div className='project-image'>
+          <div className='project-image'
+            style={{
+              background: backgroundImg && backgroundImg.length > 0 ? `url(${API_URL + backgroundImg}) no-repeat center` : '#212939',
+              backgroundSize: '300px 130px'
+            }}
+          >
             <NavLink
               className='view-funnels'
               to={'/diagram/' + _id}

@@ -15,6 +15,7 @@ export class NodeFactory extends SRD.AbstractNodeFactory {
     return <this.reactWidget
       node={node}
       svg={this.svg}
+      engine={diagramEngine}
     />
   }
 

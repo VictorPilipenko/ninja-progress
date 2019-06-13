@@ -36,7 +36,6 @@ class FunnelList extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <>
         <Layout title={`Templates List`}>
@@ -65,7 +64,7 @@ class FunnelList extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  console.log(state.projects[`funnelsList${ownProps.match.params.projectId}`])
+  // console.log(state.projects[`funnelsList${ownProps.match.params.projectId}`])
   return {
     templates: state.projects.templatesList,
   };

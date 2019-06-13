@@ -11,6 +11,10 @@ import { ReactComponent as NotesSVG } from '../../../../../assets/selectForWidge
 import { ReactComponent as SettingsSVG } from '../../../../../assets/selectForWidget/settings.svg';
 
 
+import * as _ from "lodash";
+import { AdvancedLinkModel } from "../customLink";
+import { PageNodeModel } from './PageNodeModel'
+
 export class PageNodeWidget extends React.Component {
   state = {
     show: false,
@@ -40,8 +44,47 @@ export class PageNodeWidget extends React.Component {
       this.props.node.setName && this.props.node.setName(this.state.label)
   );
 
+  deleteNode = e => {
+    this.simulateKey(46, "up");
+  }
+
+  simulateKey(keyCode, type) {
+    var evtName = (typeof (type) === "string") ? "key" + type : "keydown";
+    var event = document.createEvent("HTMLEvents");
+    event.initEvent(evtName, true, false);
+    event.keyCode = keyCode;
+    document.dispatchEvent(event);
+  }
+
+  cloneSelected = () => {
+    let { engine } = this.props;
+    let offset = { x: 100, y: 100 };
+    let model = engine.getDiagramModel();
+    let itemMap = {};
+    _.forEach(model.getSelectedItems(), (item) => {
+      let newItem = item.clone(itemMap);
+      // offset the nodes slightly
+      if (newItem instanceof PageNodeModel) {
+        newItem.setPosition(newItem.x + offset.x, newItem.y + offset.y);
+        model.addNode(newItem);
+        this.forceUpdate();
+      } else if (newItem instanceof AdvancedLinkModel) {
+        // offset the link points
+        newItem.getPoints().forEach(p => {
+          p.updateLocation({ x: p.getX() + offset.x, y: p.getY() + offset.y });
+        });
+        model.addLink(newItem);
+      }
+      newItem.selected = false;
+    });
+    this.hideModal();
+    this.forceUpdate();
+    document.getElementById("diagram-layer").click();
+  }
+
 
   render() {
+    // console.log(this.props.engine)
     return (
       <>
 
@@ -53,8 +96,8 @@ export class PageNodeWidget extends React.Component {
           <Select show={this.state.show}>
             <button className='btn-select' style={{ padding: 6 }} onClick={this.showSettingsModal}><SettingsSVG /></button>
             <button className='btn-select' style={{ padding: 6 }} ><NotesSVG /></button>
-            <button className='btn-select' style={{ padding: 6 }} ><CopySVG /></button>
-            <button className='btn-select' style={{ padding: 6 }} ><DeleteSVG /></button>
+            <button className='btn-select' style={{ padding: 6 }} onClick={this.cloneSelected}><CopySVG /></button>
+            <button className='btn-select' style={{ padding: 6 }} onClick={this.deleteNode}><DeleteSVG /></button>
             <button className='btn-select' style={{ padding: 6 }} ><DeleteAllLinksSVG /></button>
           </Select>
         </ClickOutside>
@@ -93,6 +136,9 @@ export class PageNodeWidget extends React.Component {
               position: "relative",
             }}
             onClick={this.showModal}
+            // draggable={true}
+            // onDragStart={this.showModal}
+            // onDrag={()=>console.log('hhhhhhhhhhhhhhhhhh')}
           >
 
             <ReactSVG src={this.props.svg} />

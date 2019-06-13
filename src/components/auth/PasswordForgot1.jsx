@@ -66,7 +66,6 @@ const formikEnhancer = withFormik({
     email: '',
   }),
   handleSubmit: (payload, { props, setSubmitting }) => {
-    // console.log(props)
     props.passwordForgotUserStep1(payload);
     setSubmitting(false);
   },

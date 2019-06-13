@@ -25,7 +25,7 @@ import { TrafficNodeWidget } from "./custom/traffic/TrafficNodeWidget";
 import { API_URL } from '../../../config'
 
 export default class Application {
-  constructor(props, svg, showSettingsWidget) {
+  constructor(props, svg) {
 
     this.engine = new RJD.DiagramEngine();
     this.engine.installDefaultFactories();

@@ -16,9 +16,28 @@ import PagesButton from '../../../../assets/PagesButton.svg'
 import EventsButton from '../../../../assets/EventsButton.svg'
 import TrafficButton from '../../../../assets/TrafficButton.svg'
 import EmailMarketingButton from '../../../../assets/EmailMarketingButton.svg'
+import TemplatesButton from '../../../../assets/TemplatesButton.svg'
+
+import { ReactComponent as ArrowSelectSVG } from '../../../../assets/ArrowSelect.svg'
+
+import { ReactComponent as LogoWidgetSVG } from '../../../../assets/logo-widget.svg'
+import { NavLink } from "react-router-dom";
 
 import { API_URL } from '../../../../config'
 import ReactSVG from 'react-svg';
+
+const Select = ({ show, children }) => {
+  const showHideClassName = show ? "select display-block" : "select display-none";
+
+  return (
+    <div className={showHideClassName}>
+      <section className="select-main-body-widget up-arrow-body-widget">
+        {children}
+      </section>
+    </div>
+  );
+};
+
 
 export default class BodyWidget extends React.Component {
   state = {
@@ -29,7 +48,7 @@ export default class BodyWidget extends React.Component {
     toggle: 'first',
     backgroundActive: 'linear-gradient(90deg, #e62d24 0%, #fd8f21 100%)',
     backgroundDefault: '#212939',
-    polyline: {}
+    showSelect: false,
   }
 
   handleChange = e => this.setState({
@@ -37,20 +56,20 @@ export default class BodyWidget extends React.Component {
   });
 
   showTemplateModal = () => {
-    this.setState({ showTemplateModal: true });
+    this.setState({ showTemplateModal: true }, () => this.hideSelect());
   };
 
   hideTemplateModal = () => {
     this.setState({ showTemplateModal: false });
   };
 
-  saveDiagramHandle = () => {
+  saveDiagramHandle = file => {
     this.setState({
       snackMsg: 'next',
       converted: this.props.app.serialization(this.props.app.getDiagramEngine().getDiagramModel())
     },
       () => (
-        this.props.work.saveDiagram(this.props.work.funnelId, this.state)
+        this.props.work.saveDiagram(this.props.work.funnelId, this.state, file)
       )
     )
   }
@@ -69,10 +88,10 @@ export default class BodyWidget extends React.Component {
 
   }
 
-  createTemplateHandle = () => {
-    this.saveDiagramHandle()
-    this.props.work.createTemplate(this.props.work.funnelId, this.state.templateName)
-  }
+  // createTemplateHandle = () => {
+  //   this.saveDiagramHandle()
+  //   this.props.work.createTemplate(this.props.work.funnelId, this.state.templateName)
+  // }
 
   toggle = name => this.setState({
     toggle: name,
@@ -105,11 +124,10 @@ export default class BodyWidget extends React.Component {
         <ReactSVG
           src={icon}
           alt=''
-          // className={className}
           beforeInjection={svg => {
-            svg.setAttribute('style', `padding: 10; background: ${this.state.toggle === name ? this.state.backgroundActive : this.state.backgroundDefault},`)
+            svg.setAttribute('style', `padding: 10;`)
           }}
-          onClick={() => this.toggle(name)}
+        // onClick={() => this.toggle(name)}
         />
       </div>
     );
@@ -195,6 +213,14 @@ export default class BodyWidget extends React.Component {
     this.props.work.showSettingsWidget(false, this.props.app.serialization(this.props.app.getDiagramEngine().getDiagramModel()))
   };
 
+  showSelect = () => this.setState({
+    showSelect: true
+  })
+
+  hideSelect = () => this.setState({
+    showSelect: false
+  })
+
   render() {
     return (
       <>
@@ -203,6 +229,14 @@ export default class BodyWidget extends React.Component {
         </div>
         <div className="body">
           <div className="header">
+            <div className='logo-widget'>
+              <NavLink
+                to={'/'}
+              >
+                <LogoWidgetSVG />
+              </NavLink>
+            </div>
+
             {/* <div className="title">Storm React Diagrams</div> */}
 
             {
@@ -210,66 +244,149 @@ export default class BodyWidget extends React.Component {
                 <>
                   <input
                     className='created-link-wrapper'
+                    style={{ margin: 0, padding: 10 }}
                     ref={ref => this.link = ref}
                     value={this.props.work.link}
                     onChange={() => { }}
                   />
-                  <button className='btn btn-1 btn-delete-modal' style={{ margin: '15px auto' }} onClick={this.copyToClipboard}>Copy Link</button>
+                  <button
+                    className='btn btn-1 btn-delete-modal'
+                    style={{ margin: '0px 10px 0px 10px' }}
+                    onClick={this.copyToClipboard}
+                  >
+                    Copy Link
+                  </button>
                 </>
                 :
                 null
             }
 
-            <div className='diagram-header-buttons-wrapper'>
+            {/* <div className='diagram-header-buttons-wrapper'> */}
 
-              <button
-                className="btn btn-1"
-                onClick={() => {
-                  domtoimage.toPng(this.diagramRef)
-                    .then(data => {
-                      var img = new Image();
-                      img.src = data;
-                      var link = document.createElement('a');
-                      link.download = 'my-diagram.png';
-                      link.href = img.src;
-                      link.click();
-                    })
-                    .catch(function (error) {
-                      console.error('oops, something went wrong!', error);
-                    });
-                }}>
-                Export PNG
-              </button>
+            <button
+              className="btn btn-1 diagram-header-buttons-wrapper"
+              onClick={this.showSelect}
+            >
+              SAVE
+              <div className='arrow-for-select'>
+                <ArrowSelectSVG />
+              </div>
+            </button>
 
-              {this.props.work.pathname.includes('diagram') ?
-                <>
+
+            {this.props.work.pathname.includes('diagram') ?
+              <ClickOutside
+                onClickOutside={() => {
+                  this.setState({ showSelect: false })
+                }}
+              >
+                <Select show={this.state.showSelect}>
                   <button
-                    className="btn btn-1"
+                    className="btn btn-1 button-select-body-widget"
                     onClick={() => {
-                      domtoimage.toBlob(this.diagramRef)
+                      domtoimage.toPng(this.diagramRef)
                         .then(data => {
-                          let name = randomString({ length: 10 });
-                          var file = new File([data], name);
-                          this.saveDiagramHandle();
-                          this.props.work.sendImageToCollaborate(this.props.work.funnelId, file);
+                          var img = new Image();
+                          img.src = data;
+                          var link = document.createElement('a');
+                          link.download = 'my-diagram.png';
+                          link.href = img.src;
+                          link.click();
+                          this.hideSelect()
                         })
                         .catch(function (error) {
                           console.error('oops, something went wrong!', error);
                         });
-                    }}>
-                    Create Link To Collaborate With Image
-                  </button>
-                  <button className="btn btn-1" onClick={() => this.saveDiagramHandle()}>Save Diagram</button>
-                  <button className="btn btn-1" onClick={this.showTemplateModal}>Save As Template</button>
-                </>
-                :
-                <button className="btn btn-1" onClick={() => this.saveTemplateHandle()}>Update Template</button> // на будущее
-              }
 
+                    }}
+                  >
+                    Export PNG
+                    </button>
+                  <button
+                    className="btn btn-1 button-select-body-widget"
+                    // onClick={() => this.saveDiagramHandle()}
+                    onClick={() => {
+                      domtoimage.toBlob(this.diagramRef)
+                        .then(data => {
+                          let name = randomString({ length: 10 });
+                          var file = new File([data], name, { type: "image/svg" });
+                          this.saveDiagramHandle(file);
+                          this.hideSelect()
+                        })
+                        .catch(function (error) {
+                          console.error('oops, something went wrong!', error);
+                        });
 
-            </div>
+                    }}
+                  >
+                    Save Diagram
+                    </button>
+                  <button
+                    className="btn btn-1 button-select-body-widget"
+                    onClick={() => {
+                      domtoimage.toBlob(this.diagramRef)
+                        .then(data => {
+                          let name = randomString({ length: 10 });
+                          var file = new File([data], name, { type: "image/svg" });
+                          this.saveDiagramHandle(file);
+                          this.props.work.sendImageToCollaborate(this.props.work.funnelId, file);
+                          this.hideSelect()
+                        })
+                        .catch(function (error) {
+                          console.error('oops, something went wrong!', error);
+                        });
 
+                    }}
+                  >
+                    Collaborate With Image
+                    </button>
+                  <button
+                    className="btn btn-1 button-select-body-widget"
+                    onClick={this.showTemplateModal}
+                  >
+                    Save As Template
+                    </button>
+                </Select>
+              </ClickOutside>
+              :
+              <ClickOutside
+                onClickOutside={() => {
+                  this.setState({ showSelect: false })
+                }}
+              >
+                <Select show={this.state.showSelect}>
+                  <button
+                    className="btn btn-1 button-select-body-widget"
+                    onClick={() => {
+                      domtoimage.toPng(this.diagramRef)
+                        .then(data => {
+                          var img = new Image();
+                          img.src = data;
+                          var link = document.createElement('a');
+                          link.download = 'my-diagram.png';
+                          link.href = img.src;
+                          link.click();
+                          this.hideSelect()
+                        })
+                        .catch(function (error) {
+                          console.error('oops, something went wrong!', error);
+                        });
+                    }}
+                  >
+                    Export PNG
+                    </button>
+                  {/* <button
+                    className="btn btn-1 button-select-body-widget"
+                    onClick={() => this.saveTemplateHandle()}
+                  >
+                    Update Template
+                    </button> */}
+                </Select>
+              </ClickOutside>
+            }
           </div>
+
+          {/* </div> */}
           <div className="content">
 
 
@@ -290,7 +407,24 @@ export default class BodyWidget extends React.Component {
               {this.props.work.createTemplateMessage && (
                 <div className={`input-group`}>{this.props.work.createTemplateMessage}</div>
               )}
-              <button className='btn btn-1 create-project-button-in-modal' onClick={() => this.createTemplateHandle()}>Create Template</button>
+              <button
+                className='btn btn-1 create-project-button-in-modal'
+                onClick={() => {
+                  domtoimage.toBlob(this.diagramRef)
+                    .then(data => {
+                      let name = randomString({ length: 10 });
+                      var file = new File([data], name, { type: "image/svg" });
+                      this.saveDiagramHandle(file);
+                      this.props.work.createTemplate(this.props.work.funnelId, this.state.templateName)
+                      this.hideSelect()
+                    })
+                    .catch(function (error) {
+                      console.error('oops, something went wrong!', error);
+                    });
+                }}
+              >
+                Create Template
+              </button>
             </Modal>
 
             <div className='panel-buttons'>
@@ -298,7 +432,7 @@ export default class BodyWidget extends React.Component {
               {this.button('second', TrafficButton, 'panel-button')}
               {this.button('third', EventsButton, 'panel-button')}
               {this.button('fourth', EmailMarketingButton, 'panel-button')}
-              {this.button('fifth', EmailMarketingButton, 'panel-button panel-button-last')}
+              {this.button('fifth', TemplatesButton, 'panel-button panel-button-last')}
             </div>
 
             {this.state.toggle === 'first' ?
@@ -357,7 +491,7 @@ export default class BodyWidget extends React.Component {
               </ClickOutside> : null}
 
             <div
-              className="diagram-layer"
+              id="diagram-layer"
               ref={ref => this.diagramRef = ref}
               onDrop={event => {
                 var data = JSON.parse(event.dataTransfer.getData("storm-diagram-node"));

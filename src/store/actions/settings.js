@@ -32,7 +32,7 @@ export function changeUserName(data) {
       })
       .catch(function (error) {
         if (error.response) {
-          console.log(error.response)
+          // console.log(error.response)
           dispatch({
             type: "SETTINGS_MESSAGE_NAME_FAILURE",
             payload: error.response.data.error
@@ -81,6 +81,9 @@ export function changeUserPassword(data) {
 }
 
 export function changeUserAvatar(avatar) {
+
+  // console.log(avatar)
+
   const token = JSON.parse(localStorage.getItem('token'));
 
   let bodyFormData = new FormData();

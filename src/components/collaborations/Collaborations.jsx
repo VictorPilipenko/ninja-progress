@@ -24,6 +24,7 @@ class Collaborations extends Component {
                   _id={funnel._id}
                   funnelName={funnel.funnelName}
                   projectId={funnel.funnelProject}
+                  backgroundImg={funnel.funnelBackground}
                 />
               ))
               :

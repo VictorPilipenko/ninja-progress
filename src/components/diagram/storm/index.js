@@ -27,7 +27,7 @@ class App extends React.Component {
   componentDidUpdate(prevProps) {
     // console.log('componentDidUpdate prevProps: ', prevProps)
     if (prevProps.diagram) {
-      if (prevProps.diagram.funnelBody.snackMsg !== this.state.snackMsg) {
+      if (prevProps.diagram.snackMsg !== this.state.snackMsg) {
         this.props.getDiagram(this.props.funnelId);
         this.props.getTemplate(this.props.funnelId);
       }
@@ -38,9 +38,9 @@ class App extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     // console.log("getDerivedStateFromProps nextProps: ", nextProps, "\ngetDerivedStateFromProps prevState: ", prevState)
     if (nextProps.diagram)
-      if (nextProps.diagram.funnelBody.snackMsg !== prevState.snackMsg)
+      if (nextProps.diagram.snackMsg !== prevState.snackMsg)
         return {
-          diagram: nextProps.diagram.funnelBody.converted,
+          diagram: nextProps.diagram.converted,
           snackMsg: 'next',
         };
       else
@@ -85,7 +85,7 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = dispatch => {
   return {
     getSVG: () => dispatch(getSVG()),
-    saveDiagram: (funnelId, obj) => dispatch(saveDiagram(funnelId, obj)),
+    saveDiagram: (funnelId, obj, image) => dispatch(saveDiagram(funnelId, obj, image)),
     saveTemplate: (funnelId, obj) => dispatch(saveTemplate(funnelId, obj)),
     getDiagram: id => dispatch(getDiagram(id)),
     getTemplate: id => dispatch(getTemplate(id)),
