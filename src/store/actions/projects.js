@@ -284,31 +284,31 @@ export function saveDiagram(funnelId, diagramObj, image) {
       data: bodyFormData
     })
       .then(response => {
-        // console.log(response)
+        console.log(response)
 
-        // /************************************/
-        // dispatch({
-        //   type: 'RESET_GET_DIAGRAM',
-        //   payload: funnelId
-        // });
+        /************************************/
+        dispatch({
+          type: 'RESET_GET_DIAGRAM',
+          payload: funnelId
+        });
 
-        // let res1 = JSON.parse(response.data.data.funnelBody);
+        let res1 = JSON.parse(response.data.data.funnelBody);
 
-        // let res = {
-        //   funnelBody: {
-        //     converted: res1.funnelBody.converted,
-        //     snackMsg: 'next'
-        //   }
-        // }
+        let res = {
+          // funnelBody: {
+            converted: res1.funnelBody.converted,
+            snackMsg: 'next'
+          // }
+        }
 
-        // dispatch({
-        //   type: 'GET_DIAGRAM',
-        //   payload: {
-        //     funnelId,
-        //     res,
-        //   }
-        // });
-        // /************************************/
+        dispatch({
+          type: 'GET_DIAGRAM',
+          payload: {
+            funnelId,
+            res,
+          }
+        });
+        /************************************/
 
 
         dispatch({
@@ -340,29 +340,29 @@ export function saveTemplate(funnelId, diagramObj) {
     })
       .then(response => {
         // console.log(response.data)
-        // /************************************/
-        // dispatch({
-        //   type: 'RESET_GET_DIAGRAM',
-        //   payload: funnelId
-        // });
+        /************************************/
+        dispatch({
+          type: 'RESET_GET_DIAGRAM',
+          payload: funnelId
+        });
 
-        // let res1 = JSON.parse(response.data.data.templateBody);
+        let res1 = JSON.parse(response.data.data.templateBody);
 
-        // let res = {
-        //   funnelBody: {
-        //     converted: res1.funnelBody.converted,
-        //     snackMsg: 'next'
-        //   }
-        // }
+        let res = {
+          // funnelBody: {
+            converted: res1.funnelBody.converted,
+            snackMsg: 'next'
+          // }
+        }
 
-        // dispatch({
-        //   type: 'GET_DIAGRAM',
-        //   payload: {
-        //     funnelId,
-        //     res,
-        //   }
-        // });
-        // /************************************/
+        dispatch({
+          type: 'GET_DIAGRAM',
+          payload: {
+            funnelId,
+            res,
+          }
+        });
+        /************************************/
         dispatch({
           type: 'SAVE_DIAGRAM_SUCCESS',
           payload: response.data.message
