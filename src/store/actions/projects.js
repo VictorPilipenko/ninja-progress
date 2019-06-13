@@ -284,7 +284,7 @@ export function saveDiagram(funnelId, diagramObj, image) {
       data: bodyFormData
     })
       .then(response => {
-        console.log(response)
+        console.log(response.data)
 
         /************************************/
         dispatch({
@@ -293,12 +293,9 @@ export function saveDiagram(funnelId, diagramObj, image) {
         });
 
         let res1 = JSON.parse(response.data.data.funnelBody);
-
         let res = {
-          // funnelBody: {
-            converted: res1.funnelBody.converted,
+            converted: res1.converted,
             snackMsg: 'next'
-          // }
         }
 
         dispatch({
@@ -339,7 +336,7 @@ export function saveTemplate(funnelId, diagramObj) {
       'funnelBody': diagramObj
     })
       .then(response => {
-        // console.log(response.data)
+        console.log(response.data)
         /************************************/
         dispatch({
           type: 'RESET_GET_DIAGRAM',
@@ -347,12 +344,9 @@ export function saveTemplate(funnelId, diagramObj) {
         });
 
         let res1 = JSON.parse(response.data.data.templateBody);
-
         let res = {
-          // funnelBody: {
-            converted: res1.funnelBody.converted,
+            converted: res1.converted,
             snackMsg: 'next'
-          // }
         }
 
         dispatch({

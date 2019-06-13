@@ -70,7 +70,7 @@ class App extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  // console.log('state:', state)
+  console.log('state:', state)
   return {
     diagram: state.projects[`diagram${ownProps.match.params.funnelId}`],
     svg: state.projects.svgList,

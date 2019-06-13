@@ -222,6 +222,7 @@ export default class BodyWidget extends React.Component {
   })
 
   render() {
+    console.log(this.props.work.message)
     return (
       <>
         <div className='message-diagram'>
