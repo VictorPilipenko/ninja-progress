@@ -15,6 +15,7 @@ import * as _ from "lodash";
 import { AdvancedLinkModel } from "../customLink";
 import { TrafficNodeModel } from './TrafficNodeModel'
 
+import { PointModel } from "storm-react-diagrams";
 
 export class TrafficNodeWidget extends React.Component {
   state = {
@@ -99,6 +100,15 @@ export class TrafficNodeWidget extends React.Component {
     document.getElementById("diagram-layer").click();
   }
 
+  deleteAllLinks = () => {
+    _.forEach(this.props.engine.getDiagramModel().getSelectedItems(), (item) => {
+      if (item instanceof PointModel) {
+        item.parent.remove()
+      }
+    })
+    document.getElementById("diagram-layer").click();
+  }
+
   render() {
     return (
       <>
@@ -113,7 +123,7 @@ export class TrafficNodeWidget extends React.Component {
             <button className='btn-select' style={{ padding: 6 }} onClick={this.showNotesModal}><NotesSVG /></button>
             <button className='btn-select' style={{ padding: 6 }} onClick={this.cloneSelected}><CopySVG /></button>
             <button className='btn-select' style={{ padding: 6 }} onClick={this.deleteNode}><DeleteSVG /></button>
-            <button className='btn-select' style={{ padding: 6 }} ><DeleteAllLinksSVG /></button>
+            <button className='btn-select' style={{ padding: 6 }} onClick={this.deleteAllLinks}><DeleteAllLinksSVG /></button>
           </Select>
         </ClickOutside>
 
