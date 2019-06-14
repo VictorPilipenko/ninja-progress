@@ -124,7 +124,7 @@ export function createFunnel(projectName, projectId) {
     })
       .then(response => {
         if (response.data) {
-          console.log(response.data)
+          // console.log(response.data)
           let res = response.data.data
           dispatch({
             type: 'CREATE_FUNNEL',
@@ -263,122 +263,6 @@ export function resetLink() {
   }
 }
 
-
-export function saveDiagram(funnelId, diagramObj, image) {
-  // console.log(diagramObj)
-  const token = JSON.parse(localStorage.getItem('token'));
-
-  let bodyFormData = new FormData();
-  bodyFormData.append('funnelBackground', image);
-  bodyFormData.append('funnelBody', JSON.stringify(diagramObj));
-
-
-  return function (dispatch) {
-    axios({
-      method: 'patch',
-      url: `${API_URL}/funnel/${funnelId}`,
-      headers: {
-        'authorization': token,
-        'Content-Type': 'form-data'
-      },
-      data: bodyFormData
-    })
-      .then(response => {
-        console.log(response.data)
-
-        /************************************/
-        dispatch({
-          type: 'RESET_GET_DIAGRAM',
-          payload: funnelId
-        });
-
-        let res1 = JSON.parse(response.data.data.funnelBody);
-        let res = {
-            converted: res1.converted,
-            snackMsg: 'next'
-        }
-
-        dispatch({
-          type: 'GET_DIAGRAM',
-          payload: {
-            funnelId,
-            res,
-          }
-        });
-        /************************************/
-
-
-        dispatch({
-          type: 'SAVE_DIAGRAM_SUCCESS',
-          payload: response.data.message
-        });
-
-        setTimeout(() => {
-          dispatch({ type: 'SAVE_DIAGRAM_SUCCESS_RESET' });
-        }, 1000)
-
-      })
-      .catch(function (error) {
-        if (error.response) {
-          console.log(error.response)
-          dispatch({
-            type: 'CREATE_DIAGRAM_FAILURE',
-            payload: error.response.data.error
-          });
-        }
-      });
-  }
-}
-
-export function saveTemplate(funnelId, diagramObj) {
-  return function (dispatch) {
-    API.patch(`template/update/${funnelId}`, {
-      'funnelBody': diagramObj
-    })
-      .then(response => {
-        console.log(response.data)
-        /************************************/
-        dispatch({
-          type: 'RESET_GET_DIAGRAM',
-          payload: funnelId
-        });
-
-        let res1 = JSON.parse(response.data.data.templateBody);
-        let res = {
-            converted: res1.converted,
-            snackMsg: 'next'
-        }
-
-        dispatch({
-          type: 'GET_DIAGRAM',
-          payload: {
-            funnelId,
-            res,
-          }
-        });
-        /************************************/
-        dispatch({
-          type: 'SAVE_DIAGRAM_SUCCESS',
-          payload: response.data.message
-        });
-
-        setTimeout(() => {
-          dispatch({ type: 'SAVE_DIAGRAM_SUCCESS_RESET' });
-        }, 2000)
-
-      })
-      .catch(function (error) {
-        if (error.response) {
-          console.log(error.response)
-          dispatch({
-            type: 'CREATE_DIAGRAM_FAILURE',
-            payload: error.response.data.error
-          });
-        }
-      });
-  }
-}
-
 export function createTemplate(funnelId, templateName) {
   // console.log(funnelId, templateName)
   return function (dispatch) {
@@ -386,7 +270,7 @@ export function createTemplate(funnelId, templateName) {
       'templateName': templateName
     })
       .then(response => {
-        console.log(response.data)
+        // console.log('createTemplate: ', response.data)
         dispatch({
           type: 'CREATE_TEMPLATE_SUCCESS',
           payload: response.data.message
@@ -408,6 +292,197 @@ export function createTemplate(funnelId, templateName) {
   }
 }
 
+export function saveDiagramThenTemplate(funnelId, diagramObj, image, templateName) {
+  const token = JSON.parse(localStorage.getItem('token'));
+  let bodyFormData = new FormData();
+  bodyFormData.append('funnelBackground', image);
+  bodyFormData.append('funnelBody', JSON.stringify(diagramObj));
+
+  return function (dispatch) {
+    axios({
+      method: 'patch',
+      url: `${API_URL}/funnel/${funnelId}`,
+      headers: {
+        'authorization': token,
+        'Content-Type': 'form-data'
+      },
+      data: bodyFormData
+    })
+      .then(response => {
+        // console.log("saveDiagram: ", response.data)
+        dispatch({
+          type: 'RESET_GET_DIAGRAM',
+          payload: funnelId
+        });
+        let res1 = JSON.parse(response.data.data.funnelBody);
+        let res = {
+          converted: res1.converted,
+          snackMsg: 'next'
+        }
+        dispatch({
+          type: 'GET_DIAGRAM',
+          payload: {
+            funnelId,
+            res,
+          }
+        });
+        dispatch({
+          type: 'SAVE_DIAGRAM_SUCCESS',
+          payload: response.data.message
+        });
+
+        setTimeout(() => {
+          dispatch({ type: 'SAVE_DIAGRAM_SUCCESS_RESET' });
+        }, 1000)
+
+        return API.post(`template/${funnelId}`, { 'templateName': templateName })
+      })
+
+      .then(response => {
+        // console.log('createTemplate: ', response.data)
+        dispatch({
+          type: 'CREATE_TEMPLATE_SUCCESS',
+          payload: response.data.message
+        });
+
+        setTimeout(() => {
+          dispatch({ type: 'CREATE_TEMPLATE_RESET' });
+        }, 2000)
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: 'CREATE_DIAGRAM_FAILURE',
+            payload: error.response.data.error
+          });
+        }
+      });
+  }
+}
+
+
+export function saveDiagram(funnelId, diagramObj, image) {
+  const token = JSON.parse(localStorage.getItem('token'));
+
+  let bodyFormData = new FormData();
+  bodyFormData.append('funnelBackground', image);
+  bodyFormData.append('funnelBody', JSON.stringify(diagramObj));
+
+  return function (dispatch) {
+    axios({
+      method: 'patch',
+      url: `${API_URL}/funnel/${funnelId}`,
+      headers: {
+        'authorization': token,
+        'Content-Type': 'form-data'
+      },
+      data: bodyFormData
+    })
+      .then(response => {
+        // console.log("saveDiagram: ", response.data)
+
+        /************************************/
+        dispatch({
+          type: 'RESET_GET_DIAGRAM',
+          payload: funnelId
+        });
+
+        let res1 = JSON.parse(response.data.data.funnelBody);
+
+        // console.log('res1: ', res1)
+        let res = {
+          converted: res1.converted,
+          snackMsg: 'next'
+        }
+
+        dispatch({
+          type: 'GET_DIAGRAM',
+          payload: {
+            funnelId,
+            res,
+          }
+        });
+        /************************************/
+
+        dispatch({
+          type: 'SAVE_DIAGRAM_SUCCESS',
+          payload: response.data.message
+        });
+
+        setTimeout(() => {
+          dispatch({ type: 'SAVE_DIAGRAM_SUCCESS_RESET' });
+        }, 1000)
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: 'CREATE_DIAGRAM_FAILURE',
+            payload: error.response.data.error
+          });
+        }
+      });
+  }
+}
+
+export function saveTemplate(funnelId, diagramObj) {
+  return function (dispatch) {
+    API.patch(`template/update/${funnelId}`, {
+      'templateBody': JSON.stringify(diagramObj)
+    })
+      .then(response => {
+        // console.log('saveTemplate: ', response.data)
+        /************************************/
+        dispatch({
+          type: 'RESET_GET_DIAGRAM',
+          payload: funnelId
+        });
+
+        let res1 = JSON.parse(response.data.data.templateBody);
+        let res = {
+          converted: res1.converted,
+          snackMsg: 'next'
+        }
+
+        dispatch({
+          type: 'GET_DIAGRAM',
+          payload: {
+            funnelId,
+            res,
+          }
+        });
+        /************************************/
+        dispatch({
+          type: 'SAVE_DIAGRAM_SUCCESS',
+          payload: response.data.message
+        });
+
+        setTimeout(() => {
+          dispatch({ type: 'SAVE_DIAGRAM_SUCCESS_RESET' });
+        }, 1000)
+
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: 'CREATE_DIAGRAM_FAILURE',
+            payload: error.response.data.error
+          });
+        }
+      });
+  }
+}
+
+export function resetMessageUpdateDiagram() {
+  return function (dispatch) {
+    dispatch({ type: 'SAVE_DIAGRAM_SUCCESS_RESET' });
+  }
+}
+
+
+
 export function createNewProjectWithTemplate(templateId, projectName, funnelId) {
   // console.log(templateId, projectName)
   return function (dispatch) {
@@ -415,7 +490,7 @@ export function createNewProjectWithTemplate(templateId, projectName, funnelId) 
       'projectName': projectName
     })
       .then(response => {
-        console.log(response.data)
+        // console.log(response.data)
         dispatch({
           type: 'CREATE_NEW_PROJECT_WITH_TEMPLATE_SUCCESS',
           payload: response.data.message
@@ -428,7 +503,6 @@ export function createNewProjectWithTemplate(templateId, projectName, funnelId) 
         setTimeout(() => {
           dispatch(push(`/`));
         }, 1000)
-
 
       })
       .catch(function (error) {
@@ -448,14 +522,27 @@ export function getDiagram(funnelId) {
   return function (dispatch) {
     API.get(`funnel/diagram/${funnelId}`)
       .then(response => {
-        // console.log('getDiagram response: ', JSON.parse(response.data.data.funnelBody))
+        // console.log('getDiagram response: ', response.data)
 
         dispatch({
           type: 'RESET_GET_DIAGRAM',
           payload: funnelId
         });
 
-        let res = JSON.parse(response.data.data.funnelBody);
+        let res = {}
+
+        if (response.data.data.funnelBody) {
+          res = JSON.parse(response.data.data.funnelBody);
+          res['funnelName'] = response.data.data.funnelName;
+        }
+        else {
+          res = {
+            funnelName: response.data.data.funnelName,
+            snackMsg: 'next'
+          };
+        }
+
+        // console.log('res: ', res)
         dispatch({
           type: 'GET_DIAGRAM',
           payload: {
@@ -489,8 +576,22 @@ export function getTemplate(funnelId) {
           payload: funnelId
         });
 
-        let res = JSON.parse(response.data.data.templateBody);
-        console.log(res)
+        // let res = JSON.parse(response.data.data.templateBody);
+
+        let res = {}
+
+        if (response.data.data.templateBody) {
+          res = JSON.parse(response.data.data.templateBody);
+          res['funnelName'] = response.data.data.templateName;
+        }
+        else {
+          res = {
+            funnelName: response.data.data.templateName,
+            snackMsg: 'next'
+          };
+        }
+
+        // console.log(res)
         dispatch({
           type: 'GET_DIAGRAM',
           payload: {

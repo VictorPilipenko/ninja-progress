@@ -63,7 +63,7 @@ export default class BodyWidget extends React.Component {
     this.setState({ showTemplateModal: false });
   };
 
-  saveDiagramHandle = file => {
+  saveDiagramHandle = async (file) => {
     this.setState({
       snackMsg: 'next',
       converted: this.props.app.serialization(this.props.app.getDiagramEngine().getDiagramModel())
@@ -71,6 +71,17 @@ export default class BodyWidget extends React.Component {
       () => (
         this.props.work.saveDiagram(this.props.work.funnelId, this.state, file)
       )
+    )
+  }
+
+  saveDiagramThenCreateTemplate = (file) => {
+    this.setState({
+      snackMsg: 'next',
+      converted: this.props.app.serialization(this.props.app.getDiagramEngine().getDiagramModel())
+    },
+      () => {
+        this.props.work.saveDiagramThenTemplate(this.props.work.funnelId, this.state, file, this.state.templateName)
+      }
     )
   }
 
@@ -84,14 +95,6 @@ export default class BodyWidget extends React.Component {
       )
     )
   }
-  componentDidMount() {
-
-  }
-
-  // createTemplateHandle = () => {
-  //   this.saveDiagramHandle()
-  //   this.props.work.createTemplate(this.props.work.funnelId, this.state.templateName)
-  // }
 
   toggle = name => this.setState({
     toggle: name,
@@ -105,7 +108,6 @@ export default class BodyWidget extends React.Component {
         className={className}
         style={{
           background: this.state.toggle === name ? this.state.backgroundActive : this.state.backgroundDefault,
-          // padding: 10,
           justifyContent: 'center',
           alignItems: 'center',
           display: 'flex',
@@ -127,7 +129,6 @@ export default class BodyWidget extends React.Component {
           beforeInjection={svg => {
             svg.setAttribute('style', `padding: 10;`)
           }}
-        // onClick={() => this.toggle(name)}
         />
       </div>
     );
@@ -222,11 +223,13 @@ export default class BodyWidget extends React.Component {
   })
 
   render() {
-    console.log(this.props.work.message)
+    // console.log(this.props.work.diagram && this.props.work.diagram.funnelName)
     return (
       <>
         <div className='message-diagram'>
-          {this.props.work.message ? this.props.work.message : null}
+          {this.props.work.message ?
+            this.props.work.message
+            : null}
         </div>
         <div className="body">
           <div className="header">
@@ -238,7 +241,7 @@ export default class BodyWidget extends React.Component {
               </NavLink>
             </div>
 
-            {/* <div className="title">Storm React Diagrams</div> */}
+            <div className="title">{this.props.work.diagram && this.props.work.diagram.funnelName}</div>
 
             {
               this.props.work.link ?
@@ -261,8 +264,6 @@ export default class BodyWidget extends React.Component {
                 :
                 null
             }
-
-            {/* <div className='diagram-header-buttons-wrapper'> */}
 
             <button
               className="btn btn-1 diagram-header-buttons-wrapper"
@@ -305,7 +306,6 @@ export default class BodyWidget extends React.Component {
                     </button>
                   <button
                     className="btn btn-1 button-select-body-widget"
-                    // onClick={() => this.saveDiagramHandle()}
                     onClick={() => {
                       domtoimage.toBlob(this.diagramRef)
                         .then(data => {
@@ -320,7 +320,7 @@ export default class BodyWidget extends React.Component {
 
                     }}
                   >
-                    Save Diagram
+                    Update Diagram
                     </button>
                   <button
                     className="btn btn-1 button-select-body-widget"
@@ -376,22 +376,18 @@ export default class BodyWidget extends React.Component {
                   >
                     Export PNG
                     </button>
-                  {/* <button
+                  <button
                     className="btn btn-1 button-select-body-widget"
                     onClick={() => this.saveTemplateHandle()}
                   >
                     Update Template
-                    </button> */}
+                    </button>
                 </Select>
               </ClickOutside>
             }
           </div>
 
-          {/* </div> */}
           <div className="content">
-
-
-
             <Modal show={this.state.showTemplateModal} handleClose={this.hideTemplateModal}>
               <label className='label-create'>Create Template</label>
 
@@ -415,9 +411,7 @@ export default class BodyWidget extends React.Component {
                     .then(data => {
                       let name = randomString({ length: 10 });
                       var file = new File([data], name, { type: "image/svg" });
-                      this.saveDiagramHandle(file);
-                      this.props.work.createTemplate(this.props.work.funnelId, this.state.templateName)
-                      this.hideSelect()
+                      this.saveDiagramThenCreateTemplate(file);
                     })
                     .catch(function (error) {
                       console.error('oops, something went wrong!', error);
@@ -519,7 +513,6 @@ export default class BodyWidget extends React.Component {
               }}
             >
               <RJD.DiagramWidget
-                // supressDeleteAction={true}
                 deleteKeys={[46]}
                 // smartRouting={true}
                 allowCanvasZoom={false}

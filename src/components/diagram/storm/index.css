@@ -10,9 +10,12 @@
   flex-grow: 0;
   flex-shrink: 0;
   color: white;
-  font-family: Helvetica, Arial;
   padding: 8px;
   justify-content: flex-end;
+
+  box-shadow: 0px 2px 7px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+  z-index: 1;
 }
 .body .header > * {
   align-self: center;
@@ -30,7 +33,7 @@
   cursor: move;
   overflow: hidden;
   height: 100vh ;
-  background-color: #3c3c3c;
+  background-color: #f6f7f8;
 }
 
 .tray-wrapper {
@@ -107,6 +110,7 @@
 
 .srd-port{
   border-radius: 50% !important;
+  background: rgba(132, 143, 153,0.1) !important;
 }
 
 .panel-buttons{
@@ -124,7 +128,7 @@
   height: 50px;
   color: white;
   border: 0;
-  border-radius: 2px;
+  /* border-radius: 2px; */
   cursor: pointer;
   font-weight: 500;
   font-size: 14px;
@@ -154,6 +158,8 @@
   color: #ffffff;
   font-size: 14px;
   margin-left: 200px;
+  color: #3b4049;
+  z-index: 10;
 }
 
 .select-main-body-widget{
@@ -205,4 +211,12 @@
 .logo-widget{
   position: absolute;
   left: 0;
+}
+
+.title{
+  z-index: 10;
+  margin: auto;
+  font-size: 17px;
+  color: #848f99;
+  font-weight: 400;
 }

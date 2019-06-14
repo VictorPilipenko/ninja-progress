@@ -11,6 +11,10 @@ export class EmailMarketingNodeModel extends NodeModel {
     this.extras.name = this.named;
     this.extras.setNameExtras = this.setNameExtras;
     this.setName = this.setName;
+
+    this.extras.note = this.notesd;
+    this.extras.setNotesExtras = this.setNotesExtras;
+    this.setNotes = this.setNotes;
   }
 
   setNameExtras(name) {
@@ -19,5 +23,13 @@ export class EmailMarketingNodeModel extends NodeModel {
 
   setName(name) {
     this.extras.named = name;
+  }
+
+  setNotesExtras(note) {
+    this.notesd = note;
+  }
+
+  setNotes(note) {
+    this.extras.notesd = note;
   }
 }

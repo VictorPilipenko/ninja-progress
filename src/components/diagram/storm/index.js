@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { saveDiagram, getTemplate, sendImageToCollaborate, resetSendImageToCollaborateLink } from '../../../store/actions/projects'
 import { getDiagram } from '../../../store/actions/projects'
 import { createTemplate, saveTemplate } from '../../../store/actions/projects'
-import { getSVG } from '../../../store/actions/projects'
+import { getSVG, saveDiagramThenTemplate } from '../../../store/actions/projects'
 
 
 class App extends React.Component {
@@ -70,7 +70,7 @@ class App extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  console.log('state:', state)
+  // console.log('state:', state.projects[`diagram${ownProps.match.params.funnelId}`])
   return {
     diagram: state.projects[`diagram${ownProps.match.params.funnelId}`],
     svg: state.projects.svgList,
@@ -85,13 +85,14 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = dispatch => {
   return {
     getSVG: () => dispatch(getSVG()),
-    saveDiagram: (funnelId, obj, image) => dispatch(saveDiagram(funnelId, obj, image)),
+    saveDiagram: (funnelId, obj, image) => { dispatch(saveDiagram(funnelId, obj, image)) },
     saveTemplate: (funnelId, obj) => dispatch(saveTemplate(funnelId, obj)),
     getDiagram: id => dispatch(getDiagram(id)),
     getTemplate: id => dispatch(getTemplate(id)),
     createTemplate: (id, name) => dispatch(createTemplate(id, name)),
     sendImageToCollaborate: (id, data) => dispatch(sendImageToCollaborate(id, data)),
     resetSendImageToCollaborateLink: () => dispatch(resetSendImageToCollaborateLink()),
+    saveDiagramThenTemplate: (funnelId, diagramObj, image, templateName) => dispatch(saveDiagramThenTemplate(funnelId, diagramObj, image, templateName))
   }
 }
 

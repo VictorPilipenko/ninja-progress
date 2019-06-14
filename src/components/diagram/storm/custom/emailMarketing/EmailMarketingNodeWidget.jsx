@@ -37,6 +37,14 @@ export class EmailMarketingNodeWidget extends React.Component {
     this.setState({ showSettings: false });
   };
 
+  showNotesModal = () => {
+    this.setState({ showNotes: true });
+  };
+
+  hideNotesModal = () => {
+    this.setState({ showNotes: false });
+  };
+
   handleChange = e => this.setState({
     label: e.target.value
   }, () =>
@@ -44,6 +52,15 @@ export class EmailMarketingNodeWidget extends React.Component {
       ||
       this.props.node.setName && this.props.node.setName(this.state.label)
   );
+
+  handleChangeNotes = e => this.setState({
+    notes: e.target.value
+  }, () =>
+      this.props.node.extras.setNotesExtras && this.props.node.extras.setNotesExtras(this.state.notes)
+      ||
+      this.props.node.setNotes && this.props.node.setNotes(this.state.notes)
+  );
+
 
   deleteNode = e => {
     this.simulateKey(46, "up");
@@ -96,7 +113,7 @@ export class EmailMarketingNodeWidget extends React.Component {
         >
           <Select show={this.state.show}>
             <button className='btn-select' style={{ padding: 6 }} onClick={this.showSettingsModal}><SettingsSVG /></button>
-            <button className='btn-select' style={{ padding: 6 }} ><NotesSVG /></button>
+            <button className='btn-select' style={{ padding: 6 }} onClick={this.showNotesModal}><NotesSVG /></button>
             <button className='btn-select' style={{ padding: 6 }} onClick={this.cloneSelected}><CopySVG /></button>
             <button className='btn-select' style={{ padding: 6 }} onClick={this.deleteNode}><DeleteSVG /></button>
             <button className='btn-select' style={{ padding: 6 }} ><DeleteAllLinksSVG /></button>
@@ -118,6 +135,24 @@ export class EmailMarketingNodeWidget extends React.Component {
           />
         </ModalNodeWidget>
 
+        <ModalNodeWidget show={this.state.showNotes} handleClose={this.hideNotesModal}>
+          <label className='label-create'>Notes</label>
+
+          <label htmlFor="Notes" className='label-input'>
+            Notes
+          </label>
+          <textarea
+            style={{
+              height: 200
+            }}
+            id="Notes"
+            placeholder="Your Notes"
+            type="text"
+            value={this.state.notes}
+            onChange={this.handleChangeNotes}
+          />
+        </ModalNodeWidget>
+
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div
@@ -125,7 +160,7 @@ export class EmailMarketingNodeWidget extends React.Component {
               position: 'absolute',
               zIndex: 10,
               top: -40,
-              color: '#fff',
+              // color: '#fff',
             }}
           >
             {this.state.label}

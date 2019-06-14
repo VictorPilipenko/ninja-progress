@@ -9,7 +9,7 @@ import {
 export class AdvancedLinkModel extends DefaultLinkModel {
 	constructor() {
 		super("advanced");
-		this.width = 5;
+		this.width = 2;
 	}
 }
 
@@ -37,7 +37,7 @@ export class AdvancedLinkSegment extends React.Component {
 						this.path = ref;
 					}}
 					strokeWidth={this.props.model.width}
-					stroke="rgba(255,0,0,0.5)"
+					stroke="rgba(	97, 102, 110,0.5)"
 					d={this.props.path}
 				/>
 			</>
