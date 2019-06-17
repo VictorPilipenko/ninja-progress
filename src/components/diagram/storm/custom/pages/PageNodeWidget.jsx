@@ -32,7 +32,7 @@ export class PageNodeWidget extends React.Component {
   };
 
   showSettingsModal = () => {
-    this.setState({ showSettings: true });
+    this.setState({ showSettings: true , showNotes: false });
   };
 
   hideSettingsModal = () => {
@@ -40,7 +40,7 @@ export class PageNodeWidget extends React.Component {
   };
 
   showNotesModal = () => {
-    this.setState({ showNotes: true });
+    this.setState({ showNotes: true, showSettings: false });
   };
 
   hideNotesModal = () => {
@@ -120,11 +120,11 @@ export class PageNodeWidget extends React.Component {
           }}
         >
           <Select show={this.state.show}>
-            <button className='btn-select' style={{ padding: 6 }} onClick={this.showSettingsModal}><SettingsSVG /></button>
-            <button className='btn-select' style={{ padding: 6 }} onClick={this.showNotesModal}><NotesSVG /></button>
-            <button className='btn-select' style={{ padding: 6 }} onClick={this.cloneSelected}><CopySVG /></button>
-            <button className='btn-select' style={{ padding: 6 }} onClick={this.deleteNode}><DeleteSVG /></button>
-            <button className='btn-select' style={{ padding: 6 }} onClick={this.deleteAllLinks}><DeleteAllLinksSVG /></button>
+            <button className='btn-select-widget' onClick={this.showSettingsModal}><SettingsSVG /></button>
+            <button className='btn-select-widget' onClick={this.showNotesModal}><NotesSVG /></button>
+            <button className='btn-select-widget' onClick={this.cloneSelected}><CopySVG /></button>
+            <button className='btn-select-widget' onClick={this.deleteNode}><DeleteSVG /></button>
+            <button className='btn-select-widget' onClick={this.deleteAllLinks}><DeleteAllLinksSVG /></button>
           </Select>
         </ClickOutside>
 

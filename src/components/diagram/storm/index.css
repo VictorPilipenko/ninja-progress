@@ -220,3 +220,18 @@
   color: #848f99;
   font-weight: 400;
 }
+
+.btn-select-widget{
+  border: none;
+  font: inherit;
+  color: #848f99;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 6px;
+  text-align: left;
+}
+
+.btn-select-widget:hover{
+  background-color: #8b98a1;
+}

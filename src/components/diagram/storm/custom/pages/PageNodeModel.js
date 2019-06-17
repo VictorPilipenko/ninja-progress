@@ -12,7 +12,7 @@ export class PageNodeModel extends NodeModel {
     this.extras.setNameExtras = this.setNameExtras;
     this.setName = this.setName;
 
-    this.extras.note = this.notesd;
+    this.extras.notes = this.notesd;
     this.extras.setNotesExtras = this.setNotesExtras;
     this.setNotes = this.setNotes;
   }
@@ -25,11 +25,11 @@ export class PageNodeModel extends NodeModel {
     this.extras.named = name;
   }
 
-  setNotesExtras(note) {
-    this.notesd = note;
+  setNotesExtras(notes) {
+    this.notesd = notes;
   }
 
-  setNotes(note) {
-    this.extras.notesd = note;
+  setNotes(notes) {
+    this.extras.notesd = notes;
   }
 }

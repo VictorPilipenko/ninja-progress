@@ -11,6 +11,10 @@ export class EventNodeModel extends NodeModel {
     this.extras.name = this.named;
     this.extras.setNameExtras = this.setNameExtras;
     this.setName = this.setName;
+
+    this.extras.notes = this.notesd;
+    this.extras.setNotesExtras = this.setNotesExtras;
+    this.setNotes = this.setNotes;
   }
 
   setNameExtras(name) {
@@ -19,5 +23,13 @@ export class EventNodeModel extends NodeModel {
 
   setName(name) {
     this.extras.named = name;
+  }
+
+  setNotesExtras(notes) {
+    this.notesd = notes;
+  }
+
+  setNotes(notes) {
+    this.extras.notesd = notes;
   }
 }
