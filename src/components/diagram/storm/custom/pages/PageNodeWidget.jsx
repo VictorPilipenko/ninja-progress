@@ -32,7 +32,7 @@ export class PageNodeWidget extends React.Component {
   };
 
   showSettingsModal = () => {
-    this.setState({ showSettings: true , showNotes: false });
+    this.setState({ showSettings: true, showNotes: false });
   };
 
   hideSettingsModal = () => {
@@ -120,11 +120,11 @@ export class PageNodeWidget extends React.Component {
           }}
         >
           <Select show={this.state.show}>
-            <button className='btn-select-widget' onClick={this.showSettingsModal}><SettingsSVG /></button>
-            <button className='btn-select-widget' onClick={this.showNotesModal}><NotesSVG /></button>
-            <button className='btn-select-widget' onClick={this.cloneSelected}><CopySVG /></button>
-            <button className='btn-select-widget' onClick={this.deleteNode}><DeleteSVG /></button>
-            <button className='btn-select-widget' onClick={this.deleteAllLinks}><DeleteAllLinksSVG /></button>
+            <button className='btn-select-widget' onClick={this.showSettingsModal} title={'Settings'}><SettingsSVG /></button>
+            <button className='btn-select-widget' onClick={this.showNotesModal} title={'Notes'}><NotesSVG /></button>
+            <button className='btn-select-widget' onClick={this.cloneSelected} title={'Copy'}><CopySVG /></button>
+            <button className='btn-select-widget' onClick={this.deleteNode} title={'Delete'}><DeleteSVG /></button>
+            <button className='btn-select-widget' onClick={this.deleteAllLinks} title={'Delete All Links'}><DeleteAllLinksSVG /></button>
           </Select>
         </ClickOutside>
 
@@ -167,11 +167,13 @@ export class PageNodeWidget extends React.Component {
             style={{
               position: 'absolute',
               zIndex: 10,
-              top: -40,
-              // color: '#fff',
+              top: -36,
+              fontSize: 13,
+              color: '#212939',
+              fontWeight: 500
             }}
           >
-            {this.state.label}
+            {this.state.label ? this.state.label : this.props.node.type}
           </div>
 
           <div
@@ -179,6 +181,7 @@ export class PageNodeWidget extends React.Component {
               position: "relative",
             }}
             onClick={this.showModal}
+            title={this.state.label ? this.state.label : this.props.node.type}
           >
             <ReactSVG src={this.props.svg} />
 

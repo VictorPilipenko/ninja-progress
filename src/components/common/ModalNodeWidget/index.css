@@ -46,7 +46,7 @@
   padding: 0;
   border: none;
   font: inherit;
-  color: inherit;
+  color: #3e3e3e;
   background-color: transparent;
   cursor: pointer;
   transform: scale(1.4,1);
@@ -126,7 +126,7 @@
   content: '';
   display: block;
   position: absolute;
-  left: 56px;
+  left: 54px;
   bottom: 100%;
   width: 0;
   height: 0;

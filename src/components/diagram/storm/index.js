@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { saveDiagram, getTemplate, sendImageToCollaborate, resetSendImageToCollaborateLink } from '../../../store/actions/projects'
 import { getDiagram } from '../../../store/actions/projects'
 import { createTemplate, saveTemplate } from '../../../store/actions/projects'
-import { getSVG, saveDiagramThenTemplate } from '../../../store/actions/projects'
+import { getSVG, saveDiagramThenTemplate, changeFunnelName } from '../../../store/actions/projects'
 
 
 class App extends React.Component {
@@ -79,6 +79,7 @@ function mapStateToProps(state, ownProps) {
     createTemplateMessage: state.projects.createTemplateMessage,
     link: state.projects.sendImageToCollaborateLink,
     pathname: state.router.location.pathname,
+    changeFunnelNameMessage: state.projects.changeFunnelNameMessage,
   };
 }
 
@@ -92,7 +93,8 @@ const mapDispatchToProps = dispatch => {
     createTemplate: (id, name) => dispatch(createTemplate(id, name)),
     sendImageToCollaborate: (id, data) => dispatch(sendImageToCollaborate(id, data)),
     resetSendImageToCollaborateLink: () => dispatch(resetSendImageToCollaborateLink()),
-    saveDiagramThenTemplate: (funnelId, diagramObj, image, templateName) => dispatch(saveDiagramThenTemplate(funnelId, diagramObj, image, templateName))
+    saveDiagramThenTemplate: (funnelId, diagramObj, image, templateName) => dispatch(saveDiagramThenTemplate(funnelId, diagramObj, image, templateName)),
+    changeFunnelName: (funnelId, name) => dispatch(changeFunnelName(funnelId, name)),
   }
 }
 

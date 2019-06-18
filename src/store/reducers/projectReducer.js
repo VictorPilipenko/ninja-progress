@@ -150,6 +150,15 @@ export default function (state = initialState, action) {
     ///////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////////////////////////////////////////////
+    case 'CHANGE_FUNNEL_NAME_MESSAGE_SUCCESS':
+      return { ...state, changeFunnelNameMessage: action.payload };
+    case 'CHANGE_FUNNEL_NAME_MESSAGE_FAILURE':
+      return { ...state, changeFunnelNameMessage: action.payload };
+    case 'CHANGE_FUNNEL_NAME_MESSAGE_RESET':
+      return { ...state, changeFunnelNameMessage: null }
+    ///////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////////////////////////////////////////////////////////
     case 'CREATE_TEMPLATE_RESET':
       return { ...state, createTemplateMessage: null }
     case 'CREATE_TEMPLATE_SUCCESS':

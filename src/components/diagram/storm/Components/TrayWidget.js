@@ -8,23 +8,32 @@ export class TrayWidget extends React.Component {
     this.state = {};
   }
 
+  static getDerivedStateFromProps(nextProps) {
+    if (nextProps.children)
+      return {
+        itemsFromNextProps: nextProps.children,
+      };
+    else
+      return null
+  }
+
+  filterList = event => {
+    let updatedList = this.state.itemsFromNextProps &&
+      this.state.itemsFromNextProps.filter(item => {
+        return item.props.model.type.toLowerCase().search(
+          event.target.value.toLowerCase()) !== -1;
+      });
+    this.setState({ items: updatedList });
+  }
+
   render() {
-
     const showHideClassName = this.props.show ? "select display-block" : "select display-none";
-
     return (
       <div className={showHideClassName}>
         <div className='tray-wrapper'>
-          <input
-            // id="NameFunnel"
-            // placeholder="Funnel Name"
-            type="text"
-            name='search'
-          // value={this.state.funnelName}
-          // onChange={this.handleChange}
-          />
+          <input type="text" placeholder="Search" onChange={this.filterList} />
           <div className='tray'>
-            {this.props.children}
+            {this.state.items ? this.state.items : this.props.children}
           </div>
         </div>
       </div>

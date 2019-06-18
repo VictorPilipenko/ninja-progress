@@ -3,7 +3,6 @@ import { PortWidget } from "storm-react-diagrams";
 import ReactSVG from 'react-svg';
 import ClickOutside from '../../../../common/ClickOutside'
 import ModalNodeWidget from '../../../../common/ModalNodeWidget'
-import './EmailMarketingNodeWidget.css'
 
 import { ReactComponent as CopySVG } from '../../../../../assets/selectForWidget/copy.svg';
 import { ReactComponent as DeleteAllLinksSVG } from '../../../../../assets/selectForWidget/delete-all-links.svg';
@@ -33,7 +32,7 @@ export class EmailMarketingNodeWidget extends React.Component {
   };
 
   showSettingsModal = () => {
-    this.setState({ showSettings: true , showNotes: false });
+    this.setState({ showSettings: true, showNotes: false });
   };
 
   hideSettingsModal = () => {
@@ -114,7 +113,6 @@ export class EmailMarketingNodeWidget extends React.Component {
 
 
   render() {
-
     return (
       <>
 
@@ -124,11 +122,11 @@ export class EmailMarketingNodeWidget extends React.Component {
           }}
         >
           <Select show={this.state.show}>
-            <button className='btn-select-widget' onClick={this.showSettingsModal}><SettingsSVG /></button>
-            <button className='btn-select-widget' onClick={this.showNotesModal}><NotesSVG /></button>
-            <button className='btn-select-widget' onClick={this.cloneSelected}><CopySVG /></button>
-            <button className='btn-select-widget' onClick={this.deleteNode}><DeleteSVG /></button>
-            <button className='btn-select-widget' onClick={this.deleteAllLinks}><DeleteAllLinksSVG /></button>
+            <button className='btn-select-widget' onClick={this.showSettingsModal} title={'Settings'}><SettingsSVG /></button>
+            <button className='btn-select-widget' onClick={this.showNotesModal} title={'Notes'}><NotesSVG /></button>
+            <button className='btn-select-widget' onClick={this.cloneSelected} title={'Copy'}><CopySVG /></button>
+            <button className='btn-select-widget' onClick={this.deleteNode} title={'Delete'}><DeleteSVG /></button>
+            <button className='btn-select-widget' onClick={this.deleteAllLinks} title={'Delete All Links'}><DeleteAllLinksSVG /></button>
           </Select>
         </ClickOutside>
 
@@ -167,7 +165,7 @@ export class EmailMarketingNodeWidget extends React.Component {
 
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <div
+          {/* <div
             style={{
               position: 'absolute',
               zIndex: 10,
@@ -176,7 +174,7 @@ export class EmailMarketingNodeWidget extends React.Component {
             }}
           >
             {this.state.label}
-          </div>
+          </div> */}
 
 
           <div
@@ -184,16 +182,21 @@ export class EmailMarketingNodeWidget extends React.Component {
               position: "relative",
             }}
             onClick={this.showModal}
+            title={this.state.label ? this.state.label : this.props.node.type}
           >
 
-            <div className='add-to-cart-model-wrapper'>
+            <div className='small-model-wrapper'>
               <div style={{ padding: 5, width: 40, height: 40 }}>
                 <ReactSVG src={this.props.svg} beforeInjection={svg => {
                   svg.setAttribute('style', 'width: 40px; height: 40px;')
                 }} />
               </div>
-              <div className='add-to-cart-model-text-wrapper'>
-                <p className='add-to-cart-model-text'>test</p>
+              <div className='small-model-text-wrapper'>
+                <p
+                  className='small-model-text'
+                >
+                  {this.state.label ? this.state.label : this.props.node.type}
+                </p>
               </div>
             </div>
 

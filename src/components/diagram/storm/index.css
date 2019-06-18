@@ -164,12 +164,12 @@
 
 .select-main-body-widget{
   top: 56px;
-  right: 2px;
+  right: 59px;
   display: flex;
   flex-direction: column;
   position: absolute;
   width: 150px;
-  z-index: 1;
+  z-index: 100;
   width: 157px;
   box-shadow: 0 0 28px rgba(0,0,0,0.1);
 }
@@ -211,6 +211,7 @@
 .logo-widget{
   position: absolute;
   left: 0;
+  height: 75px;
 }
 
 .title{
@@ -233,5 +234,43 @@
 }
 
 .btn-select-widget:hover{
-  background-color: #8b98a1;
+  background-color: #dce5ec;
+}
+
+.diagram-header-menu-button{
+    border: 0;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    background: #fff;
+    padding: 0px 10px 0px 20px;
+}
+
+
+.small-model-wrapper {
+  display: flex;
+  background: #fff;
+  border-radius: 5px;
+  border: 1px solid #636e84;
+}
+
+.small-model-text-wrapper{
+  background: #636e84;
+  display: flex;
+  border-radius: 0px 5px 5px 0px;
+    width: 103px;
+}
+
+.small-model-text{
+  align-self: center;
+  margin: 0 5px 0 15px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  white-space: nowrap;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 400;
 }

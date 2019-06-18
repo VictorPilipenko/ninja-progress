@@ -1,6 +1,6 @@
 import * as React from "react";
 import { TrayWidget } from "./TrayWidget";
-import { TrayItemWidget } from "./TrayItemWidget";
+import { TrayBigItemWidget, TraySmallItemWidget } from "./TrayItemWidget";
 import * as RJD from "storm-react-diagrams";
 import domtoimage from 'dom-to-image';
 import ClickOutside from '../../../common/ClickOutside'
@@ -21,6 +21,8 @@ import TemplatesButton from '../../../../assets/TemplatesButton.svg'
 import { ReactComponent as ArrowSelectSVG } from '../../../../assets/ArrowSelect.svg'
 
 import { ReactComponent as LogoWidgetSVG } from '../../../../assets/logo-widget.svg'
+import { ReactComponent as MenuWidgetSVG } from '../../../../assets/menu-widget.svg'
+import ModalNodeWidget from '../../../common/ModalNodeWidget'
 import { NavLink } from "react-router-dom";
 
 import { API_URL } from '../../../../config'
@@ -49,10 +51,12 @@ export default class BodyWidget extends React.Component {
     backgroundActive: 'linear-gradient(90deg, #e62d24 0%, #fd8f21 100%)',
     backgroundDefault: '#212939',
     showSelect: false,
+    showModal: false,
+    saveBeforeExit: false
   }
 
   handleChange = e => this.setState({
-    templateName: e.target.value
+    [e.target.name]: e.target.value
   });
 
   showTemplateModal = () => {
@@ -63,7 +67,7 @@ export default class BodyWidget extends React.Component {
     this.setState({ showTemplateModal: false });
   };
 
-  saveDiagramHandle = async (file) => {
+  saveDiagramHandle = file => {
     this.setState({
       snackMsg: 'next',
       converted: this.props.app.serialization(this.props.app.getDiagramEngine().getDiagramModel())
@@ -83,6 +87,10 @@ export default class BodyWidget extends React.Component {
         this.props.work.saveDiagramThenTemplate(this.props.work.funnelId, this.state, file, this.state.templateName)
       }
     )
+  }
+
+  createTemplate = () => {
+    this.props.work.createTemplate(this.props.work.funnelId, this.state.templateName)
   }
 
   saveTemplateHandle = () => {
@@ -201,18 +209,23 @@ export default class BodyWidget extends React.Component {
     }
   }
 
-  createItemsWidget(name) {
+  createBigItemsWidget(name) {
     if (this.props.work.svg) {
       let allItemsByName = this.props.app.getValues(this.props.work.svg, name)
       return allItemsByName.map((item, key) => (
-        <TrayItemWidget key={key} model={{ type: item.name }} name={item.name} icon={API_URL + item.url} />
+        <TrayBigItemWidget key={key} model={{ type: item.name }} name={item.name} icon={API_URL + item.url} />
       ))
     }
   }
 
-  hideSettingsModal = () => {
-    this.props.work.showSettingsWidget(false, this.props.app.serialization(this.props.app.getDiagramEngine().getDiagramModel()))
-  };
+  createSmallItemsWidget(name) {
+    if (this.props.work.svg) {
+      let allItemsByName = this.props.app.getValues(this.props.work.svg, name)
+      return allItemsByName.map((item, key) => (
+        <TraySmallItemWidget key={key} model={{ type: item.name }} name={item.name} icon={API_URL + item.url} />
+      ))
+    }
+  }
 
   showSelect = () => this.setState({
     showSelect: true
@@ -220,6 +233,23 @@ export default class BodyWidget extends React.Component {
 
   hideSelect = () => this.setState({
     showSelect: false
+  })
+
+  showMenu = () => this.setState({
+    showMenu: true,
+    funnelName: this.props.work.diagram && this.props.work.diagram.funnelName,
+  })
+
+  hideMenu = () => this.setState({
+    showMenu: false
+  })
+
+  showSaveBeforeExit = () => this.setState({
+    saveBeforeExit: true,
+  })
+
+  hideSaveBeforeExit = () => this.setState({
+    saveBeforeExit: false
   })
 
   render() {
@@ -233,7 +263,10 @@ export default class BodyWidget extends React.Component {
         </div>
         <div className="body">
           <div className="header">
-            <div className='logo-widget'>
+            <div
+              className='logo-widget'
+              // onClick={this.showSaveBeforeExit}
+            >
               <NavLink
                 to={'/'}
               >
@@ -275,6 +308,57 @@ export default class BodyWidget extends React.Component {
               </div>
             </button>
 
+            <button
+              className="diagram-header-menu-button"
+              onClick={this.showMenu}
+            >
+              <MenuWidgetSVG />
+            </button>
+
+
+            <ModalNodeWidget
+              show={this.state.showMenu}
+              handleClose={this.hideMenu}
+              style={{
+                position: 'absolute',
+                minHeight: '97%',
+                top: 56,
+              }}
+            >
+              <label className='label-create'>Menu</label>
+              <label htmlFor="Name" className='label-input'>
+                Funnel Name
+              </label>
+              <input
+                id="Name"
+                placeholder="Funnel Name"
+                type="text"
+                value={this.state.funnelName}
+                onChange={this.handleChange}
+                name='funnelName'
+              />
+              {this.props.work.changeFunnelNameMessage && (
+                <div className={`input-group`}>{this.props.work.changeFunnelNameMessage}</div>
+              )}
+              <button
+                className='btn btn-1 create-project-button-in-modal'
+                onClick={() => {
+                  domtoimage.toBlob(this.diagramRef)
+                    .then(data => {
+                      let name = randomString({ length: 10 });
+                      var file = new File([data], name, { type: "image/svg" });
+                      this.saveDiagramHandle(file);
+                      this.props.work.changeFunnelName(this.props.work.funnelId, this.state.funnelName)
+                    })
+                    .catch(function (error) {
+                      console.error('oops, something went wrong!', error);
+                    });
+
+                }}
+              >
+                Change Name
+              </button>
+            </ModalNodeWidget>
 
             {this.props.work.pathname.includes('diagram') ?
               <ClickOutside
@@ -400,6 +484,7 @@ export default class BodyWidget extends React.Component {
                 type="text"
                 value={this.state.templateName}
                 onChange={this.handleChange}
+                name='templateName'
               />
               {this.props.work.createTemplateMessage && (
                 <div className={`input-group`}>{this.props.work.createTemplateMessage}</div>
@@ -422,6 +507,50 @@ export default class BodyWidget extends React.Component {
               </button>
             </Modal>
 
+            {/* <Modal show={this.state.saveBeforeExit} handleClose={this.hideSaveBeforeExit}>
+              <label className='label-create'>Save Before Exit</label>
+
+              <label htmlFor="Name" className='label-input'>
+                Save?
+              </label>
+
+              <button
+                className='btn btn-1 create-project-button-in-modal'
+                onClick={() => {
+                  domtoimage.toBlob(this.diagramRef)
+                    .then(data => {
+                      let name = randomString({ length: 10 });
+                      var file = new File([data], name, { type: "image/svg" });
+                      this.saveDiagramHandle(file);
+                    })
+                    .catch(function (error) {
+                      console.error('oops, something went wrong!', error);
+                    });
+                }}
+              >
+                Save
+              </button>
+              <button
+                className='btn btn-1 create-project-button-in-modal'
+                onClick={() => {
+                  domtoimage.toBlob(this.diagramRef)
+                    .then(data => {
+                      let name = randomString({ length: 10 });
+                      var file = new File([data], name, { type: "image/svg" });
+                      this.saveDiagramHandle(file);
+                    })
+                    .catch(function (error) {
+                      console.error('oops, something went wrong!', error);
+                    });
+                }}
+              >
+                Don't Save
+              </button>
+              {this.props.work.message && (
+                <div className={`input-group`}>{this.props.work.message}</div>
+              )}
+            </Modal> */}
+
             <div className='panel-buttons'>
               {this.button('first', PagesButton, 'panel-button panel-button-first')}
               {this.button('second', TrafficButton, 'panel-button')}
@@ -437,7 +566,7 @@ export default class BodyWidget extends React.Component {
                 }}
               >
                 <TrayWidget show={this.state.show}>
-                  {this.createItemsWidget('Pages')}
+                  {this.createBigItemsWidget('Pages')}
                 </TrayWidget>
               </ClickOutside> : null}
 
@@ -448,7 +577,7 @@ export default class BodyWidget extends React.Component {
                 }}
               >
                 <TrayWidget show={this.state.show}>
-                  {this.createItemsWidget('Traffic')}
+                  {this.createSmallItemsWidget('Traffic')}
                 </TrayWidget>
               </ClickOutside> : null}
 
@@ -459,7 +588,7 @@ export default class BodyWidget extends React.Component {
                 }}
               >
                 <TrayWidget show={this.state.show}>
-                  {this.createItemsWidget('Events')}
+                  {this.createSmallItemsWidget('Events')}
                 </TrayWidget>
               </ClickOutside> : null}
 
@@ -470,7 +599,7 @@ export default class BodyWidget extends React.Component {
                 }}
               >
                 <TrayWidget show={this.state.show}>
-                  {this.createItemsWidget('EmailMarketing')}
+                  {this.createSmallItemsWidget('EmailMarketing')}
                 </TrayWidget>
               </ClickOutside> : null}
 

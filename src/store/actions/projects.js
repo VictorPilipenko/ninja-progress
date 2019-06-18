@@ -270,7 +270,7 @@ export function createTemplate(funnelId, templateName) {
       'templateName': templateName
     })
       .then(response => {
-        // console.log('createTemplate: ', response.data)
+        console.log('createTemplate: ', response.data)
         dispatch({
           type: 'CREATE_TEMPLATE_SUCCESS',
           payload: response.data.message
@@ -301,7 +301,7 @@ export function saveDiagramThenTemplate(funnelId, diagramObj, image, templateNam
   return function (dispatch) {
     axios({
       method: 'patch',
-      url: `${API_URL}/funnel/${funnelId}`,
+      url: `${API_URL}/funnel/diagram/${funnelId}`,
       headers: {
         'authorization': token,
         'Content-Type': 'form-data'
@@ -309,7 +309,7 @@ export function saveDiagramThenTemplate(funnelId, diagramObj, image, templateNam
       data: bodyFormData
     })
       .then(response => {
-        // console.log("saveDiagram: ", response.data)
+        console.log("saveDiagram: ", response.data)
         dispatch({
           type: 'RESET_GET_DIAGRAM',
           payload: funnelId
@@ -339,7 +339,7 @@ export function saveDiagramThenTemplate(funnelId, diagramObj, image, templateNam
       })
 
       .then(response => {
-        // console.log('createTemplate: ', response.data)
+        console.log('createTemplate: ', response.data)
         dispatch({
           type: 'CREATE_TEMPLATE_SUCCESS',
           payload: response.data.message
@@ -372,7 +372,7 @@ export function saveDiagram(funnelId, diagramObj, image) {
   return function (dispatch) {
     axios({
       method: 'patch',
-      url: `${API_URL}/funnel/${funnelId}`,
+      url: `${API_URL}/funnel/diagram/${funnelId}`,
       headers: {
         'authorization': token,
         'Content-Type': 'form-data'
@@ -380,7 +380,7 @@ export function saveDiagram(funnelId, diagramObj, image) {
       data: bodyFormData
     })
       .then(response => {
-        // console.log("saveDiagram: ", response.data)
+        console.log("saveDiagram: ", response.data)
 
         /************************************/
         dispatch({
@@ -632,6 +632,37 @@ export function changePermission(funnelId, profileId, permissions) {
           console.log(error.response)
           dispatch({
             type: 'COLLABORATORS_MODAL_MESSAGE_FAILURE',
+            payload: error.response.data.error
+          });
+        }
+      });
+  }
+}
+
+export function changeFunnelName(funnelId, funnelName) {
+  console.log('changeFunnelName action: ', funnelId, funnelName)
+  return function (dispatch) {
+    API.patch(`funnel/${funnelId}`, {
+      'funnelName': funnelName
+    })
+      .then(response => {
+        console.log('changeFunnelName response: ', response.data)
+
+        dispatch({
+          type: 'CHANGE_FUNNEL_NAME_MESSAGE_SUCCESS',
+          payload: response.data.message
+        });
+
+        setTimeout(() => {
+          dispatch({ type: 'CHANGE_FUNNEL_NAME_MESSAGE_RESET' });
+        }, 1000)
+
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response)
+          dispatch({
+            type: 'CHANGE_FUNNEL_NAME_MESSAGE_FAILURE',
             payload: error.response.data.error
           });
         }
