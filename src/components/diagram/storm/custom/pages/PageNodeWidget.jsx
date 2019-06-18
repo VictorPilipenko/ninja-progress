@@ -129,8 +129,8 @@ export class PageNodeWidget extends React.Component {
         </ClickOutside>
 
         <ModalNodeWidget show={this.state.showSettings} handleClose={this.hideSettingsModal}>
-          <label className='label-create'>Settings</label>
-
+          <label className='label-create-widget-settings'>Settings</label>
+<div className='modal-content-wrapper'>
           <label htmlFor="Name" className='label-input'>
             Name
           </label>
@@ -141,11 +141,12 @@ export class PageNodeWidget extends React.Component {
             value={this.state.label}
             onChange={this.handleChange}
           />
+</div>
         </ModalNodeWidget>
 
         <ModalNodeWidget show={this.state.showNotes} handleClose={this.hideNotesModal}>
-          <label className='label-create'>Notes</label>
-
+          <label className='label-create-widget-settings'>Notes</label>
+<div className='modal-content-wrapper'>
           <label htmlFor="Notes" className='label-input'>
             Notes
           </label>
@@ -159,6 +160,7 @@ export class PageNodeWidget extends React.Component {
             value={this.state.notes}
             onChange={this.handleChangeNotes}
           />
+</div>
         </ModalNodeWidget>
 
 

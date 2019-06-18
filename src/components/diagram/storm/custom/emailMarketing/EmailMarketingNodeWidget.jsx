@@ -131,36 +131,40 @@ export class EmailMarketingNodeWidget extends React.Component {
         </ClickOutside>
 
         <ModalNodeWidget show={this.state.showSettings} handleClose={this.hideSettingsModal}>
-          <label className='label-create'>Settings</label>
+          <label className='label-create-widget-settings'>Settings</label>
 
-          <label htmlFor="Name" className='label-input'>
-            Name
-          </label>
-          <input
-            id="Name"
-            placeholder="Label Name"
-            type="text"
-            value={this.state.label}
-            onChange={this.handleChange}
-          />
+          <div className='modal-content-wrapper'>
+            <label htmlFor="Name" className='label-input'>
+              Name
+            </label>
+            <input
+              id="Name"
+              placeholder="Label Name"
+              type="text"
+              value={this.state.label}
+              onChange={this.handleChange}
+            />
+          </div>
         </ModalNodeWidget>
 
         <ModalNodeWidget show={this.state.showNotes} handleClose={this.hideNotesModal}>
-          <label className='label-create'>Notes</label>
+          <label className='label-create-widget-settings'>Notes</label>
 
-          <label htmlFor="Notes" className='label-input'>
-            Notes
-          </label>
-          <textarea
-            style={{
-              height: 200
-            }}
-            id="Notes"
-            placeholder="Your Notes"
-            type="text"
-            value={this.state.notes}
-            onChange={this.handleChangeNotes}
-          />
+          <div className='modal-content-wrapper'>
+            <label htmlFor="Notes" className='label-input'>
+              Notes
+            </label>
+            <textarea
+              style={{
+                height: 200
+              }}
+              id="Notes"
+              placeholder="Your Notes"
+              type="text"
+              value={this.state.notes}
+              onChange={this.handleChangeNotes}
+            />
+          </div>
         </ModalNodeWidget>
 
 

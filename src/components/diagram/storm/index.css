@@ -10,7 +10,6 @@
   flex-grow: 0;
   flex-shrink: 0;
   color: white;
-  padding: 8px;
   justify-content: flex-end;
 
   box-shadow: 0px 2px 7px rgba(0,0,0,0.1);
@@ -164,7 +163,7 @@
 
 .select-main-body-widget{
   top: 56px;
-  right: 59px;
+  right: 67px;
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -238,14 +237,13 @@
 }
 
 .diagram-header-menu-button{
-    border: 0;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 14px;
-    -webkit-transition: 0.5s;
-    transition: 0.5s;
-    background: #fff;
-    padding: 0px 10px 0px 20px;
+  border: 0;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 5px 5px 18px 5px;
+  background: #fff;
+  margin: 10px 15px 0px 20px;
 }
 
 
@@ -273,4 +271,19 @@
   color: #fff;
   font-size: 13px;
   font-weight: 400;
+}
+
+.label-create-widget-settings{
+  color: #848f99;
+  font-size: 14px;
+  padding-bottom: 15px;
+  background: #ecf1f2;
+  padding: 15px 0 15px 20px;
+  font-weight: 400;
+}
+
+.modal-content-wrapper{
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
 }

@@ -31,7 +31,7 @@ export class TrafficNodeWidget extends React.Component {
   };
 
   showSettingsModal = () => {
-    this.setState({ showSettings: true , showNotes: false });
+    this.setState({ showSettings: true, showNotes: false });
   };
 
   hideSettingsModal = () => {
@@ -128,36 +128,38 @@ export class TrafficNodeWidget extends React.Component {
         </ClickOutside>
 
         <ModalNodeWidget show={this.state.showSettings} handleClose={this.hideSettingsModal}>
-          <label className='label-create'>Settings</label>
-
-          <label htmlFor="Name" className='label-input'>
-            Name
+          <label className='label-create-widget-settings'>Settings</label>
+          <div className='modal-content-wrapper'>
+            <label htmlFor="Name" className='label-input'>
+              Name
           </label>
-          <input
-            id="Name"
-            placeholder="Label Name"
-            type="text"
-            value={this.state.label}
-            onChange={this.handleChange}
-          />
+            <input
+              id="Name"
+              placeholder="Label Name"
+              type="text"
+              value={this.state.label}
+              onChange={this.handleChange}
+            />
+          </div>
         </ModalNodeWidget>
 
         <ModalNodeWidget show={this.state.showNotes} handleClose={this.hideNotesModal}>
-          <label className='label-create'>Notes</label>
-
-          <label htmlFor="Notes" className='label-input'>
-            Notes
+          <label className='label-create-widget-settings'>Notes</label>
+          <div className='modal-content-wrapper'>
+            <label htmlFor="Notes" className='label-input'>
+              Notes
           </label>
-          <textarea
-            style={{
-              height: 200
-            }}
-            id="Notes"
-            placeholder="Your Notes"
-            type="text"
-            value={this.state.notes}
-            onChange={this.handleChangeNotes}
-          />
+            <textarea
+              style={{
+                height: 200
+              }}
+              id="Notes"
+              placeholder="Your Notes"
+              type="text"
+              value={this.state.notes}
+              onChange={this.handleChangeNotes}
+            />
+          </div>
         </ModalNodeWidget>
 
 
@@ -188,7 +190,7 @@ export class TrafficNodeWidget extends React.Component {
                   svg.setAttribute('style', 'width: 40px; height: 40px;')
                 }} />
               </div>
-             <div className='small-model-text-wrapper'>
+              <div className='small-model-text-wrapper'>
                 <p
                   className='small-model-text'
                 >

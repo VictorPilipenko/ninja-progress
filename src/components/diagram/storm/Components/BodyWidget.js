@@ -284,6 +284,7 @@ export default class BodyWidget extends React.Component {
                 <button
                   className="diagram-header-menu-button"
                   onClick={this.showMenu}
+                  style={{ background: this.state.showMenu ? '#ecf1f2' : '#fff' }}
                 >
                   <MenuWidgetSVG />
                 </button>
@@ -292,6 +293,7 @@ export default class BodyWidget extends React.Component {
               <button
                 className="btn btn-1 diagram-header-button-save"
                 onClick={this.showSelect}
+                style={{ margin: 8 }}
               >
                 SAVE
                 <div className='arrow-for-select'>
@@ -309,39 +311,42 @@ export default class BodyWidget extends React.Component {
                 top: 56,
               }}
             >
-              <label className='label-create'>Menu</label>
-              <label htmlFor="FunnelName" className='label-input'>
-                Funnel Name
-              </label>
-              <input
-                id="FunnelName"
-                placeholder="Funnel Name"
-                type="text"
-                value={this.state.funnelName}
-                onChange={this.handleChange}
-                name='funnelName'
-              />
-              {this.props.work.changeFunnelNameMessage && (
-                <div className={`input-group`}>{this.props.work.changeFunnelNameMessage}</div>
-              )}
-              <button
-                className='btn btn-1 create-project-button-in-modal'
-                onClick={() => {
-                  domtoimage.toBlob(this.diagramRef)
-                    .then(data => {
-                      let name = randomString({ length: 10 });
-                      var file = new File([data], name, { type: "image/svg" });
-                      this.saveDiagramHandle(file);
-                      this.props.work.changeFunnelName(this.props.work.funnelId, this.state.funnelName)
-                    })
-                    .catch(function (error) {
-                      console.error('oops, something went wrong!', error);
-                    });
+              <label className='label-create-widget-settings'>Funnel Options</label>
+              <div style={{ padding: 15 }}>
+                <label htmlFor="FunnelName" className='label-input'>
+                  Funnel Name
+                </label>
+                <input
+                  id="FunnelName"
+                  placeholder="Funnel Name"
+                  type="text"
+                  value={this.state.funnelName}
+                  onChange={this.handleChange}
+                  name='funnelName'
+                />
+                {this.props.work.changeFunnelNameMessage && (
+                  <div className={`input-group`}>{this.props.work.changeFunnelNameMessage}</div>
+                )}
+                <button
+                  className='btn btn-1 create-project-button-in-modal'
+                  style={{ display: 'block' }}
+                  onClick={() => {
+                    domtoimage.toBlob(this.diagramRef)
+                      .then(data => {
+                        let name = randomString({ length: 10 });
+                        var file = new File([data], name, { type: "image/svg" });
+                        this.saveDiagramHandle(file);
+                        this.props.work.changeFunnelName(this.props.work.funnelId, this.state.funnelName)
+                      })
+                      .catch(function (error) {
+                        console.error('oops, something went wrong!', error);
+                      });
 
-                }}
-              >
-                Change Name
-              </button>
+                  }}
+                >
+                  Save
+                </button>
+              </div>
             </ModalNodeWidget>
 
             {this.props.work.pathname.includes('diagram') ?
@@ -493,7 +498,7 @@ export default class BodyWidget extends React.Component {
 
             <Modal show={this.state.saveBeforeExit} handleClose={this.hideSaveBeforeExit}>
               <label className='label-create'>Save Before Exit</label>
-              
+
               <div style={{
                 display: 'flex',
                 width: 300,

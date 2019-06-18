@@ -17,11 +17,11 @@ export class TrayWidget extends React.Component {
       return null
   }
 
-  filterList = event => {
+  filterList = e => {
     let updatedList = this.state.itemsFromNextProps &&
       this.state.itemsFromNextProps.filter(item => {
         return item.props.model.type.toLowerCase().search(
-          event.target.value.toLowerCase()) !== -1;
+          e.target.value.toLowerCase()) !== -1;
       });
     this.setState({ items: updatedList });
   }
@@ -31,7 +31,7 @@ export class TrayWidget extends React.Component {
     return (
       <div className={showHideClassName}>
         <div className='tray-wrapper'>
-          <input type="text" placeholder="Search" onChange={this.filterList} />
+          <input type="text" placeholder="Search" onChange={e => this.filterList(e)} />
           <div className='tray'>
             {this.state.items ? this.state.items : this.props.children}
           </div>

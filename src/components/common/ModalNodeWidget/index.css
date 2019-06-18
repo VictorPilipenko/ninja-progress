@@ -12,16 +12,11 @@
 .modal-node-widget-main {
   position: fixed;
   background: white;
-  width: 220px;
+  width: 300px;
   min-height: 100vh;
   right: 0;
   top: 0;
   z-index: 11;
-  /* left: 65%; */
-  /* -webkit-transform: translate(-50%,-50%); */
-  /* transform: translate(-50%,-50%); */
-  /* border-radius: 5px; */
-  padding: 15px;
   display: flex;
   flex-direction: column;
   box-shadow: -1.873px 4.636px 7px rgba(0,0,0,0.1);
