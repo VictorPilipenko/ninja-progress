@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import FunnelItem from './FunnelItem.jsx';
+import TemplateItem from './TemplateItem.jsx';
 import { deleteTemplate, createNewProjectWithTemplate } from '../../store/actions/projects'
 
-class FunnelItemContainer extends Component {
+class TemplateItemContainer extends Component {
 
   handleDelete = (funnelId) => {
     this.props.deleteTemplate(funnelId)
@@ -15,9 +15,8 @@ class FunnelItemContainer extends Component {
 
   render() {
     const { _id, funnelName, projectId, funnelBody } = this.props;
-    // console.log(this.props)
     return (
-      <FunnelItem
+      <TemplateItem
         _id={_id}
         funnelName={funnelName}
         funnelBody={funnelBody}
@@ -30,16 +29,15 @@ class FunnelItemContainer extends Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = state => {
   return {
     messageCreateProject: state.projects.createNewProjectWithTemplateMessage,
   };
 }
-
 
 const mapDispatchToState = dispatch => ({
   deleteTemplate: (funnelId) => dispatch(deleteTemplate(funnelId)),
   createNewProjectWithTemplate: (id, name, projectId) => dispatch(createNewProjectWithTemplate(id, name, projectId)),
 });
 
-export default connect(mapStateToProps, mapDispatchToState)(FunnelItemContainer);
+export default connect(mapStateToProps, mapDispatchToState)(TemplateItemContainer);

@@ -292,7 +292,7 @@ export function createTemplate(funnelId, templateName) {
   }
 }
 
-export function saveDiagramThenTemplate(funnelId, diagramObj, image, templateName) {
+export function saveDiagramThenCreateTemplate(funnelId, diagramObj, image, templateName) {
   const token = JSON.parse(localStorage.getItem('token'));
   let bodyFormData = new FormData();
   bodyFormData.append('funnelBackground', image);
@@ -360,6 +360,64 @@ export function saveDiagramThenTemplate(funnelId, diagramObj, image, templateNam
       });
   }
 }
+
+export const saveDiagramThenExit = (funnelId, diagramObj, image) => dispatch => {
+  
+  const token = JSON.parse(localStorage.getItem('token'));
+  let bodyFormData = new FormData();
+  bodyFormData.append('funnelBackground', image);
+  bodyFormData.append('funnelBody', JSON.stringify(diagramObj));
+
+  axios({
+    method: 'patch',
+    url: `${API_URL}/funnel/diagram/${funnelId}`,
+    headers: {
+      'authorization': token,
+      'Content-Type': 'form-data'
+    },
+    data: bodyFormData
+  })
+    .then(response => {
+      console.log("saveDiagram: ", response.data)
+      dispatch({
+        type: 'RESET_GET_DIAGRAM',
+        payload: funnelId
+      });
+      let res1 = JSON.parse(response.data.data.funnelBody);
+      let res = {
+        converted: res1.converted,
+        snackMsg: 'next'
+      }
+      dispatch({
+        type: 'GET_DIAGRAM',
+        payload: {
+          funnelId,
+          res,
+        }
+      });
+      dispatch({
+        type: 'SAVE_DIAGRAM_SUCCESS',
+        payload: response.data.message
+      });
+      setTimeout(() => {
+        dispatch({ type: 'SAVE_DIAGRAM_SUCCESS_RESET' });
+      }, 1000)
+      setTimeout(() => {
+        dispatch(push('/'));
+      }, 1000)
+
+    })
+    .catch(function (error) {
+      if (error.response) {
+        console.log(error.response)
+        dispatch({
+          type: 'CREATE_DIAGRAM_FAILURE',
+          payload: error.response.data.error
+        });
+      }
+    });
+}
+
 
 
 export function saveDiagram(funnelId, diagramObj, image) {

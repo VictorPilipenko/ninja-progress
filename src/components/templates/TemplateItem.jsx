@@ -1,10 +1,10 @@
 import React from 'react';
-import './FunnelItem.css';
+import './TemplateItem.css';
 import ClickOutside from '../common/ClickOutside'
 import Modal from '../common/Modal/Modal'
 import { NavLink } from "react-router-dom";
 
-class FunnelItem extends React.Component {
+class TemplateItem extends React.Component {
   state = {
     show: false,
     showDelete: false,
@@ -73,19 +73,11 @@ class FunnelItem extends React.Component {
             >
               Open
             </NavLink>
-            {/*  
-            <div
-              className='view-funnels'
-              // to={'/diagram/' + _id}
-            >
-              Open
-            </div>  */}
           </div>
 
           <div className='project'>
             {funnelName}
             <br />
-            {/* {funnels} funnels */}
           </div>
 
           <Modal show={this.state.showUseTemplate} handleClose={this.hideUseTemplateModal}>
@@ -147,12 +139,11 @@ class FunnelItem extends React.Component {
   }
 }
 
-export default FunnelItem;
+export default TemplateItem;
 
-//modalka, fuck yeah
+
 const Select = ({ show, children }) => {
   const showHideClassName = show ? "select display-block" : "select display-none";
-
   return (
     <div className={showHideClassName}>
       <section className="select-main">

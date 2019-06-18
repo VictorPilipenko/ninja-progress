@@ -1,38 +1,13 @@
 import React from 'react'
 import Layout from "../common/Layout";
 import { connect } from 'react-redux'
-import './FunnelList.css'
+import './TemplateList.css'
 import { getAllTemplates } from '../../store/actions/projects'
-import FunnelItemContainer from './FunnelItemContainer.jsx'
+import TemplateItemContainer from './TemplateItemContainer.jsx'
 
-class FunnelList extends React.Component {
+class TemplateList extends React.Component {
   componentDidMount() {
     this.props.getAllTemplates();
-  }
-
-  state = {
-    show: false,
-    funnelName: ''
-  };
-
-  showModal = () => {
-    this.setState({ show: true });
-  };
-
-  hideModal = () => {
-    this.setState({ show: false });
-  };
-
-  handleChange = e => this.setState({
-    funnelName: e.target.value
-  });
-
-  handleCreateFunnel = () => {
-    this.props.createFunnel(this.state.funnelName, this.props.projectId)
-
-    setTimeout(() => {
-      !this.props.error && this.hideModal()
-    }, 1500)
   }
 
   render() {
@@ -43,7 +18,7 @@ class FunnelList extends React.Component {
             {
               this.props.templates && this.props.templates.length > 0 ?
                 this.props.templates.map((funnel, index) => (
-                  <FunnelItemContainer
+                  <TemplateItemContainer
                     key={index}
                     _id={funnel._id}
                     funnelName={funnel.templateName}
@@ -63,8 +38,7 @@ class FunnelList extends React.Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
-  // console.log(state.projects[`funnelsList${ownProps.match.params.projectId}`])
+const mapStateToProps = state => {
   return {
     templates: state.projects.templatesList,
   };
@@ -76,4 +50,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FunnelList);
+export default connect(mapStateToProps, mapDispatchToProps)(TemplateList);

@@ -67,8 +67,6 @@
 .btn-delete-modal {
   width: 90px !important;
   height: 40px !important;
-  /* background: -webkit-linear-gradient(6deg, #e62d24 0%, #fd8f21 100%); */
-  /* background: linear-gradient(84deg, #e62d24 0%, #fd8f21 100%); */
   color: white;
   border: 0;
   border-radius: 5px;
@@ -77,12 +75,4 @@
   font-weight: 500;
   font-size: 14px;
   margin-bottom: 15px;
-}
-
-.btn-delete-modal:hover {
-  /* background: linear-gradient(263deg, #e62d24 0%, #fd8f21 100%); */
-}
-
-.btn-delete-modal:active {
-  /* background: linear-gradient(263deg, #d6180f 0%, #ef7800 100%); */
 }

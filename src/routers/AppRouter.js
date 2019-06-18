@@ -4,7 +4,7 @@ import { PrivateRoute } from '../components/RequireAuth';
 import { PrivateRouteAddCollaborator } from '../components/PrivateRouteAddCollaborator';
 import ProjectList from '../components/projects/ProjectList.jsx';
 import FunnelList from '../components/funnels/FunnelList.jsx';
-import TemplatesList from '../components/templates/FunnelList.jsx';
+import TemplatesList from '../components/templates/TemplateList.jsx';
 import Signin from '../components/auth/Signin.jsx';
 import Signup from '../components/auth/Signup.jsx';
 import Questionnaire from '../components/auth/Questionnaire.jsx';
