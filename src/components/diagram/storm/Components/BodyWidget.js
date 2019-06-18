@@ -520,16 +520,21 @@ export default class BodyWidget extends React.Component {
                 >
                   Save
                 </button>
-                <button className='btn btn-1 create-project-button-in-modal'>
-                  <NavLink
-                    to={'/'}
-                    style={{
-                      color: '#fff'
-                    }}
-                  >
-                    Don't Save
+                {/* <button className='btn btn-1 create-project-button-in-modal'> */}
+                <NavLink
+                  to={'/'}
+                  className='btn btn-1 create-project-button-in-modal'
+                  style={{
+                    color: '#fff',
+                    display: 'flex',
+                    fontWeight: 400,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  Don't Save
                 </NavLink>
-                </button>
+                {/* </button> */}
               </div>
               {this.props.work.message && (
                 <div className='input-group'>{this.props.work.message}</div>
