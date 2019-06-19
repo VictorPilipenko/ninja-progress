@@ -306,3 +306,8 @@
   margin-left: 25px;
   cursor: pointer;
 }
+
+.circleee{
+  z-index: 10000;
+  pointer-events: all;
+}

@@ -46,6 +46,9 @@ export class AdvancedLinkSegment extends React.Component {
       this.circleTarget.setAttribute("cx", pointTarget.x);
       this.circleTarget.setAttribute("cy", pointTarget.y);
 
+      // this.circleTarget.addEventListener('click', this.handleClickTarget)
+
+
       if (this.mounted) {
         requestAnimationFrame(this.callback);
       }
@@ -60,7 +63,7 @@ export class AdvancedLinkSegment extends React.Component {
     this.mounted = false;
   }
 
-  onMouseEnter = (e) => {
+  onMouseEnter = () => {
     this.show()
     const length = this.path.getTotalLength(),
       step = 4 * 100 / length; // Move 100px for 1000ms
@@ -107,7 +110,7 @@ export class AdvancedLinkSegment extends React.Component {
   }
 
   render() {
-    console.log(this.props.selected)
+    // console.log(this.props.selected)
     const { path, model, selected } = this.props;
 
     return (
@@ -115,29 +118,30 @@ export class AdvancedLinkSegment extends React.Component {
         <path
           ref={ref => this.path = ref}
           strokeWidth={model.width}
-          stroke={ selected ? `rgba(	97, 102, 110, 1)` : `rgba(	97, 102, 110, 0.5)`}
+          stroke={selected ? `rgba(	97, 102, 110, 1)` : `rgba(	97, 102, 110, 0.5)`}
           strokeDasharray="5,5"
           d={path}
-        />
 
-        <path
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
-          strokeWidth={model.width * 5}
-          d={path}
         />
 
         <circle
+          className='circleee'
           ref={ref => this.circle = ref}
           r={3}
           fill="blue"
         />
 
         <circle
+          className='circleee'
           ref={ref => this.circleTarget = ref}
           r={6}
           fill="orange"
+        // onMouseEnter={this.handleMouseTargetEnter}
+        // onMouseLeave={this.handleMouseTargetLeave}
         />
+
       </>
     );
   }
