@@ -22,6 +22,8 @@ import { ReactComponent as ArrowSelectSVG } from '../../../../assets/ArrowSelect
 
 import { ReactComponent as LogoWidgetSVG } from '../../../../assets/logo-widget.svg'
 import { ReactComponent as MenuWidgetSVG } from '../../../../assets/menu-widget.svg'
+import { ReactComponent as InstructionsSVG } from '../../../../assets/instructions.svg'
+
 import ModalNodeWidget from '../../../common/ModalNodeWidget'
 import { NavLink } from "react-router-dom";
 
@@ -51,6 +53,7 @@ export default class BodyWidget extends React.Component {
     showSelect: false,
     showModal: false,
     saveBeforeExit: false,
+    showInstructions: false,
   }
 
   handleChange = e => this.setState({
@@ -98,7 +101,7 @@ export default class BodyWidget extends React.Component {
     show: true,
   });
 
-  button = (name, icon, className) => {
+  button = (name, icon, className, title) => {
     return (
       <div
         onClick={() => this.toggle(name)}
@@ -109,6 +112,7 @@ export default class BodyWidget extends React.Component {
           alignItems: 'center',
           display: 'flex',
         }}
+        title={title}
       >
         <div
           style={{
@@ -228,6 +232,9 @@ export default class BodyWidget extends React.Component {
   showSaveBeforeExit = () => this.setState({ saveBeforeExit: true })
   hideSaveBeforeExit = () => this.setState({ saveBeforeExit: false })
 
+  showInstructions = () => this.setState({ showInstructions: true })
+  hideInstructions = () => this.setState({ showInstructions: false })
+
   render() {
     return (
       <>
@@ -241,6 +248,7 @@ export default class BodyWidget extends React.Component {
             <div
               className='logo-widget'
               onClick={this.showSaveBeforeExit}
+              style={{ cursor: 'pointer' }}
             >
               <LogoWidgetSVG />
             </div>
@@ -279,6 +287,14 @@ export default class BodyWidget extends React.Component {
                   <div className='arrow-for-select'>
                     <ArrowSelectSVG />
                   </div>
+                </button>
+
+                <button
+                  className="diagram-header-instruction-button"
+                  onClick={this.showInstructions}
+                // style={{ background: this.state.showMenu ? '#ecf1f2' : '#fff' }}
+                >
+                  <InstructionsSVG />
                 </button>
 
                 <button
@@ -541,12 +557,35 @@ export default class BodyWidget extends React.Component {
               )}
             </Modal>
 
+            <Modal show={this.state.showInstructions} handleClose={this.hideInstructions}>
+              <label className='label-create'>Manual</label>
+
+              <div style={{
+                margin: '10px',
+                fontSize: 16,
+              }}>
+                Delete Link:<br />
+                1. Hold SHIFT<br />
+                2. Click left mouse somewhere on Link<br />
+                3. Press `Delete` button on keyboard<br />
+                <br />
+                Delete Node:<br />
+                2. Click left mouse on Node<br />
+                3. Press `Delete` button on keyboard<br />
+                <br />
+                Multiple Delete:<br />
+                1. Hold SHIFT<br />
+                2. Click left mouse somewhere on Link or/and Node<br />
+                3. Press `Delete` button on keyboard<br />
+              </div>
+            </Modal>
+
             <div className='panel-buttons'>
-              {this.button('first', PagesButton, 'panel-button panel-button-first')}
-              {this.button('second', TrafficButton, 'panel-button')}
-              {this.button('third', EventsButton, 'panel-button')}
-              {this.button('fourth', EmailMarketingButton, 'panel-button')}
-              {this.button('fifth', TemplatesButton, 'panel-button panel-button-last')}
+              {this.button('first', PagesButton, 'panel-button panel-button-first', 'Pages')}
+              {this.button('second', TrafficButton, 'panel-button', 'Traffic')}
+              {this.button('third', EventsButton, 'panel-button', 'Events')}
+              {this.button('fourth', EmailMarketingButton, 'panel-button', 'Email Marketing')}
+              {this.button('fifth', TemplatesButton, 'panel-button panel-button-last', 'Templates')}
             </div>
 
             {this.state.toggle === 'first' ?

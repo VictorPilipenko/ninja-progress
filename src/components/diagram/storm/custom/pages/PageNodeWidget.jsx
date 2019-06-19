@@ -105,6 +105,7 @@ export class PageNodeWidget extends React.Component {
     _.forEach(this.props.engine.getDiagramModel().getSelectedItems(), (item) => {
       if (item instanceof PointModel) {
         item.parent.remove()
+        // console.log(item.parent.sourcePort)
       }
     })
     document.getElementById("diagram-layer").click();
@@ -130,37 +131,37 @@ export class PageNodeWidget extends React.Component {
 
         <ModalNodeWidget show={this.state.showSettings} handleClose={this.hideSettingsModal}>
           <label className='label-create-widget-settings'>Settings</label>
-<div className='modal-content-wrapper'>
-          <label htmlFor="Name" className='label-input'>
-            Name
+          <div className='modal-content-wrapper'>
+            <label htmlFor="Name" className='label-input'>
+              Name
           </label>
-          <input
-            id="Name"
-            placeholder="Label Name"
-            type="text"
-            value={this.state.label}
-            onChange={this.handleChange}
-          />
-</div>
+            <input
+              id="Name"
+              placeholder="Label Name"
+              type="text"
+              value={this.state.label}
+              onChange={this.handleChange}
+            />
+          </div>
         </ModalNodeWidget>
 
         <ModalNodeWidget show={this.state.showNotes} handleClose={this.hideNotesModal}>
           <label className='label-create-widget-settings'>Notes</label>
-<div className='modal-content-wrapper'>
-          <label htmlFor="Notes" className='label-input'>
-            Notes
+          <div className='modal-content-wrapper'>
+            <label htmlFor="Notes" className='label-input'>
+              Notes
           </label>
-          <textarea
-            style={{
-              height: 200
-            }}
-            id="Notes"
-            placeholder="Your Notes"
-            type="text"
-            value={this.state.notes}
-            onChange={this.handleChangeNotes}
-          />
-</div>
+            <textarea
+              style={{
+                height: 200
+              }}
+              id="Notes"
+              placeholder="Your Notes"
+              type="text"
+              value={this.state.notes}
+              onChange={this.handleChangeNotes}
+            />
+          </div>
         </ModalNodeWidget>
 
 

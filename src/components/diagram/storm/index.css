@@ -131,6 +131,7 @@
   cursor: pointer;
   font-weight: 500;
   font-size: 14px;
+  border-top: 1px solid rgba(220,229,236, 0.5);
 }
 
 
@@ -163,7 +164,7 @@
 
 .select-main-body-widget{
   top: 56px;
-  right: 67px;
+  right: 119px;
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -286,4 +287,22 @@
   padding: 15px;
   display: flex;
   flex-direction: column;
+}
+
+.srd-default-link__point{
+  fill: orange !important;
+}
+
+.link-segment__circle{
+  stroke: black;
+  stroke-width: 3;
+  transform: scale(0.3);
+  stroke-miterlimit: 10
+}
+
+.diagram-header-instruction-button{
+  background: #fff;
+  border: 0;
+  margin-left: 25px;
+  cursor: pointer;
 }
