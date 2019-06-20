@@ -22,7 +22,10 @@ import { ReactComponent as ArrowSelectSVG } from '../../../../assets/ArrowSelect
 
 import { ReactComponent as LogoWidgetSVG } from '../../../../assets/logo-widget.svg'
 import { ReactComponent as MenuWidgetSVG } from '../../../../assets/menu-widget.svg'
-import { ReactComponent as InstructionsSVG } from '../../../../assets/instructions.svg'
+import { ReactComponent as ShareFunnelSVG } from '../../../../assets/instructions.svg'
+import { ReactComponent as FunnelNotesSVG } from '../../../../assets/FunnelNotes.svg'
+
+
 
 import ModalNodeWidget from '../../../common/ModalNodeWidget'
 import { NavLink } from "react-router-dom";
@@ -291,10 +294,32 @@ export default class BodyWidget extends React.Component {
 
                 <button
                   className="diagram-header-instruction-button"
+                  onClick={() => {
+                      domtoimage.toBlob(this.diagramRef)
+                        .then(data => {
+                          let name = randomString({ length: 10 });
+                          var file = new File([data], name, { type: "image/svg" });
+                          this.saveDiagramHandle(file);
+                          this.props.work.sendImageToCollaborate(this.props.work.funnelId, file);
+                          this.hideSelect()
+                        })
+                        .catch(function (error) {
+                          console.error('oops, something went wrong!', error);
+                        });
+
+                    }}
+                  title={'Share The Funnel'}
+                >
+                  <ShareFunnelSVG />
+                </button>
+
+                <button
+                  className="diagram-header-instruction-button"
                   onClick={this.showInstructions}
+                  title={'Manual'}
                 // style={{ background: this.state.showMenu ? '#ecf1f2' : '#fff' }}
                 >
-                  <InstructionsSVG />
+                  <FunnelNotesSVG />
                 </button>
 
                 <button
@@ -323,8 +348,7 @@ export default class BodyWidget extends React.Component {
               handleClose={this.hideMenu}
               style={{
                 position: 'absolute',
-                minHeight: '97%',
-                top: 56,
+                top: 65,
               }}
             >
               <label className='label-create-widget-settings'>Funnel Options</label>
@@ -411,7 +435,7 @@ export default class BodyWidget extends React.Component {
                   >
                     Update Diagram
                     </button>
-                  <button
+                  {/* <button
                     className="btn btn-1 button-select-body-widget"
                     onClick={() => {
                       domtoimage.toBlob(this.diagramRef)
@@ -429,7 +453,7 @@ export default class BodyWidget extends React.Component {
                     }}
                   >
                     Collaborate With Image
-                    </button>
+                    </button> */}
                   <button
                     className="btn btn-1 button-select-body-widget"
                     onClick={this.showTemplateModal}

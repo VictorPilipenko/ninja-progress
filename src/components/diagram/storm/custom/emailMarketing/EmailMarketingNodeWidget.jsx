@@ -169,7 +169,7 @@ export class EmailMarketingNodeWidget extends React.Component {
 
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          {/* <div
+          <div
             style={{
               position: 'absolute',
               zIndex: 10,
@@ -178,15 +178,19 @@ export class EmailMarketingNodeWidget extends React.Component {
             }}
           >
             {this.state.label}
-          </div> */}
+          </div>
 
 
           <div
             style={{
               position: "relative",
+              height: this.props.node.selected ? 53 : null,
+              width: this.props.node.selected ? 155 : null,
+              border: this.props.node.selected ? '.5px dashed #848f99' : null,
+              borderRadius: this.props.node.selected ? 7 : null,
             }}
-            onClick={this.showModal}
-            title={this.state.label ? this.state.label : this.props.node.type}
+            onDoubleClick={this.showModal}
+            title={this.state.label}
           >
 
             <div className='small-model-wrapper'>
@@ -199,7 +203,7 @@ export class EmailMarketingNodeWidget extends React.Component {
                 <p
                   className='small-model-text'
                 >
-                  {this.state.label ? this.state.label : this.props.node.type}
+                  {this.props.node.type}
                 </p>
               </div>
             </div>

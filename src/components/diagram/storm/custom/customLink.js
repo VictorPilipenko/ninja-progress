@@ -2,8 +2,14 @@ import * as React from "react";
 import {
   DefaultPortModel,
   DefaultLinkModel,
-  DefaultLinkFactory
+  DefaultLinkFactory,
+  DefaultNodeModel,
 } from "storm-react-diagrams";
+
+import { PointModel } from "storm-react-diagrams";
+import * as _ from "lodash";
+
+import { ReactComponent as ArrowLinkSVG } from '../../../../assets/arrow-link.svg';
 
 
 export class AdvancedLinkModel extends DefaultLinkModel {
@@ -46,7 +52,9 @@ export class AdvancedLinkSegment extends React.Component {
       this.circleTarget.setAttribute("cx", pointTarget.x);
       this.circleTarget.setAttribute("cy", pointTarget.y);
 
-      // this.circleTarget.addEventListener('click', this.handleClickTarget)
+      this.circleTarget2.setAttribute("cx", pointTarget.x);
+      this.circleTarget2.setAttribute("cy", pointTarget.y);
+
 
 
       if (this.mounted) {
@@ -109,10 +117,25 @@ export class AdvancedLinkSegment extends React.Component {
     }
   }
 
-  render() {
-    // console.log(this.props.selected)
-    const { path, model, selected } = this.props;
+  simulateKey(keyCode, type) {
+    var evtName = (typeof (type) === "string") ? "key" + type : "keydown";
+    var event = document.createEvent("HTMLEvents");
+    event.initEvent(evtName, true, false);
+    event.keyCode = keyCode;
+    document.dispatchEvent(event);
+  }
 
+  handleMouseTargetEnter = e => {
+    console.log(this.props.selected)
+
+    // this.simulateKey(16, "down");
+    // console.log(e.shiftKey)
+  }
+
+
+  render() {
+    const { path, model, selected } = this.props;
+    // console.log(selected)
     return (
       <>
         <path
@@ -121,26 +144,48 @@ export class AdvancedLinkSegment extends React.Component {
           stroke={selected ? `rgba(	97, 102, 110, 1)` : `rgba(	97, 102, 110, 0.5)`}
           strokeDasharray="5,5"
           d={path}
+          stroke-linecap="square"
 
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
+          // onMouseEnter={e => this.handleMouseTargetEnter(e)}
         />
 
         <circle
           className='circleee'
           ref={ref => this.circle = ref}
           r={3}
-          fill="blue"
+          fill="orange"
         />
 
-        <circle
+        {/* <circle
           className='circleee'
           ref={ref => this.circleTarget = ref}
           r={6}
           fill="orange"
         // onMouseEnter={this.handleMouseTargetEnter}
         // onMouseLeave={this.handleMouseTargetLeave}
-        />
+        /> */}
+
+
+        {/* <g id="стрелка" transform="translate(-413 792) rotate(-90)">
+          <circle id="Ellipse_50" data-name="Ellipse 50" cx="6" cy="6" r="6" transform="translate(780 413)" fill="#fd8f21" />
+          <path id="стрелка-2" data-name="стрелка" d="M-493.5,8397.362l2.386,2.386,2.385-2.386" transform="translate(1277 -7979)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+        </g> */}
+
+
+        <g>
+          <circle ref={ref => this.circleTarget = ref} r="6" fill="#fd8f21" />
+          <circle ref={ref => this.circleTarget2 = ref} r="2" fill="#fff" />
+        </g>
+
+
+        {/* <g width="100" height="100">
+          <circle ref={ref => this.circleTarget = ref} r="6" fill="red" />
+          <path
+            d="M-493.5,8397.362l2.386,2.386,2.385-2.386" transform="translate(50,80)"  />
+        </g> */}
+
 
       </>
     );
@@ -170,6 +215,7 @@ export class AdvancedLinkFactory extends DefaultLinkFactory {
     return (
       <g>
         <AdvancedLinkSegment
+          engine={widget.props.diagramEngine}
           model={model}
           path={path}
           selected={selected}

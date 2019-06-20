@@ -27,16 +27,19 @@ class AddCollaboratorsImage extends React.Component {
 
     return (
       <div className='add-collaborators-img-body'>
+
         <img className='add-collaborators-img-image' src={API_URL + '/' + params.get('image')} alt='img' />
+
         <div className='add-collaborators-img-right-panel-wrapper'>
           <div className='add-collaborators-img-right-panel'>
             <img className='signin-logo' src={logo} alt='logo' />
-            <p className='add-collaborators-img-text-first'>The Following Funnel Has<br /> Been Shared with You</p>
+            <p className='add-collaborators-img-text-first'>The Following Funnel Has <br /> Been Shared with You</p>
             <CollaborateSVG />
             <p className='add-collaborators-img-text-second'>Click below to add to this funnel to <br /> your dashboard</p>
             <button className="btn btn-1" onClick={() => this.redirectToAddCollaborators()}>Add to My Dashboard</button>
           </div>
         </div>
+
         {/* {
           this.props.error && this.props.error.length > 0 ?
             <p className='create-funnels'>{this.props.error}</p> : null

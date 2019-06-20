@@ -27,7 +27,7 @@ export class PageNodeModel extends NodeModel {
 
   setNotesExtras(notes) {
     this.notesd = notes;
-  }
+  }z
 
   setNotes(notes) {
     this.extras.notesd = notes;

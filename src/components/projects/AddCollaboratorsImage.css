@@ -3,15 +3,12 @@
 }
 
 .add-collaborators-img-image{
-  min-height: 100vh;
-  width: 100%;
+  width: 73.95%;
+  margin: auto;
 }
 
 .add-collaborators-img-right-panel-wrapper{
   background: #212939;
-  /* padding: 50px; */
-  right: 0;
-  position: absolute;
   height: 100vh;
 }
 

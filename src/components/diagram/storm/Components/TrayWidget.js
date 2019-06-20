@@ -1,4 +1,7 @@
 import * as React from "react";
+import { ReactComponent as SearchProjectsSVG } from '../../../../assets/SearchProjects.svg'
+
+
 
 export class TrayWidget extends React.Component {
   static defaultProps = {};
@@ -32,6 +35,13 @@ export class TrayWidget extends React.Component {
       <div className={showHideClassName}>
         <div className='tray-wrapper'>
           <input type="text" placeholder="Search" onChange={e => this.filterList(e)} />
+          <div style={{
+            position: 'absolute',
+            right: 22,
+            top: 22,
+          }}>
+            <SearchProjectsSVG />
+          </div>
           <div className='tray'>
             {this.state.items ? this.state.items : this.props.children}
           </div>

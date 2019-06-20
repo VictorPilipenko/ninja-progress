@@ -55,18 +55,20 @@
   left: 50%;
   -webkit-transform: translate(-50%,-50%);
   transform: translate(-50%,-50%);
-  color: white;
+  color: #848f99;
   border-radius: 4px;
   padding: 5px 10px 5px 10px;
   white-space: pre;
   border: 1px solid;
-  -webkit-transition: all 1s ease-in;
-  transition: all 1s ease-in;
+  /* -webkit-transition: all 1s ease-in; */
+  /* transition: all 1s ease-in; */
   font-size: 14px;
+  background-color: #121824;
 }
 
 .view-funnels:hover{
   background-image: linear-gradient(90deg, #f15c22 0%, #fd8f21 100%);
+  color: white;
 }
 
 .project{

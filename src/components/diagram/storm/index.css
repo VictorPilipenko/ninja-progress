@@ -40,7 +40,7 @@
   flex-grow: 0;
   flex-shrink: 0;
   position: absolute;
-  top: 70px;
+  top: 80px;
   z-index: 100;
   left: 75px;
   padding: 0px;
@@ -66,7 +66,7 @@
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  overflow: auto;
+  overflow-y: scroll;
   border-radius: 4px;
   background-color: #ffffff;
   border-top: 1px solid #dce5ec;
@@ -117,7 +117,7 @@
   display: flex;
   flex-direction: column;
   z-index: 1;
-  top: 70px;
+  top: 80px;
   left: 15px;
 }
 
@@ -164,7 +164,7 @@
 
 .select-main-body-widget{
   top: 56px;
-  right: 119px;
+  right: 174px;
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -211,7 +211,7 @@
 .logo-widget{
   position: absolute;
   left: 0;
-  height: 75px;
+  top: 0;
 }
 
 .title{
@@ -244,7 +244,7 @@
   font-size: 14px;
   padding: 5px 5px 18px 5px;
   background: #fff;
-  margin: 10px 15px 0px 20px;
+  margin: 20px 15px 0px 20px;
 }
 
 
@@ -310,4 +310,16 @@
 .circleee{
   z-index: 10000;
   pointer-events: all;
+}
+
+.circle-shown-on-hover{
+  z-index: 10000;
+  pointer-events: all;
+  position: absolute;
+  top: 300px;
+  left: 500px;
+}
+
+.circle-target-two{
+  transform: matrix(1, 0, 0, 1, 0, 0);
 }

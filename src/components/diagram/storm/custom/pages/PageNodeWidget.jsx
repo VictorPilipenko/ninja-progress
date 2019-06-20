@@ -112,7 +112,10 @@ export class PageNodeWidget extends React.Component {
   }
 
 
+
+
   render() {
+    // console.log(this.props.node.selected)
     return (
       <>
         <ClickOutside
@@ -182,11 +185,17 @@ export class PageNodeWidget extends React.Component {
           <div
             style={{
               position: "relative",
+              height: this.props.node.selected ? 122 : null,
+              width: this.props.node.selected ? 92 : null,
+              border: this.props.node.selected ? '.5px dashed #848f99' : null,
+              borderRadius: this.props.node.selected ? 7 : null,
             }}
-            onClick={this.showModal}
+            onDoubleClick={this.showModal}
             title={this.state.label ? this.state.label : this.props.node.type}
           >
-            <ReactSVG src={this.props.svg} />
+            <ReactSVG
+              src={this.props.svg}
+          />
 
             <div
               style={{
