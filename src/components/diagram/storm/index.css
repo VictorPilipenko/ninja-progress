@@ -163,8 +163,8 @@
 }
 
 .select-main-body-widget{
-  top: 56px;
-  right: 174px;
+  top: 64px;
+  right: 171px;
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -323,3 +323,19 @@
 .circle-target-two{
   transform: matrix(1, 0, 0, 1, 0, 0);
 }
+
+/* path{
+    fill:none;
+    stroke:black;
+    pointer-events:all;
+} */
+
+
+
+.srd-default-link path:hover{
+  stroke:black !important;
+}
+
+use { pointer-events: all; stroke-width: 40; fill: none; stroke-opacity: 0; }
+		use:hover + * { fill: cornflowerblue; }
+

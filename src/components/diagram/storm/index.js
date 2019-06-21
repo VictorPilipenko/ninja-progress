@@ -86,7 +86,7 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = dispatch => {
   return {
     getSVG: () => dispatch(getSVG()),
-    saveDiagram: (funnelId, obj, image) => { dispatch(saveDiagram(funnelId, obj, image)) },
+    saveDiagram: (funnelId, obj, image) => dispatch(saveDiagram(funnelId, obj, image)),
     saveTemplate: (funnelId, obj) => dispatch(saveTemplate(funnelId, obj)),
     getDiagram: id => dispatch(getDiagram(id)),
     getTemplate: id => dispatch(getTemplate(id)),

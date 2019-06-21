@@ -334,7 +334,7 @@ export default class BodyWidget extends React.Component {
               <button
                 className="btn btn-1 diagram-header-button-save"
                 onClick={this.showSelect}
-                style={{ margin: 8 }}
+                style={{ margin: 12.5 }}
               >
                 SAVE
                 <div className='arrow-for-select'>
@@ -468,7 +468,7 @@ export default class BodyWidget extends React.Component {
                   this.setState({ showSelect: false })
                 }}
               >
-                <Select show={this.state.showSelect} style={{ right: 5 }}>
+                <Select show={this.state.showSelect} style={{ right: 9 }}>
                   <button
                     className="btn btn-1 button-select-body-widget"
                     onClick={() => {
@@ -525,6 +525,14 @@ export default class BodyWidget extends React.Component {
                     .then(data => {
                       let name = randomString({ length: 10 });
                       var file = new File([data], name, { type: "image/svg" });
+
+
+                      // this.saveDiagramHandle(file);
+                      // this.createTemplate();
+
+
+
+
                       this.saveDiagramThenCreateTemplate(file);
                     })
                     .catch(function (error) {
@@ -691,6 +699,7 @@ export default class BodyWidget extends React.Component {
                 allowCanvasTranslation={false}
                 className="srd-demo-canvas"
                 diagramEngine={this.props.app.getDiagramEngine()}
+                allowLooseLinks={false}
               />
             </div>
           </div>

@@ -169,7 +169,9 @@ export class TrafficNodeWidget extends React.Component {
               position: 'absolute',
               zIndex: 10,
               top: -40,
-              // color: '#fff',
+              fontSize: 13,
+              color: 'rgb(33, 41, 57)',
+              fontWeight: 500
             }}
           >
             {this.state.label}
