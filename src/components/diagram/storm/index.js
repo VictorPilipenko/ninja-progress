@@ -55,8 +55,6 @@ class App extends React.Component {
 
   render() {
 
-    // console.log(this.state)
-
     var app = new Application(
       this.state.diagram && this.state.diagram,
       this.props.svg && this.props.svg,

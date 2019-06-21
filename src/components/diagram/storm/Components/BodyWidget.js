@@ -24,6 +24,7 @@ import { ReactComponent as LogoWidgetSVG } from '../../../../assets/logo-widget.
 import { ReactComponent as MenuWidgetSVG } from '../../../../assets/menu-widget.svg'
 import { ReactComponent as ShareFunnelSVG } from '../../../../assets/instructions.svg'
 import { ReactComponent as FunnelNotesSVG } from '../../../../assets/FunnelNotes.svg'
+import { ReactComponent as ChatSVG } from '../../../../assets/chat.svg'
 
 
 
@@ -228,9 +229,17 @@ export default class BodyWidget extends React.Component {
 
   showMenu = () => this.setState({
     showMenu: true,
+    showNotes: false,
     funnelName: this.props.work.diagram && this.props.work.diagram.funnelName,
   })
   hideMenu = () => this.setState({ showMenu: false })
+
+  showNotes = () => this.setState({
+    showNotes: true,
+    showMenu: false,
+    funnelNotes: this.props.work.diagram && this.props.work.diagram.funnelNotes,
+  })
+  hideNotes = () => this.setState({ showNotes: false })
 
   showSaveBeforeExit = () => this.setState({ saveBeforeExit: true })
   hideSaveBeforeExit = () => this.setState({ saveBeforeExit: false })
@@ -239,6 +248,7 @@ export default class BodyWidget extends React.Component {
   hideInstructions = () => this.setState({ showInstructions: false })
 
   render() {
+    // console.log(this.props)
     return (
       <>
         <div className='message-diagram'>
@@ -248,13 +258,28 @@ export default class BodyWidget extends React.Component {
         </div>
         <div className="body">
           <div className="header">
-            <div
-              className='logo-widget'
-              onClick={this.showSaveBeforeExit}
-              style={{ cursor: 'pointer' }}
-            >
-              <LogoWidgetSVG />
-            </div>
+
+            {this.props.work.pathname.includes('diagram') ?
+              <div
+                className='logo-widget'
+                onClick={this.showSaveBeforeExit}
+                style={{ cursor: 'pointer' }}
+              >
+                <LogoWidgetSVG />
+              </div>
+              :
+              <div
+                className='logo-widget'
+                style={{ cursor: 'pointer' }}
+              >
+                <NavLink
+                  to={'/templates'}
+                >
+                  <LogoWidgetSVG />
+                </NavLink>
+              </div>
+            }
+
 
             <div className="title">{this.props.work.diagram && this.props.work.diagram.funnelName}</div>
 
@@ -295,19 +320,19 @@ export default class BodyWidget extends React.Component {
                 <button
                   className="diagram-header-instruction-button"
                   onClick={() => {
-                      domtoimage.toBlob(this.diagramRef)
-                        .then(data => {
-                          let name = randomString({ length: 10 });
-                          var file = new File([data], name, { type: "image/svg" });
-                          this.saveDiagramHandle(file);
-                          this.props.work.sendImageToCollaborate(this.props.work.funnelId, file);
-                          this.hideSelect()
-                        })
-                        .catch(function (error) {
-                          console.error('oops, something went wrong!', error);
-                        });
+                    domtoimage.toBlob(this.diagramRef)
+                      .then(data => {
+                        let name = randomString({ length: 10 });
+                        var file = new File([data], name, { type: "image/svg" });
+                        this.saveDiagramHandle(file);
+                        this.props.work.sendImageToCollaborate(this.props.work.funnelId, file);
+                        this.hideSelect()
+                      })
+                      .catch(function (error) {
+                        console.error('oops, something went wrong!', error);
+                      });
 
-                    }}
+                  }}
                   title={'Share The Funnel'}
                 >
                   <ShareFunnelSVG />
@@ -317,7 +342,14 @@ export default class BodyWidget extends React.Component {
                   className="diagram-header-instruction-button"
                   onClick={this.showInstructions}
                   title={'Manual'}
-                // style={{ background: this.state.showMenu ? '#ecf1f2' : '#fff' }}
+                >
+                  <ChatSVG />
+                </button>
+
+                <button
+                  className="diagram-header-menu-button"
+                  onClick={this.showNotes}
+                  style={{ background: this.state.showNotes ? '#ecf1f2' : '#fff' }}
                 >
                   <FunnelNotesSVG />
                 </button>
@@ -342,6 +374,58 @@ export default class BodyWidget extends React.Component {
                 </div>
               </button>
             }
+
+            <ModalNodeWidget
+              show={this.state.showNotes}
+              handleClose={this.hideNotes}
+              style={{
+                position: 'absolute',
+                top: 65,
+              }}
+            >
+              <label className='label-create-widget-settings'>Funnel Notes</label>
+              <div style={{
+                padding: 15,
+                display: 'flex',
+                flexDirection: 'column',
+              }}>
+                <label htmlFor="FunnelNotes" className='label-input'>
+                  Funnel Notes
+                </label>
+                <textarea
+                  id="FunnelNotes"
+                  placeholder="Funnel Notes"
+                  type="text"
+                  value={this.state.funnelNotes}
+                  onChange={this.handleChange}
+                  name='funnelNotes'
+                  rows="30"
+                  style={{
+                    margin: 10
+                  }}
+                />
+                {this.props.work.message && (
+                  <div className={`input-group`}>{this.props.work.message}</div>
+                )}
+                <button
+                  className='btn btn-1 create-project-button-in-modal'
+                  style={{ display: 'block' }}
+                  onClick={() => {
+                    domtoimage.toBlob(this.diagramRef)
+                      .then(data => {
+                        let name = randomString({ length: 10 });
+                        var file = new File([data], name, { type: "image/svg" });
+                        this.saveDiagramHandle(file);
+                      })
+                      .catch(function (error) {
+                        console.error('oops, something went wrong!', error);
+                      });
+                  }}
+                >
+                  Save
+                </button>
+              </div>
+            </ModalNodeWidget>
 
             <ModalNodeWidget
               show={this.state.showMenu}
@@ -434,26 +518,7 @@ export default class BodyWidget extends React.Component {
                     }}
                   >
                     Update Diagram
-                    </button>
-                  {/* <button
-                    className="btn btn-1 button-select-body-widget"
-                    onClick={() => {
-                      domtoimage.toBlob(this.diagramRef)
-                        .then(data => {
-                          let name = randomString({ length: 10 });
-                          var file = new File([data], name, { type: "image/svg" });
-                          this.saveDiagramHandle(file);
-                          this.props.work.sendImageToCollaborate(this.props.work.funnelId, file);
-                          this.hideSelect()
-                        })
-                        .catch(function (error) {
-                          console.error('oops, something went wrong!', error);
-                        });
-
-                    }}
-                  >
-                    Collaborate With Image
-                    </button> */}
+                  </button>
                   <button
                     className="btn btn-1 button-select-body-widget"
                     onClick={this.showTemplateModal}
@@ -568,7 +633,7 @@ export default class BodyWidget extends React.Component {
                 >
                   Save
                 </button>
-                {/* <button className='btn btn-1 create-project-button-in-modal'> */}
+
                 <NavLink
                   to={'/'}
                   className='btn btn-1 create-project-button-in-modal'
@@ -582,7 +647,6 @@ export default class BodyWidget extends React.Component {
                 >
                   Don't Save
                 </NavLink>
-                {/* </button> */}
               </div>
               {this.props.work.message && (
                 <div className='input-group'>{this.props.work.message}</div>

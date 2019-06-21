@@ -1,8 +1,6 @@
 import * as React from "react";
 import { ReactComponent as SearchProjectsSVG } from '../../../../assets/SearchProjects.svg'
 
-
-
 export class TrayWidget extends React.Component {
   static defaultProps = {};
 

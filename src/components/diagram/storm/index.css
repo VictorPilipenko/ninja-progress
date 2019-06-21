@@ -164,7 +164,7 @@
 
 .select-main-body-widget{
   top: 64px;
-  right: 171px;
+  right: 237px;
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -242,9 +242,9 @@
   cursor: pointer;
   font-weight: 500;
   font-size: 14px;
-  padding: 5px 5px 18px 5px;
+  padding: 5px 5px 21px;
   background: #fff;
-  margin: 20px 15px 0px 20px;
+  margin: 17px 15px 0 20px;
 }
 
 
