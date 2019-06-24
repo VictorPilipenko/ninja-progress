@@ -22,6 +22,10 @@ export class AdvancedLinkSegment extends React.Component {
   constructor(props) {
     super(props);
     this.progress = props.inversed ? 100 : 0;
+
+    this.state = {
+      buttonVisible: false
+    }
   }
 
   componentDidMount() {
@@ -72,11 +76,26 @@ export class AdvancedLinkSegment extends React.Component {
     this.animation = requestAnimationFrame(() => {
       this.animateCircle(length, step)
     });
+
+    this.setState({
+      buttonVisible: true
+    }, () => {
+      let point = this.pathForHover.getPointAtLength(
+        Number.parseInt((length / 2).toFixed())
+      );
+
+      this.circleDelete.setAttribute("cx", point.x - 10);
+      this.circleDelete.setAttribute("cy", point.y - 10);
+    })
   }
 
   onMouseLeave = () => {
     this.hide()
     cancelAnimationFrame(this.animation);
+
+    this.setState({
+      buttonVisible: false
+    })
   }
 
   animateCircle = (length, step) => {
@@ -108,8 +127,18 @@ export class AdvancedLinkSegment extends React.Component {
     }
   }
 
+  simulateKey(keyCode, type) {
+    var evtName = (typeof (type) === "string") ? "key" + type : "keydown";
+    var event = document.createEvent("HTMLEvents");
+    event.initEvent(evtName, true, false);
+    event.keyCode = keyCode;
+    document.dispatchEvent(event);
+  }
+
   render() {
     const { path, model, selected } = this.props;
+
+    // console.log(this.state.buttonVisible)
     return (
       <>
         <path
@@ -118,17 +147,13 @@ export class AdvancedLinkSegment extends React.Component {
           stroke={selected ? `rgba(	97, 102, 110, 1)` : `rgba(	97, 102, 110, 0.5)`}
           strokeDasharray="5,5"
           d={path}
-          strokeLinecap="square"
         />
 
         <path
           ref={ref => this.pathForHover = ref}
           strokeWidth={model.width * 20}
           strokeOpacity='0'
-          stroke={selected ? `rgba(	97, 102, 110, 1)` : `rgba(	97, 102, 110, 0.5)`}
-          strokeDasharray="5,5"
           d={path}
-          strokeLinecap="square"
 
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
@@ -140,6 +165,22 @@ export class AdvancedLinkSegment extends React.Component {
           r={3}
           fill="orange"
         />
+
+        {
+          this.state.buttonVisible ?
+            <circle
+              className={'circle-delete'}
+              onClick={() => this.simulateKey(46, "up")}
+              r={8}
+              fill="red"
+
+              ref={ref => this.circleDelete = ref}
+              onMouseEnter={this.onMouseEnter}
+              onMouseLeave={this.onMouseLeave}
+            />
+            : 
+            null
+        }
 
         <circle ref={ref => this.circleTarget = ref} r="6" fill="#fd8f21" />
         <circle ref={ref => this.circleTarget2 = ref} r="2" fill="#fff" />

@@ -270,7 +270,7 @@ export function createTemplate(funnelId, templateName) {
       'templateName': templateName
     })
       .then(response => {
-        console.log('createTemplate: ', response.data)
+        // console.log('createTemplate: ', response.data)
         dispatch({
           type: 'CREATE_TEMPLATE_SUCCESS',
           payload: response.data.message
@@ -309,7 +309,7 @@ export function saveDiagramThenCreateTemplate(funnelId, diagramObj, image, templ
       data: bodyFormData
     })
       .then(response => {
-        console.log("saveDiagram: ", response.data)
+        // console.log("saveDiagram: ", response.data)
         dispatch({
           type: 'RESET_GET_DIAGRAM',
           payload: funnelId
@@ -339,7 +339,7 @@ export function saveDiagramThenCreateTemplate(funnelId, diagramObj, image, templ
       })
 
       .then(response => {
-        console.log('createTemplate: ', response.data)
+        // console.log('createTemplate: ', response.data)
         dispatch({
           type: 'CREATE_TEMPLATE_SUCCESS',
           payload: response.data.message
@@ -378,7 +378,7 @@ export const saveDiagramThenExit = (funnelId, diagramObj, image) => dispatch => 
     data: bodyFormData
   })
     .then(response => {
-      console.log("saveDiagram: ", response.data)
+      // console.log("saveDiagram: ", response.data)
       dispatch({
         type: 'RESET_GET_DIAGRAM',
         payload: funnelId
@@ -438,7 +438,7 @@ export function saveDiagram(funnelId, diagramObj, image) {
       data: bodyFormData
     })
       .then(response => {
-        console.log("saveDiagram: ", response.data)
+        // console.log("saveDiagram: ", response.data)
 
         /************************************/
         dispatch({
@@ -698,13 +698,13 @@ export function changePermission(funnelId, profileId, permissions) {
 }
 
 export function changeFunnelName(funnelId, funnelName) {
-  console.log('changeFunnelName action: ', funnelId, funnelName)
+  // console.log('changeFunnelName action: ', funnelId, funnelName)
   return function (dispatch) {
     API.patch(`funnel/${funnelId}`, {
       'funnelName': funnelName
     })
       .then(response => {
-        console.log('changeFunnelName response: ', response.data)
+        // console.log('changeFunnelName response: ', response.data)
 
         dispatch({
           type: 'CHANGE_FUNNEL_NAME_MESSAGE_SUCCESS',

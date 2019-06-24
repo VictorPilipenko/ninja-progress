@@ -164,7 +164,7 @@
 
 .select-main-body-widget{
   top: 64px;
-  right: 237px;
+  right: 240px;
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -303,7 +303,6 @@
 .diagram-header-instruction-button{
   background: #fff;
   border: 0;
-  margin-left: 25px;
   cursor: pointer;
 }
 
@@ -324,18 +323,42 @@
   transform: matrix(1, 0, 0, 1, 0, 0);
 }
 
-/* path{
-    fill:none;
-    stroke:black;
-    pointer-events:all;
+/* .circle-delete:after{
+  content: 'x';
+  color: #fff;
+  font-weight: 500;
+  font-family: Arial, sans-serif;
 } */
 
-
-
-.srd-default-link path:hover{
-  stroke:black !important;
+.diagram-header-instruction-buttons{
+  margin-right: 15px;
+  margin-left: 70px;
 }
 
-use { pointer-events: all; stroke-width: 40; fill: none; stroke-opacity: 0; }
-		use:hover + * { fill: cornflowerblue; }
 
+
+.circle-delete {
+  position: absolute;
+  right: 32px;
+  top: 32px;
+  width: 32px;
+  height: 32px;
+  opacity: 0.3;
+}
+.circle-delete:hover {
+  opacity: 1;
+}
+.circle-delete:before, .close:after {
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 33px;
+  width: 2px;
+  background-color: rgb(245, 245, 245);
+}
+.circle-delete:before {
+  transform: rotate(45deg);
+}
+.circle-delete:after {
+  transform: rotate(-45deg);
+}

@@ -15,7 +15,7 @@ class Collaborations extends Component {
       <Layout title="Collaborations">
 
         <div className='projects-wrapper'>
-          {console.log(this.props.data)}
+          {/* {console.log(this.props.data)} */}
           {
             this.props.data && this.props.data.length > 0 ?
               this.props.data.map((funnel, index) => (

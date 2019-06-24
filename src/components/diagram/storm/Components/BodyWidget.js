@@ -317,42 +317,54 @@ export default class BodyWidget extends React.Component {
                   </div>
                 </button>
 
-                <button
-                  className="diagram-header-instruction-button"
-                  onClick={() => {
-                    domtoimage.toBlob(this.diagramRef)
-                      .then(data => {
-                        let name = randomString({ length: 10 });
-                        var file = new File([data], name, { type: "image/svg" });
-                        this.saveDiagramHandle(file);
-                        this.props.work.sendImageToCollaborate(this.props.work.funnelId, file);
-                        this.hideSelect()
-                      })
-                      .catch(function (error) {
-                        console.error('oops, something went wrong!', error);
-                      });
 
-                  }}
-                  title={'Share The Funnel'}
-                >
-                  <ShareFunnelSVG />
-                </button>
 
-                <button
-                  className="diagram-header-instruction-button"
-                  onClick={this.showInstructions}
-                  title={'Manual'}
-                >
-                  <ChatSVG />
-                </button>
+                <div className="diagram-header-instruction-buttons">
+                  {/* <button
+                    className="diagram-header-instruction-button"
+                    onClick={this.showInstructions}
+                    title={'Manual'}
+                  >
+                    <ChatSVG />
+                  </button> */}
 
-                <button
-                  className="diagram-header-menu-button"
-                  onClick={this.showNotes}
-                  style={{ background: this.state.showNotes ? '#ecf1f2' : '#fff' }}
-                >
-                  <FunnelNotesSVG />
-                </button>
+                  <button
+                    className="diagram-header-menu-button"
+                    onClick={this.showNotes}
+                    style={{ background: this.state.showNotes ? '#ecf1f2' : '#fff' }}
+                    title={'Funnel Notes'}
+                  >
+                    <FunnelNotesSVG />
+                  </button>
+
+
+                  <button
+                    className="diagram-header-instruction-button"
+                    onClick={() => {
+                      domtoimage.toBlob(this.diagramRef)
+                        .then(data => {
+                          let name = randomString({ length: 10 });
+                          var file = new File([data], name, { type: "image/svg" });
+                          this.saveDiagramHandle(file);
+                          this.props.work.sendImageToCollaborate(this.props.work.funnelId, file);
+                          this.hideSelect()
+                        })
+                        .catch(function (error) {
+                          console.error('oops, something went wrong!', error);
+                        });
+
+                    }}
+                    title={'Share The Funnel'}
+                  >
+                    <ShareFunnelSVG />
+                  </button>
+                </div>
+
+
+
+
+
+
 
                 <button
                   className="diagram-header-menu-button"
@@ -517,7 +529,7 @@ export default class BodyWidget extends React.Component {
 
                     }}
                   >
-                    Update Diagram
+                    Update Funnel
                   </button>
                   <button
                     className="btn btn-1 button-select-body-widget"
@@ -764,6 +776,7 @@ export default class BodyWidget extends React.Component {
                 className="srd-demo-canvas"
                 diagramEngine={this.props.app.getDiagramEngine()}
                 allowLooseLinks={false}
+                maxNumberPointsPerLink={0}
               />
             </div>
           </div>
