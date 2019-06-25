@@ -1,13 +1,13 @@
 import { NodeModel } from "storm-react-diagrams";
-import { TrafficPortModel } from "./TrafficPortModel";
+import { BigPortModel } from "./BigPortModel";
 
-export class TrafficNodeModel extends NodeModel {
+export class BigNodeModel extends NodeModel {
   constructor(name) {
     super(name);
-    this.addPort(new TrafficPortModel(name, "top"));
-    this.addPort(new TrafficPortModel(name, "left"));
-    this.addPort(new TrafficPortModel(name, "bottom"));
-    this.addPort(new TrafficPortModel(name, "right"));
+    this.addPort(new BigPortModel(name, "top"));
+    this.addPort(new BigPortModel(name, "left"));
+    this.addPort(new BigPortModel(name, "bottom"));
+    this.addPort(new BigPortModel(name, "right"));
     this.extras.name = this.named;
     this.extras.setNameExtras = this.setNameExtras;
     this.setName = this.setName;
@@ -27,7 +27,7 @@ export class TrafficNodeModel extends NodeModel {
 
   setNotesExtras(notes) {
     this.notesd = notes;
-  }
+  }z
 
   setNotes(notes) {
     this.extras.notesd = notes;

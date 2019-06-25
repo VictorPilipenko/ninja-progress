@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { saveDiagram, getTemplate, sendImageToCollaborate, resetSendImageToCollaborateLink } from '../../../store/actions/projects'
 import { getDiagram } from '../../../store/actions/projects'
 import { createTemplate, saveTemplate } from '../../../store/actions/projects'
-import { getSVG, saveDiagramThenCreateTemplate, changeFunnelName, saveDiagramThenExit, saveDiagramThenShowSettingsModal } from '../../../store/actions/projects'
+import { getSVG, saveDiagramThenCreateTemplate, changeFunnelName, saveDiagramThenExit, saveDiagramThenShowOrHideSettingsModal } from '../../../store/actions/projects'
 
 
 class App extends React.Component {
@@ -25,10 +25,8 @@ class App extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    // console.log('componentDidUpdate index prevProps: ', prevProps)
     if (prevProps.diagram) {
       if (prevProps.diagram.snackMsg !== this.state.snackMsg) {
-        // console.log('cdu')
         this.props.getDiagram(this.props.funnelId);
         this.props.getTemplate(this.props.funnelId);
       }
@@ -54,9 +52,7 @@ class App extends React.Component {
       return null
   }
 
-
   render() {
-
     var app = new Application(
       this.state.diagram && this.state.diagram,
       this.props.svg && this.props.svg,
@@ -101,8 +97,8 @@ const mapDispatchToProps = dispatch => {
     saveDiagramThenExit: (funnelId, diagramObj, image) => dispatch(saveDiagramThenExit(funnelId, diagramObj, image)),
 
 
-    saveDiagramThenShowSettingsModal: (id, state, file, boolean, model, engine) =>
-      dispatch(saveDiagramThenShowSettingsModal(id, state, file, boolean, model, engine)),
+    saveDiagramThenShowOrHideSettingsModal: (id, state, file, boolean, model, engine) =>
+      dispatch(saveDiagramThenShowOrHideSettingsModal(id, state, file, boolean, model, engine)),
   }
 }
 

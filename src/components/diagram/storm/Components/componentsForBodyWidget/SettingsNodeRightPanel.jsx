@@ -24,7 +24,7 @@ export default class SettingsNodeRightPanel extends React.Component {
     snackMsg: 'next',
     converted: this.props.app.serialization(this.props.work.showSettingsWidgetEngine)
   }, () => {
-    this.props.work.saveDiagramThenShowSettingsModal(this.props.work.funnelId, this.state, file, false)
+    this.props.work.saveDiagramThenShowOrHideSettingsModal(this.props.work.funnelId, this.state, file, false)
   });
 
   render() {

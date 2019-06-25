@@ -7,10 +7,10 @@ import ClickOutside from '../../../common/ClickOutside'
 import Modal from '../../../common/Modal/Modal'
 import randomString from 'random-string';
 // import the custom models
-import { PageNodeModel } from "../custom/pages/PageNodeModel";
-import { EventNodeModel } from "../custom/events/EventNodeModel";
-import { TrafficNodeModel } from "../custom/traffic/TrafficNodeModel";
-import { EmailMarketingNodeModel } from "../custom/emailMarketing/EmailMarketingNodeModel";
+
+import { BigNodeModel } from "../custom/bigNode/BigNodeModel";
+import { SmallNodeModel } from "../custom/smallNode/SmallNodeModel";
+
 import PagesButton from '../../../../assets/PagesButton.svg'
 import EventsButton from '../../../../assets/EventsButton.svg'
 import TrafficButton from '../../../../assets/TrafficButton.svg'
@@ -80,7 +80,7 @@ export default class BodyWidget extends React.Component {
     snackMsg: 'next',
     converted: this.props.app.serialization(this.props.work.showSettingsWidgetEngine)
   }, () => {
-    this.props.work.saveDiagramThenShowSettingsModal(this.props.work.funnelId, this.state, file, false)
+    this.props.work.saveDiagramThenShowOrHideSettingsModal(this.props.work.funnelId, this.state, file, false)
   });
 
   saveTemplateHandle = () => this.setState({
@@ -138,61 +138,61 @@ export default class BodyWidget extends React.Component {
 
   nodeFactory(data) {
     switch (data.type) {
-      case "BlogPost": return new PageNodeModel("BlogPost");
-      case "Calendar": return new PageNodeModel("Calendar");
-      case "Download": return new PageNodeModel("Download");
-      case "Generic": return new PageNodeModel("Generic");
-      case "MembersArea": return new PageNodeModel("MembersArea");
-      case "OptIn": return new PageNodeModel("OptIn");
-      case "OrderPage": return new PageNodeModel("OrderPage");
-      case "Popup": return new PageNodeModel("Popup");
-      case "SalesPage": return new PageNodeModel("SalesPage");
-      case "SalesVideo": return new PageNodeModel("SalesVideo");
-      case "Survey": return new PageNodeModel("Survey");
-      case "ThankYou": return new PageNodeModel("ThankYou");
-      case "Upsell": return new PageNodeModel("Upsell");
-      case "Webinar": return new PageNodeModel("Webinar");
-      case "WebinarReplay": return new PageNodeModel("WebinarReplay");
+      case "BlogPost": return new BigNodeModel("BlogPost");
+      case "Calendar": return new BigNodeModel("Calendar");
+      case "Download": return new BigNodeModel("Download");
+      case "Generic": return new BigNodeModel("Generic");
+      case "MembersArea": return new BigNodeModel("MembersArea");
+      case "OptIn": return new BigNodeModel("OptIn");
+      case "OrderPage": return new BigNodeModel("OrderPage");
+      case "Popup": return new BigNodeModel("Popup");
+      case "SalesPage": return new BigNodeModel("SalesPage");
+      case "SalesVideo": return new BigNodeModel("SalesVideo");
+      case "Survey": return new BigNodeModel("Survey");
+      case "ThankYou": return new BigNodeModel("ThankYou");
+      case "Upsell": return new BigNodeModel("Upsell");
+      case "Webinar": return new BigNodeModel("Webinar");
+      case "WebinarReplay": return new BigNodeModel("WebinarReplay");
 
-      case "AddToCart": return new EventNodeModel('AddToCart');
-      case "ClickButton": return new EventNodeModel('ClickButton');
-      case "CompleteForm": return new EventNodeModel('CompleteForm');
-      case "GenericEvent": return new EventNodeModel('GenericEvent');
-      case "PopUpBox": return new EventNodeModel('PopUpBox');
-      case "Purchase": return new EventNodeModel('Purchase');
-      case "Scroll": return new EventNodeModel('Scroll');
-      case "WatchVideo": return new EventNodeModel('WatchVideo');
+      case "AddToCart": return new SmallNodeModel('AddToCart');
+      case "ClickButton": return new SmallNodeModel('ClickButton');
+      case "CompleteForm": return new SmallNodeModel('CompleteForm');
+      case "GenericEvent": return new SmallNodeModel('GenericEvent');
+      case "PopUpBox": return new SmallNodeModel('PopUpBox');
+      case "Purchase": return new SmallNodeModel('Purchase');
+      case "Scroll": return new SmallNodeModel('Scroll');
+      case "WatchVideo": return new SmallNodeModel('WatchVideo');
 
-      case "AddTag": return new EmailMarketingNodeModel('AddTag');
-      case "Condition": return new EmailMarketingNodeModel('Condition');
-      case "CustomAction": return new EmailMarketingNodeModel('CustomAction');
-      case "RemoveTag": return new EmailMarketingNodeModel('RemoveTag');
-      case "SendEmail": return new EmailMarketingNodeModel('SendEmail');
-      case "SendNotification": return new EmailMarketingNodeModel('SendNotification');
-      case "SendSms": return new EmailMarketingNodeModel('SendSms');
-      case "Subscribe": return new EmailMarketingNodeModel('Subscribe');
-      case "Unsubscribe": return new EmailMarketingNodeModel('Unsubscribe');
-      case "Wait": return new EmailMarketingNodeModel('Wait');
+      case "AddTag": return new SmallNodeModel('AddTag');
+      case "Condition": return new SmallNodeModel('Condition');
+      case "CustomAction": return new SmallNodeModel('CustomAction');
+      case "RemoveTag": return new SmallNodeModel('RemoveTag');
+      case "SendEmail": return new SmallNodeModel('SendEmail');
+      case "SendNotification": return new SmallNodeModel('SendNotification');
+      case "SendSms": return new SmallNodeModel('SendSms');
+      case "Subscribe": return new SmallNodeModel('Subscribe');
+      case "Unsubscribe": return new SmallNodeModel('Unsubscribe');
+      case "Wait": return new SmallNodeModel('Wait');
 
-      case "Adwords": return new TrafficNodeModel("Adwords");
-      case "ChatBox": return new TrafficNodeModel("ChatBox");
-      case "CustomSource": return new TrafficNodeModel("CustomSource");
-      case "Email": return new TrafficNodeModel("Email");
-      case "FacebookAds": return new TrafficNodeModel("FacebookAds");
-      case "Facebook": return new TrafficNodeModel("Facebook");
-      case "InstagramAds": return new TrafficNodeModel("InstagramAds");
-      case "Instagram": return new TrafficNodeModel("Instagram");
-      case "LinkedInAds": return new TrafficNodeModel("LinkedInAds");
-      case "LinkedIn": return new TrafficNodeModel("LinkedIn");
-      case "Messenger": return new TrafficNodeModel("Messenger");
-      case "Search": return new TrafficNodeModel("Search");
-      case "TrackingLink": return new TrafficNodeModel("TrackingLink");
-      case "TwitterAds": return new TrafficNodeModel("TwitterAds");
-      case "Twitter": return new TrafficNodeModel("Twitter");
-      case "YoutubeAds": return new TrafficNodeModel("YoutubeAds");
-      case "Youtube": return new TrafficNodeModel("Youtube");
+      case "Adwords": return new SmallNodeModel("Adwords");
+      case "ChatBox": return new SmallNodeModel("ChatBox");
+      case "CustomSource": return new SmallNodeModel("CustomSource");
+      case "Email": return new SmallNodeModel("Email");
+      case "FacebookAds": return new SmallNodeModel("FacebookAds");
+      case "Facebook": return new SmallNodeModel("Facebook");
+      case "InstagramAds": return new SmallNodeModel("InstagramAds");
+      case "Instagram": return new SmallNodeModel("Instagram");
+      case "LinkedInAds": return new SmallNodeModel("LinkedInAds");
+      case "LinkedIn": return new SmallNodeModel("LinkedIn");
+      case "Messenger": return new SmallNodeModel("Messenger");
+      case "Search": return new SmallNodeModel("Search");
+      case "TrackingLink": return new SmallNodeModel("TrackingLink");
+      case "TwitterAds": return new SmallNodeModel("TwitterAds");
+      case "Twitter": return new SmallNodeModel("Twitter");
+      case "YoutubeAds": return new SmallNodeModel("YoutubeAds");
+      case "Youtube": return new SmallNodeModel("Youtube");
 
-      default: return new PageNodeModel("BlogPost");
+      default: return new BigNodeModel("BlogPost");
     }
   }
 

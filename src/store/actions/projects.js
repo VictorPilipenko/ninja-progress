@@ -807,7 +807,7 @@ export const showSettingsModalOnlyBoolean = (boolean) => dispatch => {
   })
 }
 
-export const saveDiagramThenShowSettingsModal = (funnelId, diagramObj, image, boolean, model, engine) => dispatch => {
+export const saveDiagramThenShowOrHideSettingsModal = (funnelId, diagramObj, image, boolean, model, engine) => dispatch => {
   const token = JSON.parse(localStorage.getItem('token'));
   let bodyFormData = new FormData();
   bodyFormData.append('funnelBackground', image);
@@ -836,15 +836,6 @@ export const saveDiagramThenShowSettingsModal = (funnelId, diagramObj, image, bo
           res,
         }
       });
-
-      // dispatch({
-      //   type: 'SAVE_DIAGRAM_SUCCESS',
-      //   payload: response.data.message
-      // });
-      // setTimeout(() => {
-      //   dispatch({ type: 'SAVE_DIAGRAM_SUCCESS_RESET' });
-      // }, 1000)
-
       dispatch({
         type: 'CHANGE_SHOW_SETTINGS_MODAL',
         payload: {
@@ -853,10 +844,6 @@ export const saveDiagramThenShowSettingsModal = (funnelId, diagramObj, image, bo
           engine,
         }
       })
-
-
-
-
     })
     .catch(function (error) {
       if (error.response) {

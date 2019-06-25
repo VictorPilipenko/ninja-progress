@@ -1,13 +1,13 @@
 import { NodeModel } from "storm-react-diagrams";
-import { EventPortModel } from "./EventPortModel";
+import { SmallPortModel } from "./SmallPortModel";
 
-export class EventNodeModel extends NodeModel {
-   constructor(name) {
+export class SmallNodeModel extends NodeModel {
+  constructor(name) {
     super(name);
-    this.addPort(new EventPortModel(name, "top"));
-    this.addPort(new EventPortModel(name, "left"));
-    this.addPort(new EventPortModel(name, "bottom"));
-    this.addPort(new EventPortModel(name, "right"));
+    this.addPort(new SmallPortModel(name, "top"));
+    this.addPort(new SmallPortModel(name, "left"));
+    this.addPort(new SmallPortModel(name, "bottom"));
+    this.addPort(new SmallPortModel(name, "right"));
     this.extras.name = this.named;
     this.extras.setNameExtras = this.setNameExtras;
     this.setName = this.setName;

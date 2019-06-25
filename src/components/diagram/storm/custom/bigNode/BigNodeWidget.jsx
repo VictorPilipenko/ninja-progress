@@ -12,10 +12,10 @@ import { ReactComponent as SettingsSVG } from '../../../../../assets/selectForWi
 
 import * as _ from "lodash";
 import { AdvancedLinkModel, AdvancedLinkFactory } from "../customLink";
-// import { PageNodeModel } from './PageNodeModel'
+// import { BigNodeModel } from './BigNodeModel'
 
 import { connect } from 'react-redux'
-import { saveDiagramThenShowSettingsModal } from '../../../../../store/actions/projects'
+import { saveDiagramThenShowOrHideSettingsModal } from '../../../../../store/actions/projects'
 
 
 //import custom link, port and factory
@@ -23,21 +23,13 @@ import { NodeFactory } from "../NodeFactory";
 import { PortFactory } from "../PortFactory";
 
 // import the custom models
-import { PagePortModel } from "./PagePortModel";
-import { PageNodeModel } from "./PageNodeModel";
-// import PageNodeWidget from "./custom/pages/PageNodeWidget";
+import { BigPortModel } from "./BigPortModel";
+import { BigNodeModel } from "./BigNodeModel";
+// import BigNodeWidget from "./custom/bigNode/BigNodeWidget";
 
-import { EmailMarketingPortModel } from "../emailMarketing/EmailMarketingPortModel";
-import { EmailMarketingNodeModel } from "../emailMarketing/EmailMarketingNodeModel";
-import { EmailMarketingNodeWidget } from "../emailMarketing/EmailMarketingNodeWidget";
-
-import { EventPortModel } from "../events/EventPortModel";
-import { EventNodeModel } from "../events/EventNodeModel";
-import { EventNodeWidget } from "../events/EventNodeWidget";
-
-import { TrafficPortModel } from "../traffic/TrafficPortModel";
-import { TrafficNodeModel } from "../traffic/TrafficNodeModel";
-import { TrafficNodeWidget } from "../traffic/TrafficNodeWidget";
+import { SmallPortModel } from "../smallNode/SmallPortModel";
+import { SmallNodeModel } from "../smallNode/SmallNodeModel";
+import SmallNodeWidget from "../smallNode/SmallNodeWidget";
 
 import { API_URL } from '../../../../../config'
 
@@ -55,7 +47,7 @@ const Select = ({ show, children }) => {
   );
 };
 
-class PageNodeWidget extends React.Component {
+class BigNodeWidget extends React.Component {
   state = {
     show: false,
     // label: this.props.node.extras.named,
@@ -82,9 +74,9 @@ class PageNodeWidget extends React.Component {
         this.elementsPages.push(
           {
             name: item.name,
-            port: PagePortModel,
-            widget: PageNodeWidget,
-            nodeModel: PageNodeModel,
+            port: BigPortModel,
+            widget: BigNodeWidget,
+            nodeModel: BigNodeModel,
             svg: API_URL + item.url,
           }
         )
@@ -94,9 +86,9 @@ class PageNodeWidget extends React.Component {
         this.elementsTraffic.push(
           {
             name: item.name,
-            port: TrafficPortModel,
-            widget: TrafficNodeWidget,
-            nodeModel: TrafficNodeModel,
+            port: SmallPortModel,
+            widget: SmallNodeWidget,
+            nodeModel: SmallNodeModel,
             svg: API_URL + item.url,
           }
         )
@@ -106,9 +98,9 @@ class PageNodeWidget extends React.Component {
         this.elementsEmailMarketing.push(
           {
             name: item.name,
-            port: EmailMarketingPortModel,
-            widget: EmailMarketingNodeWidget,
-            nodeModel: EmailMarketingNodeModel,
+            port: SmallPortModel,
+            widget: SmallNodeWidget,
+            nodeModel: SmallNodeModel,
             svg: API_URL + item.url,
           }
         )
@@ -118,9 +110,9 @@ class PageNodeWidget extends React.Component {
         this.elementsEvents.push(
           {
             name: item.name,
-            port: EventPortModel,
-            widget: EventNodeWidget,
-            nodeModel: EventNodeModel,
+            port: SmallPortModel,
+            widget: SmallNodeWidget,
+            nodeModel: SmallNodeModel,
             svg: API_URL + item.url,
           }
         )
@@ -166,7 +158,7 @@ class PageNodeWidget extends React.Component {
       snackMsg: 'next',
       converted: this.serialization(this.props.engine.getDiagramModel())
     }, () => {
-      this.props.saveDiagramThenShowSettingsModal(this.props.funnelId, this.state, file, true, this.props.node, this.props.engine.getDiagramModel())
+      this.props.saveDiagramThenShowOrHideSettingsModal(this.props.funnelId, this.state, file, true, this.props.node, this.props.engine.getDiagramModel())
     });
   }
 
@@ -222,7 +214,7 @@ class PageNodeWidget extends React.Component {
     _.forEach(model.getSelectedItems(), (item) => {
       let newItem = item.clone(itemMap);
       // offset the nodes slightly
-      if (newItem instanceof PageNodeModel) {
+      if (newItem instanceof BigNodeModel) {
         newItem.setPosition(newItem.x + offset.x, newItem.y + offset.y);
         model.addNode(newItem);
         this.forceUpdate();
@@ -392,11 +384,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    saveDiagramThenShowSettingsModal: (id, state, file, boolean, model, engine) =>
-      dispatch(saveDiagramThenShowSettingsModal(id, state, file, boolean, model, engine)),
+    saveDiagramThenShowOrHideSettingsModal: (id, state, file, boolean, model, engine) =>
+      dispatch(saveDiagramThenShowOrHideSettingsModal(id, state, file, boolean, model, engine)),
   }
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(PageNodeWidget);
+export default connect(mapStateToProps, mapDispatchToProps)(BigNodeWidget);
 

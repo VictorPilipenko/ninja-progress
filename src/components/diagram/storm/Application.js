@@ -6,21 +6,13 @@ import { PortFactory } from "./custom/PortFactory";
 import { AdvancedLinkFactory } from "./custom/customLink";
 
 // import the custom models
-import { PagePortModel } from "./custom/pages/PagePortModel";
-import { PageNodeModel } from "./custom/pages/PageNodeModel";
-import PageNodeWidget from "./custom/pages/PageNodeWidget";
+import { BigPortModel } from "./custom/bigNode/BigPortModel";
+import { BigNodeModel } from "./custom/bigNode/BigNodeModel";
+import BigNodeWidget from "./custom/bigNode/BigNodeWidget";
 
-import { EmailMarketingPortModel } from "./custom/emailMarketing/EmailMarketingPortModel";
-import { EmailMarketingNodeModel } from "./custom/emailMarketing/EmailMarketingNodeModel";
-import { EmailMarketingNodeWidget } from "./custom/emailMarketing/EmailMarketingNodeWidget";
-
-import { EventPortModel } from "./custom/events/EventPortModel";
-import { EventNodeModel } from "./custom/events/EventNodeModel";
-import { EventNodeWidget } from "./custom/events/EventNodeWidget";
-
-import { TrafficPortModel } from "./custom/traffic/TrafficPortModel";
-import { TrafficNodeModel } from "./custom/traffic/TrafficNodeModel";
-import { TrafficNodeWidget } from "./custom/traffic/TrafficNodeWidget";
+import { SmallPortModel } from "./custom/smallNode/SmallPortModel";
+import { SmallNodeModel } from "./custom/smallNode/SmallNodeModel";
+import SmallNodeWidget from "./custom/smallNode/SmallNodeWidget";
 
 import { API_URL } from '../../../config'
 
@@ -49,9 +41,9 @@ export default class Application {
         this.elementsPages.push(
           {
             name: item.name,
-            port: PagePortModel,
-            widget: PageNodeWidget,
-            nodeModel: PageNodeModel,
+            port: BigPortModel,
+            widget: BigNodeWidget,
+            nodeModel: BigNodeModel,
             svg: API_URL + item.url,
           }
         )
@@ -61,9 +53,9 @@ export default class Application {
         this.elementsTraffic.push(
           {
             name: item.name,
-            port: TrafficPortModel,
-            widget: TrafficNodeWidget,
-            nodeModel: TrafficNodeModel,
+            port: SmallPortModel,
+            widget: SmallNodeWidget,
+            nodeModel: SmallNodeModel,
             svg: API_URL + item.url,
           }
         )
@@ -73,9 +65,9 @@ export default class Application {
         this.elementsEmailMarketing.push(
           {
             name: item.name,
-            port: EmailMarketingPortModel,
-            widget: EmailMarketingNodeWidget,
-            nodeModel: EmailMarketingNodeModel,
+            port: SmallPortModel,
+            widget: SmallNodeWidget,
+            nodeModel: SmallNodeModel,
             svg: API_URL + item.url,
           }
         )
@@ -85,9 +77,9 @@ export default class Application {
         this.elementsEvents.push(
           {
             name: item.name,
-            port: EventPortModel,
-            widget: EventNodeWidget,
-            nodeModel: EventNodeModel,
+            port: SmallPortModel,
+            widget: SmallNodeWidget,
+            nodeModel: SmallNodeModel,
             svg: API_URL + item.url,
           }
         )
