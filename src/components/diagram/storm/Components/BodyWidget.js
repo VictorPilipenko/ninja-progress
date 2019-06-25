@@ -30,6 +30,7 @@ import ReactSVG from 'react-svg';
 import FunnelOptionsRightPanel from './componentsForBodyWidget/FunnelOptionsRightPanel'
 import FunnelNotesRightPanel from './componentsForBodyWidget/FunnelNotesRightPanel'
 import SettingsNodeRightPanel from './componentsForBodyWidget/SettingsNodeRightPanel'
+import NotesNodeRightPanel from './componentsForBodyWidget/NotesNodeRightPanel'
 import SaveBeforeExitModal from './componentsForBodyWidget/SaveBeforeExitModal'
 import CreateTemplateModal from './componentsForBodyWidget/CreateTemplateModal'
 
@@ -234,6 +235,7 @@ export default class BodyWidget extends React.Component {
       <>
 
         <SettingsNodeRightPanel work={this.props.work} app={this.props.app} />
+        <NotesNodeRightPanel work={this.props.work} app={this.props.app} />
 
 
         <div className='message-diagram'>
@@ -317,7 +319,16 @@ export default class BodyWidget extends React.Component {
                 <FunnelOptionsRightPanel work={this.props.work} app={this.props.app} />
               </>
               :
-              <FunnelOptionsRightPanel work={this.props.work} app={this.props.app} />
+              <button
+                className="btn btn-1 diagram-header-button-save"
+                onClick={this.showSelect}
+                style={{margin: 12.5}}
+              >
+                SAVE
+                  <div className='arrow-for-select' >
+                  <ArrowSelectSVG />
+                </div>
+              </button>
 
             }
 
@@ -367,12 +378,10 @@ export default class BodyWidget extends React.Component {
                   >
                     Update Funnel
                   </button>
-                  <button
-                    className="btn btn-1 button-select-body-widget"
-                    onClick={this.showTemplateModal}
-                  >
-                    Save As Template
-                    </button>
+
+
+                  <CreateTemplateModal work={this.props.work} app={this.props.app} />
+
                 </Select>
               </ClickOutside>
               :
@@ -414,9 +423,6 @@ export default class BodyWidget extends React.Component {
           </div>
 
           <div className="content">
-
-            <CreateTemplateModal work={this.props.work} app={this.props.app} />
-
 
             <div className='panel-buttons'>
               {this.button('first', PagesButton, 'panel-button panel-button-first', 'Pages')}

@@ -217,6 +217,18 @@ export default function (state = initialState, action) {
       };
     /////////////////////////////////////////////////////////////////////////// 
 
+    ///////////////////////////////////////////////////////////////////////////
+    case 'CHANGE_SHOW_NOTES_MODAL':
+      return {
+        ...state,
+        showNotesWidgetBoolean: action.payload.boolean,
+        showNotesWidgetModel: action.payload.model,
+        showNotesWidgetEngine: action.payload.engine,
+      };
+    /////////////////////////////////////////////////////////////////////////// 
+
+
+
 
     default: return state;
   }

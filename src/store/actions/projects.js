@@ -854,4 +854,55 @@ export const saveDiagramThenShowOrHideSettingsModal = (funnelId, diagramObj, ima
         });
       }
     });
+}
+
+
+
+export const saveDiagramThenShowOrHideNotesModal = (funnelId, diagramObj, image, boolean, model, engine) => dispatch => {
+  const token = JSON.parse(localStorage.getItem('token'));
+  let bodyFormData = new FormData();
+  bodyFormData.append('funnelBackground', image);
+  bodyFormData.append('funnelBody', JSON.stringify(diagramObj));
+
+  axios({
+    method: 'patch',
+    url: `${API_URL}/funnel/diagram/${funnelId}`,
+    headers: {
+      'authorization': token,
+      'Content-Type': 'form-data'
+    },
+    data: bodyFormData
+  })
+    .then(response => {
+
+      let res1 = JSON.parse(response.data.data.funnelBody);
+      let res = {
+        converted: res1.converted,
+        snackMsg: 'next'
+      }
+      dispatch({
+        type: 'GET_DIAGRAM',
+        payload: {
+          funnelId,
+          res,
+        }
+      });
+      dispatch({
+        type: 'CHANGE_SHOW_NOTES_MODAL',
+        payload: {
+          boolean,
+          model,
+          engine,
+        }
+      })
+    })
+    .catch(function (error) {
+      if (error.response) {
+        console.log(error.response)
+        dispatch({
+          type: 'CREATE_DIAGRAM_FAILURE',
+          payload: error.response.data.error
+        });
+      }
+    });
 } 

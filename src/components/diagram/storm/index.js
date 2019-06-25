@@ -7,7 +7,14 @@ import { connect } from 'react-redux'
 import { saveDiagram, getTemplate, sendImageToCollaborate, resetSendImageToCollaborateLink } from '../../../store/actions/projects'
 import { getDiagram } from '../../../store/actions/projects'
 import { createTemplate, saveTemplate } from '../../../store/actions/projects'
-import { getSVG, saveDiagramThenCreateTemplate, changeFunnelName, saveDiagramThenExit, saveDiagramThenShowOrHideSettingsModal } from '../../../store/actions/projects'
+import {
+  getSVG,
+  saveDiagramThenCreateTemplate,
+  changeFunnelName,
+  saveDiagramThenExit,
+  saveDiagramThenShowOrHideSettingsModal,
+  saveDiagramThenShowOrHideNotesModal,
+} from '../../../store/actions/projects'
 
 
 class App extends React.Component {
@@ -79,6 +86,10 @@ function mapStateToProps(state, ownProps) {
     showSettingsWidgetBoolean: state.projects.showSettingsWidgetBoolean,
     showSettingsWidgetModel: state.projects.showSettingsWidgetModel,
     showSettingsWidgetEngine: state.projects.showSettingsWidgetEngine,
+
+    showNotesWidgetBoolean: state.projects.showNotesWidgetBoolean,
+    showNotesWidgetModel: state.projects.showNotesWidgetModel,
+    showNotesWidgetEngine: state.projects.showNotesWidgetEngine,
   };
 }
 
@@ -99,6 +110,9 @@ const mapDispatchToProps = dispatch => {
 
     saveDiagramThenShowOrHideSettingsModal: (id, state, file, boolean, model, engine) =>
       dispatch(saveDiagramThenShowOrHideSettingsModal(id, state, file, boolean, model, engine)),
+
+    saveDiagramThenShowOrHideNotesModal: (id, state, file, boolean, model, engine) =>
+      dispatch(saveDiagramThenShowOrHideNotesModal(id, state, file, boolean, model, engine)),
   }
 }
 

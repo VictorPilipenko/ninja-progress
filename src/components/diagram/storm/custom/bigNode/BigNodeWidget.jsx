@@ -15,7 +15,10 @@ import { AdvancedLinkModel, AdvancedLinkFactory } from "../customLink";
 // import { BigNodeModel } from './BigNodeModel'
 
 import { connect } from 'react-redux'
-import { saveDiagramThenShowOrHideSettingsModal } from '../../../../../store/actions/projects'
+import {
+  saveDiagramThenShowOrHideSettingsModal,
+  saveDiagramThenShowOrHideNotesModal
+} from '../../../../../store/actions/projects'
 
 
 //import custom link, port and factory
@@ -51,7 +54,7 @@ class BigNodeWidget extends React.Component {
   state = {
     show: false,
     // label: this.props.node.extras.named,
-    notes: this.props.node.extras.notesd,
+    // notes: this.props.node.extras.notesd,
   }
 
   serialization(activeModel) {
@@ -153,14 +156,6 @@ class BigNodeWidget extends React.Component {
     })
   }
 
-  SaveDiagramThenShowModal = file => {
-    this.setState({
-      snackMsg: 'next',
-      converted: this.serialization(this.props.engine.getDiagramModel())
-    }, () => {
-      this.props.saveDiagramThenShowOrHideSettingsModal(this.props.funnelId, this.state, file, true, this.props.node, this.props.engine.getDiagramModel())
-    });
-  }
 
   showModal = () => this.setState({
     show: true
@@ -169,30 +164,6 @@ class BigNodeWidget extends React.Component {
   hideModal = () => {
     this.setState({ show: false });
   };
-
-  showSettingsModal = () => {
-    this.setState({ showSettings: true, showNotes: false });
-  };
-
-  hideSettingsModal = () => {
-    this.setState({ showSettings: false });
-  };
-
-  showNotesModal = () => {
-    this.setState({ showNotes: true, showSettings: false });
-  };
-
-  hideNotesModal = () => {
-    this.setState({ showNotes: false });
-  };
-
-  handleChangeNotes = e => this.setState({
-    notes: e.target.value
-  }, () =>
-      this.props.node.extras.setNotesExtras && this.props.node.extras.setNotesExtras(this.state.notes)
-      ||
-      this.props.node.setNotes && this.props.node.setNotes(this.state.notes)
-  );
 
   deleteNode = e => {
     this.simulateKey(46, "up");
@@ -241,13 +212,45 @@ class BigNodeWidget extends React.Component {
     document.getElementById("diagram-layer").click();
   }
 
+
+  SaveDiagramThenShowSettingsModal = file => {
+    this.setState({
+      snackMsg: 'next',
+      converted: this.serialization(this.props.engine.getDiagramModel())
+    }, () => {
+      this.props.saveDiagramThenShowOrHideSettingsModal(this.props.funnelId, this.state, file, true, this.props.node, this.props.engine.getDiagramModel())
+    });
+  }
+
   showSettingsModal = () => {
     var diagram = document.getElementById('diagram-layer');
     domtoimage.toBlob(diagram)
       .then(data => {
         let name = randomString({ length: 10 });
         var file = new File([data], name, { type: "image/svg" });
-        this.SaveDiagramThenShowModal(file);
+        this.SaveDiagramThenShowSettingsModal(file);
+      })
+      .catch(function (error) {
+        console.error('oops, something went wrong!', error);
+      });
+  }
+
+  SaveDiagramThenShowNotesModal = file => {
+    this.setState({
+      snackMsg: 'next',
+      converted: this.serialization(this.props.engine.getDiagramModel())
+    }, () => {
+      this.props.saveDiagramThenShowOrHideNotesModal(this.props.funnelId, this.state, file, true, this.props.node, this.props.engine.getDiagramModel())
+    });
+  }
+
+  showNotesModal = () => {
+    var diagram = document.getElementById('diagram-layer');
+    domtoimage.toBlob(diagram)
+      .then(data => {
+        let name = randomString({ length: 10 });
+        var file = new File([data], name, { type: "image/svg" });
+        this.SaveDiagramThenShowNotesModal(file);
       })
       .catch(function (error) {
         console.error('oops, something went wrong!', error);
@@ -271,26 +274,6 @@ class BigNodeWidget extends React.Component {
             <button className='btn-select-widget' onClick={this.deleteAllLinks} title={'Delete All Links'}><DeleteAllLinksSVG /></button>
           </Select>
         </ClickOutside>
-
-        <ModalNodeWidget show={this.state.showNotes} handleClose={this.hideNotesModal}>
-          <label className='label-create-widget-settings'>Notes</label>
-          <div className='modal-content-wrapper'>
-            <label htmlFor="Notes" className='label-input'>
-              Notes
-          </label>
-            <textarea
-              style={{
-                height: 200
-              }}
-              id="Notes"
-              placeholder="Your Notes"
-              type="text"
-              value={this.state.notes}
-              onChange={this.handleChangeNotes}
-            />
-          </div>
-        </ModalNodeWidget>
-
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div
@@ -377,6 +360,10 @@ const mapStateToProps = state => {
   return {
     showSettingsWidgetBoolean: state.projects.showSettingsWidgetBoolean,
     showSettingsWidgetModel: state.projects.showSettingsWidgetModel,
+
+    showNotesWidgetBoolean: state.projects.showNotesWidgetBoolean,
+    showNotesWidgetModel: state.projects.showNotesWidgetModel,
+
     funnelId: state.router.location.pathname.substring(9),
     svgList: state.projects.svgList,
   };
@@ -386,6 +373,9 @@ const mapDispatchToProps = dispatch => {
   return {
     saveDiagramThenShowOrHideSettingsModal: (id, state, file, boolean, model, engine) =>
       dispatch(saveDiagramThenShowOrHideSettingsModal(id, state, file, boolean, model, engine)),
+
+    saveDiagramThenShowOrHideNotesModal: (id, state, file, boolean, model, engine) =>
+      dispatch(saveDiagramThenShowOrHideNotesModal(id, state, file, boolean, model, engine)),
   }
 }
 
