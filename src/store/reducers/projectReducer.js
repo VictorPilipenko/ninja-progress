@@ -139,8 +139,6 @@ export default function (state = initialState, action) {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    // case 'SAVE_DIAGRAM':
-    //   return { ...state, [`diagram${action.payload.funnelId}`]: action.payload.diagramObj };
     case 'SAVE_DIAGRAM_SUCCESS_RESET':
       return { ...state, saveDiagramMessage: null }
     case 'SAVE_DIAGRAM_SUCCESS':
@@ -177,8 +175,6 @@ export default function (state = initialState, action) {
     ///////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////////////////////////////////////////////
-    case 'RESET_GET_DIAGRAM':
-      return { ...state, [`diagram${action.payload.funnelId}`]: {} }
     case 'GET_DIAGRAM':
       return { ...state, [`diagram${action.payload.funnelId}`]: action.payload.res };
     case 'GET_DIAGRAM_SUCCESS':
@@ -207,6 +203,18 @@ export default function (state = initialState, action) {
       return { ...state, getAllSvgMessage: '' };
     case 'GET_ALL_SVG_FAILURE':
       return { ...state, getAllSvgMessage: action.payload };
+    /////////////////////////////////////////////////////////////////////////// 
+
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    case 'CHANGE_SHOW_SETTINGS_MODAL':
+      return {
+        ...state,
+        showSettingsWidgetBoolean: action.payload.boolean,
+        showSettingsWidgetModel: action.payload.model,
+        showSettingsWidgetEngine: action.payload.engine,
+      };
     /////////////////////////////////////////////////////////////////////////// 
 
 

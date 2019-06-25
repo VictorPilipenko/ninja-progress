@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { saveDiagram, getTemplate, sendImageToCollaborate, resetSendImageToCollaborateLink } from '../../../store/actions/projects'
 import { getDiagram } from '../../../store/actions/projects'
 import { createTemplate, saveTemplate } from '../../../store/actions/projects'
-import { getSVG, saveDiagramThenCreateTemplate, changeFunnelName, saveDiagramThenExit } from '../../../store/actions/projects'
+import { getSVG, saveDiagramThenCreateTemplate, changeFunnelName, saveDiagramThenExit, saveDiagramThenShowSettingsModal } from '../../../store/actions/projects'
 
 
 class App extends React.Component {
@@ -25,12 +25,14 @@ class App extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    // console.log('componentDidUpdate prevProps: ', prevProps)
+    // console.log('componentDidUpdate index prevProps: ', prevProps)
     if (prevProps.diagram) {
       if (prevProps.diagram.snackMsg !== this.state.snackMsg) {
+        // console.log('cdu')
         this.props.getDiagram(this.props.funnelId);
         this.props.getTemplate(this.props.funnelId);
       }
+
     }
     else return null;
   }
@@ -58,7 +60,6 @@ class App extends React.Component {
     var app = new Application(
       this.state.diagram && this.state.diagram,
       this.props.svg && this.props.svg,
-      this.props.showSettingsWidget,
     );
 
     return (
@@ -78,6 +79,10 @@ function mapStateToProps(state, ownProps) {
     link: state.projects.sendImageToCollaborateLink,
     pathname: state.router.location.pathname,
     changeFunnelNameMessage: state.projects.changeFunnelNameMessage,
+
+    showSettingsWidgetBoolean: state.projects.showSettingsWidgetBoolean,
+    showSettingsWidgetModel: state.projects.showSettingsWidgetModel,
+    showSettingsWidgetEngine: state.projects.showSettingsWidgetEngine,
   };
 }
 
@@ -94,6 +99,10 @@ const mapDispatchToProps = dispatch => {
     saveDiagramThenCreateTemplate: (funnelId, diagramObj, image, templateName) => dispatch(saveDiagramThenCreateTemplate(funnelId, diagramObj, image, templateName)),
     changeFunnelName: (funnelId, name) => dispatch(changeFunnelName(funnelId, name)),
     saveDiagramThenExit: (funnelId, diagramObj, image) => dispatch(saveDiagramThenExit(funnelId, diagramObj, image)),
+
+
+    saveDiagramThenShowSettingsModal: (id, state, file, boolean, model, engine) =>
+      dispatch(saveDiagramThenShowSettingsModal(id, state, file, boolean, model, engine)),
   }
 }
 

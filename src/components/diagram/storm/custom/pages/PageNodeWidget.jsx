@@ -1,5 +1,5 @@
 import * as React from "react";
-import { PortWidget } from "storm-react-diagrams";
+import { PortWidget, PointModel, DiagramEngine } from "storm-react-diagrams";
 import ReactSVG from 'react-svg';
 import ClickOutside from '../../../../common/ClickOutside'
 import ModalNodeWidget from '../../../../common/ModalNodeWidget'
@@ -10,22 +10,169 @@ import { ReactComponent as DeleteSVG } from '../../../../../assets/selectForWidg
 import { ReactComponent as NotesSVG } from '../../../../../assets/selectForWidget/notes.svg';
 import { ReactComponent as SettingsSVG } from '../../../../../assets/selectForWidget/settings.svg';
 
-import { PointModel } from "storm-react-diagrams";
-
-
 import * as _ from "lodash";
-import { AdvancedLinkModel } from "../customLink";
-import { PageNodeModel } from './PageNodeModel'
+import { AdvancedLinkModel, AdvancedLinkFactory } from "../customLink";
+// import { PageNodeModel } from './PageNodeModel'
 
-export class PageNodeWidget extends React.Component {
+import { connect } from 'react-redux'
+import { saveDiagramThenShowSettingsModal } from '../../../../../store/actions/projects'
+
+
+//import custom link, port and factory
+import { NodeFactory } from "../NodeFactory";
+import { PortFactory } from "../PortFactory";
+
+// import the custom models
+import { PagePortModel } from "./PagePortModel";
+import { PageNodeModel } from "./PageNodeModel";
+// import PageNodeWidget from "./custom/pages/PageNodeWidget";
+
+import { EmailMarketingPortModel } from "../emailMarketing/EmailMarketingPortModel";
+import { EmailMarketingNodeModel } from "../emailMarketing/EmailMarketingNodeModel";
+import { EmailMarketingNodeWidget } from "../emailMarketing/EmailMarketingNodeWidget";
+
+import { EventPortModel } from "../events/EventPortModel";
+import { EventNodeModel } from "../events/EventNodeModel";
+import { EventNodeWidget } from "../events/EventNodeWidget";
+
+import { TrafficPortModel } from "../traffic/TrafficPortModel";
+import { TrafficNodeModel } from "../traffic/TrafficNodeModel";
+import { TrafficNodeWidget } from "../traffic/TrafficNodeWidget";
+
+import { API_URL } from '../../../../../config'
+
+import domtoimage from 'dom-to-image';
+import randomString from 'random-string';
+
+const Select = ({ show, children }) => {
+  const showHideClassName = show ? "select-modal-node-widget display-block" : "select-modal-node-widget display-none";
+  return (
+    <div className={showHideClassName}>
+      <section className="select-main-modal-node-widget  up-arrow ">
+        {children}
+      </section>
+    </div>
+  );
+};
+
+class PageNodeWidget extends React.Component {
   state = {
     show: false,
-    label: this.props.node.extras.named,
+    // label: this.props.node.extras.named,
     notes: this.props.node.extras.notesd,
   }
-  showModal = () => {
-    this.setState({ show: true });
-  };
+
+  serialization(activeModel) {
+    const { svgList } = this.props
+
+    this.allElements = []
+    this.elementsPages = []
+    this.elementsTraffic = []
+    this.elementsEmailMarketing = []
+    this.elementsEvents = []
+
+    if (svgList) {
+
+      let allPages = this.getValues(svgList, 'Pages')
+      let allTraffic = this.getValues(svgList, 'Traffic')
+      let allEmailMarketing = this.getValues(svgList, 'EmailMarketing')
+      let allEvents = this.getValues(svgList, 'Events')
+
+      allPages.forEach((item) => (
+        this.elementsPages.push(
+          {
+            name: item.name,
+            port: PagePortModel,
+            widget: PageNodeWidget,
+            nodeModel: PageNodeModel,
+            svg: API_URL + item.url,
+          }
+        )
+      ))
+
+      allTraffic.forEach((item) => (
+        this.elementsTraffic.push(
+          {
+            name: item.name,
+            port: TrafficPortModel,
+            widget: TrafficNodeWidget,
+            nodeModel: TrafficNodeModel,
+            svg: API_URL + item.url,
+          }
+        )
+      ))
+
+      allEmailMarketing.forEach((item) => (
+        this.elementsEmailMarketing.push(
+          {
+            name: item.name,
+            port: EmailMarketingPortModel,
+            widget: EmailMarketingNodeWidget,
+            nodeModel: EmailMarketingNodeModel,
+            svg: API_URL + item.url,
+          }
+        )
+      ))
+
+      allEvents.forEach((item) => (
+        this.elementsEvents.push(
+          {
+            name: item.name,
+            port: EventPortModel,
+            widget: EventNodeWidget,
+            nodeModel: EventNodeModel,
+            svg: API_URL + item.url,
+          }
+        )
+      ))
+
+      // We need this to help the system know what models to create form the JSON
+      let engine = new DiagramEngine();
+      engine.installDefaultFactories();
+      engine.registerLinkFactory(new AdvancedLinkFactory());
+
+      this.createElements(this.allElements, engine)
+
+      // Serialize the model
+      const str = JSON.stringify(activeModel.serializeDiagram());
+      return str;
+    }
+  }
+
+  getValues(array, value) {
+    var obj = array.filter((arr, i) => {
+      return arr.title === value ? arr.data : null;
+    });
+    return obj[0].data;
+  }
+
+  createElements(configElements, engine) {
+    return configElements.forEach(item => {
+      engine.registerPortFactory(new PortFactory(
+        item.name,
+        () => new item.port(item.name)
+      ));
+      engine.registerNodeFactory(new NodeFactory(
+        item.name,
+        item.widget,
+        item.nodeModel,
+        item.svg,
+      ));
+    })
+  }
+
+  SaveDiagramThenShowModal = file => {
+    this.setState({
+      snackMsg: 'next',
+      converted: this.serialization(this.props.engine.getDiagramModel())
+    }, () => {
+      this.props.saveDiagramThenShowSettingsModal(this.props.funnelId, this.state, file, true, this.props.node, this.props.engine.getDiagramModel())
+    });
+  }
+
+  showModal = () => this.setState({
+    show: true
+  });
 
   hideModal = () => {
     this.setState({ show: false });
@@ -46,14 +193,6 @@ export class PageNodeWidget extends React.Component {
   hideNotesModal = () => {
     this.setState({ showNotes: false });
   };
-
-  handleChange = e => this.setState({
-    label: e.target.value
-  }, () =>
-      this.props.node.extras.setNameExtras && this.props.node.extras.setNameExtras(this.state.label)
-      ||
-      this.props.node.setName && this.props.node.setName(this.state.label)
-  );
 
   handleChangeNotes = e => this.setState({
     notes: e.target.value
@@ -105,17 +244,26 @@ export class PageNodeWidget extends React.Component {
     _.forEach(this.props.engine.getDiagramModel().getSelectedItems(), (item) => {
       if (item instanceof PointModel) {
         item.parent.remove()
-        // console.log(item.parent.sourcePort)
       }
     })
     document.getElementById("diagram-layer").click();
   }
 
-
-
+  showSettingsModal = () => {
+    var diagram = document.getElementById('diagram-layer');
+    domtoimage.toBlob(diagram)
+      .then(data => {
+        let name = randomString({ length: 10 });
+        var file = new File([data], name, { type: "image/svg" });
+        this.SaveDiagramThenShowModal(file);
+      })
+      .catch(function (error) {
+        console.error('oops, something went wrong!', error);
+      });
+  }
 
   render() {
-    // console.log(this.props.node.selected)
+    console.log('this.props', this.props)
     return (
       <>
         <ClickOutside
@@ -131,22 +279,6 @@ export class PageNodeWidget extends React.Component {
             <button className='btn-select-widget' onClick={this.deleteAllLinks} title={'Delete All Links'}><DeleteAllLinksSVG /></button>
           </Select>
         </ClickOutside>
-
-        <ModalNodeWidget show={this.state.showSettings} handleClose={this.hideSettingsModal}>
-          <label className='label-create-widget-settings'>Settings</label>
-          <div className='modal-content-wrapper'>
-            <label htmlFor="Name" className='label-input'>
-              Name
-          </label>
-            <input
-              id="Name"
-              placeholder="Label Name"
-              type="text"
-              value={this.state.label}
-              onChange={this.handleChange}
-            />
-          </div>
-        </ModalNodeWidget>
 
         <ModalNodeWidget show={this.state.showNotes} handleClose={this.hideNotesModal}>
           <label className='label-create-widget-settings'>Notes</label>
@@ -179,7 +311,7 @@ export class PageNodeWidget extends React.Component {
               fontWeight: 500
             }}
           >
-            {this.state.label ? this.state.label : this.props.node.type}
+            {this.props.node.extras.named ? this.props.node.extras.named : this.props.node.type}
           </div>
 
           <div
@@ -190,12 +322,13 @@ export class PageNodeWidget extends React.Component {
               border: this.props.node.selected ? '.5px dashed #848f99' : null,
               borderRadius: this.props.node.selected ? 7 : null,
             }}
-            onDoubleClick={this.showModal}
-            title={this.state.label ? this.state.label : this.props.node.type}
+
+            onMouseEnter={this.showModal}
+            title={this.props.node.extras.named ? this.props.node.extras.named : this.props.node.type}
           >
             <ReactSVG
               src={this.props.svg}
-          />
+            />
 
             <div
               style={{
@@ -248,14 +381,22 @@ export class PageNodeWidget extends React.Component {
   }
 }
 
-const Select = ({ show, children }) => {
-  const showHideClassName = show ? "select-modal-node-widget display-block" : "select-modal-node-widget display-none";
+const mapStateToProps = state => {
+  return {
+    showSettingsWidgetBoolean: state.projects.showSettingsWidgetBoolean,
+    showSettingsWidgetModel: state.projects.showSettingsWidgetModel,
+    funnelId: state.router.location.pathname.substring(9),
+    svgList: state.projects.svgList,
+  };
+}
 
-  return (
-    <div className={showHideClassName}>
-      <section className="select-main-modal-node-widget  up-arrow ">
-        {children}
-      </section>
-    </div>
-  );
-};
+const mapDispatchToProps = dispatch => {
+  return {
+    saveDiagramThenShowSettingsModal: (id, state, file, boolean, model, engine) =>
+      dispatch(saveDiagramThenShowSettingsModal(id, state, file, boolean, model, engine)),
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(PageNodeWidget);
+

@@ -10,12 +10,12 @@
 }
 
 .modal-node-widget-main {
-  position: fixed;
+  position: absolute;
   background: white;
   width: 300px;
   min-height: 100vh;
   right: 0;
-  top: 0;
+  top: 65px;
   z-index: 11;
   display: flex;
   flex-direction: column;

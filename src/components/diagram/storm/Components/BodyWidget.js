@@ -11,26 +11,19 @@ import { PageNodeModel } from "../custom/pages/PageNodeModel";
 import { EventNodeModel } from "../custom/events/EventNodeModel";
 import { TrafficNodeModel } from "../custom/traffic/TrafficNodeModel";
 import { EmailMarketingNodeModel } from "../custom/emailMarketing/EmailMarketingNodeModel";
-
 import PagesButton from '../../../../assets/PagesButton.svg'
 import EventsButton from '../../../../assets/EventsButton.svg'
 import TrafficButton from '../../../../assets/TrafficButton.svg'
 import EmailMarketingButton from '../../../../assets/EmailMarketingButton.svg'
 import TemplatesButton from '../../../../assets/TemplatesButton.svg'
-
 import { ReactComponent as ArrowSelectSVG } from '../../../../assets/ArrowSelect.svg'
-
 import { ReactComponent as LogoWidgetSVG } from '../../../../assets/logo-widget.svg'
 import { ReactComponent as MenuWidgetSVG } from '../../../../assets/menu-widget.svg'
 import { ReactComponent as ShareFunnelSVG } from '../../../../assets/instructions.svg'
 import { ReactComponent as FunnelNotesSVG } from '../../../../assets/FunnelNotes.svg'
-import { ReactComponent as ChatSVG } from '../../../../assets/chat.svg'
-
-
-
+// import { ReactComponent as ChatSVG } from '../../../../assets/chat.svg'
 import ModalNodeWidget from '../../../common/ModalNodeWidget'
 import { NavLink } from "react-router-dom";
-
 import { API_URL } from '../../../../config'
 import ReactSVG from 'react-svg';
 
@@ -58,6 +51,7 @@ export default class BodyWidget extends React.Component {
     showModal: false,
     saveBeforeExit: false,
     showInstructions: false,
+    showSettingsNodeModal: false,
   }
 
   handleChange = e => this.setState({
@@ -65,8 +59,32 @@ export default class BodyWidget extends React.Component {
   });
 
   showTemplateModal = () => this.setState({ showTemplateModal: true }, () => this.hideSelect());
-
   hideTemplateModal = () => this.setState({ showTemplateModal: false });
+
+
+
+
+
+
+  // this.props.work.showSettingsWidgetEngine
+
+  saveDiagramHandleNodeModal = file => this.setState({
+    snackMsg: 'next',
+    converted: this.props.app.serialization(this.props.work.showSettingsWidgetEngine)
+  }, () => {
+    // this.props.work.saveDiagram(this.props.work.funnelId, this.state, file)
+    this.props.work.saveDiagramThenShowSettingsModal(
+      this.props.work.funnelId,
+      this.state,
+      file,
+      true,
+      this.props.work.showSettingsWidgetModel,
+      this.props.work.showSettingsWidgetEngine,
+    )
+  });
+
+
+
 
   saveDiagramHandle = file => this.setState({
     snackMsg: 'next',
@@ -88,6 +106,15 @@ export default class BodyWidget extends React.Component {
   }, () => {
     this.props.work.saveDiagramThenExit(this.props.work.funnelId, this.state, file)
   });
+
+  saveDiagramThenCloseSettingModal = file => this.setState({
+    snackMsg: 'next',
+    converted: this.props.app.serialization(this.props.work.showSettingsWidgetEngine)
+  }, () => {
+    this.props.work.saveDiagramThenShowSettingsModal(this.props.work.funnelId, this.state, file, false)
+  });
+
+
 
   createTemplate = () => {
     this.props.work.createTemplate(this.props.work.funnelId, this.state.templateName)
@@ -247,10 +274,61 @@ export default class BodyWidget extends React.Component {
   showInstructions = () => this.setState({ showInstructions: true })
   hideInstructions = () => this.setState({ showInstructions: false })
 
+
+  showSettingsNode = () => {
+    return (
+      <ModalNodeWidget
+        show={this.props.work.showSettingsWidgetBoolean}
+        handleClose={() =>
+          domtoimage.toBlob(this.diagramRef)
+            .then(data => {
+              let name = randomString({ length: 10 });
+              var file = new File([data], name, { type: "image/svg" });
+              this.saveDiagramThenCloseSettingModal(file);
+            })
+            .catch(function (error) {
+              console.error('oops, something went wrong!', error);
+            })
+        }
+      >
+        <label className='label-create-widget-settings'>Settings</label>
+        <div className='modal-content-wrapper'>
+          <label htmlFor="Name" className='label-input'>
+            Name
+          </label>
+          <input
+            id="Name"
+            placeholder="Label Name"
+            type="text"
+            value={this.state.labelNode}
+            onChange={this.handleChangeNode}
+          />
+        </div>
+      </ModalNodeWidget >
+    );
+  }
+
+  handleChangeNode = e => this.setState({
+    labelNode: e.target.value
+  }
+    , () =>
+      this.props.work.showSettingsWidgetModel.extras.setNameExtras && this.props.work.showSettingsWidgetModel.extras.setNameExtras(this.state.labelNode)
+      ||
+      this.props.work.showSettingsWidgetModel.setName && this.props.work.showSettingsWidgetModel.setName(this.state.labelNode)
+  );
+
+
+
+
+
   render() {
-    // console.log(this.props)
+    console.log(this.props.work.showSettingsWidgetModel)
+
     return (
       <>
+
+        {this.showSettingsNode()}
+
         <div className='message-diagram'>
           {this.props.work.message ?
             this.props.work.message
@@ -771,8 +849,8 @@ export default class BodyWidget extends React.Component {
               <RJD.DiagramWidget
                 deleteKeys={[46]}
                 // smartRouting={true}
-                allowCanvasZoom={false}
-                allowCanvasTranslation={false}
+                // allowCanvasZoom={false}
+                // allowCanvasTranslation={false}
                 className="srd-demo-canvas"
                 diagramEngine={this.props.app.getDiagramEngine()}
                 allowLooseLinks={false}

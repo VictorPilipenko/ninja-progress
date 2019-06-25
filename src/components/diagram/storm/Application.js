@@ -8,7 +8,7 @@ import { AdvancedLinkFactory } from "./custom/customLink";
 // import the custom models
 import { PagePortModel } from "./custom/pages/PagePortModel";
 import { PageNodeModel } from "./custom/pages/PageNodeModel";
-import { PageNodeWidget } from "./custom/pages/PageNodeWidget";
+import PageNodeWidget from "./custom/pages/PageNodeWidget";
 
 import { EmailMarketingPortModel } from "./custom/emailMarketing/EmailMarketingPortModel";
 import { EmailMarketingNodeModel } from "./custom/emailMarketing/EmailMarketingNodeModel";
@@ -112,7 +112,10 @@ export default class Application {
 
   createElements(configElements, engine) {
     return configElements.forEach(item => {
-      engine.registerPortFactory(new PortFactory(item.name, () => new item.port(item.name)));
+      engine.registerPortFactory(new PortFactory(
+        item.name, 
+        () => new item.port(item.name)
+      ));
       engine.registerNodeFactory(new NodeFactory(
         item.name,
         item.widget,
