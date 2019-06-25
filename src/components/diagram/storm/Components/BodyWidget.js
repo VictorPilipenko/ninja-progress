@@ -27,6 +27,12 @@ import { NavLink } from "react-router-dom";
 import { API_URL } from '../../../../config'
 import ReactSVG from 'react-svg';
 
+import FunnelOptionsRightPanel from './componentsForBodyWidget/FunnelOptionsRightPanel'
+import FunnelNotesRightPanel from './componentsForBodyWidget/FunnelNotesRightPanel'
+import SettingsNodeRightPanel from './componentsForBodyWidget/SettingsNodeRightPanel'
+import SaveBeforeExitModal from './componentsForBodyWidget/SaveBeforeExitModal'
+import CreateTemplateModal from './componentsForBodyWidget/CreateTemplateModal'
+
 const Select = ({ show, children, style }) => {
   const showHideClassName = show ? "select display-block" : "select display-none";
   return (
@@ -63,48 +69,11 @@ export default class BodyWidget extends React.Component {
 
 
 
-
-
-
-  // this.props.work.showSettingsWidgetEngine
-
-  saveDiagramHandleNodeModal = file => this.setState({
-    snackMsg: 'next',
-    converted: this.props.app.serialization(this.props.work.showSettingsWidgetEngine)
-  }, () => {
-    // this.props.work.saveDiagram(this.props.work.funnelId, this.state, file)
-    this.props.work.saveDiagramThenShowSettingsModal(
-      this.props.work.funnelId,
-      this.state,
-      file,
-      true,
-      this.props.work.showSettingsWidgetModel,
-      this.props.work.showSettingsWidgetEngine,
-    )
-  });
-
-
-
-
   saveDiagramHandle = file => this.setState({
     snackMsg: 'next',
     converted: this.props.app.serialization(this.props.app.getDiagramEngine().getDiagramModel())
   }, () => {
     this.props.work.saveDiagram(this.props.work.funnelId, this.state, file)
-  });
-
-  saveDiagramThenCreateTemplate = file => this.setState({
-    snackMsg: 'next',
-    converted: this.props.app.serialization(this.props.app.getDiagramEngine().getDiagramModel())
-  }, () => {
-    this.props.work.saveDiagramThenCreateTemplate(this.props.work.funnelId, this.state, file, this.state.templateName)
-  });
-
-  saveDiagramThenExit = file => this.setState({
-    snackMsg: 'next',
-    converted: this.props.app.serialization(this.props.app.getDiagramEngine().getDiagramModel())
-  }, () => {
-    this.props.work.saveDiagramThenExit(this.props.work.funnelId, this.state, file)
   });
 
   saveDiagramThenCloseSettingModal = file => this.setState({
@@ -113,12 +82,6 @@ export default class BodyWidget extends React.Component {
   }, () => {
     this.props.work.saveDiagramThenShowSettingsModal(this.props.work.funnelId, this.state, file, false)
   });
-
-
-
-  createTemplate = () => {
-    this.props.work.createTemplate(this.props.work.funnelId, this.state.templateName)
-  }
 
   saveTemplateHandle = () => this.setState({
     snackMsg: 'next',
@@ -261,73 +224,17 @@ export default class BodyWidget extends React.Component {
   })
   hideMenu = () => this.setState({ showMenu: false })
 
-  showNotes = () => this.setState({
-    showNotes: true,
-    showMenu: false,
-    funnelNotes: this.props.work.diagram && this.props.work.diagram.funnelNotes,
-  })
-  hideNotes = () => this.setState({ showNotes: false })
+
 
   showSaveBeforeExit = () => this.setState({ saveBeforeExit: true })
   hideSaveBeforeExit = () => this.setState({ saveBeforeExit: false })
 
-  showInstructions = () => this.setState({ showInstructions: true })
-  hideInstructions = () => this.setState({ showInstructions: false })
-
-
-  showSettingsNode = () => {
-    return (
-      <ModalNodeWidget
-        show={this.props.work.showSettingsWidgetBoolean}
-        handleClose={() =>
-          domtoimage.toBlob(this.diagramRef)
-            .then(data => {
-              let name = randomString({ length: 10 });
-              var file = new File([data], name, { type: "image/svg" });
-              this.saveDiagramThenCloseSettingModal(file);
-            })
-            .catch(function (error) {
-              console.error('oops, something went wrong!', error);
-            })
-        }
-      >
-        <label className='label-create-widget-settings'>Settings</label>
-        <div className='modal-content-wrapper'>
-          <label htmlFor="Name" className='label-input'>
-            Name
-          </label>
-          <input
-            id="Name"
-            placeholder="Label Name"
-            type="text"
-            value={this.state.labelNode}
-            onChange={this.handleChangeNode}
-          />
-        </div>
-      </ModalNodeWidget >
-    );
-  }
-
-  handleChangeNode = e => this.setState({
-    labelNode: e.target.value
-  }
-    , () =>
-      this.props.work.showSettingsWidgetModel.extras.setNameExtras && this.props.work.showSettingsWidgetModel.extras.setNameExtras(this.state.labelNode)
-      ||
-      this.props.work.showSettingsWidgetModel.setName && this.props.work.showSettingsWidgetModel.setName(this.state.labelNode)
-  );
-
-
-
-
-
   render() {
-    console.log(this.props.work.showSettingsWidgetModel)
-
     return (
       <>
 
-        {this.showSettingsNode()}
+        <SettingsNodeRightPanel work={this.props.work} app={this.props.app} />
+
 
         <div className='message-diagram'>
           {this.props.work.message ?
@@ -337,26 +244,7 @@ export default class BodyWidget extends React.Component {
         <div className="body">
           <div className="header">
 
-            {this.props.work.pathname.includes('diagram') ?
-              <div
-                className='logo-widget'
-                onClick={this.showSaveBeforeExit}
-                style={{ cursor: 'pointer' }}
-              >
-                <LogoWidgetSVG />
-              </div>
-              :
-              <div
-                className='logo-widget'
-                style={{ cursor: 'pointer' }}
-              >
-                <NavLink
-                  to={'/templates'}
-                >
-                  <LogoWidgetSVG />
-                </NavLink>
-              </div>
-            }
+            <SaveBeforeExitModal work={this.props.work} app={this.props.app} />
 
 
             <div className="title">{this.props.work.diagram && this.props.work.diagram.funnelName}</div>
@@ -384,6 +272,8 @@ export default class BodyWidget extends React.Component {
             }
 
             {this.props.work.pathname.includes('diagram') ?
+
+
               <>
                 <button
                   className="btn btn-1 diagram-header-button-save"
@@ -397,24 +287,10 @@ export default class BodyWidget extends React.Component {
 
 
 
+                <FunnelNotesRightPanel work={this.props.work} app={this.props.app} />
+
+
                 <div className="diagram-header-instruction-buttons">
-                  {/* <button
-                    className="diagram-header-instruction-button"
-                    onClick={this.showInstructions}
-                    title={'Manual'}
-                  >
-                    <ChatSVG />
-                  </button> */}
-
-                  <button
-                    className="diagram-header-menu-button"
-                    onClick={this.showNotes}
-                    style={{ background: this.state.showNotes ? '#ecf1f2' : '#fff' }}
-                    title={'Funnel Notes'}
-                  >
-                    <FunnelNotesSVG />
-                  </button>
-
 
                   <button
                     className="diagram-header-instruction-button"
@@ -438,130 +314,12 @@ export default class BodyWidget extends React.Component {
                   </button>
                 </div>
 
-
-
-
-
-
-
-                <button
-                  className="diagram-header-menu-button"
-                  onClick={this.showMenu}
-                  style={{ background: this.state.showMenu ? '#ecf1f2' : '#fff' }}
-                >
-                  <MenuWidgetSVG />
-                </button>
+                <FunnelOptionsRightPanel work={this.props.work} app={this.props.app} />
               </>
               :
-              <button
-                className="btn btn-1 diagram-header-button-save"
-                onClick={this.showSelect}
-                style={{ margin: 12.5 }}
-              >
-                SAVE
-                <div className='arrow-for-select'>
-                  <ArrowSelectSVG />
-                </div>
-              </button>
+              <FunnelOptionsRightPanel work={this.props.work} app={this.props.app} />
+
             }
-
-            <ModalNodeWidget
-              show={this.state.showNotes}
-              handleClose={this.hideNotes}
-              style={{
-                position: 'absolute',
-                top: 65,
-              }}
-            >
-              <label className='label-create-widget-settings'>Funnel Notes</label>
-              <div style={{
-                padding: 15,
-                display: 'flex',
-                flexDirection: 'column',
-              }}>
-                <label htmlFor="FunnelNotes" className='label-input'>
-                  Funnel Notes
-                </label>
-                <textarea
-                  id="FunnelNotes"
-                  placeholder="Funnel Notes"
-                  type="text"
-                  value={this.state.funnelNotes}
-                  onChange={this.handleChange}
-                  name='funnelNotes'
-                  rows="30"
-                  style={{
-                    margin: 10
-                  }}
-                />
-                {this.props.work.message && (
-                  <div className={`input-group`}>{this.props.work.message}</div>
-                )}
-                <button
-                  className='btn btn-1 create-project-button-in-modal'
-                  style={{ display: 'block' }}
-                  onClick={() => {
-                    domtoimage.toBlob(this.diagramRef)
-                      .then(data => {
-                        let name = randomString({ length: 10 });
-                        var file = new File([data], name, { type: "image/svg" });
-                        this.saveDiagramHandle(file);
-                      })
-                      .catch(function (error) {
-                        console.error('oops, something went wrong!', error);
-                      });
-                  }}
-                >
-                  Save
-                </button>
-              </div>
-            </ModalNodeWidget>
-
-            <ModalNodeWidget
-              show={this.state.showMenu}
-              handleClose={this.hideMenu}
-              style={{
-                position: 'absolute',
-                top: 65,
-              }}
-            >
-              <label className='label-create-widget-settings'>Funnel Options</label>
-              <div style={{ padding: 15 }}>
-                <label htmlFor="FunnelName" className='label-input'>
-                  Funnel Name
-                </label>
-                <input
-                  id="FunnelName"
-                  placeholder="Funnel Name"
-                  type="text"
-                  value={this.state.funnelName}
-                  onChange={this.handleChange}
-                  name='funnelName'
-                />
-                {this.props.work.changeFunnelNameMessage && (
-                  <div className={`input-group`}>{this.props.work.changeFunnelNameMessage}</div>
-                )}
-                <button
-                  className='btn btn-1 create-project-button-in-modal'
-                  style={{ display: 'block' }}
-                  onClick={() => {
-                    domtoimage.toBlob(this.diagramRef)
-                      .then(data => {
-                        let name = randomString({ length: 10 });
-                        var file = new File([data], name, { type: "image/svg" });
-                        this.saveDiagramHandle(file);
-                        this.props.work.changeFunnelName(this.props.work.funnelId, this.state.funnelName)
-                      })
-                      .catch(function (error) {
-                        console.error('oops, something went wrong!', error);
-                      });
-
-                  }}
-                >
-                  Save
-                </button>
-              </div>
-            </ModalNodeWidget>
 
             {this.props.work.pathname.includes('diagram') ?
               <ClickOutside
@@ -656,115 +414,9 @@ export default class BodyWidget extends React.Component {
           </div>
 
           <div className="content">
-            <Modal show={this.state.showTemplateModal} handleClose={this.hideTemplateModal}>
-              <label className='label-create'>Create Template</label>
 
-              <label htmlFor="Name" className='label-input'>
-                Name
-              </label>
-              <input
-                id="Name"
-                placeholder="Template Name"
-                type="text"
-                value={this.state.templateName}
-                onChange={this.handleChange}
-                name='templateName'
-              />
-              {this.props.work.createTemplateMessage && (
-                <div className={`input-group`}>{this.props.work.createTemplateMessage}</div>
-              )}
-              <button
-                className='btn btn-1 create-project-button-in-modal'
-                onClick={() => {
-                  domtoimage.toBlob(this.diagramRef)
-                    .then(data => {
-                      let name = randomString({ length: 10 });
-                      var file = new File([data], name, { type: "image/svg" });
+            <CreateTemplateModal work={this.props.work} app={this.props.app} />
 
-
-                      // this.saveDiagramHandle(file);
-                      // this.createTemplate();
-
-
-
-
-                      this.saveDiagramThenCreateTemplate(file);
-                    })
-                    .catch(function (error) {
-                      console.error('oops, something went wrong!', error);
-                    });
-                }}
-              >
-                Create Template
-              </button>
-            </Modal>
-
-            <Modal show={this.state.saveBeforeExit} handleClose={this.hideSaveBeforeExit}>
-              <label className='label-create'>Save Before Exit</label>
-
-              <div style={{
-                display: 'flex',
-                width: 300,
-                margin: '22px auto',
-              }}>
-                <button
-                  className='btn btn-1 create-project-button-in-modal'
-                  onClick={() => {
-                    domtoimage.toBlob(this.diagramRef)
-                      .then(data => {
-                        let name = randomString({ length: 10 });
-                        var file = new File([data], name, { type: "image/svg" });
-                        this.saveDiagramThenExit(file)
-                      })
-                      .catch(function (error) {
-                        console.error('oops, something went wrong!', error);
-                      });
-                  }}
-                >
-                  Save
-                </button>
-
-                <NavLink
-                  to={'/'}
-                  className='btn btn-1 create-project-button-in-modal'
-                  style={{
-                    color: '#fff',
-                    display: 'flex',
-                    fontWeight: 400,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  Don't Save
-                </NavLink>
-              </div>
-              {this.props.work.message && (
-                <div className='input-group'>{this.props.work.message}</div>
-              )}
-            </Modal>
-
-            <Modal show={this.state.showInstructions} handleClose={this.hideInstructions}>
-              <label className='label-create'>Manual</label>
-
-              <div style={{
-                margin: '10px',
-                fontSize: 16,
-              }}>
-                Delete Link:<br />
-                1. Hold SHIFT<br />
-                2. Click left mouse somewhere on Link<br />
-                3. Press `Delete` button on keyboard<br />
-                <br />
-                Delete Node:<br />
-                2. Click left mouse on Node<br />
-                3. Press `Delete` button on keyboard<br />
-                <br />
-                Multiple Delete:<br />
-                1. Hold SHIFT<br />
-                2. Click left mouse somewhere on Link or/and Node<br />
-                3. Press `Delete` button on keyboard<br />
-              </div>
-            </Modal>
 
             <div className='panel-buttons'>
               {this.button('first', PagesButton, 'panel-button panel-button-first', 'Pages')}
@@ -825,7 +477,7 @@ export default class BodyWidget extends React.Component {
                 }}
               >
                 <TrayWidget show={this.state.show}>
-                  {/* <TrayItemWidget model={{ type: "AddTag" }} name="AddTag" icon={AddTagSVG} /> */}
+                  {/* empty */}
                 </TrayWidget>
               </ClickOutside> : null}
 
