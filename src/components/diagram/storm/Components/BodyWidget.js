@@ -267,11 +267,8 @@ export default class BodyWidget extends React.Component {
     // console.log('this.state', this.state)
     return (
       <>
-
         <SettingsNodeRightPanel work={this.props.work} app={this.props.app} />
         <NotesNodeRightPanel work={this.props.work} app={this.props.app} />
-
-
 
         <ModalFunnelWidget
           show={this.state.showNotes}

@@ -9,11 +9,49 @@ export default class NotesNodeRightPanel extends React.Component {
 
   state = {
     note: '',
+    showEdit: false,
   }
 
   handleChangeNote = e => this.setState({
     note: e.target.value
   });
+
+  saveDiagramThenCloseSettingModal = file => this.setState({
+    snackMsg: 'next',
+    converted: this.props.app.serialization(this.props.work.showNotesWidgetEngine)
+  }, () => {
+    this.props.work.saveDiagramThenShowOrHideNotesModal(this.props.work.funnelId, this.state, file, false)
+  });
+
+  delete = index => {
+    this.props.work.showNotesWidgetModel.extras.notesd.splice(index, 1)
+    document.getElementById("diagram-layer").click()
+  }
+
+  edit = (e, index, notebook) => {
+    this.setState({
+      note: notebook[index],
+      showEdit: true,
+      index: index
+    })
+  }
+
+  changeNoteInNotebook = () => {
+    this.setState({
+      notebook: this.props.work.showNotesWidgetModel && this.props.work.showNotesWidgetModel.extras.notesd || [],
+    }, () => {
+      if (this.state.note.length > 0) {
+        let notebook = this.state.notebook
+        notebook[this.state.index] = this.state.note
+
+        this.props.work.showNotesWidgetModel.extras.setNotesExtras && this.props.work.showNotesWidgetModel.extras.setNotesExtras(notebook)
+          ||
+          this.props.work.showNotesWidgetModel.setNotes && this.props.work.showNotesWidgetModel.setNotes(notebook)
+
+        this.setState({ note: '', showEdit: false })
+      }
+    })
+  };
 
   addNoteToNotebook = () => {
     this.setState({
@@ -32,32 +70,14 @@ export default class NotesNodeRightPanel extends React.Component {
     })
   };
 
-  saveDiagramThenCloseSettingModal = file => this.setState({
-    snackMsg: 'next',
-    converted: this.props.app.serialization(this.props.work.showNotesWidgetEngine)
-  }, () => {
-    this.props.work.saveDiagramThenShowOrHideNotesModal(this.props.work.funnelId, this.state, file, false)
-  });
-
-  delete = index => {
-    this.props.work.showNotesWidgetModel.extras.notesd.splice(index, 1)
-    document.getElementById("diagram-layer").click()
-  }
-
-  edit = index => {
-
-    let notebook = this.state.notebook
-    console.log(notebook)
-
-    // this.textarea.style.backgroundColor = '#fff'
-
-
-
-    // this.props.work.showNotesWidgetModel.extras.notesd.splice(index, 1)
-    document.getElementById("diagram-layer").click()
-  }
-
   render() {
+    let notebook = [];
+
+    this.props.work.showNotesWidgetModel &&
+      this.props.work.showNotesWidgetModel.extras &&
+      this.props.work.showNotesWidgetModel.extras.notesd &&
+      this.props.work.showNotesWidgetModel.extras.notesd.map(item => notebook.push(item))
+
     return (
       <ModalNodeWidget
         show={this.props.work.showNotesWidgetBoolean}
@@ -98,18 +118,32 @@ export default class NotesNodeRightPanel extends React.Component {
             onChange={this.handleChangeNote}
           />
 
-          <button
-            className='btn btn-1'
-            onClick={() => this.addNoteToNotebook()}
-            style={{
-              height: 30,
-              width: 120,
-              margin: '10px auto',
-            }}
-          >
-            Add Note
-          </button>
-
+          {
+            this.state.showEdit ?
+              <button
+                className='btn btn-1'
+                onClick={() => this.changeNoteInNotebook()}
+                style={{
+                  height: 30,
+                  width: 120,
+                  margin: '10px auto',
+                }}
+              >
+                Edit Note
+              </button>
+              :
+              <button
+                className='btn btn-1'
+                onClick={() => this.addNoteToNotebook()}
+                style={{
+                  height: 30,
+                  width: 120,
+                  margin: '10px auto',
+                }}
+              >
+                Add Note
+              </button>
+          }
 
           <div style={{
             height: 600,
@@ -120,8 +154,6 @@ export default class NotesNodeRightPanel extends React.Component {
               this.props.work.showNotesWidgetModel.extras &&
               this.props.work.showNotesWidgetModel.extras.notesd &&
               this.props.work.showNotesWidgetModel.extras.notesd.map((item, index) =>
-
-                // console.log(item)
                 <div
                   key={index}
                   style={{
@@ -130,7 +162,7 @@ export default class NotesNodeRightPanel extends React.Component {
                   }}>
                   <textarea
                     style={{
-                      // height: 100,
+                      height: 80,
                       borderRadius: 5,
                       border: '1px solid rgb(191, 207, 233)',
                       padding: 10,
@@ -143,7 +175,7 @@ export default class NotesNodeRightPanel extends React.Component {
                     type="text"
                     value={item}
                     onChange={() => { }}
-                  // ref={ref => this.textarea = ref}
+                    disabled
                   />
                   <button
                     onClick={() => this.delete(index)}
@@ -164,16 +196,16 @@ export default class NotesNodeRightPanel extends React.Component {
                     x
                   </button>
 
-                  {/* <button
-                    onClick={() => this.edit(index)}
+                  <button
+                    onClick={(e) => this.edit(e, index, notebook)}
                     style={{
                       position: 'absolute',
                       top: -10,
-                      right: -10,
+                      right: 35,
                       border: 0,
                       cursor: 'pointer',
                       margin: 'inherit',
-                      padding: '0px 4px 2px 4px',
+                      padding: '1px 6px 2px',
                       borderRadius: '35%',
                       fontSize: 10,
                       backgroundColor: '#ffabab',
@@ -181,7 +213,7 @@ export default class NotesNodeRightPanel extends React.Component {
                     title={'Edit Note'}
                   >
                     edit
-                  </button> */}
+                  </button>
                 </div>
               )
             }
