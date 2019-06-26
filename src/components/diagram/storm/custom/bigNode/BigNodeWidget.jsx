@@ -240,7 +240,14 @@ class BigNodeWidget extends React.Component {
       snackMsg: 'next',
       converted: this.serialization(this.props.engine.getDiagramModel())
     }, () => {
-      this.props.saveDiagramThenShowOrHideNotesModal(this.props.funnelId, this.state, file, true, this.props.node, this.props.engine.getDiagramModel())
+      this.props.saveDiagramThenShowOrHideNotesModal(
+        this.props.funnelId,
+        this.state,
+        file,
+        true,
+        this.props.node,
+        this.props.engine.getDiagramModel()
+      )
     });
   }
 
@@ -258,7 +265,7 @@ class BigNodeWidget extends React.Component {
   }
 
   render() {
-    console.log('this.props', this.props)
+    // console.log('this.props.node.extras: ', this.props.node.extras)
     return (
       <>
         <ClickOutside

@@ -289,7 +289,7 @@ class SmallNodeWidget extends React.Component {
               fontWeight: 500
             }}
           >
-            {this.props.node.extras.named ? this.props.node.extras.named : this.props.node.type}
+            {/* {this.props.node.extras.named ? this.props.node.extras.named : this.props.node.type} */}
           </div>
 
 
@@ -315,7 +315,8 @@ class SmallNodeWidget extends React.Component {
                 <p
                   className='small-model-text'
                 >
-                  {this.props.node.type}
+                  {/* {this.props.node.type} */}
+                  {this.props.node.extras.named ? this.props.node.extras.named : this.props.node.type}
                 </p>
               </div>
             </div>
