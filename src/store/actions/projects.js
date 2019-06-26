@@ -448,14 +448,14 @@ export function saveDiagram(funnelId, diagramObj, image) {
 
 
 
-        // dispatch({
-        //   type: 'SAVE_DIAGRAM_SUCCESS',
-        //   payload: response.data.message
-        // });
+        dispatch({
+          type: 'SAVE_DIAGRAM_SUCCESS',
+          payload: response.data.message
+        });
 
-        // setTimeout(() => {
-        //   dispatch({ type: 'SAVE_DIAGRAM_SUCCESS_RESET' });
-        // }, 1000)
+        setTimeout(() => {
+          dispatch({ type: 'SAVE_DIAGRAM_SUCCESS_RESET' });
+        }, 1000)
 
 
 

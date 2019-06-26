@@ -26,6 +26,7 @@ import ModalNodeWidget from '../../../common/ModalNodeWidget'
 import { NavLink } from "react-router-dom";
 import { API_URL } from '../../../../config'
 import ReactSVG from 'react-svg';
+import ModalFunnelWidget from '../../../common/ModalFunnelWidget'
 
 import FunnelOptionsRightPanel from './componentsForBodyWidget/FunnelOptionsRightPanel'
 import FunnelNotesRightPanel from './componentsForBodyWidget/FunnelNotesRightPanel'
@@ -59,7 +60,25 @@ export default class BodyWidget extends React.Component {
     saveBeforeExit: false,
     showInstructions: false,
     showSettingsNodeModal: false,
+    showNotes: false,
+    note: '',
   }
+
+  addNoteToNotebook = () => {
+    if (this.state.note.length > 0) {
+      let notebook = this.state.funnelNotes
+      notebook.push(this.state.note)
+      console.log(this.state)
+
+      this.setState({ note: '', funnelNotes: notebook })
+    }
+  };
+
+  delete = index => {
+    this.state.funnelNotes.splice(index, 1)
+    document.getElementById("diagram-layer").click()
+  }
+
 
   handleChange = e => this.setState({
     [e.target.name]: e.target.value
@@ -68,7 +87,12 @@ export default class BodyWidget extends React.Component {
   showTemplateModal = () => this.setState({ showTemplateModal: true }, () => this.hideSelect());
   hideTemplateModal = () => this.setState({ showTemplateModal: false });
 
-
+  showNotes = () => this.setState({
+    showNotes: true,
+    showMenu: false,
+    funnelNotes: this.props.work.diagram && this.props.work.diagram.funnelNotes || [],
+  })
+  hideNotes = () => this.setState({ showNotes: false })
 
   saveDiagramHandle = file => this.setState({
     snackMsg: 'next',
@@ -225,17 +249,162 @@ export default class BodyWidget extends React.Component {
   })
   hideMenu = () => this.setState({ showMenu: false })
 
-
-
   showSaveBeforeExit = () => this.setState({ saveBeforeExit: true })
   hideSaveBeforeExit = () => this.setState({ saveBeforeExit: false })
 
+  wheelCapture = () => {
+    let diagram = document.getElementsByClassName('srd-node-layer')[0];
+    console.log(diagram.style.transform)
+  }
+
+  zoom = () => {
+    let diagram = document.getElementsByClassName('srd-node-layer')[0];
+    console.log(diagram.style.transform)
+  }
+
+
   render() {
+    // console.log('this.state', this.state)
     return (
       <>
 
         <SettingsNodeRightPanel work={this.props.work} app={this.props.app} />
         <NotesNodeRightPanel work={this.props.work} app={this.props.app} />
+
+
+
+        <ModalFunnelWidget
+          show={this.state.showNotes}
+          handleClose={this.hideNotes}
+          style={{
+            position: 'absolute',
+            top: 65,
+          }}
+        >
+          <label className='label-create-widget-settings'>Funnel Notes</label>
+          <div style={{
+            padding: 15,
+            display: 'flex',
+            flexDirection: 'column',
+          }}>
+            <label htmlFor="FunnelNotes" className='label-input'>
+              Funnel Notes
+            </label>
+
+            <textarea
+              style={{
+                height: 100,
+                borderRadius: 5,
+                border: '1px solid rgb(191, 207, 233)',
+                padding: 10,
+                maxWidth: '90%',
+                minWidth: '90%',
+                width: '90%',
+              }}
+              placeholder="Start typing your note.."
+              type="text"
+              value={this.state.note}
+              onChange={this.handleChange}
+              name='note'
+            />
+
+            <button
+              className='btn btn-1'
+              onClick={() => this.addNoteToNotebook()}
+              style={{
+                height: 30,
+                width: 120,
+                margin: '10px auto',
+              }}
+            >
+              Add Note
+            </button>
+
+
+
+            <button
+              className='btn btn-1 create-project-button-in-modal'
+              style={{ display: 'block' }}
+              onClick={() => {
+                let diagram = document.getElementById('diagram-layer');
+                domtoimage.toBlob(diagram)
+                  .then(data => {
+                    let name = randomString({ length: 10 });
+                    var file = new File([data], name, { type: "image/svg" });
+                    this.saveDiagramHandle(file);
+                  })
+                  .catch(function (error) {
+                    console.error('oops, something went wrong!', error);
+                  });
+              }}
+            >
+              Save
+            </button>
+
+            {this.props.work.message && (
+              <div
+                className='input-group'
+                style={{
+                  display: 'flex',
+                  margin: '20px auto'
+                }}
+              >{this.props.work.message}</div>
+            )}
+
+            <div style={{
+              height: 600,
+              overflow: 'auto'
+            }}>
+              {
+                this.state.funnelNotes &&
+                this.state.funnelNotes.map((item, index) =>
+                  // console.log(item)
+                  <div
+                    key={index}
+                    style={{
+                      position: 'relative',
+                      margin: 5,
+                    }}>
+                    <textarea
+                      style={{
+                        // height: 100,
+                        borderRadius: 5,
+                        border: '1px solid rgb(191, 207, 233)',
+                        padding: 10,
+                        backgroundColor: '#ffefc1',
+                        maxWidth: '90%',
+                        minWidth: '90%',
+                        width: '90%',
+                      }}
+                      placeholder="Start typing your note.."
+                      type="text"
+                      value={item}
+                      onChange={() => { }}
+                    />
+                    <button
+                      onClick={() => this.delete(index)}
+                      style={{
+                        position: 'absolute',
+                        top: -6,
+                        left: -10,
+                        border: 0,
+                        cursor: 'pointer',
+                        margin: 'inherit',
+                        padding: '0px 4px 2px 4px',
+                        borderRadius: '35%',
+                        fontSize: 14,
+                        backgroundColor: '#ffabab',
+                      }}
+                      title={'Delete Note'}
+                    >
+                      x
+                  </button>
+                  </div>
+                )
+              }
+            </div>
+          </div>
+        </ModalFunnelWidget>
 
 
         <div className='message-diagram'>
@@ -274,9 +443,19 @@ export default class BodyWidget extends React.Component {
             }
 
             {this.props.work.pathname.includes('diagram') ?
-
-
               <>
+
+                <button
+                  className="btn btn-1"
+                  style={{
+                    width: 100,
+                    height: 40,
+                    borderRadius: 7,
+                    marginRight: 10,
+                  }}
+                  onClick={() => this.props.app.getDiagramEngine().zoomToFit()}>Zoom to Fit</button>
+
+
                 <button
                   className="btn btn-1 diagram-header-button-save"
                   onClick={this.showSelect}
@@ -287,10 +466,16 @@ export default class BodyWidget extends React.Component {
                   </div>
                 </button>
 
+                {/* <FunnelNotesRightPanel work={this.props.work} app={this.props.app} updateFunnelNotes={this.updateFunnelNotes} /> */}
 
-
-                <FunnelNotesRightPanel work={this.props.work} app={this.props.app} />
-
+                <button
+                  className="diagram-header-menu-button"
+                  onClick={this.showNotes}
+                  style={{ background: this.state.showNotes ? '#ecf1f2' : '#fff' }}
+                  title={'Funnel Notes'}
+                >
+                  <FunnelNotesSVG />
+                </button>
 
                 <div className="diagram-header-instruction-buttons">
 
@@ -322,7 +507,7 @@ export default class BodyWidget extends React.Component {
               <button
                 className="btn btn-1 diagram-header-button-save"
                 onClick={this.showSelect}
-                style={{margin: 12.5}}
+                style={{ margin: 12.5 }}
               >
                 SAVE
                   <div className='arrow-for-select' >
@@ -503,8 +688,10 @@ export default class BodyWidget extends React.Component {
               onDragOver={event => {
                 event.preventDefault();
               }}
+              onWheelCapture={() => this.wheelCapture()}
             >
               <RJD.DiagramWidget
+                // actionStartedFiring={() => console.log('mouse --------------------')}
                 deleteKeys={[46]}
                 // smartRouting={true}
                 // allowCanvasZoom={false}

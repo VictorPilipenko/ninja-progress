@@ -2,7 +2,7 @@ import * as React from "react";
 import domtoimage from 'dom-to-image';
 import randomString from 'random-string';
 
-import ModalNodeWidget from '../../../../common/ModalNodeWidget'
+import ModalFunnelWidget from '../../../../common/ModalFunnelWidget'
 
 import { ReactComponent as ArrowSelectSVG } from '../../../../../assets/ArrowSelect.svg'
 import { ReactComponent as LogoWidgetSVG } from '../../../../../assets/logo-widget.svg'
@@ -15,12 +15,13 @@ export default class FunnelNotesRightPanel extends React.Component {
 
   state = {
     showNotes: false,
+    note: '',
   }
 
   showNotes = () => this.setState({
     showNotes: true,
     showMenu: false,
-    funnelNotes: this.props.work.diagram && this.props.work.diagram.funnelNotes,
+    funnelNotes: this.props.work.diagram && this.props.work.diagram.funnelNotes || [],
   })
   hideNotes = () => this.setState({ showNotes: false })
 
@@ -35,11 +36,27 @@ export default class FunnelNotesRightPanel extends React.Component {
     this.props.work.saveDiagram(this.props.work.funnelId, this.state, file)
   });
 
+
+  addNoteToNotebook = () => {
+    if (this.state.note.length > 0) {
+      let notebook = this.state.funnelNotes
+      notebook.push(this.state.note)
+      console.log(this.state)
+
+      this.setState({ note: '', funnelNotes: notebook }, () => this.props.updateFunnelNotes(this.state.funnelNotes))
+    }
+  };
+
+  delete = index => {
+    this.state.funnelNotes.splice(index, 1)
+    document.getElementById("diagram-layer").click()
+  }
+
+
   render() {
+    console.log(this.props.work.diagram && this.props.work.diagram.funnelNotes)
     return (
       <>
-
-
         {this.props.work.pathname.includes('diagram') ?
           <>
             <button
@@ -56,9 +73,7 @@ export default class FunnelNotesRightPanel extends React.Component {
         }
 
 
-
-
-        <ModalNodeWidget
+        <ModalFunnelWidget
           show={this.state.showNotes}
           handleClose={this.hideNotes}
           style={{
@@ -74,22 +89,39 @@ export default class FunnelNotesRightPanel extends React.Component {
           }}>
             <label htmlFor="FunnelNotes" className='label-input'>
               Funnel Notes
-                </label>
+            </label>
+
             <textarea
-              id="FunnelNotes"
-              placeholder="Funnel Notes"
-              type="text"
-              value={this.state.funnelNotes}
-              onChange={this.handleChange}
-              name='funnelNotes'
-              rows="30"
               style={{
-                margin: 10
+                height: 100,
+                borderRadius: 5,
+                border: '1px solid rgb(191, 207, 233)',
+                padding: 10,
+                maxWidth: '90%',
+                minWidth: '90%',
+                width: '90%',
               }}
+              placeholder="Start typing your note.."
+              type="text"
+              value={this.state.note}
+              onChange={this.handleChange}
+              name='note'
             />
-            {this.props.work.message && (
-              <div className={`input-group`}>{this.props.work.message}</div>
-            )}
+
+            <button
+              className='btn btn-1'
+              onClick={() => this.addNoteToNotebook()}
+              style={{
+                height: 30,
+                width: 120,
+                margin: '10px auto',
+              }}
+            >
+              Add Note
+            </button>
+
+
+
             <button
               className='btn btn-1 create-project-button-in-modal'
               style={{ display: 'block' }}
@@ -107,9 +139,72 @@ export default class FunnelNotesRightPanel extends React.Component {
               }}
             >
               Save
-                </button>
+            </button>
+
+            {this.props.work.message && (
+              <div
+                className='input-group'
+                style={{
+                  display: 'flex',
+                  margin: '20px auto'
+                }}
+              >{this.props.work.message}</div>
+            )}
+
+            <div style={{
+              height: 600,
+              overflow: 'auto'
+            }}>
+              {
+                this.state.funnelNotes &&
+                this.state.funnelNotes.map((item, index) =>
+                  // console.log(item)
+                  <div
+                    key={index}
+                    style={{
+                      position: 'relative',
+                      margin: 5,
+                    }}>
+                    <textarea
+                      style={{
+                        // height: 100,
+                        borderRadius: 5,
+                        border: '1px solid rgb(191, 207, 233)',
+                        padding: 10,
+                        backgroundColor: '#ffefc1',
+                        maxWidth: '90%',
+                        minWidth: '90%',
+                        width: '90%',
+                      }}
+                      placeholder="Start typing your note.."
+                      type="text"
+                      value={item}
+                      onChange={() => { }}
+                    />
+                    <button
+                      onClick={() => this.delete(index)}
+                      style={{
+                        position: 'absolute',
+                        top: -6,
+                        left: -10,
+                        border: 0,
+                        cursor: 'pointer',
+                        margin: 'inherit',
+                        padding: '0px 4px 2px 4px',
+                        borderRadius: '35%',
+                        fontSize: 14,
+                        backgroundColor: '#ffabab',
+                      }}
+                      title={'Delete Note'}
+                    >
+                      x
+                  </button>
+                  </div>
+                )
+              }
+            </div>
           </div>
-        </ModalNodeWidget>
+        </ModalFunnelWidget>
       </>
     );
   }

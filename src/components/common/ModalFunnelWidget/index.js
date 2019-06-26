@@ -2,8 +2,8 @@ import React from 'react';
 import './index.css'
 import { ReactComponent as ArrowSelectSVG } from '../../../assets/arrow-up.svg'
 
-const ModalNodeWidget = ({ handleClose, show, children, style }) => {
-  const showHideClassName = show ? "display-block-node-widget" : "display-none";
+const ModalFunnelWidget = ({ handleClose, show, children, style }) => {
+  const showHideClassName = show ? "display-block-funnel-widget" : "display-none";
 
   return (
     <div className={showHideClassName}>
@@ -23,4 +23,4 @@ const ModalNodeWidget = ({ handleClose, show, children, style }) => {
   );
 };
 
-export default ModalNodeWidget;
+export default ModalFunnelWidget;

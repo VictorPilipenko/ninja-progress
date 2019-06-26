@@ -2,7 +2,7 @@ import * as React from "react";
 import domtoimage from 'dom-to-image';
 import randomString from 'random-string';
 
-import ModalNodeWidget from '../../../../common/ModalNodeWidget'
+import ModalFunnelWidget from '../../../../common/ModalFunnelWidget'
 
 import { ReactComponent as ArrowSelectSVG } from '../../../../../assets/ArrowSelect.svg'
 import { ReactComponent as LogoWidgetSVG } from '../../../../../assets/logo-widget.svg'
@@ -56,7 +56,7 @@ export default class FunnelNotesRightPanel extends React.Component {
 
 
 
-        <ModalNodeWidget
+        <ModalFunnelWidget
           show={this.state.showMenu}
           handleClose={this.hideMenu}
           style={{
@@ -101,7 +101,7 @@ export default class FunnelNotesRightPanel extends React.Component {
               Save
                 </button>
           </div>
-        </ModalNodeWidget>
+        </ModalFunnelWidget>
       </>
     );
   }

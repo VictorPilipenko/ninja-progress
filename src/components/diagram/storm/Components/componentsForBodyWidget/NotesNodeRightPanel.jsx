@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import domtoimage from 'dom-to-image';
 import randomString from 'random-string';
 
@@ -13,8 +13,6 @@ export default class NotesNodeRightPanel extends React.Component {
 
   handleChangeNote = e => this.setState({
     note: e.target.value
-  }, () => {
-    document.getElementById("diagram-layer").click()
   });
 
   addNoteToNotebook = () => {
@@ -23,20 +21,15 @@ export default class NotesNodeRightPanel extends React.Component {
     }, () => {
       if (this.state.note.length > 0) {
         let notebook = this.state.notebook
-        console.log(notebook)
-
         notebook.push(this.state.note)
 
         this.props.work.showNotesWidgetModel.extras.setNotesExtras && this.props.work.showNotesWidgetModel.extras.setNotesExtras(notebook)
           ||
           this.props.work.showNotesWidgetModel.setNotes && this.props.work.showNotesWidgetModel.setNotes(notebook)
 
-        document.getElementById("diagram-layer").click()
-
         this.setState({ note: '' })
       }
     })
-
   };
 
   saveDiagramThenCloseSettingModal = file => this.setState({
@@ -51,9 +44,20 @@ export default class NotesNodeRightPanel extends React.Component {
     document.getElementById("diagram-layer").click()
   }
 
-  render() {
-    console.log('NotesNodeRightPanel props: ', this.props.work.showNotesWidgetModel && this.props.work.showNotesWidgetModel.extras.notesd)
+  edit = index => {
 
+    let notebook = this.state.notebook
+    console.log(notebook)
+
+    // this.textarea.style.backgroundColor = '#fff'
+
+
+
+    // this.props.work.showNotesWidgetModel.extras.notesd.splice(index, 1)
+    document.getElementById("diagram-layer").click()
+  }
+
+  render() {
     return (
       <ModalNodeWidget
         show={this.props.work.showNotesWidgetBoolean}
@@ -116,13 +120,15 @@ export default class NotesNodeRightPanel extends React.Component {
               this.props.work.showNotesWidgetModel.extras &&
               this.props.work.showNotesWidgetModel.extras.notesd &&
               this.props.work.showNotesWidgetModel.extras.notesd.map((item, index) =>
+
                 // console.log(item)
-                <div style={{
-                  position: 'relative',
-                  margin: 5,
-                }}>
+                <div
+                  key={index}
+                  style={{
+                    position: 'relative',
+                    margin: 5,
+                  }}>
                   <textarea
-                    key={index}
                     style={{
                       // height: 100,
                       borderRadius: 5,
@@ -133,11 +139,11 @@ export default class NotesNodeRightPanel extends React.Component {
                       minWidth: '90%',
                       width: '90%',
                     }}
-                    id="Notes"
                     placeholder="Start typing your note.."
                     type="text"
                     value={item}
-                  // onChange={this.handleChangeNote}
+                    onChange={() => { }}
+                  // ref={ref => this.textarea = ref}
                   />
                   <button
                     onClick={() => this.delete(index)}
@@ -157,6 +163,25 @@ export default class NotesNodeRightPanel extends React.Component {
                   >
                     x
                   </button>
+
+                  {/* <button
+                    onClick={() => this.edit(index)}
+                    style={{
+                      position: 'absolute',
+                      top: -10,
+                      right: -10,
+                      border: 0,
+                      cursor: 'pointer',
+                      margin: 'inherit',
+                      padding: '0px 4px 2px 4px',
+                      borderRadius: '35%',
+                      fontSize: 10,
+                      backgroundColor: '#ffabab',
+                    }}
+                    title={'Edit Note'}
+                  >
+                    edit
+                  </button> */}
                 </div>
               )
             }
