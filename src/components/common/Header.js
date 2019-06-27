@@ -72,6 +72,7 @@ class Header extends Component {
 
 
   render() {
+    console.log(this.props.error && this.props.error)
     const userAvatar = Cookies.get("userAvatar");
     const userFirstName = Cookies.get("userFirstName");
     return (
@@ -93,7 +94,7 @@ class Header extends Component {
                     <button className='btn btn-1 btn-show-modal-create' onClick={this.showModal}>Create Project</button>
                   }
 
-                  <div style={{ marginLeft: 15, marginRight: 5, display: 'flex'}}>
+                  <div style={{ marginLeft: 15, marginRight: 5, display: 'flex' }}>
                     <QuestionSVG />
                   </div>
 

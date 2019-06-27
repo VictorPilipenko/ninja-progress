@@ -160,6 +160,8 @@ export default class NotesNodeRightPanel extends React.Component {
           }}>
             {
               this.props.work.showNotesWidgetModel &&
+              this.props.work.showNotesWidgetModel.extras &&
+              this.props.work.showNotesWidgetModel.extras.notesd &&
               this.props.work.showNotesWidgetModel.extras.notesd.map((item, index) =>
                 <div
                   key={index}

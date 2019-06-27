@@ -70,7 +70,7 @@ export function getAllFunnelsCollaboration() {
 export function getAllCollaboratorsForFunnels(funnelsId) {
   // console.log('funnelsId: ', funnelsId)
   return function (dispatch) {
-    API.post(`collaborators`, {
+    API.post(`collaborator`, {
       'funnelsId': funnelsId
     })
 

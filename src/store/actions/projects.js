@@ -18,7 +18,7 @@ import { push } from 'connected-react-router'
 
 export function getAllProjects() {
   return function (dispatch) {
-    API.get(`projects`)
+    API.get(`project`)
       .then(response => {
         dispatch({ type: 'RESET_ALL_PROJECTS' });
         // console.log('getAllProjects: ', response.data)
@@ -42,7 +42,7 @@ export function getAllProjects() {
 
 export function getAllTemplates() {
   return function (dispatch) {
-    API.get(`templates`)
+    API.get(`template`)
       .then(response => {
 
         dispatch({
@@ -92,6 +92,7 @@ export function createProject(projectName) {
     })
       .then(response => {
         if (response.data) {
+          console.log('response.data: ', response.data)
           dispatch({
             type: CREATE_PROJECT,
             payload: response.data.data
@@ -103,7 +104,7 @@ export function createProject(projectName) {
       })
       .catch(function (error) {
         if (error.response) {
-          // console.log(error.response)
+          console.log('error.response: ', error.response)
           dispatch({
             type: CREATE_PROJECT_FAILURE,
             payload: error.response.data.error
@@ -147,7 +148,7 @@ export function createFunnel(projectName, projectId) {
 
 export function getAllFunnels(projectId) {
   return function (dispatch) {
-    API.get(`funnels/${projectId}`)
+    API.get(`funnel/${projectId}`)
       .then(response => {
         let res = response.data.data;
 
@@ -229,7 +230,7 @@ export function deleteTemplate(template_id) {
 
 export function createLink(funnelsId, permissions) {
   return function (dispatch) {
-    API.post(`url`, {
+    API.post(`funnel/url`, {
       'funnelsId': funnelsId,
       'permissions': permissions,
     })
@@ -651,7 +652,7 @@ export function getTemplate(funnelId) {
 export function changePermission(funnelId, profileId, permissions) {
   // console.log('changePermission action: ', funnelId, profileId, permissions)
   return function (dispatch) {
-    API.patch(`/collaborators/${profileId}/${funnelId}`, {
+    API.patch(`/collaborator/${profileId}/${funnelId}`, {
       'permissions': permissions
     })
       .then(response => {
@@ -713,7 +714,7 @@ export function resetCollaboratorsModalMessage() {
 
 export function removeCollaborator(funnelId, profileId) {
   return function (dispatch) {
-    API.delete(`/collaborators/${profileId}/${funnelId}`, {
+    API.delete(`/collaborator/${profileId}/${funnelId}`, {
       // 'funnelId': funnelId,
       // 'profileId': profileId,
     })

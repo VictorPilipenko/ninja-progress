@@ -188,7 +188,7 @@ class SmallNodeWidget extends React.Component {
     _.forEach(model.getSelectedItems(), (item) => {
       let newItem = item.clone(itemMap);
       // offset the nodes slightly
-      if (newItem instanceof BigNodeModel) {
+      if (newItem instanceof SmallNodeModel) {
         newItem.setPosition(newItem.x + offset.x, newItem.y + offset.y);
         model.addNode(newItem);
         this.forceUpdate();

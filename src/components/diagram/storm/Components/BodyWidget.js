@@ -48,22 +48,12 @@ const Select = ({ show, children, style }) => {
 
 export default class BodyWidget extends React.Component {
   state = {
-    serialization: null,
-    deSerialization: null,
     show: false,
-    showTemplateModal: false,
     toggle: 'first',
     backgroundActive: 'linear-gradient(90deg, #e62d24 0%, #fd8f21 100%)',
     backgroundDefault: '#212939',
     showSelect: false,
-    showModal: false,
-    saveBeforeExit: false,
-    showInstructions: false,
-    showSettingsNodeModal: false,
   }
-
-  showTemplateModal = () => this.setState({ showTemplateModal: true }, () => this.hideSelect());
-  hideTemplateModal = () => this.setState({ showTemplateModal: false });
 
   saveDiagramHandle = file => this.setState({
     snackMsg: 'next',
@@ -221,17 +211,29 @@ export default class BodyWidget extends React.Component {
   })
   hideMenu = () => this.setState({ showMenu: false })
 
-  showSaveBeforeExit = () => this.setState({ saveBeforeExit: true })
-  hideSaveBeforeExit = () => this.setState({ saveBeforeExit: false })
-
   wheelCapture = () => {
     let diagram = document.getElementsByClassName('srd-node-layer')[0];
     console.log(diagram.style.transform)
   }
 
+  test = () => {
+    if (this.props.work.svg) {
+      console.log(this.props.work.svg)
+      this.props.work.svg.map((item, key) => (
+        // console.log(item.title)
+
+        //  this.props.app.getValues(this.props.work.svg, name)
+        this.props.app.getValues(this.props.work.svg, item.title).map((item2, key) => (
+          console.log(item2)
+          // <TrayBigItemWidget key={key} model={{ type: item.name }} name={item.name} icon={API_URL + item.url} />
+        ))
+        // <TrayBigItemWidget key={key} model={{ type: item.name }} name={item.name} icon={API_URL + item.url} />
+      ))
+    }
+  }
+
 
   render() {
-    // console.log('this.state', this.state)
     return (
       <>
         <SettingsNodeRightPanel work={this.props.work} app={this.props.app} />
@@ -274,6 +276,8 @@ export default class BodyWidget extends React.Component {
 
             {this.props.work.pathname.includes('diagram') ?
               <>
+
+                {/* <button onClick={() => this.test()}>test</button> */}
 
                 <button
                   className="btn btn-1"

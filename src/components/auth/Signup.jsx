@@ -3,20 +3,14 @@ import { NavLink } from 'react-router-dom'
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
-import { signupUser, validationUser } from '../../store/actions/auth'
+import { signupUser, signupTester, validationUser } from '../../store/actions/auth'
 import './Sign.css'
 import logo from '../../assets/Logo_invert.png'
-
-
 
 class Signup extends React.Component {
 
   handleEmailFieldBlur = (e, props) => {
     this.props.handleBlur(e)
-
-    // do something
-    // saveUserForm(this.props.values)
-    // console.log('email: ',this.props.values.email)
     this.props.validationUser(this.props.values.email)
   }
 
@@ -34,7 +28,7 @@ class Signup extends React.Component {
     } = this.props;
 
     let params = new URLSearchParams(this.props.router.location.search);
-    
+
     return (
       <div className='wrapper'>
         <img className='signin-logo' src={logo} alt='logo' />
@@ -128,6 +122,8 @@ class Signup extends React.Component {
               {this.props.errorMessage && this.props.errorMessage &&
                 <div className="input-group">Oops! {this.props.errorMessage}</div>}
 
+
+
               <button className="btn btn-1" type="submit" disabled={isSubmitting}>
                 Get Started
               </button>
@@ -137,8 +133,6 @@ class Signup extends React.Component {
         </div>
 
         {
-          
-
           params.get('add-collaborations') ?
             <div className="form-bottom-register">
               <NavLink to={`/sign-in?add-collaborations=${params.get('add-collaborations')}`}>Already have an account?</NavLink>
@@ -181,10 +175,16 @@ const formikEnhancer = withFormik({
     passwordConfirm: '',
   }),
   handleSubmit: (payload, { props, setSubmitting }) => {
+
     // console.log(props)
-    // console.log(payload)
-    props.signupUser(payload);
-    setSubmitting(false);
+    if (props.router.location.pathname === '/sign-up-testers') {
+      props.signupTester(payload);
+      setSubmitting(false);
+    }
+    else {
+      props.signupUser(payload);
+      setSubmitting(false);
+    }
   },
   displayName: 'RegisterForm',
 })(Signup);
@@ -201,6 +201,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     signupUser: arr => dispatch(signupUser(arr)),
+    signupTester: arr => dispatch(signupTester(arr)),
     validationUser: arr => dispatch(validationUser(arr)),
   }
 }

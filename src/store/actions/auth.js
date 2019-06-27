@@ -47,6 +47,7 @@ export function signupUser(props) {
       'email': email,
       'firstName': firstName,
       'accountName': accountName,
+      'limited': false
     })
       .then(response => {
         // console.log(response.data)
@@ -79,6 +80,54 @@ export function signupUser(props) {
       });
   }
 }
+
+
+export function signupTester(props) {
+  console.log('signupTester')
+  const { firstName, accountName, email, password } = props;
+
+  return function (dispatch, getState) {
+    let routerState = getState().router
+
+    API.post(`sign-up`, {
+      'password': password,
+      'email': email,
+      'firstName': firstName,
+      'accountName': accountName,
+      'limited': true
+    })
+      .then(response => {
+        // console.log(response.data)
+
+        if (response.data) {
+          localStorage.setItem('token', JSON.stringify(response.data.token));
+        }
+
+        dispatch({ type: SIGNUP_SUCCESS });
+        dispatch({ type: AUTH_USER });
+
+        Cookies.set("userFirstName", response.data.data.firstName);
+        Cookies.set("userID", response.data.data._id);
+        Cookies.set('userAvatar', API_URL + response.data.data.photoUrl);
+
+
+        let params = new URLSearchParams(routerState.location.search);
+        if (params.get('add-collaborations')) {
+          dispatch(push(`/questionnaire?add-collaborations=${params.get('add-collaborations')}`));
+        }
+        else {
+          dispatch(push('/questionnaire'));
+        }
+
+      })
+      .catch(function (error) {
+        if (error.response) {
+          dispatch(authError(SIGNUP_FAILURE, error.response.data.err.message))
+        }
+      });
+  }
+}
+
 
 /*
  * Sign in

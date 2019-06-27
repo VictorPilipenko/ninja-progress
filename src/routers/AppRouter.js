@@ -19,10 +19,16 @@ import SettingsPaymentMethods from '../components/settings/SettingsPaymentMethod
 import SettingsUsers from '../components/settings/SettingsUsers/SettingsUsers.jsx';
 import Diagram from '../components/diagram/storm';
 
+let search = {
+  search: '?test=test'
+}
+
 const AppRouter = () => (
+  
   <>
     <Route path="/sign-in" component={Signin} />
     <Route path="/sign-up" component={Signup} />
+    <Route path="/sign-up-testers" component={Signup} />
 
     <Route path="/password-forgot-step-1" component={PasswordForgot1} />
     <Route path="/password-forgot-step-2" component={PasswordForgot2} />

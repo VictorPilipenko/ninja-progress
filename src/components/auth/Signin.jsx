@@ -95,12 +95,12 @@ class Signin extends React.Component {
           params.get('add-collaborations') ?
             <div className="form-bottom">
               <p>Dont have an account?</p>
-              <NavLink to={`/sign-up?add-collaborations=${params.get('add-collaborations')}`}>Sign up now, it's free!</NavLink>
+              <NavLink to={`/sign-up-testers?add-collaborations=${params.get('add-collaborations')}`}>Sign up now, it's free!</NavLink>
             </div>
             :
             <div className="form-bottom">
               <p>Dont have an account?</p>
-              <NavLink to="/sign-up">Sign up now, it's free!</NavLink>
+              <NavLink to="/sign-up-testers">Sign up now, it's free!</NavLink>
             </div>
         }
 

@@ -11,7 +11,7 @@ export function changeUserName(data) {
 
   // console.log(data)
   return function (dispatch) {
-    API.patch(`myprofile`, {
+    API.patch(`profile`, {
       'firstName': name,
       'password': '',
       "email": email,
@@ -51,7 +51,7 @@ export function changeUserPassword(data) {
   // console.log('currentPassword: ', currentPassword)
   // console.log('newPassword: ', newPassword)
   return function (dispatch) {
-    API.patch(`myprofile`, {
+    API.patch(`profile`, {
       "firstName": "",
       'password': newPassword,
       "email": "",
@@ -92,7 +92,7 @@ export function changeUserAvatar(avatar) {
   return function (dispatch) {
     axios({
       method: 'patch',
-      url: `${API_URL}/myprofile/avatar`,
+      url: `${API_URL}/profile/avatar`,
       headers: {
         'authorization': token,
         'Content-Type': 'form-data'
