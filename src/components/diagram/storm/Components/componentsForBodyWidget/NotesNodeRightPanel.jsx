@@ -3,6 +3,7 @@ import domtoimage from 'dom-to-image';
 import randomString from 'random-string';
 
 import ModalNodeWidget from '../../../../common/ModalNodeWidget'
+import './NotesNodeRightPanel.css'
 
 
 export default class NotesNodeRightPanel extends React.Component {
@@ -18,6 +19,7 @@ export default class NotesNodeRightPanel extends React.Component {
 
   saveDiagramThenCloseSettingModal = file => this.setState({
     snackMsg: 'next',
+    showEdit: false,
     converted: this.props.app.serialization(this.props.work.showNotesWidgetEngine)
   }, () => {
     this.props.work.saveDiagramThenShowOrHideNotesModal(this.props.work.funnelId, this.state, file, false)
@@ -28,12 +30,17 @@ export default class NotesNodeRightPanel extends React.Component {
     document.getElementById("diagram-layer").click()
   }
 
-  edit = (e, index, notebook) => {
-    this.setState({
-      note: notebook[index],
-      showEdit: true,
-      index: index
-    })
+  edit = (index, notebook) => {
+    this.setState(prevState => {
+      if (prevState.index !== index && prevState.index !== undefined) {
+        this[`textareaRef${prevState.index}`].style.backgroundColor = '#ffefc1'
+      }
+      return {
+        note: notebook[index],
+        showEdit: true,
+        index: index
+      };
+    }, () => this[`textareaRef${this.state.index}`].style.backgroundColor = '#d8c2c2');
   }
 
   changeNoteInNotebook = () => {
@@ -51,7 +58,10 @@ export default class NotesNodeRightPanel extends React.Component {
         this.setState({ note: '', showEdit: false })
       }
     })
+    this[`textareaRef${this.state.index}`].style.backgroundColor = '#ffefc1'
   };
+
+  cancel = () => this.setState({ note: '', showEdit: false }, () => this[`textareaRef${this.state.index}`].style.backgroundColor = '#ffefc1')
 
   addNoteToNotebook = () => {
     this.setState({
@@ -71,13 +81,6 @@ export default class NotesNodeRightPanel extends React.Component {
   };
 
   render() {
-    let notebook = [];
-
-    this.props.work.showNotesWidgetModel &&
-      this.props.work.showNotesWidgetModel.extras &&
-      this.props.work.showNotesWidgetModel.extras.notesd &&
-      this.props.work.showNotesWidgetModel.extras.notesd.map(item => notebook.push(item))
-
     return (
       <ModalNodeWidget
         show={this.props.work.showNotesWidgetBoolean}
@@ -97,21 +100,13 @@ export default class NotesNodeRightPanel extends React.Component {
 
         <label className='label-create-widget-settings'>Notes</label>
         <div className='modal-content-wrapper'>
-          <label htmlFor="Notes" className='label-input'>
+          <label htmlFor="note" className='label-input'>
             Note
           </label>
 
           <textarea
-            style={{
-              height: 100,
-              borderRadius: 5,
-              border: '1px solid rgb(191, 207, 233)',
-              padding: 10,
-              maxWidth: '90%',
-              minWidth: '90%',
-              width: '90%',
-            }}
-            id="Notes"
+            className='node-panel-textarea-input'
+            id="note"
             placeholder="Start typing your note.."
             type="text"
             value={this.state.note}
@@ -120,17 +115,31 @@ export default class NotesNodeRightPanel extends React.Component {
 
           {
             this.state.showEdit ?
-              <button
-                className='btn btn-1'
-                onClick={() => this.changeNoteInNotebook()}
-                style={{
-                  height: 30,
-                  width: 120,
-                  margin: '10px auto',
-                }}
-              >
-                Edit Note
-              </button>
+              <div style={{ display: 'flex' }}>
+                <button
+                  className='btn btn-1'
+                  onClick={() => this.changeNoteInNotebook()}
+                  style={{
+                    height: 30,
+                    width: 120,
+                    margin: '10px auto',
+                  }}
+                >
+                  Edit Note
+                </button>
+
+                <button
+                  className='btn btn-1'
+                  onClick={() => this.cancel()}
+                  style={{
+                    height: 30,
+                    width: 120,
+                    margin: '10px auto',
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
               :
               <button
                 className='btn btn-1'
@@ -151,8 +160,6 @@ export default class NotesNodeRightPanel extends React.Component {
           }}>
             {
               this.props.work.showNotesWidgetModel &&
-              this.props.work.showNotesWidgetModel.extras &&
-              this.props.work.showNotesWidgetModel.extras.notesd &&
               this.props.work.showNotesWidgetModel.extras.notesd.map((item, index) =>
                 <div
                   key={index}
@@ -161,55 +168,31 @@ export default class NotesNodeRightPanel extends React.Component {
                     margin: 5,
                   }}>
                   <textarea
-                    style={{
-                      height: 80,
-                      borderRadius: 5,
-                      border: '1px solid rgb(191, 207, 233)',
-                      padding: 10,
-                      backgroundColor: '#ffefc1',
-                      maxWidth: '90%',
-                      minWidth: '90%',
-                      width: '90%',
-                    }}
+                    className='node-panel-textarea-holder'
                     placeholder="Start typing your note.."
                     type="text"
                     value={item}
                     onChange={() => { }}
                     disabled
+                    ref={ref => this[`textareaRef${index}`] = ref}
                   />
                   <button
                     onClick={() => this.delete(index)}
-                    style={{
-                      position: 'absolute',
-                      top: -6,
-                      left: -10,
-                      border: 0,
-                      cursor: 'pointer',
-                      margin: 'inherit',
-                      padding: '0px 4px 2px 4px',
-                      borderRadius: '35%',
-                      fontSize: 14,
-                      backgroundColor: '#ffabab',
-                    }}
+                    className="node-panel-delete-note"
                     title={'Delete Note'}
                   >
                     x
                   </button>
 
                   <button
-                    onClick={(e) => this.edit(e, index, notebook)}
-                    style={{
-                      position: 'absolute',
-                      top: -10,
-                      right: 35,
-                      border: 0,
-                      cursor: 'pointer',
-                      margin: 'inherit',
-                      padding: '1px 6px 2px',
-                      borderRadius: '35%',
-                      fontSize: 10,
-                      backgroundColor: '#ffabab',
-                    }}
+                    onClick={() =>
+                      this.edit(
+                        index,
+                        this.props.work.showNotesWidgetModel &&
+                        this.props.work.showNotesWidgetModel.extras.notesd
+                      )
+                    }
+                    className="node-panel-edit-note"
                     title={'Edit Note'}
                   >
                     edit

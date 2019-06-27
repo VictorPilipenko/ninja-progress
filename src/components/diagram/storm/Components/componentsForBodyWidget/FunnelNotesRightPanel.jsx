@@ -41,9 +41,9 @@ export default class FunnelNotesRightPanel extends React.Component {
     if (this.state.note.length > 0) {
       let notebook = this.state.funnelNotes
       notebook.push(this.state.note)
-      console.log(this.state)
+      // console.log(this.state)
 
-      this.setState({ note: '', funnelNotes: notebook }, () => this.props.updateFunnelNotes(this.state.funnelNotes))
+      this.setState({ note: '', funnelNotes: notebook })
     }
   };
 
@@ -54,7 +54,7 @@ export default class FunnelNotesRightPanel extends React.Component {
 
 
   render() {
-    console.log(this.props.work.diagram && this.props.work.diagram.funnelNotes)
+    // console.log(this.props.work.diagram && this.props.work.diagram.funnelNotes)
     return (
       <>
         {this.props.work.pathname.includes('diagram') ?

@@ -60,43 +60,15 @@ export default class BodyWidget extends React.Component {
     saveBeforeExit: false,
     showInstructions: false,
     showSettingsNodeModal: false,
-    showNotes: false,
-    note: '',
   }
-
-  addNoteToNotebook = () => {
-    if (this.state.note.length > 0) {
-      let notebook = this.state.funnelNotes
-      notebook.push(this.state.note)
-      console.log(this.state)
-
-      this.setState({ note: '', funnelNotes: notebook })
-    }
-  };
-
-  delete = index => {
-    this.state.funnelNotes.splice(index, 1)
-    document.getElementById("diagram-layer").click()
-  }
-
-
-  handleChange = e => this.setState({
-    [e.target.name]: e.target.value
-  });
 
   showTemplateModal = () => this.setState({ showTemplateModal: true }, () => this.hideSelect());
   hideTemplateModal = () => this.setState({ showTemplateModal: false });
 
-  showNotes = () => this.setState({
-    showNotes: true,
-    showMenu: false,
-    funnelNotes: this.props.work.diagram && this.props.work.diagram.funnelNotes || [],
-  })
-  hideNotes = () => this.setState({ showNotes: false })
-
   saveDiagramHandle = file => this.setState({
     snackMsg: 'next',
-    converted: this.props.app.serialization(this.props.app.getDiagramEngine().getDiagramModel())
+    converted: this.props.app.serialization(this.props.app.getDiagramEngine().getDiagramModel()),
+    funnelNotes: this.props.work.diagram && this.props.work.diagram.funnelNotes || [],
   }, () => {
     this.props.work.saveDiagram(this.props.work.funnelId, this.state, file)
   });
@@ -257,11 +229,6 @@ export default class BodyWidget extends React.Component {
     console.log(diagram.style.transform)
   }
 
-  zoom = () => {
-    let diagram = document.getElementsByClassName('srd-node-layer')[0];
-    console.log(diagram.style.transform)
-  }
-
 
   render() {
     // console.log('this.state', this.state)
@@ -269,140 +236,6 @@ export default class BodyWidget extends React.Component {
       <>
         <SettingsNodeRightPanel work={this.props.work} app={this.props.app} />
         <NotesNodeRightPanel work={this.props.work} app={this.props.app} />
-
-        <ModalFunnelWidget
-          show={this.state.showNotes}
-          handleClose={this.hideNotes}
-          style={{
-            position: 'absolute',
-            top: 65,
-          }}
-        >
-          <label className='label-create-widget-settings'>Funnel Notes</label>
-          <div style={{
-            padding: 15,
-            display: 'flex',
-            flexDirection: 'column',
-          }}>
-            <label htmlFor="FunnelNotes" className='label-input'>
-              Funnel Notes
-            </label>
-
-            <textarea
-              style={{
-                height: 100,
-                borderRadius: 5,
-                border: '1px solid rgb(191, 207, 233)',
-                padding: 10,
-                maxWidth: '90%',
-                minWidth: '90%',
-                width: '90%',
-              }}
-              placeholder="Start typing your note.."
-              type="text"
-              value={this.state.note}
-              onChange={this.handleChange}
-              name='note'
-            />
-
-            <button
-              className='btn btn-1'
-              onClick={() => this.addNoteToNotebook()}
-              style={{
-                height: 30,
-                width: 120,
-                margin: '10px auto',
-              }}
-            >
-              Add Note
-            </button>
-
-
-
-            <button
-              className='btn btn-1 create-project-button-in-modal'
-              style={{ display: 'block' }}
-              onClick={() => {
-                let diagram = document.getElementById('diagram-layer');
-                domtoimage.toBlob(diagram)
-                  .then(data => {
-                    let name = randomString({ length: 10 });
-                    var file = new File([data], name, { type: "image/svg" });
-                    this.saveDiagramHandle(file);
-                  })
-                  .catch(function (error) {
-                    console.error('oops, something went wrong!', error);
-                  });
-              }}
-            >
-              Save
-            </button>
-
-            {this.props.work.message && (
-              <div
-                className='input-group'
-                style={{
-                  display: 'flex',
-                  margin: '20px auto'
-                }}
-              >{this.props.work.message}</div>
-            )}
-
-            <div style={{
-              height: 600,
-              overflow: 'auto'
-            }}>
-              {
-                this.state.funnelNotes &&
-                this.state.funnelNotes.map((item, index) =>
-                  // console.log(item)
-                  <div
-                    key={index}
-                    style={{
-                      position: 'relative',
-                      margin: 5,
-                    }}>
-                    <textarea
-                      style={{
-                        // height: 100,
-                        borderRadius: 5,
-                        border: '1px solid rgb(191, 207, 233)',
-                        padding: 10,
-                        backgroundColor: '#ffefc1',
-                        maxWidth: '90%',
-                        minWidth: '90%',
-                        width: '90%',
-                      }}
-                      placeholder="Start typing your note.."
-                      type="text"
-                      value={item}
-                      onChange={() => { }}
-                    />
-                    <button
-                      onClick={() => this.delete(index)}
-                      style={{
-                        position: 'absolute',
-                        top: -6,
-                        left: -10,
-                        border: 0,
-                        cursor: 'pointer',
-                        margin: 'inherit',
-                        padding: '0px 4px 2px 4px',
-                        borderRadius: '35%',
-                        fontSize: 14,
-                        backgroundColor: '#ffabab',
-                      }}
-                      title={'Delete Note'}
-                    >
-                      x
-                  </button>
-                  </div>
-                )
-              }
-            </div>
-          </div>
-        </ModalFunnelWidget>
-
 
         <div className='message-diagram'>
           {this.props.work.message ?
@@ -463,16 +296,7 @@ export default class BodyWidget extends React.Component {
                   </div>
                 </button>
 
-                {/* <FunnelNotesRightPanel work={this.props.work} app={this.props.app} updateFunnelNotes={this.updateFunnelNotes} /> */}
-
-                <button
-                  className="diagram-header-menu-button"
-                  onClick={this.showNotes}
-                  style={{ background: this.state.showNotes ? '#ecf1f2' : '#fff' }}
-                  title={'Funnel Notes'}
-                >
-                  <FunnelNotesSVG />
-                </button>
+                <FunnelNotesRightPanel work={this.props.work} app={this.props.app} />
 
                 <div className="diagram-header-instruction-buttons">
 
@@ -592,13 +416,13 @@ export default class BodyWidget extends React.Component {
                     }}
                   >
                     Export PNG
-                    </button>
+                  </button>
                   <button
                     className="btn btn-1 button-select-body-widget"
                     onClick={() => this.saveTemplateHandle()}
                   >
                     Update Template
-                    </button>
+                  </button>
                 </Select>
               </ClickOutside>
             }
@@ -615,58 +439,28 @@ export default class BodyWidget extends React.Component {
             </div>
 
             {this.state.toggle === 'first' ?
-              <ClickOutside
-                onClickOutside={() => {
-                  this.setState({ show: false })
-                }}
-              >
-                <TrayWidget show={this.state.show}>
-                  {this.createBigItemsWidget('Pages')}
-                </TrayWidget>
+              <ClickOutside onClickOutside={() => { this.setState({ show: false }) }}>
+                <TrayWidget show={this.state.show}>{this.createBigItemsWidget('Pages')}</TrayWidget>
               </ClickOutside> : null}
 
             {this.state.toggle === 'second' ?
-              <ClickOutside
-                onClickOutside={() => {
-                  this.setState({ show: false })
-                }}
-              >
-                <TrayWidget show={this.state.show}>
-                  {this.createSmallItemsWidget('Traffic')}
-                </TrayWidget>
+              <ClickOutside onClickOutside={() => { this.setState({ show: false }) }}>
+                <TrayWidget show={this.state.show}>{this.createSmallItemsWidget('Traffic')}</TrayWidget>
               </ClickOutside> : null}
 
             {this.state.toggle === 'third' ?
-              <ClickOutside
-                onClickOutside={() => {
-                  this.setState({ show: false })
-                }}
-              >
-                <TrayWidget show={this.state.show}>
-                  {this.createSmallItemsWidget('Events')}
-                </TrayWidget>
+              <ClickOutside onClickOutside={() => { this.setState({ show: false }) }}>
+                <TrayWidget show={this.state.show}>{this.createSmallItemsWidget('Events')}</TrayWidget>
               </ClickOutside> : null}
 
             {this.state.toggle === 'fourth' ?
-              <ClickOutside
-                onClickOutside={() => {
-                  this.setState({ show: false })
-                }}
-              >
-                <TrayWidget show={this.state.show}>
-                  {this.createSmallItemsWidget('EmailMarketing')}
-                </TrayWidget>
+              <ClickOutside onClickOutside={() => { this.setState({ show: false }) }}>
+                <TrayWidget show={this.state.show}> {this.createSmallItemsWidget('EmailMarketing')}</TrayWidget>
               </ClickOutside> : null}
 
             {this.state.toggle === 'fifth' ?
-              <ClickOutside
-                onClickOutside={() => {
-                  this.setState({ show: false })
-                }}
-              >
-                <TrayWidget show={this.state.show}>
-                  {/* empty */}
-                </TrayWidget>
+              <ClickOutside onClickOutside={() => { this.setState({ show: false }) }}>
+                <TrayWidget show={this.state.show}>{/* empty */}</TrayWidget>
               </ClickOutside> : null}
 
             <div
@@ -681,7 +475,6 @@ export default class BodyWidget extends React.Component {
                 this.props.app.getDiagramEngine().getDiagramModel().addNode(node);
                 this.forceUpdate();
               }}
-
               onDragOver={event => {
                 event.preventDefault();
               }}
