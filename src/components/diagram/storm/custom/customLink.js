@@ -30,6 +30,7 @@ export class AdvancedLinkSegment extends React.Component {
 
   componentDidMount() {
     this.mounted = true;
+    this.circle.setAttribute("opacity", 0)
 
     this.callback = () => {
       if (!this.circleTarget || !this.pathForHover) {
@@ -160,7 +161,6 @@ export class AdvancedLinkSegment extends React.Component {
         />
 
         <circle
-          className='circleee'
           ref={ref => this.circle = ref}
           r={3}
           fill="orange"
