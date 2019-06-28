@@ -443,27 +443,27 @@ export default class BodyWidget extends React.Component {
             </div>
 
             {this.state.toggle === 'first' ?
-              <ClickOutside onClickOutside={() => { this.setState({ show: false }) }}>
+              <ClickOutside onClickOutside={() => this.setState({ show: false })}>
                 <TrayWidget show={this.state.show}>{this.createBigItemsWidget('Pages')}</TrayWidget>
               </ClickOutside> : null}
 
             {this.state.toggle === 'second' ?
-              <ClickOutside onClickOutside={() => { this.setState({ show: false }) }}>
+              <ClickOutside onClickOutside={() => this.setState({ show: false })}>
                 <TrayWidget show={this.state.show}>{this.createSmallItemsWidget('Traffic')}</TrayWidget>
               </ClickOutside> : null}
 
             {this.state.toggle === 'third' ?
-              <ClickOutside onClickOutside={() => { this.setState({ show: false }) }}>
+              <ClickOutside onClickOutside={() => this.setState({ show: false })}>
                 <TrayWidget show={this.state.show}>{this.createSmallItemsWidget('Events')}</TrayWidget>
               </ClickOutside> : null}
 
             {this.state.toggle === 'fourth' ?
-              <ClickOutside onClickOutside={() => { this.setState({ show: false }) }}>
-                <TrayWidget show={this.state.show}> {this.createSmallItemsWidget('EmailMarketing')}</TrayWidget>
+              <ClickOutside onClickOutside={() => this.setState({ show: false })}>
+                <TrayWidget show={this.state.show}>{this.createSmallItemsWidget('EmailMarketing')}</TrayWidget>
               </ClickOutside> : null}
 
             {this.state.toggle === 'fifth' ?
-              <ClickOutside onClickOutside={() => { this.setState({ show: false }) }}>
+              <ClickOutside onClickOutside={() => this.setState({ show: false })}>
                 <TrayWidget show={this.state.show}>{/* empty */}</TrayWidget>
               </ClickOutside> : null}
 

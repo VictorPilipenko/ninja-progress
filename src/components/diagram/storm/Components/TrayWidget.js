@@ -28,6 +28,7 @@ export class TrayWidget extends React.Component {
   }
 
   render() {
+    console.log(this.props.children)
     const showHideClassName = this.props.show ? "select display-block" : "select display-none";
     return (
       <div className={showHideClassName}>
