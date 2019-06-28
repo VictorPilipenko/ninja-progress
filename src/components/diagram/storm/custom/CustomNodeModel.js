@@ -1,13 +1,13 @@
 import { NodeModel } from "storm-react-diagrams";
-import { SmallPortModel } from "./SmallPortModel";
+import { CustomPortModel } from "./CustomPortModel";
 
-export class SmallNodeModel extends NodeModel {
+export class CustomNodeModel extends NodeModel {
   constructor(name) {
     super(name);
-    this.addPort(new SmallPortModel(name, "top"));
-    this.addPort(new SmallPortModel(name, "left"));
-    this.addPort(new SmallPortModel(name, "bottom"));
-    this.addPort(new SmallPortModel(name, "right"));
+    this.addPort(new CustomPortModel(name, "top"));
+    this.addPort(new CustomPortModel(name, "left"));
+    this.addPort(new CustomPortModel(name, "bottom"));
+    this.addPort(new CustomPortModel(name, "right"));
     this.extras.name = this.named;
     this.extras.setNameExtras = this.setNameExtras;
     this.setName = this.setName;
@@ -27,7 +27,7 @@ export class SmallNodeModel extends NodeModel {
 
   setNotesExtras(notes) {
     this.notesd = notes;
-  }
+  }z
 
   setNotes(notes) {
     this.extras.notesd = notes;

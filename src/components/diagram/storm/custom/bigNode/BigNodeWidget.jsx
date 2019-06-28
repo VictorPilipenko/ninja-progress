@@ -26,12 +26,8 @@ import { NodeFactory } from "../NodeFactory";
 import { PortFactory } from "../PortFactory";
 
 // import the custom models
-import { BigPortModel } from "./BigPortModel";
-import { BigNodeModel } from "./BigNodeModel";
-// import BigNodeWidget from "./custom/bigNode/BigNodeWidget";
-
-import { SmallPortModel } from "../smallNode/SmallPortModel";
-import { SmallNodeModel } from "../smallNode/SmallNodeModel";
+import { CustomNodeModel } from "../CustomNodeModel";
+import { CustomPortModel } from "../CustomPortModel";
 import SmallNodeWidget from "../smallNode/SmallNodeWidget";
 
 import { API_URL } from '../../../../../config'
@@ -77,9 +73,9 @@ class BigNodeWidget extends React.Component {
         this.elementsPages.push(
           {
             name: item.name,
-            port: BigPortModel,
+            port: CustomPortModel,
             widget: BigNodeWidget,
-            nodeModel: BigNodeModel,
+            nodeModel: CustomNodeModel,
             svg: API_URL + item.url,
           }
         )
@@ -89,9 +85,9 @@ class BigNodeWidget extends React.Component {
         this.elementsTraffic.push(
           {
             name: item.name,
-            port: SmallPortModel,
+            port: CustomPortModel,
             widget: SmallNodeWidget,
-            nodeModel: SmallNodeModel,
+            nodeModel: CustomNodeModel,
             svg: API_URL + item.url,
           }
         )
@@ -101,9 +97,9 @@ class BigNodeWidget extends React.Component {
         this.elementsEmailMarketing.push(
           {
             name: item.name,
-            port: SmallPortModel,
+            port: CustomPortModel,
             widget: SmallNodeWidget,
-            nodeModel: SmallNodeModel,
+            nodeModel: CustomNodeModel,
             svg: API_URL + item.url,
           }
         )
@@ -113,9 +109,9 @@ class BigNodeWidget extends React.Component {
         this.elementsEvents.push(
           {
             name: item.name,
-            port: SmallPortModel,
+            port: CustomPortModel,
             widget: SmallNodeWidget,
-            nodeModel: SmallNodeModel,
+            nodeModel: CustomNodeModel,
             svg: API_URL + item.url,
           }
         )
@@ -185,7 +181,7 @@ class BigNodeWidget extends React.Component {
     _.forEach(model.getSelectedItems(), (item) => {
       let newItem = item.clone(itemMap);
       // offset the nodes slightly
-      if (newItem instanceof BigNodeModel) {
+      if (newItem instanceof CustomNodeModel) {
         newItem.setPosition(newItem.x + offset.x, newItem.y + offset.y);
         model.addNode(newItem);
         this.forceUpdate();

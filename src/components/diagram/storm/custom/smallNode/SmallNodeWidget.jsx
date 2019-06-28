@@ -26,12 +26,12 @@ import { NodeFactory } from "../NodeFactory";
 import { PortFactory } from "../PortFactory";
 
 // import the custom models
-import { BigPortModel } from "../bigNode/BigPortModel";
-import { BigNodeModel } from "../bigNode/BigNodeModel";
+// import { BigPortModel } from "../bigNode/BigPortModel";
+// import { BigNodeModel } from "../bigNode/BigNodeModel";
 import BigNodeWidget from "../bigNode/BigNodeWidget";
 
-import { SmallPortModel } from "./SmallPortModel";
-import { SmallNodeModel } from "./SmallNodeModel";
+import { CustomPortModel } from "../CustomPortModel";
+import { CustomNodeModel } from "../CustomNodeModel";
 
 import { API_URL } from '../../../../../config'
 
@@ -80,9 +80,9 @@ class SmallNodeWidget extends React.Component {
         this.elementsPages.push(
           {
             name: item.name,
-            port: BigPortModel,
+            port: CustomPortModel,
             widget: BigNodeWidget,
-            nodeModel: BigNodeModel,
+            nodeModel: CustomNodeModel,
             svg: API_URL + item.url,
           }
         )
@@ -92,9 +92,9 @@ class SmallNodeWidget extends React.Component {
         this.elementsTraffic.push(
           {
             name: item.name,
-            port: SmallPortModel,
+            port: CustomPortModel,
             widget: SmallNodeWidget,
-            nodeModel: SmallNodeModel,
+            nodeModel: CustomNodeModel,
             svg: API_URL + item.url,
           }
         )
@@ -104,9 +104,9 @@ class SmallNodeWidget extends React.Component {
         this.elementsEmailMarketing.push(
           {
             name: item.name,
-            port: SmallPortModel,
+            port: CustomPortModel,
             widget: SmallNodeWidget,
-            nodeModel: SmallNodeModel,
+            nodeModel: CustomNodeModel,
             svg: API_URL + item.url,
           }
         )
@@ -116,9 +116,9 @@ class SmallNodeWidget extends React.Component {
         this.elementsEvents.push(
           {
             name: item.name,
-            port: SmallPortModel,
+            port: CustomPortModel,
             widget: SmallNodeWidget,
-            nodeModel: SmallNodeModel,
+            nodeModel: CustomNodeModel,
             svg: API_URL + item.url,
           }
         )
@@ -188,7 +188,7 @@ class SmallNodeWidget extends React.Component {
     _.forEach(model.getSelectedItems(), (item) => {
       let newItem = item.clone(itemMap);
       // offset the nodes slightly
-      if (newItem instanceof SmallNodeModel) {
+      if (newItem instanceof CustomNodeModel) {
         newItem.setPosition(newItem.x + offset.x, newItem.y + offset.y);
         model.addNode(newItem);
         this.forceUpdate();

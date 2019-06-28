@@ -6,12 +6,9 @@ import { PortFactory } from "./custom/PortFactory";
 import { AdvancedLinkFactory } from "./custom/customLink";
 
 // import the custom models
-import { BigPortModel } from "./custom/bigNode/BigPortModel";
-import { BigNodeModel } from "./custom/bigNode/BigNodeModel";
+import { CustomPortModel } from "./custom/CustomPortModel";
+import { CustomNodeModel } from "./custom/CustomNodeModel";
 import BigNodeWidget from "./custom/bigNode/BigNodeWidget";
-
-import { SmallPortModel } from "./custom/smallNode/SmallPortModel";
-import { SmallNodeModel } from "./custom/smallNode/SmallNodeModel";
 import SmallNodeWidget from "./custom/smallNode/SmallNodeWidget";
 
 import { API_URL } from '../../../config'
@@ -41,9 +38,9 @@ export default class Application {
         this.elementsPages.push(
           {
             name: item.name,
-            port: BigPortModel,
+            port: CustomPortModel,
             widget: BigNodeWidget,
-            nodeModel: BigNodeModel,
+            nodeModel: CustomNodeModel,
             svg: API_URL + item.url,
           }
         )
@@ -53,9 +50,9 @@ export default class Application {
         this.elementsTraffic.push(
           {
             name: item.name,
-            port: SmallPortModel,
+            port: CustomPortModel,
             widget: SmallNodeWidget,
-            nodeModel: SmallNodeModel,
+            nodeModel: CustomNodeModel,
             svg: API_URL + item.url,
           }
         )
@@ -65,9 +62,9 @@ export default class Application {
         this.elementsEmailMarketing.push(
           {
             name: item.name,
-            port: SmallPortModel,
+            port: CustomPortModel,
             widget: SmallNodeWidget,
-            nodeModel: SmallNodeModel,
+            nodeModel: CustomNodeModel,
             svg: API_URL + item.url,
           }
         )
@@ -77,9 +74,9 @@ export default class Application {
         this.elementsEvents.push(
           {
             name: item.name,
-            port: SmallPortModel,
+            port: CustomPortModel,
             widget: SmallNodeWidget,
-            nodeModel: SmallNodeModel,
+            nodeModel: CustomNodeModel,
             svg: API_URL + item.url,
           }
         )

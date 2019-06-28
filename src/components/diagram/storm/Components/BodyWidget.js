@@ -8,8 +8,7 @@ import Modal from '../../../common/Modal/Modal'
 import randomString from 'random-string';
 // import the custom models
 
-import { BigNodeModel } from "../custom/bigNode/BigNodeModel";
-import { SmallNodeModel } from "../custom/smallNode/SmallNodeModel";
+import { CustomNodeModel } from "../custom/CustomNodeModel";
 
 import PagesButton from '../../../../assets/PagesButton.svg'
 import EventsButton from '../../../../assets/EventsButton.svg'
@@ -125,61 +124,8 @@ export default class BodyWidget extends React.Component {
 
   nodeFactory(data) {
     switch (data.type) {
-      case "BlogPost": return new BigNodeModel("BlogPost");
-      case "Calendar": return new BigNodeModel("Calendar");
-      case "Download": return new BigNodeModel("Download");
-      case "Generic": return new BigNodeModel("Generic");
-      case "MembersArea": return new BigNodeModel("MembersArea");
-      case "OptIn": return new BigNodeModel("OptIn");
-      case "OrderPage": return new BigNodeModel("OrderPage");
-      case "Popup": return new BigNodeModel("Popup");
-      case "SalesPage": return new BigNodeModel("SalesPage");
-      case "SalesVideo": return new BigNodeModel("SalesVideo");
-      case "Survey": return new BigNodeModel("Survey");
-      case "ThankYou": return new BigNodeModel("ThankYou");
-      case "Upsell": return new BigNodeModel("Upsell");
-      case "Webinar": return new BigNodeModel("Webinar");
-      case "WebinarReplay": return new BigNodeModel("WebinarReplay");
-
-      case "AddToCart": return new SmallNodeModel('AddToCart');
-      case "ClickButton": return new SmallNodeModel('ClickButton');
-      case "CompleteForm": return new SmallNodeModel('CompleteForm');
-      case "GenericEvent": return new SmallNodeModel('GenericEvent');
-      case "PopUpBox": return new SmallNodeModel('PopUpBox');
-      case "Purchase": return new SmallNodeModel('Purchase');
-      case "Scroll": return new SmallNodeModel('Scroll');
-      case "WatchVideo": return new SmallNodeModel('WatchVideo');
-
-      case "AddTag": return new SmallNodeModel('AddTag');
-      case "Condition": return new SmallNodeModel('Condition');
-      case "CustomAction": return new SmallNodeModel('CustomAction');
-      case "RemoveTag": return new SmallNodeModel('RemoveTag');
-      case "SendEmail": return new SmallNodeModel('SendEmail');
-      case "SendNotification": return new SmallNodeModel('SendNotification');
-      case "SendSms": return new SmallNodeModel('SendSms');
-      case "Subscribe": return new SmallNodeModel('Subscribe');
-      case "Unsubscribe": return new SmallNodeModel('Unsubscribe');
-      case "Wait": return new SmallNodeModel('Wait');
-
-      case "Adwords": return new SmallNodeModel("Adwords");
-      case "ChatBox": return new SmallNodeModel("ChatBox");
-      case "CustomSource": return new SmallNodeModel("CustomSource");
-      case "Email": return new SmallNodeModel("Email");
-      case "FacebookAds": return new SmallNodeModel("FacebookAds");
-      case "Facebook": return new SmallNodeModel("Facebook");
-      case "InstagramAds": return new SmallNodeModel("InstagramAds");
-      case "Instagram": return new SmallNodeModel("Instagram");
-      case "LinkedInAds": return new SmallNodeModel("LinkedInAds");
-      case "LinkedIn": return new SmallNodeModel("LinkedIn");
-      case "Messenger": return new SmallNodeModel("Messenger");
-      case "Search": return new SmallNodeModel("Search");
-      case "TrackingLink": return new SmallNodeModel("TrackingLink");
-      case "TwitterAds": return new SmallNodeModel("TwitterAds");
-      case "Twitter": return new SmallNodeModel("Twitter");
-      case "YoutubeAds": return new SmallNodeModel("YoutubeAds");
-      case "Youtube": return new SmallNodeModel("Youtube");
-
-      default: return new BigNodeModel("BlogPost");
+      case data.type: return new CustomNodeModel(data.type);
+      default: return new CustomNodeModel("BlogPost");
     }
   }
 
@@ -215,23 +161,6 @@ export default class BodyWidget extends React.Component {
     let diagram = document.getElementsByClassName('srd-node-layer')[0];
     console.log(diagram.style.transform)
   }
-
-  test = () => {
-    if (this.props.work.svg) {
-      console.log(this.props.work.svg)
-      this.props.work.svg.map((item, key) => (
-        // console.log(item.title)
-
-        //  this.props.app.getValues(this.props.work.svg, name)
-        this.props.app.getValues(this.props.work.svg, item.title).map((item2, key) => (
-          console.log(item2)
-          // <TrayBigItemWidget key={key} model={{ type: item.name }} name={item.name} icon={API_URL + item.url} />
-        ))
-        // <TrayBigItemWidget key={key} model={{ type: item.name }} name={item.name} icon={API_URL + item.url} />
-      ))
-    }
-  }
-
 
   render() {
     return (
@@ -276,9 +205,6 @@ export default class BodyWidget extends React.Component {
 
             {this.props.work.pathname.includes('diagram') ?
               <>
-
-                {/* <button onClick={() => this.test()}>test</button> */}
-
                 <button
                   className="btn btn-1"
                   style={{
@@ -482,7 +408,7 @@ export default class BodyWidget extends React.Component {
               onDragOver={event => {
                 event.preventDefault();
               }}
-              onWheelCapture={() => this.wheelCapture()}
+              // onWheelCapture={() => this.wheelCapture()}
             >
               <RJD.DiagramWidget
                 // actionStartedFiring={() => console.log('mouse --------------------')}
