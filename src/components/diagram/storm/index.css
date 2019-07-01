@@ -356,3 +356,49 @@
 .circle-delete:after {
   transform: rotate(-45deg);
 }
+
+
+
+
+
+
+.zoom-wrapper{
+  color: #848f99;
+  display: flex;
+  margin: 5px;
+  background: #ecf1f2;
+  border-radius: 5px;
+  padding: 6px 6px 6px 11px;
+}
+
+.zoom-count{
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+}
+
+.zoom-buttons-wrapper{
+  display: flex;
+  flex-direction: column;
+}
+
+.zoom-button-plus{
+  border: none;
+  cursor: pointer;
+  background: #ecf1f2;
+  border-radius: 5px;
+  color: #848f99;
+  font-weight: 600;
+}
+
+.zoom-button-minus{
+  border: none;
+  cursor: pointer;
+  background: #ecf1f2;
+  border-radius: 5px;
+  margin-top: -5px;
+  color: #848f99;
+  font-weight: 600;
+}

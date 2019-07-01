@@ -20,6 +20,7 @@ import { ReactComponent as LogoWidgetSVG } from '../../../../assets/logo-widget.
 import { ReactComponent as MenuWidgetSVG } from '../../../../assets/menu-widget.svg'
 import { ReactComponent as ShareFunnelSVG } from '../../../../assets/instructions.svg'
 import { ReactComponent as FunnelNotesSVG } from '../../../../assets/FunnelNotes.svg'
+import LupaSVG from '../../../../assets/lupa.svg'
 // import { ReactComponent as ChatSVG } from '../../../../assets/chat.svg'
 import ModalNodeWidget from '../../../common/ModalNodeWidget'
 import { NavLink } from "react-router-dom";
@@ -52,6 +53,10 @@ export default class BodyWidget extends React.Component {
     backgroundActive: 'linear-gradient(90deg, #e62d24 0%, #fd8f21 100%)',
     backgroundDefault: '#212939',
     showSelect: false,
+
+
+    inverseZoom: false,
+    allowCanvasZoom: true,
   }
 
   saveDiagramHandle = file => this.setState({
@@ -150,16 +155,49 @@ export default class BodyWidget extends React.Component {
   showSelect = () => this.setState({ showSelect: true })
   hideSelect = () => this.setState({ showSelect: false })
 
-  showMenu = () => this.setState({
-    showMenu: true,
-    showNotes: false,
-    funnelName: this.props.work.diagram && this.props.work.diagram.funnelName,
-  })
-  hideMenu = () => this.setState({ showMenu: false })
 
   wheelCapture = () => {
-    let diagram = document.getElementsByClassName('srd-node-layer')[0];
-    console.log(diagram.style.transform)
+    // let diagram = document.getElementsByClassName('srd-node-layer')[0];
+    // console.log(diagram.style.transform)
+
+    // console.log('zoom: ', this.state.scale)
+
+    // this.props.app.getDiagramEngine().getDiagramModel().zoom = 50
+
+
+
+    // let parts = diagram.style.transform.split('scale'); // split the string with these characters
+    // let scale = parts[1]
+    // let scale1 = scale.split('(')
+    // let vs = scale1[1]
+    // let scale12 = vs.split(')')
+    // let vs2 = scale12[0] * 100
+    // let roundScale = vs2.toFixed(2)
+
+    // // console.log(vs2 * 100)
+
+    // this.setState({ scale: roundScale }, () => console.log(this.state.scale))
+  }
+
+  componentDidUpdate() {
+    console.log('zoom: ', this.props.app.getDiagramEngine().getDiagramModel().zoom)
+    console.log('offsetX: ', this.props.app.getDiagramEngine().getDiagramModel().offsetX)
+    console.log('offsetY: ', this.props.app.getDiagramEngine().getDiagramModel().offsetY)
+  }
+
+  scalePlus = () => {
+    this.props.app.getDiagramEngine().getDiagramModel().zoom = this.props.app.getDiagramEngine().getDiagramModel().zoom + 5
+    document.getElementById("diagram-layer").click()
+  }
+
+  scaleMinus = () => {
+    this.props.app.getDiagramEngine().getDiagramModel().zoom = this.props.app.getDiagramEngine().getDiagramModel().zoom - 5
+    document.getElementById("diagram-layer").click()
+  }
+
+  zoomToFit = () => {
+    this.props.app.getDiagramEngine().zoomToFit()
+    document.getElementById("diagram-layer").click()
   }
 
   render() {
@@ -205,6 +243,29 @@ export default class BodyWidget extends React.Component {
 
             {this.props.work.pathname.includes('diagram') ?
               <>
+
+
+                <div className='zoom-wrapper'>
+                  <ReactSVG
+                    src={LupaSVG}
+                    alt=''
+                    beforeInjection={svg => {
+                      svg.setAttribute('style', 'width: 17px; height: 25px;')
+                    }}
+                  />
+                  <div className='zoom-count'>
+                    {this.props.app.getDiagramEngine().getDiagramModel().zoom.toFixed(0)}%
+                  </div>
+                  <div className='zoom-buttons-wrapper'>
+                    <button className='zoom-button-plus' onClick={this.scalePlus}>+</button>
+                    <button className='zoom-button-minus' onClick={this.scaleMinus}>-</button>
+                  </div>
+                </div>
+
+
+
+
+
                 <button
                   className="btn btn-1"
                   style={{
@@ -213,7 +274,7 @@ export default class BodyWidget extends React.Component {
                     borderRadius: 7,
                     marginRight: 10,
                   }}
-                  onClick={() => this.props.app.getDiagramEngine().zoomToFit()}>Zoom to Fit</button>
+                  onClick={() => this.zoomToFit()}>Zoom to Fit</button>
 
 
                 <button
@@ -409,12 +470,86 @@ export default class BodyWidget extends React.Component {
                 event.preventDefault();
               }}
               // onWheelCapture={() => this.wheelCapture()}
+
+
+
+
+
+
+
+              onWheel={event => {
+                var diagramModel = this.props.app.getDiagramEngine().getDiagramModel();
+                // if (this.props.app.getDiagramEngine().getDiagramModel().zoom < 100 && this.props.app.getDiagramEngine().getDiagramModel().zoom > 50) {
+                event.preventDefault();
+                event.stopPropagation();
+                const oldZoomFactor = diagramModel.getZoomLevel() / 100;
+                let scrollDelta = this.state.inverseZoom ? -event.deltaY : event.deltaY;
+
+
+
+
+                // check if it is pinch gesture
+                if (event.ctrlKey && scrollDelta % 1 !== 0) {
+                  /*Chrome and Firefox sends wheel event with deltaY that
+                    have fractional part, also `ctrlKey` prop of the event is true
+                    though ctrl isn't pressed
+                  */
+                  scrollDelta /= 3;
+                } else {
+                  scrollDelta /= 60;
+                }
+                if (diagramModel.getZoomLevel() + scrollDelta > 10) {
+                  diagramModel.setZoomLevel(diagramModel.getZoomLevel() + scrollDelta);
+                }
+
+                const zoomFactor = diagramModel.getZoomLevel() / 100;
+
+
+                const boundingRect = event.currentTarget.getBoundingClientRect();
+                const clientWidth = boundingRect.width;
+                const clientHeight = boundingRect.height;
+                // compute difference between rect before and after scroll
+                const widthDiff = clientWidth * zoomFactor - clientWidth * oldZoomFactor;
+                const heightDiff = clientHeight * zoomFactor - clientHeight * oldZoomFactor;
+                // compute mouse coords relative to canvas
+                const clientX = event.clientX - boundingRect.left;
+                const clientY = event.clientY - boundingRect.top;
+
+                // compute width and height increment factor
+                const xFactor = (clientX - diagramModel.getOffsetX()) / oldZoomFactor / clientWidth;
+                const yFactor = (clientY - diagramModel.getOffsetY()) / oldZoomFactor / clientHeight;
+
+                diagramModel.setOffset(
+                  diagramModel.getOffsetX() - widthDiff * xFactor,
+                  diagramModel.getOffsetY() - heightDiff * yFactor
+                );
+                // this.setState({ scale: this.props.app.getDiagramEngine().getDiagramModel().zoom.toFixed(0) })
+
+                this.props.app.getDiagramEngine().enableRepaintEntities([]);
+                this.forceUpdate();
+
+                // console.log(zoomFactor.toFixed(2))
+
+
+                // }
+              }}
+
+
+
+
+
+
+
+
+
+
+
             >
               <RJD.DiagramWidget
                 // actionStartedFiring={() => console.log('mouse --------------------')}
                 deleteKeys={[46]}
                 // smartRouting={true}
-                // allowCanvasZoom={false}
+                allowCanvasZoom={false}
                 // allowCanvasTranslation={false}
                 className="srd-demo-canvas"
                 diagramEngine={this.props.app.getDiagramEngine()}
