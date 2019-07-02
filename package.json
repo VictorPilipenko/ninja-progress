@@ -9,7 +9,6 @@
     "dom-to-image": "^2.6.0",
     "formik": "^1.5.4",
     "history": "^4.7.2",
-    "js-cookie": "^2.2.0",
     "random-string": "^0.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

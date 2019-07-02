@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import './ImageUpload.css'
 import { changeUserAvatar } from '../../../store/actions/settings'
-import Cookies from "js-cookie";
 import { API_URL } from '../../../config'
 
 class ImageUpload extends React.Component {
@@ -36,7 +35,7 @@ class ImageUpload extends React.Component {
   }
 
   render() {
-    const userAvatar = Cookies.get("userAvatar");
+    const userAvatar = JSON.parse(localStorage.getItem('userAvatar'));
 
     let { imagePreviewUrl } = this.state;
     let $imagePreview = null;

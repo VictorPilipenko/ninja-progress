@@ -14,7 +14,6 @@ import {
 import { push } from 'connected-react-router'
 import axios from 'axios'
 import { API_URL } from '../../config'
-import Cookies from "js-cookie";
 
 /*
  * Error helper
@@ -54,15 +53,12 @@ export function signupUser(props) {
 
         if (response.data) {
           localStorage.setItem('token', JSON.stringify(response.data.token));
+          localStorage.setItem('userFirstName', response.data.data.firstName);
+          localStorage.setItem('userAvatar', JSON.stringify(API_URL + response.data.data.photoUrl));
         }
 
         dispatch({ type: SIGNUP_SUCCESS });
         dispatch({ type: AUTH_USER });
-
-        Cookies.set("userFirstName", response.data.data.firstName);
-        // Cookies.set("userID", response.data.data._id);
-        Cookies.set('userAvatar', API_URL + response.data.data.photoUrl);
-
 
         let params = new URLSearchParams(routerState.location.search);
         if (params.get('add-collaborations')) {
@@ -101,15 +97,12 @@ export function signupTester(props) {
 
         if (response.data) {
           localStorage.setItem('token', JSON.stringify(response.data.token));
+          localStorage.setItem('userAvatar', JSON.stringify(API_URL + response.data.data.photoUrl));
+          localStorage.setItem('userFirstName', response.data.data.firstName);
         }
 
         dispatch({ type: SIGNUP_SUCCESS });
         dispatch({ type: AUTH_USER });
-
-        Cookies.set("userFirstName", response.data.data.firstName);
-        // Cookies.set("userID", response.data.data._id);
-        Cookies.set('userAvatar', API_URL + response.data.data.photoUrl);
-
 
         let params = new URLSearchParams(routerState.location.search);
         if (params.get('add-collaborations')) {
@@ -146,13 +139,10 @@ export function signinUser(props) {
         if (response.data) {
           // console.log(response.data)
           localStorage.setItem('token', JSON.stringify(response.data.token));
+          localStorage.setItem('userAvatar', JSON.stringify(API_URL + response.data.data.photoUrl));
+          localStorage.setItem('userFirstName', response.data.data.firstName);
 
           dispatch({ type: AUTH_USER });
-
-          Cookies.set("userFirstName", response.data.data.firstName);
-          // Cookies.set("userID", response.data.data._id);
-          Cookies.set('userAvatar', API_URL + response.data.data.photoUrl);
-
 
           let params = new URLSearchParams(routerState.location.search);
           if (params.get('add-collaborations')) {
@@ -312,12 +302,7 @@ export function passwordForgotUserStep3(data, token) {
   }
 }
 
-export function signOutUser() {
-  return function (dispatch) {
-    localStorage.clear();
-    dispatch({ type: UN_AUTH_USER });
-    Cookies.remove("userAvatar");
-    Cookies.remove("userFirstName");
-    // Cookies.remove("userID");
-  }
+export const signOutUser = () => dispatch => {
+  localStorage.clear();
+  dispatch({ type: UN_AUTH_USER });
 }

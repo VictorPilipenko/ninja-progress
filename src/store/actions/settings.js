@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import { API } from './instance'
 import axios from 'axios'
 import { API_URL } from '../../config'
@@ -19,14 +18,15 @@ export function changeUserName(data) {
       .then(response => {
         if (response.data) {
           // console.log(response.data)
-          Cookies.set("userFirstName", name);
+          localStorage.setItem('userFirstName', name);
+
           dispatch({
             type: "SETTINGS_MESSAGE_NAME_SUCCESS",
             payload: response.data.message
           });
 
           setTimeout(() => {
-             dispatch({ type: 'SETTINGS_MESSAGE_NAME_RESET' });
+            dispatch({ type: 'SETTINGS_MESSAGE_NAME_RESET' });
           }, 2000)
         }
       })
@@ -64,7 +64,7 @@ export function changeUserPassword(data) {
           });
 
           setTimeout(() => {
-             dispatch({ type: 'SETTINGS_MESSAGE_PASSWORD_RESET' });
+            dispatch({ type: 'SETTINGS_MESSAGE_PASSWORD_RESET' });
           }, 2000)
         }
       })
@@ -106,10 +106,11 @@ export function changeUserAvatar(avatar) {
             type: "SETTINGS_MESSAGE_AVATAR_SUCCESS",
             payload: response.data.message
           });
-          Cookies.set("userAvatar", API_URL + response.data.data.photoUrl);
+          // Cookies.set("userAvatar", API_URL + response.data.data.photoUrl);
+          localStorage.setItem('userAvatar', JSON.stringify(API_URL + response.data.data.photoUrl));
 
           setTimeout(() => {
-             dispatch({ type: 'SETTINGS_MESSAGE_AVATAR_RESET' });
+            dispatch({ type: 'SETTINGS_MESSAGE_AVATAR_RESET' });
           }, 2000)
         }
       })

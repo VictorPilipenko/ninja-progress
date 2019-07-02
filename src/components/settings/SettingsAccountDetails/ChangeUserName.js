@@ -3,7 +3,6 @@ import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { changeUserName } from '../../../store/actions/settings'
-import Cookies from "js-cookie";
 
 class ChangeUserName extends React.Component {
   render() {
@@ -86,7 +85,7 @@ const formikEnhancer = withFormik({
     email: Yup.string().email('Invalid email address')
   }),
   mapPropsToValues: () => ({
-    name: Cookies.get("userFirstName"),
+    name: localStorage.getItem('userFirstName'),
     email: '',
   }),
   handleSubmit: (payload, { props, setSubmitting }) => {

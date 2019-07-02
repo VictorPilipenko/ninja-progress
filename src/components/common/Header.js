@@ -5,7 +5,6 @@ import './header.css'
 import { createProject, createFunnel, updateProjectsBySearch, getAllProjects } from '../../store/actions/projects'
 import { signOutUser } from '../../store/actions/auth'
 import Modal from './Modal/Modal'
-import Cookies from "js-cookie";
 import { API_URL } from '../../config'
 import ClickOutside from '../common/ClickOutside'
 
@@ -126,9 +125,8 @@ class Header extends Component {
   }
 
   render() {
-    console.log(this.state.updatedProjects && this.state.updatedProjects)
-    const userAvatar = Cookies.get("userAvatar");
-    const userFirstName = Cookies.get("userFirstName");
+    const userAvatar = JSON.parse(localStorage.getItem('userAvatar'));
+    const userFirstName = localStorage.getItem('userFirstName');
 
     return (
       <>
