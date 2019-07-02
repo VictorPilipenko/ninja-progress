@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 // import { NavLink } from 'react-router-dom'
 import './header.css'
-import { createProject, createFunnel } from '../../store/actions/projects'
+import { createProject, createFunnel, updateProjectsBySearch, getAllProjects } from '../../store/actions/projects'
 import { signOutUser } from '../../store/actions/auth'
 import Modal from './Modal/Modal'
 import Cookies from "js-cookie";
@@ -20,6 +20,7 @@ class Header extends Component {
     showSignOut: false,
     projectName: '',
     funnelName: '',
+    searchProject: '',
   };
 
   showModal = () => {
@@ -70,11 +71,65 @@ class Header extends Component {
     }, 1500)
   }
 
+  static getDerivedStateFromProps(nextProps) {
+    // console.log(nextProps)
+    if (nextProps.projects)
+      return {
+        projectsFromNextProps: nextProps.projects,
+      };
+    else
+      return null
+  }
+
+
+  edit = (index, notebook) => {
+    this.setState(prevState => {
+      if (prevState.index !== index && prevState.index !== undefined) {
+        this[`textareaRef${prevState.index}`].style.backgroundColor = '#ffefc1'
+      }
+      return {
+        note: notebook[index],
+        showEdit: true,
+        index: index
+      };
+    }, () => this[`textareaRef${this.state.index}`].style.backgroundColor = '#d8c2c2');
+  }
+
+  filterList = e => {
+    this.setState({
+      searchProject: e.target.value
+    }, () => {
+      let updatedList = this.state.projectsFromNextProps &&
+        this.state.projectsFromNextProps.filter(item => {
+          return item.projectName.toLowerCase().search(
+            this.state.searchProject.toLowerCase()) !== -1;
+        });
+      if (this.state.searchProject.length > 0) {
+        this.setState({ updatedProjects: updatedList }, () =>
+          this.props.updateProjectsBySearch(this.state.updatedProjects)
+        );
+      }
+      else this.props.getAllProjects()
+    });
+  }
+
+  animMouseEnter = () => {
+    this.searchRef.style.display = "block";
+    this.searchRef.style.animation = "widthAnimationEnter 0.7s";
+  }
+
+  animMouseLeave = () => {
+    this.searchRef.style.animation = "widthAnimationLeave 0.7s";
+    setTimeout(() => {
+      this.searchRef.style.display = "none";
+    }, 700);
+  }
 
   render() {
-    console.log(this.props.error && this.props.error)
+    console.log(this.state.updatedProjects && this.state.updatedProjects)
     const userAvatar = Cookies.get("userAvatar");
     const userFirstName = Cookies.get("userFirstName");
+
     return (
       <>
         <header>
@@ -83,9 +138,25 @@ class Header extends Component {
             {
               this.props.authenticated ?
                 <div className='header-buttons'>
-
-                  <div style={{ marginLeft: 15, marginRight: 15, display: 'flex' }}>
-                    <SearchSVG />
+                  <div
+                    className="search-projects-bar"
+                    onMouseEnter={this.animMouseEnter}
+                    onMouseLeave={this.animMouseLeave}
+                  >
+                    {
+                      <>
+                        <SearchSVG />
+                        <input
+                          type='text'
+                          placeholder="Search Project"
+                          onChange={e => this.filterList(e)}
+                          value={this.state.searchProject}
+                          className="search-projects"
+                          style={{ display: 'none' }}
+                          ref={ref => this.searchRef = ref}
+                        />
+                      </>
+                    }
                   </div>
 
                   {this.props.pathname.includes('funnels') ?
@@ -196,14 +267,17 @@ function mapStateToProps(state) {
     errorFunnel: state.projects.createFunnelError,
     projectId: state.router.location.pathname.substring(9),// get projectId from pathname
     pathname: state.router.location.pathname,
+    projects: state.projects.projectsList,
   };
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     createProject: projectName => dispatch(createProject(projectName)),
     createFunnel: (funnelName, id) => dispatch(createFunnel(funnelName, id)),
     signOutUser: () => dispatch(signOutUser()),
+    updateProjectsBySearch: updatedProjects => dispatch(updateProjectsBySearch(updatedProjects)),
+    getAllProjects: () => dispatch(getAllProjects()),
   }
 }
 

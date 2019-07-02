@@ -39,10 +39,33 @@ class ProjectList extends React.Component {
     }, 1500)
   }
 
+  even = n => !(n % 2);
+
   render() {
     return (
       <Layout title="Project List">
-        <div className='projects-wrapper'>
+        {
+          this.props.projectsLimit ?
+            <>
+              <div className='project-list-limit'>
+                Created {this.props.projects && this.props.projects.length}
+                {' '}
+                {this.props.projects && this.props.projects.length > 1 || this.props.projects.length === 0 ? 'projects' : 'project'}
+                {' '}
+                of {this.props.projectsLimit}
+              </div>
+              <div className='project-list-limit'
+                style={{
+                  borderBottom: '1px solid #dce5ec',
+                  top: 100,
+                  right: 20,
+                  left: 20,
+                }} />
+            </>
+            : null
+        }
+
+        <div className='projects-wrapper' style={this.props.projectsLimit ? { marginTop: 110 } : { marginTop: 70 }}>
           {
             this.props.projects && this.props.projects.length > 0 ?
               this.props.projects.map((project, index) => (
@@ -86,15 +109,16 @@ class ProjectList extends React.Component {
           <button className='btn btn-1 create-project-button-in-modal' onClick={() => this.handleCreateProject()}>Create Project</button>
         </Modal>
 
-      </Layout>
+      </Layout >
     )
   }
 }
 
 function mapStateToProps(state) {
-  // console.log(state.projects.projectsList)
+  // console.log(state.projects.projectsListLimit)
   return {
     projects: state.projects.projectsList,
+    projectsLimit: state.projects.projectsListLimit,
     error: state.projects.createProjectError,
   };
 }

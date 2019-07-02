@@ -26,6 +26,10 @@ export function getAllProjects() {
           type: GET_ALL_PROJECTS,
           payload: response.data.data
         });
+        dispatch({
+          type: 'GET_ALL_PROJECTS_LIMIT',
+          payload: response.data.limit
+        });
         dispatch({ type: GET_ALL_PROJECTS_SUCCESS });
       })
       .catch(function (error) {
@@ -38,6 +42,10 @@ export function getAllProjects() {
         }
       });
   }
+}
+
+export const updateProjectsBySearch = updateProjects => dispatch => {
+  dispatch({ type: GET_ALL_PROJECTS, payload: updateProjects });
 }
 
 export function getAllTemplates() {
@@ -92,7 +100,7 @@ export function createProject(projectName) {
     })
       .then(response => {
         if (response.data) {
-          console.log('response.data: ', response.data)
+          // console.log('createProject: ', response.data)
           dispatch({
             type: CREATE_PROJECT,
             payload: response.data.data
@@ -151,7 +159,8 @@ export function getAllFunnels(projectId) {
     API.get(`funnel/${projectId}`)
       .then(response => {
         let res = response.data.data;
-
+        let limit = response.data.limit;
+        // console.log('getAllFunnels: ', response.data)
         dispatch({
           type: 'RESET_ALL_FUNNELS',
           payload: {
@@ -163,6 +172,13 @@ export function getAllFunnels(projectId) {
           payload: {
             projectId,
             res,
+          }
+        });
+        dispatch({
+          type: 'GET_ALL_FUNNELS_LIMIT',
+          payload: {
+            projectId,
+            limit,
           }
         });
         dispatch({ type: 'GET_ALL_FUNNELS_SUCCESS' });

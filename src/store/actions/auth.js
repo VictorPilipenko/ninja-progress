@@ -60,7 +60,7 @@ export function signupUser(props) {
         dispatch({ type: AUTH_USER });
 
         Cookies.set("userFirstName", response.data.data.firstName);
-        Cookies.set("userID", response.data.data._id);
+        // Cookies.set("userID", response.data.data._id);
         Cookies.set('userAvatar', API_URL + response.data.data.photoUrl);
 
 
@@ -107,7 +107,7 @@ export function signupTester(props) {
         dispatch({ type: AUTH_USER });
 
         Cookies.set("userFirstName", response.data.data.firstName);
-        Cookies.set("userID", response.data.data._id);
+        // Cookies.set("userID", response.data.data._id);
         Cookies.set('userAvatar', API_URL + response.data.data.photoUrl);
 
 
@@ -150,7 +150,7 @@ export function signinUser(props) {
           dispatch({ type: AUTH_USER });
 
           Cookies.set("userFirstName", response.data.data.firstName);
-          Cookies.set("userID", response.data.data._id);
+          // Cookies.set("userID", response.data.data._id);
           Cookies.set('userAvatar', API_URL + response.data.data.photoUrl);
 
 
@@ -318,6 +318,6 @@ export function signOutUser() {
     dispatch({ type: UN_AUTH_USER });
     Cookies.remove("userAvatar");
     Cookies.remove("userFirstName");
-    Cookies.remove("userID");
+    // Cookies.remove("userID");
   }
 }

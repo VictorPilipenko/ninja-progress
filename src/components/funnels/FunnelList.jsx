@@ -37,11 +37,34 @@ class FunnelList extends React.Component {
     }, 1500)
   }
 
+  even = n => !(n % 2);
+
   render() {
     return (
       <>
         <Layout title={`Funnels List`}>
-          <div className='projects-wrapper'>
+          {
+            this.props.funnelsLimit ?
+              <>
+                <div className='funnel-list-limit'>
+                  Created {this.props.funnels && this.props.funnels.length}
+                  {' '}
+                  {this.props.funnels && this.props.funnels.length > 1 || this.props.funnels.length === 0 ? 'funnels' : 'funnel'}
+                  {' '}
+                  of {this.props.funnelsLimit}
+                </div>
+                <div className='funnel-list-limit'
+                  style={{
+                    borderBottom: '1px solid #dce5ec',
+                    top: 100,
+                    right: 20,
+                    left: 20,
+                  }} />
+              </>
+              : null
+          }
+
+          <div className='projects-wrapper' style={this.props.funnelsLimit ? { marginTop: 110 } : { marginTop: 70 }}>
             {
               this.props.funnels && this.props.funnels.length > 0 ?
                 this.props.funnels.map((funnel, index) => (
@@ -96,6 +119,7 @@ class FunnelList extends React.Component {
 function mapStateToProps(state, ownProps) {
   return {
     funnels: state.projects[`funnelsList${ownProps.match.params.projectId}`],
+    funnelsLimit: state.projects[`funnelsListLimit${ownProps.match.params.projectId}`],
     projectId: ownProps.match.params.projectId,
     error: state.projects.createFunnelError,
   };

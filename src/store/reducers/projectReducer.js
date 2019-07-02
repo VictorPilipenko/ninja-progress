@@ -27,7 +27,15 @@ export default function (state = initialState, action) {
       return { ...state, getAllProjectsError: '' };
     case GET_ALL_PROJECTS_FAILURE:
       return { ...state, getAllProjectsError: action.payload };
-    ///////////////////////////////////////////////////////////////////////////    
+    ///////////////////////////////////////////////////////////////////////////   
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    case 'GET_ALL_PROJECTS_LIMIT':
+      return { ...state, projectsListLimit: action.payload };
+    /////////////////////////////////////////////////////////////////////////// 
+
+
 
     ///////////////////////////////////////////////////////////////////////////
     case 'RESET_ALL_TEMPLATES':
@@ -85,6 +93,8 @@ export default function (state = initialState, action) {
       return { ...state, [`funnelsList${action.payload.projectId}`]: [] };
     case 'GET_ALL_FUNNELS':
       return { ...state, [`funnelsList${action.payload.projectId}`]: action.payload.res };
+    case 'GET_ALL_FUNNELS_LIMIT':
+      return { ...state, [`funnelsListLimit${action.payload.projectId}`]: action.payload.limit };
     ///////////////////////////////////////////////////////////////////////////
     case 'DELETE_FUNNEL':
       const funnelsList = state[`funnelsList${action.payload.project_id}`].filter(funnel => funnel._id !== action.payload.funnel_id);
