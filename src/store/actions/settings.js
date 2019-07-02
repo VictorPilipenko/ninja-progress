@@ -28,6 +28,8 @@ export function changeUserName(data) {
           setTimeout(() => {
             dispatch({ type: 'SETTINGS_MESSAGE_NAME_RESET' });
           }, 2000)
+
+          document.getElementById("settings-wrapper").click();
         }
       })
       .catch(function (error) {
@@ -112,6 +114,8 @@ export function changeUserAvatar(avatar) {
           setTimeout(() => {
             dispatch({ type: 'SETTINGS_MESSAGE_AVATAR_RESET' });
           }, 2000)
+
+          document.getElementById("settings-wrapper").click();
         }
       })
       .catch(function (error) {

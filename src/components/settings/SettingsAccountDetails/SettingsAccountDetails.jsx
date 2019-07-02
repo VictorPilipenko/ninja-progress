@@ -10,7 +10,7 @@ class SettingsAccountDetails extends Component {
   render() {
     return (
       <Layout title="Account Details">
-        <div className='settings-wrapper'>
+        <div id='settings-wrapper'>
           <ChangeName />
           <ImageUpload />
           <ChangePassword />

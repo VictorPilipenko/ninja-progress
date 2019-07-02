@@ -22,9 +22,9 @@ class ImageUpload extends React.Component {
           file: file,
           imagePreviewUrl: reader.result
         },
-          () => (
+          () => {
             this.props.changeUserAvatar(this.state.file)
-          )
+          }
         );
       }
       reader.readAsDataURL(file)

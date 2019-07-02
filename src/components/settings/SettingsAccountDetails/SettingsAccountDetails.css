@@ -1,4 +1,4 @@
-.settings-wrapper{
+#settings-wrapper{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
