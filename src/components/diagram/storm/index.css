@@ -247,7 +247,6 @@
   margin: 17px 15px 0 20px;
 }
 
-
 .small-model-wrapper {
   display: flex;
   background: #fff;
@@ -401,4 +400,28 @@
   margin-top: -5px;
   color: #848f99;
   font-weight: 600;
+}
+
+.small-area-for-hover{
+  background: transparent;
+  display: flex;
+  position: absolute;
+  top: 0px;
+  right: -6px;
+  z-index: 1;
+  /* background-color: #ffffff; */
+  height: 110px;
+  width: 167px;
+}
+
+.big-area-for-hover{
+  background: transparent;
+  display: flex;
+  position: absolute;
+  top: -8px;
+  left: -7px;
+  z-index: 1;
+  /* background-color: #ffffff; */
+  height: 139px;
+  width: 160px;
 }

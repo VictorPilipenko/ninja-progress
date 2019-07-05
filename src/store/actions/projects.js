@@ -877,7 +877,7 @@ export const saveDiagramThenShowOrHideSettingsModal = (funnelId, diagramObj, ima
 
 export const saveDiagramThenShowOrHideNotesModal = (funnelId, diagramObj, image, boolean, model, engine) => dispatch => {
   const token = JSON.parse(localStorage.getItem('token'));
-  let bodyFormData = new FormData();
+  const bodyFormData = new FormData();
   bodyFormData.append('funnelBackground', image);
   bodyFormData.append('funnelBody', JSON.stringify(diagramObj));
 

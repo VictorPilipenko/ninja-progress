@@ -163,11 +163,11 @@ class Header extends Component {
                     <button className='btn btn-1 btn-show-modal-create' onClick={this.showModal}>Create Project</button>
                   }
 
-                  <div style={{ marginLeft: 15, marginRight: 5, display: 'flex' }}>
+                  <div style={{ marginLeft: 30, marginRight: 10, display: 'flex' }}>
                     <QuestionSVG />
                   </div>
 
-                  <div style={{ marginLeft: 5, marginRight: 15, display: 'flex' }}>
+                  <div style={{ marginLeft: 5, marginRight: 20, display: 'flex' }}>
                     <RingSVG />
                   </div>
 
