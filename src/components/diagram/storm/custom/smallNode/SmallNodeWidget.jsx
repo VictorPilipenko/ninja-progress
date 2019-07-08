@@ -3,6 +3,7 @@ import { PortWidget, PointModel, DiagramEngine } from "storm-react-diagrams";
 import ReactSVG from "react-svg";
 import ClickOutside from "../../../../common/ClickOutside";
 import ModalNodeWidget from "../../../../common/ModalNodeWidget";
+import html2canvas from "html2canvas";
 
 import { ReactComponent as CopySVG } from "../../../../../assets/selectForWidget/copy.svg";
 import { ReactComponent as DeleteAllLinksSVG } from "../../../../../assets/selectForWidget/delete-all-links.svg";
@@ -34,7 +35,6 @@ import { CustomNodeModel } from "../CustomNodeModel";
 
 import { API_URL } from "../../../../../config";
 
-import domtoimage from "dom-to-image";
 import randomString from "random-string";
 
 //modalka, fuck yeah
@@ -221,17 +221,11 @@ class SmallNodeWidget extends React.Component {
   };
 
   showSettingsModal = () => {
-    var diagram = document.getElementById("diagram-layer");
-    domtoimage
-      .toBlob(diagram)
-      .then(data => {
-        let name = randomString({ length: 10 });
-        var file = new File([data], name, { type: "image/svg" });
-        this.SaveDiagramThenShowSettingsModal(file);
-      })
-      .catch(function(error) {
-        console.error("oops, something went wrong!", error);
-      });
+    const name = randomString({ length: 10 });
+    const file = new File(["test"], name, {
+      type: "image/png"
+    });
+    this.SaveDiagramThenShowSettingsModal(file);
   };
 
   SaveDiagramThenShowNotesModal = file => {
@@ -254,17 +248,11 @@ class SmallNodeWidget extends React.Component {
   };
 
   showNotesModal = () => {
-    var diagram = document.getElementById("diagram-layer");
-    domtoimage
-      .toBlob(diagram)
-      .then(data => {
-        let name = randomString({ length: 10 });
-        var file = new File([data], name, { type: "image/svg" });
-        this.SaveDiagramThenShowNotesModal(file);
-      })
-      .catch(function(error) {
-        console.error("oops, something went wrong!", error);
-      });
+    const name = randomString({ length: 10 });
+    const file = new File(["test"], name, {
+      type: "image/png"
+    });
+    this.SaveDiagramThenShowNotesModal(file);
   };
 
   render() {

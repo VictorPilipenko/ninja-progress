@@ -1,9 +1,9 @@
 import React from "react";
-import domtoimage from "dom-to-image";
 import randomString from "random-string";
 
 import ModalNodeWidget from "../../../../common/ModalNodeWidget";
 import "./NotesNodeRightPanel.css";
+import html2canvas from "html2canvas";
 
 export default class NotesNodeRightPanel extends React.Component {
   state = {
@@ -125,26 +125,11 @@ export default class NotesNodeRightPanel extends React.Component {
       <ModalNodeWidget
         show={this.props.work.showNotesWidgetBoolean}
         handleClose={() => {
-          let diagram = document.getElementById("diagram-layer");
-          domtoimage
-            .toBlob(diagram)
-            .then(data => {
-              const name = randomString({ length: 10 });
-              const file = new File([data], name, { type: "image/png" });
-              this.saveDiagramThenCloseSettingModal(file);
-            })
-            .catch(function(error) {
-              console.error("oops, something went wrong!", error);
-            });
-
-          // domtoimage.toBlob(diagram).then(dataUrl => {
-          //   console.log(dataUrl);
-          // });
-
-          // const blob = new Blob([diagram.innerHTML], { type: "text/html" });
-          // console.log(blob);
-
-      
+          const name = randomString({ length: 10 });
+          const file = new File(["test"], name, {
+            type: "image/png"
+          });
+          this.saveDiagramThenCloseSettingModal(file);
         }}
       >
         <label className="label-create-widget-settings">Notes</label>

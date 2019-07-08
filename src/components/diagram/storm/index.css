@@ -25,6 +25,16 @@
   padding: 0px !important;
 }
 
+#diagram {
+  position: relative;
+  flex-grow: 1;
+  display: flex;
+  cursor: move;
+  overflow: hidden;
+  height: 100vh ;
+  background-color: #f6f7f8;
+}
+
 #diagram-layer {
   position: relative;
   flex-grow: 1;
