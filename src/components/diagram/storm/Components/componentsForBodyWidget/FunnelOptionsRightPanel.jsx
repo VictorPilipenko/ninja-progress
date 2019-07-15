@@ -50,7 +50,7 @@ export default class FunnelNotesRightPanel extends React.Component {
             <button
               className="diagram-header-menu-button"
               onClick={this.showMenu}
-              style={{ background: this.state.showMenu ? "#ecf1f2" : "#fff" }}
+              // style={{ background: this.state.showMenu ? "#ecf1f2" : "#fff" }}
             >
               <MenuWidgetSVG />
             </button>

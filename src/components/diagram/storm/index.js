@@ -52,7 +52,6 @@ class App extends React.Component {
         };
       else
         return {
-          diagram: null,
           snackMsg: 'prev',
         };
     else
