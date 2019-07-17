@@ -225,9 +225,8 @@ export function questionnaireUser(props) {
   return function (dispatch, getState) {
     let routerState = getState().router
 
-    API.patch(`myprofile`, obj)
+    API.patch(`profile`, obj)
       .then(response => {
-        // console.log(response.data)
 
         dispatch({ type: QUESTIONNAIRE_SUCCESS });
 

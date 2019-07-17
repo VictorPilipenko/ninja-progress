@@ -147,7 +147,7 @@ class Questionnaire extends React.Component {
 
 
 
-              {values.radioGroup === 'Company' ?
+              {/* {values.radioGroup === 'Company' ?
                 <div className="test">
                   <label htmlFor="companyName" className='label'>
                     Company name
@@ -181,9 +181,9 @@ class Questionnaire extends React.Component {
                 </div>
                 :
                 null
-              }
+              } */}
 
-              {values.radioGroup === 'Agency' ?
+              {/* {values.radioGroup === 'Agency' ?
                 <div className="test">
                   <label htmlFor="agencyName" className='label'>
                     Agency name
@@ -217,7 +217,7 @@ class Questionnaire extends React.Component {
                 </div>
                 :
                 null
-              }
+              } */}
 
               {/* Server error message */}
               {this.props.errorMessage && this.props.errorMessage.signin &&
@@ -245,7 +245,26 @@ class Questionnaire extends React.Component {
         {/* Signup button */}
         <div className="form-bottom-register">
           <p style={{ color: '#848f99' }}>By clicking "Submit" you agree to Funnelsmap</p>
-          <p className='terms-policy' style={{ color: '#848f99' }}><NavLink to="/questionnaire">Terms of Use</NavLink> and <NavLink to="/questionnaire">Privacy Policy</NavLink></p>
+          <p 
+            className='terms-policy' 
+            style={{ color: '#848f99' }}
+          >
+          <a
+            href='https://funnelsmap.com/terms-of-use/'
+            target='_blank'
+          >
+            Terms of Use
+          </a>
+          {' '}
+          and
+          {' '}
+          <a
+            href='https://funnelsmap.com/privacy-policy/'
+            target='_blank'
+          >
+            Privacy Policy
+          </a>
+          </p>
           {/* <NavLink to="/sign-in">Already have an account?</NavLink> */}
         </div>
         <div className='empty-space' />

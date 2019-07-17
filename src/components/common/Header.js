@@ -163,13 +163,17 @@ class Header extends Component {
                     <button className='btn btn-1 btn-show-modal-create' onClick={this.showModal}>Create Project</button>
                   }
 
-                  <div style={{ marginLeft: 30, marginRight: 10, display: 'flex' }}>
+                  <a
+                    href='https://funnelsmap.com/tutorials/'
+                    target='_blank'
+                    style={{ marginLeft: 30, marginRight: 10, display: 'flex' }}
+                  >
                     <QuestionSVG />
-                  </div>
+                  </a>
 
-                  <div style={{ marginLeft: 5, marginRight: 20, display: 'flex' }}>
+                  {/* <div style={{ marginLeft: 5, marginRight: 20, display: 'flex' }}>
                     <RingSVG />
-                  </div>
+                  </div> */}
 
                   <div className='header-img-preview' onClick={this.showModalSignOut}>
                     {userAvatar === API_URL ? <div className="header-preview-empty">{userFirstName[0] && userFirstName[0].toUpperCase()}</div> : <img src={userAvatar} alt='Avatar' />}
@@ -229,17 +233,25 @@ class Header extends Component {
           }}
         >
           <Select show={this.state.showSignOut}>
-            <p style={{
-              fontSize: '13px',
-              textAlign: 'left',
-              paddingLeft: '11px',
-              background: '#f6f8f9',
-              margin: '0',
-              paddingTop: '20px',
-              paddingBottom: '20px',
-            }}
-              className='header-select-label'>You are currently on a free subscription!<br /><span style={{ color: '#fd8f21' }}>Upgrade</span></p>
-            <p className='text-settings-payment' style={{
+            <p 
+              className='header-select-label'
+              style={{
+                fontSize: '13px',
+                textAlign: 'left',
+                paddingLeft: '11px',
+                background: '#f6f8f9',
+                margin: '0',
+                paddingTop: '20px',
+                paddingBottom: '20px',
+              }}
+            >
+              You are currently on a free subscription!
+              {/* <br />
+              <span style={{ color: '#fd8f21' }}>Upgrade</span> */}
+            </p>
+            {/* <p 
+            className='text-settings-payment' 
+            style={{
               display: 'flex',
               paddingLeft: '15px',
               marginBottom: '10px',
@@ -248,7 +260,7 @@ class Header extends Component {
             }}
             ><span style={{ color: '#fd8f21', marginRight: 8 }}>✓</span>Funnelsmap UI/UX design</p>
             <p className='text-settings-payment' style={{ display: 'flex', marginLeft: 15 }}><li style={{ color: '#ea4e9d' }}></li>MOSKALOW</p>
-            <p className='text-settings-payment' style={{ display: 'flex', marginLeft: 15, marginBottom: 25, marginTop: 10 }}><li style={{ color: '#4186e0' }}></li>TRIOLUX</p>
+            <p className='text-settings-payment' style={{ display: 'flex', marginLeft: 15, marginBottom: 25, marginTop: 10 }}><li style={{ color: '#4186e0' }}></li>TRIOLUX</p> */}
 
             <button className='btn-select btn-select-delete' onClick={() => this.props.signOutUser()}>Log Out</button>
           </Select>

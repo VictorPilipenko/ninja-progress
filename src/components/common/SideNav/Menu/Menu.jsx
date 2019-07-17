@@ -16,9 +16,9 @@ const Menu = () => {
       <MenuItem exact={true} to="/" name="Projects" icon={<ProjectSVG />} />
       <MenuItem exact={true} to="/templates" name="Templates" icon={<TemplatesSVG />} />
       <MenuItem exact={false} to="/collaborations" name="Collaborations" icon={<CollaborationsSVG />} />
-      <MenuItemLink href="https://www.instagram.com/" target='_blank' name="Helpdesk" icon={<HelpdeskSVG />} />
+      <MenuItemLink href="https://funnelsmap.com/helpdesk/" target='_blank' name="Helpdesk" icon={<HelpdeskSVG />} />
       <MenuItem exact={false} to="/settings" name="Settings" icon={<SettingsSVG />} />
-      <MenuItemUpgrade exact={false} to="/upgrade" name="Upgrade" />
+      {/* <MenuItemUpgrade exact={false} to="/upgrade" name="Upgrade" /> */}
 
       {/* <MenuItem exact={false} to="/" name="Settings"> */}
         {/* <MenuItem sub exact={false} to="/settings/account-details" name="account-details" /> */}

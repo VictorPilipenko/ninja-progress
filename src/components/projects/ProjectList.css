@@ -83,7 +83,6 @@
 }
 
 .project-list-limit{
-  z-index: 10;
   position: absolute;
   right: 20px;
   top: 77px;
