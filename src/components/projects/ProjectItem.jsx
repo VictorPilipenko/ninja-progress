@@ -144,10 +144,17 @@ class ProjectItem extends React.Component {
             }}
           >
             <Select show={this.state.show} handleClose={this.hideModal} expanded={this.state.expanded}>
-              <button className='btn-select btn-select-copy'>Make a copy</button>
-              <button className='btn-select' onClick={this.showModalCollaborate}>Collaborate</button>
+
+              {/* <button className='btn-select btn-select-copy'>Make a copy</button> */}
+              {/* <button className='btn-select' onClick={this.showModalCollaborate}>Collaborate</button> */}
+              {/* <button className='btn-select btn-select-share'>Share</button> */}
+              {/* <button className='btn-select btn-select-delete' onClick={this.showModalDelete}>Delete</button> */}
+
+              <button className='btn-select btn-select-copy' onClick={this.showModalCollaborate}>Collaborate</button>
+              {/* <button className='btn-select' onClick={this.showModalCollaborate}>Collaborate</button> */}
               {/* <button className='btn-select btn-select-share'>Share</button> */}
               <button className='btn-select btn-select-delete' onClick={this.showModalDelete}>Delete</button>
+              
             </Select>
           </ClickOutside>
 
