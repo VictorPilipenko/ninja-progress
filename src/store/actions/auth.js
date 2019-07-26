@@ -37,28 +37,43 @@ export function emailValidError(emailValidationInfo) {
  */
 export function signupUser(props) {
   const { firstName, accountName, email, password } = props;
+  const limitedFalse = false
 
   return function (dispatch, getState) {
     let routerState = getState().router
 
-    API.post(`sign-up`, {
-      'password': password,
-      'email': email,
-      'firstName': firstName,
-      'accountName': accountName,
-      'limited': false
-    })
-      .then(response => {
-        // console.log(response.data)
+    localStorage.setItem('signUpData', JSON.stringify(props, limitedFalse));
+    localStorage.setItem('limited', JSON.stringify(limitedFalse));
 
-        if (response.data) {
-          localStorage.setItem('token', JSON.stringify(response.data.token));
-          localStorage.setItem('userFirstName', response.data.data.firstName);
-          localStorage.setItem('userAvatar', JSON.stringify(API_URL + response.data.data.photoUrl));
-        }
+    // dispatch({
+    //   type: 'SAVE_SIGN_UP_DATA',
+    //   payload: {
+    //     password,
+    //     email,
+    //     firstName,
+    //     accountName,
+    //     'limited': false,
+    //   }
+    // });
 
-        dispatch({ type: SIGNUP_SUCCESS });
-        dispatch({ type: AUTH_USER });
+    // API.post(`sign-up`, {
+    //   'password': password,
+    //   'email': email,
+    //   'firstName': firstName,
+    //   'accountName': accountName,
+    //   'limited': false
+    // })
+    //   .then(response => {
+    //     // console.log(response.data)
+
+    //     if (response.data) {
+    //       localStorage.setItem('token', JSON.stringify(response.data.token));
+    //       localStorage.setItem('userFirstName', response.data.data.firstName);
+    //       localStorage.setItem('userAvatar', JSON.stringify(API_URL + response.data.data.photoUrl));
+    //     }
+
+    //     dispatch({ type: SIGNUP_SUCCESS });
+    //     dispatch({ type: AUTH_USER });
 
         let params = new URLSearchParams(routerState.location.search);
         if (params.get('add-collaborations')) {
@@ -68,12 +83,12 @@ export function signupUser(props) {
           dispatch(push('/questionnaire'));
         }
 
-      })
-      .catch(function (error) {
-        if (error.response) {
-          dispatch(authError(SIGNUP_FAILURE, error.response.data.err.message))
-        }
-      });
+      // })
+      // .catch(function (error) {
+      //   if (error.response) {
+      //     dispatch(authError(SIGNUP_FAILURE, error.response.data.err.message))
+      //   }
+      // });
   }
 }
 
@@ -81,28 +96,34 @@ export function signupUser(props) {
 export function signupTester(props) {
   console.log('signupTester')
   const { firstName, accountName, email, password } = props;
+  const limitedTrue = true
 
   return function (dispatch, getState) {
     let routerState = getState().router
 
-    API.post(`sign-up`, {
-      'password': password,
-      'email': email,
-      'firstName': firstName,
-      'accountName': accountName,
-      'limited': true
-    })
-      .then(response => {
-        // console.log(response.data)
+    localStorage.setItem('signUpData', JSON.stringify(props));
+    localStorage.setItem('limited', JSON.stringify(limitedTrue));
+     
 
-        if (response.data) {
-          localStorage.setItem('token', JSON.stringify(response.data.token));
-          localStorage.setItem('userAvatar', JSON.stringify(API_URL + response.data.data.photoUrl));
-          localStorage.setItem('userFirstName', response.data.data.firstName);
-        }
 
-        dispatch({ type: SIGNUP_SUCCESS });
-        dispatch({ type: AUTH_USER });
+    // API.post(`sign-up`, {
+    //   'password': password,
+    //   'email': email,
+    //   'firstName': firstName,
+    //   'accountName': accountName,
+    //   'limited': true
+    // })
+    //   .then(response => {
+    //     // console.log(response.data)
+
+    //     if (response.data) {
+    //       localStorage.setItem('token', JSON.stringify(response.data.token));
+    //       localStorage.setItem('userAvatar', JSON.stringify(API_URL + response.data.data.photoUrl));
+    //       localStorage.setItem('userFirstName', response.data.data.firstName);
+    //     }
+
+    //     dispatch({ type: SIGNUP_SUCCESS });
+    //     dispatch({ type: AUTH_USER });
 
         let params = new URLSearchParams(routerState.location.search);
         if (params.get('add-collaborations')) {
@@ -112,12 +133,12 @@ export function signupTester(props) {
           dispatch(push('/questionnaire'));
         }
 
-      })
-      .catch(function (error) {
-        if (error.response) {
-          dispatch(authError(SIGNUP_FAILURE, error.response.data.err.message))
-        }
-      });
+      // })
+      // .catch(function (error) {
+      //   if (error.response) {
+      //     dispatch(authError(SIGNUP_FAILURE, error.response.data.err.message))
+      //   }
+      // });
   }
 }
 
@@ -179,7 +200,7 @@ export function validationUser(email) {
 /*
  * Questionnaire
  */
-export function questionnaireUser(props) {
+export function questionnaireUser(props, signUpData, limited) {
   const {
     radioGroup,
     Name,
@@ -190,45 +211,55 @@ export function questionnaireUser(props) {
 
   if (radioGroup === `Company`) {
     obj = {
-      'description': {
-        'companyName': Name,
-        'companyWebsite': Website,
-      }
+      'description': radioGroup
     }
   }
 
   if (radioGroup === `Agency`) {
     obj = {
-      'description': {
-        'agencyName': Name,
-        'agencyWebsite': Website,
-      }
+      'description': radioGroup
     }
   }
 
   if (radioGroup === `Freelancer`) {
     obj = {
-      'description': {
-        'Freelancer': radioGroup,
-      }
+      'description': radioGroup
     }
   }
 
   if (radioGroup === `Other`) {
     obj = {
-      'description': {
-        'Other': radioGroup,
-      }
+      'description': radioGroup
+    }
+  }
+
+    if (radioGroup === null) {
+    obj = {
+      'description': null  
     }
   }
 
   return function (dispatch, getState) {
     let routerState = getState().router
 
-    API.patch(`profile`, obj)
+    API.post(`sign-up`, {
+      'password': signUpData.password,
+      'email': signUpData.email,
+      'firstName': signUpData.firstName,
+      'accountName': signUpData.accountName,
+      'limited': limited,
+      'description': obj
+    })
       .then(response => {
 
-        dispatch({ type: QUESTIONNAIRE_SUCCESS });
+        if (response.data) {
+          localStorage.setItem('token', JSON.stringify(response.data.token));
+          localStorage.setItem('userFirstName', response.data.data.firstName);
+          localStorage.setItem('userAvatar', JSON.stringify(API_URL + response.data.data.photoUrl));
+        }
+
+        dispatch({ type: SIGNUP_SUCCESS });
+        dispatch({ type: AUTH_USER });
 
         let params = new URLSearchParams(routerState.location.search);
         if (params.get('add-collaborations')) {
@@ -239,10 +270,13 @@ export function questionnaireUser(props) {
           dispatch(push('/'));
         }
 
+        localStorage.removeItem('signUpData');
+        localStorage.removeItem('limited');
       })
+
       .catch(function (error) {
         if (error.response) {
-          dispatch(authError(QUESTIONNAIRE_FAILURE, error.response.data.err.message))
+          dispatch(authError(SIGNUP_FAILURE, error.response.data.err.message))
         }
       });
   }

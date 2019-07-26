@@ -185,7 +185,7 @@ input[type=text]:focus, input[type=password]:focus {
   background: linear-gradient(263deg, #d6180f 0%, #F15C22 100%);
 }
 
-.form-password-forgot a{
+.form-password-forgot{
   font-size: 14px;
   margin-top: 20px;
   display: flex;
@@ -196,10 +196,17 @@ input[type=text]:focus, input[type=password]:focus {
   margin: 20px auto 0;
 }
 
-.form-password-forgot a:hover {
-  /* text-decoration: underline !important; */
+.form-password-forgot:hover {
   color: #F15C22 !important;
   border-bottom: 2px dashed #F15C22;
+}
+
+.form-password-forgot-button{
+  color: #848F99 !important;
+}
+
+.form-password-forgot-button:hover{
+  color: #F15C22 !important;
 }
 
 .form-bottom {

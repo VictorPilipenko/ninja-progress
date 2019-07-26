@@ -34,7 +34,7 @@ const AppRouter = () => (
     <Route path="/password-forgot-step-2" component={PasswordForgot2} />
     <Route path="/password-forgot-step-3" component={PasswordForgot3} />
 
-    <PrivateRoute path="/questionnaire" component={Questionnaire} />
+    <Route path="/questionnaire" component={Questionnaire} />
 
     <PrivateRouteAddCollaborator path="/add-collaborators/:token" component={AddCollaborators} />
     <Route path="/add-collaborators-image" component={AddCollaboratorsImage} />

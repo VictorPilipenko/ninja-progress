@@ -81,9 +81,9 @@ class Signin extends React.Component {
                 Log In
               </button>
 
-              <div className="form-password-forgot">
-                <NavLink to="/password-forgot-step-1">Forgot your password?</NavLink>
-              </div>
+              {/* <div className="form-password-forgot"> */}
+                <NavLink className="form-password-forgot" to="/password-forgot-step-1">Forgot your password?</NavLink>
+              {/* </div> */}
 
             </div>
           </form>

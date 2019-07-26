@@ -8,6 +8,8 @@ import './Sign.css'
 import logo from '../../assets/Logo_invert.png'
 import classNames from "classnames";
 
+const props={radioGroup: null}
+
 const InputFeedback = ({ error }) =>
   error ? <div className={("input-group")}>{error}</div> : null;
 
@@ -227,16 +229,39 @@ class Questionnaire extends React.Component {
                 Submit
               </button>
 
-              {
+
+              {/* {
                 params.get('add-collaborations') ?
                   <div className="form-password-forgot">
                     <NavLink to={params.get('add-collaborations')}>Skip</NavLink>
                   </div>
-                  :
+                  : */}
                   <div className="form-password-forgot">
-                    <NavLink to="/">Skip</NavLink>
+                  {
+                    JSON.parse(localStorage.getItem('signUpData')) && 
+                    <button 
+                      onClick={() => 
+                        this.props.questionnaireUser(
+                            props, 
+                            JSON.parse(localStorage.getItem('signUpData')), 
+                            localStorage.getItem('limited')
+                          )
+                      }
+                      style={{ 
+                        color: '#F15C22',
+                        border: 0,
+                        backgroundColor: 'inherit',
+                        cursor: 'pointer',
+                      }}
+                      type="button"
+                      className="form-password-forgot-button"
+                    >
+                      Skip
+                    </button>
+                  }
+                    {/* <NavLink to="/">Skip</NavLink> */}
                   </div>
-              }
+              {/* } */}
 
             </div>
           </form>
@@ -285,8 +310,10 @@ const formikEnhancer = withFormik({
     radioGroup: '',
   }),
   handleSubmit: (payload, { props, setSubmitting }) => {
-    // console.log('payload', payload)
-    props.questionnaireUser(payload);
+    const signUpData = JSON.parse(localStorage.getItem('signUpData'));
+    const limited = localStorage.getItem('limited');
+
+    props.questionnaireUser(payload, signUpData, limited);
     setSubmitting(false);
   },
   displayName: 'QuestionnaireForm',
@@ -301,7 +328,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    questionnaireUser: arr => dispatch(questionnaireUser(arr)),
+    questionnaireUser: (arr, data, limited) => dispatch(questionnaireUser(arr, data, limited)),
   }
 }
 
