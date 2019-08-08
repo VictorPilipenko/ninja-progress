@@ -1,4 +1,4 @@
-import * as RJD from "storm-react-diagrams";
+import * as RJD from "@projectstorm/react-diagrams";
 
 //import custom link, port and factory
 import { NodeFactory } from "./custom/NodeFactory";

@@ -3,7 +3,7 @@ import {
   DefaultPortModel,
   DefaultLinkModel,
   DefaultLinkFactory,
-} from "storm-react-diagrams";
+} from "@projectstorm/react-diagrams";
 
 export class AdvancedLinkModel extends DefaultLinkModel {
   constructor() {

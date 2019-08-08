@@ -1,12 +1,11 @@
 import * as React from "react";
 import { TrayWidget } from "./TrayWidget";
 import { TrayBigItemWidget, TraySmallItemWidget } from "./TrayItemWidget";
-import * as RJD from "storm-react-diagrams";
+import * as RJD from "@projectstorm/react-diagrams";
 import domtoimage from "dom-to-image";
 import ClickOutside from "../../../common/ClickOutside";
 import Modal from "../../../common/Modal/Modal";
 import randomString from "random-string";
-import html2canvas from "html2canvas";
 // import the custom models
 
 import { CustomNodeModel } from "../custom/CustomNodeModel";
@@ -600,11 +599,11 @@ export default class BodyWidget extends React.Component {
                   deleteKeys={[46]}
                   // smartRouting={true}
                   allowCanvasZoom={false}
-                  // allowCanvasTranslation={false}
+                  allowCanvasTranslation={false}
                   className="srd-demo-canvas"
                   diagramEngine={this.props.app.getDiagramEngine()}
                   allowLooseLinks={false}
-                  maxNumberPointsPerLink={0}
+                  // maxNumberPointsPerLink={0}
                 />
               </div>
             </div>

@@ -1,5 +1,4 @@
 import * as React from "react";
-import html2canvas from "html2canvas";
 import randomString from "random-string";
 
 import ModalNodeWidget from "../../../../common/ModalNodeWidget";

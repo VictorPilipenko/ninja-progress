@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as SRD from "storm-react-diagrams";
+import * as SRD from "@projectstorm/react-diagrams";
 
 export class NodeFactory extends SRD.AbstractNodeFactory {
 

@@ -1,9 +1,8 @@
 import * as React from "react";
-import { PortWidget, PointModel, DiagramEngine } from "storm-react-diagrams";
+import { PortWidget, PointModel, DiagramEngine } from "@projectstorm/react-diagrams";
 import ReactSVG from "react-svg";
 import ClickOutside from "../../../../common/ClickOutside";
 import ModalNodeWidget from "../../../../common/ModalNodeWidget";
-import html2canvas from "html2canvas";
 
 import { ReactComponent as CopySVG } from "../../../../../assets/selectForWidget/copy.svg";
 import { ReactComponent as DeleteAllLinksSVG } from "../../../../../assets/selectForWidget/delete-all-links.svg";

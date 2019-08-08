@@ -1,5 +1,5 @@
 import * as _ from "lodash";
-import { PortModel } from "storm-react-diagrams";
+import { PortModel } from "@projectstorm/react-diagrams";
 import { AdvancedLinkModel } from "./customLink";
 
 
