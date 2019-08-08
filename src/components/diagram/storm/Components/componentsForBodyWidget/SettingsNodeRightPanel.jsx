@@ -4,9 +4,10 @@ import randomString from "random-string";
 
 import ModalNodeWidget from "../../../../common/ModalNodeWidget";
 
-export default class SettingsNodeRightPanel extends React.Component {
+export default class SettingsNodeRightPanel extends React.Component { 
+
   state = {
-    labelNode: ""
+    labelNode: ''
   };
 
   handleChangeNode = e =>
@@ -15,12 +16,15 @@ export default class SettingsNodeRightPanel extends React.Component {
         labelNode: e.target.value
       },
       () =>
-        (this.props.work.showSettingsWidgetModel.extras.setNameExtras &&
+      {
+         (this.props.work.showSettingsWidgetModel.extras.setNameExtras &&
           this.props.work.showSettingsWidgetModel.extras.setNameExtras(
             this.state.labelNode
           )) ||
         (this.props.work.showSettingsWidgetModel.setName &&
           this.props.work.showSettingsWidgetModel.setName(this.state.labelNode))
+      }
+       
     );
 
   saveDiagramThenCloseSettingModal = file =>
@@ -38,6 +42,7 @@ export default class SettingsNodeRightPanel extends React.Component {
           file,
           false
         );
+        this.setState({ labelNode: '' })
       }
     );
 

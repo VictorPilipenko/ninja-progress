@@ -244,7 +244,7 @@ export function questionnaireUser(props, signUpData, limited) {
 
     API.post(`sign-up`, {
       'password': signUpData.password,
-      'email': signUpData.email,
+      'email': signUpData.email.toLowerCase(),
       'firstName': signUpData.firstName,
       'accountName': signUpData.accountName,
       'limited': limited,
