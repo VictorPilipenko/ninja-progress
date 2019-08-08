@@ -604,7 +604,7 @@ export default class BodyWidget extends React.Component {
                   className="srd-demo-canvas"
                   diagramEngine={this.props.app.getDiagramEngine()}
                   allowLooseLinks={false}
-                  maxNumberPointsPerLink={0}
+                  // maxNumberPointsPerLink={0}
                 />
               </div>
             </div>
