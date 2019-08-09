@@ -1,13 +1,16 @@
 import * as React from "react";
-import html2canvas from "html2canvas";
 import randomString from "random-string";
-
 import ModalNodeWidget from "../../../../common/ModalNodeWidget";
+import './SettingsNodeRightPanel.css'
+
 
 export default class SettingsNodeRightPanel extends React.Component { 
 
   state = {
     labelNode: ''
+      // this.props.work.showSettingsWidgetModel &&
+      // this.props.work.showSettingsWidgetModel.extras &&
+      // this.props.work.showSettingsWidgetModel.extras.named
   };
 
   handleChangeNode = e =>
@@ -42,7 +45,12 @@ export default class SettingsNodeRightPanel extends React.Component {
           file,
           false
         );
-        this.setState({ labelNode: '' })
+        this.setState({ 
+          labelNode: ''
+            // this.props.work.showSettingsWidgetModel &&
+            // this.props.work.showSettingsWidgetModel.extras &&
+            // this.props.work.showSettingsWidgetModel.extras.named
+        })
       }
     );
 
@@ -63,7 +71,8 @@ export default class SettingsNodeRightPanel extends React.Component {
           <label htmlFor="Name" className="label-input">
             Name
           </label>
-          <input
+          <textarea
+            className='node-panel-textarea-input'
             id="Name"
             placeholder="Label Name"
             type="text"

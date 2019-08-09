@@ -35,6 +35,8 @@ import { CustomNodeModel } from "../CustomNodeModel";
 
 import { API_URL } from "../../../../../config";
 
+import './index.css'
+
 import randomString from "random-string";
 
 //modalka, fuck yeah
@@ -190,6 +192,31 @@ class SmallNodeWidget extends React.Component {
     this.hideModal();
     this.forceUpdate();
     document.getElementById("diagram-layer").click();
+
+    const name = randomString({ length: 10 });
+    const file = new File(["test"], name, {
+      type: "image/png"
+    });
+    this.SaveDiagramForCloneSelected(file);
+  };
+
+  SaveDiagramForCloneSelected = file => {
+    this.setState(
+      {
+        snackMsg: "next",
+        converted: this.serialization(this.props.engine.getDiagramModel())
+      },
+      () => {
+        this.props.saveDiagramThenShowOrHideSettingsModal(
+          this.props.funnelId,
+          this.state,
+          file,
+          false,
+          this.props.node,
+          this.props.engine.getDiagramModel()
+        );
+      }
+    );
   };
 
   deleteAllLinks = () => {
@@ -258,67 +285,8 @@ class SmallNodeWidget extends React.Component {
   render() {
     return (
       <>
-        <div
-          className="small-area-for-hover"
-          onMouseEnter={this.showModal}
-          onMouseLeave={this.hideModal}
-        />
-        <ClickOutside
-          onClickOutside={() => {
-            this.setState({ show: false });
-          }}
-          onMouseEnter={this.showModal}
-          onMouseLeave={this.hideModal}
-        >
-          <Select show={this.state.show}>
-            <button
-              className="btn-select-widget"
-              onClick={this.showSettingsModal}
-              title={"Settings"}
-            >
-              <SettingsSVG />
-            </button>
-            <button
-              className="btn-select-widget"
-              onClick={this.showNotesModal}
-              title={"Notes"}
-            >
-              <NotesSVG />
-            </button>
-            <button
-              className="btn-select-widget"
-              onClick={this.cloneSelected}
-              title={"Copy"}
-            >
-              <CopySVG />
-            </button>
-            <button
-              className="btn-select-widget"
-              onClick={this.deleteNode}
-              title={"Delete"}
-            >
-              <DeleteSVG />
-            </button>
-            <button
-              className="btn-select-widget"
-              onClick={this.deleteAllLinks}
-              title={"Delete All Links"}
-            >
-              <DeleteAllLinksSVG />
-            </button>
-          </Select>
-        </ClickOutside>
-
-        <div style={{ display: "flex", justifyContent: "center" }}>
           <div
-            style={{
-              position: "absolute",
-              zIndex: 10,
-              top: -40,
-              fontSize: 13,
-              color: "rgb(33, 41, 57)",
-              fontWeight: 500
-            }}
+            className='small-node-title'
           >
             {this.props.node.extras.named
               ? this.props.node.extras.named
@@ -328,10 +296,10 @@ class SmallNodeWidget extends React.Component {
           <div
             style={{
               position: "relative",
-              height: this.props.node.selected ? 53 : null,
-              width: this.props.node.selected ? 155 : null,
-              border: this.props.node.selected ? ".5px dashed #848f99" : null,
-              borderRadius: this.props.node.selected ? 7 : null
+              height: 53,
+              width: 155,
+              // border: this.props.node.selected ? ".5px dashed #848f99" : null,
+              borderRadius: 7
             }}
             onMouseEnter={this.showModal}
             onMouseLeave={this.hideModal}
@@ -341,6 +309,62 @@ class SmallNodeWidget extends React.Component {
                 : this.props.node.type
             }
           >
+
+            <div
+              className="small-area-for-hover"
+              onMouseEnter={this.showModal}
+              onMouseLeave={this.hideModal}
+            />
+            <ClickOutside
+              onClickOutside={() => {
+                this.setState({ show: false });
+              }}
+              onMouseEnter={this.showModal}
+              onMouseLeave={this.hideModal}
+            >
+              <Select show={this.state.show}>
+                <button
+                  className="btn-select-widget"
+                  onClick={this.showSettingsModal}
+                  title={"Settings"}
+                >
+                  <SettingsSVG />
+                </button>
+                <button
+                  className="btn-select-widget"
+                  onClick={this.showNotesModal}
+                  title={"Notes"}
+                >
+                  <NotesSVG />
+                </button>
+                <button
+                  className="btn-select-widget"
+                  onClick={this.cloneSelected}
+                  title={"Copy"}
+                >
+                  <CopySVG />
+                </button>
+                <button
+                  className="btn-select-widget"
+                  onClick={this.deleteNode}
+                  title={"Delete"}
+                >
+                  <DeleteSVG />
+                </button>
+                <button
+                  className="btn-select-widget"
+                  onClick={this.deleteAllLinks}
+                  title={"Delete All Links"}
+                >
+                  <DeleteAllLinksSVG />
+                </button>
+              </Select>
+            </ClickOutside>
+
+
+
+
+
             <div className="small-model-wrapper">
               <div style={{ padding: 5, width: 40, height: 40 }}>
                 <ReactSVG
@@ -402,7 +426,6 @@ class SmallNodeWidget extends React.Component {
               <PortWidget name="bottom" node={this.props.node} />
             </div>
           </div>
-        </div>
       </>
     );
   }

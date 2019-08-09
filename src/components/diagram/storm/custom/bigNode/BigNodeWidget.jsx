@@ -31,6 +31,7 @@ import { CustomPortModel } from "../CustomPortModel";
 import SmallNodeWidget from "../smallNode/SmallNodeWidget";
 
 import { API_URL } from "../../../../../config";
+import './index.css'
 
 import randomString from "random-string";
 
@@ -185,6 +186,13 @@ class BigNodeWidget extends React.Component {
     this.hideModal();
     this.forceUpdate();
     document.getElementById("diagram-layer").click();
+
+
+    const name = randomString({ length: 10 });
+    const file = new File(["test"], name, {
+      type: "image/png"
+    });
+    this.SaveDiagramForCloneSelected(file);
   };
 
   deleteAllLinks = () => {
@@ -194,6 +202,25 @@ class BigNodeWidget extends React.Component {
       }
     });
     document.getElementById("diagram-layer").click();
+  };
+
+  SaveDiagramForCloneSelected = file => {
+    this.setState(
+      {
+        snackMsg: "next",
+        converted: this.serialization(this.props.engine.getDiagramModel())
+      },
+      () => {
+        this.props.saveDiagramThenShowOrHideSettingsModal(
+          this.props.funnelId,
+          this.state,
+          file,
+          false,
+          this.props.node,
+          this.props.engine.getDiagramModel()
+        );
+      }
+    );
   };
 
   SaveDiagramThenShowSettingsModal = file => {
@@ -255,133 +282,126 @@ class BigNodeWidget extends React.Component {
     return (
       <>
         <div
-          className="big-area-for-hover"
-          onMouseEnter={this.showModal}
-          onMouseLeave={this.hideModal}
-        />
-        <ClickOutside
-          onClickOutside={() => {
-            this.setState({ show: false });
+          className='big-node-title'
+        >
+          {this.props.node.extras.named
+            ? this.props.node.extras.named
+            : this.props.node.type}
+        </div>
+
+        <div
+          style={{
+            position: "relative",
+            height: 122,
+            width: 92,
+            // border: this.props.node.selected ? ".5px dashed #848f99" : null,
+            borderRadius: 7,
           }}
           onMouseEnter={this.showModal}
           onMouseLeave={this.hideModal}
+          title={
+            this.props.node.extras.named
+              ? this.props.node.extras.named
+              : this.props.node.type
+          }
         >
-          <Select show={this.state.show}>
-            <button
-              className="btn-select-widget"
-              onClick={this.showSettingsModal}
-              title={"Settings"}
-            >
-              <SettingsSVG />
-            </button>
-            <button
-              className="btn-select-widget"
-              onClick={this.showNotesModal}
-              title={"Notes"}
-            >
-              <NotesSVG />
-            </button>
-            <button
-              className="btn-select-widget"
-              onClick={this.cloneSelected}
-              title={"Copy"}
-            >
-              <CopySVG />
-            </button>
-            <button
-              className="btn-select-widget"
-              onClick={this.deleteNode}
-              title={"Delete"}
-            >
-              <DeleteSVG />
-            </button>
-            <button
-              className="btn-select-widget"
-              onClick={this.deleteAllLinks}
-              title={"Delete All Links"}
-            >
-              <DeleteAllLinksSVG />
-            </button>
-          </Select>
-        </ClickOutside>
 
-        <div style={{ display: "flex", justifyContent: "center" }}>
+          <div
+            className="big-area-for-hover"
+            onMouseEnter={this.showModal}
+            onMouseLeave={this.hideModal}
+          />
+
+          <ClickOutside
+            onClickOutside={() => {
+              this.setState({ show: false });
+            }}
+            onMouseEnter={this.showModal}
+            onMouseLeave={this.hideModal}
+          >
+            <Select show={this.state.show}>
+              <button
+                className="btn-select-widget"
+                onClick={this.showSettingsModal}
+                title={"Settings"}
+              >
+                <SettingsSVG />
+              </button>
+              <button
+                className="btn-select-widget"
+                onClick={this.showNotesModal}
+                title={"Notes"}
+              >
+                <NotesSVG />
+              </button>
+              <button
+                className="btn-select-widget"
+                onClick={this.cloneSelected}
+                title={"Copy"}
+              >
+                <CopySVG />
+              </button>
+              <button
+                className="btn-select-widget"
+                onClick={this.deleteNode}
+                title={"Delete"}
+              >
+                <DeleteSVG />
+              </button>
+              <button
+                className="btn-select-widget"
+                onClick={this.deleteAllLinks}
+                title={"Delete All Links"}
+              >
+                <DeleteAllLinksSVG />
+              </button>
+            </Select>
+          </ClickOutside>
+
+          <ReactSVG src={this.props.svg} />
+
           <div
             style={{
               position: "absolute",
               zIndex: 10,
-              top: -36,
-              fontSize: 13,
-              color: "#212939",
-              fontWeight: 500
+              top: 55,
+              left: -13
             }}
           >
-            {this.props.node.extras.named
-              ? this.props.node.extras.named
-              : this.props.node.type}
+            <PortWidget name="left" node={this.props.node} />
           </div>
 
           <div
             style={{
-              position: "relative",
-              height: this.props.node.selected ? 122 : null,
-              width: this.props.node.selected ? 92 : null,
-              border: this.props.node.selected ? ".5px dashed #848f99" : null,
-              borderRadius: this.props.node.selected ? 7 : null
+              position: "absolute",
+              zIndex: 10,
+              top: -13,
+              left: 38
             }}
-            onMouseEnter={this.showModal}
-            onMouseLeave={this.hideModal}
-            title={
-              this.props.node.extras.named
-                ? this.props.node.extras.named
-                : this.props.node.type
-            }
           >
-            <ReactSVG src={this.props.svg} />
+            <PortWidget name="top" node={this.props.node} />
+          </div>
 
-            <div
-              style={{
-                position: "absolute",
-                zIndex: 10,
-                top: 55,
-                left: -13
-              }}
-            >
-              <PortWidget name="left" node={this.props.node} />
-            </div>
+          <div
+            style={{
+              position: "absolute",
+              zIndex: 10,
+              top: 55,
+              left: 90
+            }}
+          >
+            <PortWidget name="right" node={this.props.node} />
+          </div>
 
-            <div
-              style={{
-                position: "absolute",
-                zIndex: 10,
-                top: -13,
-                left: 38
-              }}
-            >
-              <PortWidget name="top" node={this.props.node} />
-            </div>
-
-            <div
-              style={{
-                position: "absolute",
-                zIndex: 10,
-                top: 55,
-                left: 90
-              }}
-            >
-              <PortWidget name="right" node={this.props.node} />
-            </div>
-
-            <div
-              style={{
-                position: "absolute",
-                zIndex: 10,
-                top: 119,
-                left: 38
-              }}
-            >
-              <PortWidget name="bottom" node={this.props.node} />
-            </div>
+          <div
+            style={{
+              position: "absolute",
+              zIndex: 10,
+              top: 119,
+              left: 38
+            }}
+          >
+            <PortWidget name="bottom" node={this.props.node} />
           </div>
         </div>
       </>
