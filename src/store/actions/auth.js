@@ -5,8 +5,8 @@ import {
   SIGNIN_FAILURE,
   AUTH_USER,
   UN_AUTH_USER,
-  QUESTIONNAIRE_SUCCESS,
-  QUESTIONNAIRE_FAILURE,
+  // QUESTIONNAIRE_SUCCESS,
+  // QUESTIONNAIRE_FAILURE,
   PASSWORD_FORGOT_SUCCESS,
   PASSWORD_FORGOT_FAILURE,
 } from './types/index'
@@ -36,7 +36,7 @@ export function emailValidError(emailValidationInfo) {
  * Sign up
  */
 export function signupUser(props) {
-  const { firstName, accountName, email, password } = props;
+  // const { firstName, accountName, email, password } = props;
   const limitedFalse = false
 
   return function (dispatch, getState) {
@@ -95,7 +95,7 @@ export function signupUser(props) {
 
 export function signupTester(props) {
   console.log('signupTester')
-  const { firstName, accountName, email, password } = props;
+  // const { firstName, accountName, email, password } = props;
   const limitedTrue = true
 
   return function (dispatch, getState) {
@@ -203,8 +203,8 @@ export function validationUser(email) {
 export function questionnaireUser(props, signUpData, limited) {
   const {
     radioGroup,
-    Name,
-    Website,
+    // Name,
+    // Website,
   } = props;
 
   let obj = {};

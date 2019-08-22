@@ -32,14 +32,12 @@ export default class SaveBeforeExitModal extends React.Component {
             <div
               className='logo-widget'
               onClick={this.showSaveBeforeExit}
-              style={{ cursor: 'pointer' }}
             >
               <LogoWidgetSVG />
             </div>
             :
             <div
               className='logo-widget'
-              style={{ cursor: 'pointer' }}
             >
               <NavLink
                 to={'/templates'}

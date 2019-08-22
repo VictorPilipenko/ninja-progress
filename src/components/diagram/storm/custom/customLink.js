@@ -166,8 +166,51 @@ export class AdvancedLinkSegment extends React.Component {
           fill="orange"
         />
 
-        {
+        {     
           this.state.buttonVisible ?
+
+            // <svg>
+            //     <circle 
+            //       fill="#333"
+            //       r="20" 
+
+            //       // cx="122" 
+            //       // cy="125"
+
+            //       ref={ref => this.circleDelete1 = ref}
+            //       onMouseEnter={this.onMouseEnter}
+            //       onMouseLeave={this.onMouseLeave}
+            //     />
+            //     <ellipse 
+            //       transform="rotate(-45, 57, 55)"
+            //       fill="red"
+
+            //       // rx="3" 
+            //       // ry="21" 
+
+            //       // cx="55" 
+            //       // cy="150" 
+
+            //       ref={ref => this.circleDelete2 = ref}
+            //       onMouseEnter={this.onMouseEnter}
+            //       onMouseLeave={this.onMouseLeave}
+            //     />
+            //     <ellipse 
+            //       transform="rotate(45, 187, 55)"
+            //       fill="red"
+
+            //       // rx="3" 
+            //       // ry="21" 
+            //       // cx="190"
+            //       // cy="150" 
+
+            //       ref={ref => this.circleDelete3 = ref}
+            //       onMouseEnter={this.onMouseEnter}
+            //       onMouseLeave={this.onMouseLeave}
+            //     />
+            // </svg>
+      
+
             <circle
               className={'circle-delete'}
               onClick={() => this.simulateKey(46, "up")}
@@ -210,19 +253,19 @@ export class AdvancedLinkFactory extends DefaultLinkFactory {
 
   generateLinkSegment(model, widget, selected, path) {
     return (
-      <g>
-        <AdvancedLinkSegment
-          engine={widget.props.diagramEngine}
-          model={model}
-          path={path}
-          selected={selected}
-          inversed={
-            model.sourcePort && model.targetPort ?
-              this.getDirection(model.sourcePort, model.targetPort)
-              : null
-          }
-        />
-      </g>
+        <g>
+          <AdvancedLinkSegment
+            engine={widget.props.diagramEngine}
+            model={model}
+            path={path}
+            selected={selected}
+            inversed={
+              model.sourcePort && model.targetPort ?
+                this.getDirection(model.sourcePort, model.targetPort)
+                : null
+            }
+          />
+        </g>
     );
   }
 }

@@ -2,7 +2,6 @@ import React from "react";
 import "./Menu.css";
 import MenuItem from "./MenuItem";
 import MenuItemLink from "./MenuItemLink";
-import MenuItemUpgrade from "./MenuItemUpgrade";
 import { ReactComponent as ProjectSVG } from '../../../../assets/Projects.svg';
 import { ReactComponent as TemplatesSVG } from '../../../../assets/Templates.svg';
 import { ReactComponent as CollaborationsSVG } from '../../../../assets/Collaborations.svg';

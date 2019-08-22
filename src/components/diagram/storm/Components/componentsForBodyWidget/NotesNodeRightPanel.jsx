@@ -1,9 +1,7 @@
 import React from "react";
 import randomString from "random-string";
-
 import ModalNodeWidget from "../../../../common/ModalNodeWidget";
 import "./NotesNodeRightPanel.css";
-import html2canvas from "html2canvas";
 
 export default class NotesNodeRightPanel extends React.Component {
   state = {

@@ -1,14 +1,8 @@
 import * as React from "react";
 import domtoimage from "dom-to-image";
 import randomString from "random-string";
-
 import ModalFunnelWidget from "../../../../common/ModalFunnelWidget";
 import ClickOutside from "../../../../common/ClickOutside";
-
-import { ReactComponent as ArrowSelectSVG } from "../../../../../assets/ArrowSelect.svg";
-import { ReactComponent as LogoWidgetSVG } from "../../../../../assets/logo-widget.svg";
-import { ReactComponent as MenuWidgetSVG } from "../../../../../assets/menu-widget.svg";
-import { ReactComponent as ShareFunnelSVG } from "../../../../../assets/instructions.svg";
 import { ReactComponent as FunnelNotesSVG } from "../../../../../assets/FunnelNotes.svg";
 
 export default class FunnelNotesRightPanel extends React.Component {

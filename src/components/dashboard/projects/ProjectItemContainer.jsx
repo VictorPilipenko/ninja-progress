@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import ProjectItem from './ProjectItem.jsx';
-import { deleteProjectByUserId } from '../../store/actions/projects'
+import ProjectItem from './ProjectItem';
+import { deleteProjectByUserId } from '../../../store/actions/projects'
 
 class ProjectItemContainer extends Component {
   handleDelete = id => {

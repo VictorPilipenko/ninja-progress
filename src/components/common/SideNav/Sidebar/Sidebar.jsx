@@ -1,10 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
 import logo from "../../../../assets/Logo_invert.png"
-import "./Sidebar.css";
-
 import Menu from "../Menu";
+import "./Sidebar.css";
 
 const Sidebar = () => {
 	return(

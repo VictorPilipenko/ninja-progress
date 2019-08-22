@@ -1,19 +1,24 @@
 import * as React from "react";
+import { connect } from 'react-redux'
 import BodyWidget from "./Components/BodyWidget";
 import Application from "./Application";
-import "./index.css";
 import "storm-react-diagrams/dist/style.min.css";
-import { connect } from 'react-redux'
-import { saveDiagram, getTemplate, sendImageToCollaborate, resetSendImageToCollaborateLink } from '../../../store/actions/projects'
-import { getDiagram } from '../../../store/actions/projects'
-import { createTemplate, saveTemplate } from '../../../store/actions/projects'
+import "./index.css";
 import {
+  getDiagram,
+  createTemplate, 
+  saveTemplate,
   getSVG,
   saveDiagramThenCreateTemplate,
   changeFunnelName,
   saveDiagramThenExit,
   saveDiagramThenShowOrHideSettingsModal,
   saveDiagramThenShowOrHideNotesModal,
+  saveDiagram, 
+  getTemplate, 
+  sendImageToCollaborate, 
+  resetSendImageToCollaborateLink,
+  showAnalyticsBoolean,
 } from '../../../store/actions/projects'
 
 
@@ -33,7 +38,7 @@ class App extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.diagram) {
-      if (prevProps.diagram.snackMsg !== this.state.snackMsg) {
+      if (prevProps.diagram.snackMsg !== this.state.snackMsg && prevProps.diagram.snackMsg !== undefined) {
         this.props.getDiagram(this.props.funnelId);
         this.props.getTemplate(this.props.funnelId);
       }
@@ -89,6 +94,7 @@ function mapStateToProps(state, ownProps) {
     showNotesWidgetBoolean: state.projects.showNotesWidgetBoolean,
     showNotesWidgetModel: state.projects.showNotesWidgetModel,
     showNotesWidgetEngine: state.projects.showNotesWidgetEngine,
+    showTypeOfNode: state.projects.showTypeOfNode,
   };
 }
 
@@ -112,6 +118,8 @@ const mapDispatchToProps = dispatch => {
 
     saveDiagramThenShowOrHideNotesModal: (id, state, file, boolean, model, engine) =>
       dispatch(saveDiagramThenShowOrHideNotesModal(id, state, file, boolean, model, engine)),
+
+    showAnalyticsBoolean: boolean => dispatch(showAnalyticsBoolean(boolean)),
   }
 }
 

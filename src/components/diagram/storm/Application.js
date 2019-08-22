@@ -10,8 +10,9 @@ import { CustomPortModel } from "./custom/CustomPortModel";
 import { CustomNodeModel } from "./custom/CustomNodeModel";
 import BigNodeWidget from "./custom/bigNode/BigNodeWidget";
 import SmallNodeWidget from "./custom/smallNode/SmallNodeWidget";
-
+import TextNodeWidget from "./custom/textNode/TextWithPortsWidget";
 import { API_URL } from '../../../config'
+import TextWithOutPortsWidget from "./custom/textNode/TextWithOutPortsWidget";
 
 export default class Application {
   constructor(props, svg) {
@@ -26,6 +27,7 @@ export default class Application {
     this.elementsTraffic = []
     this.elementsEmailMarketing = []
     this.elementsEvents = []
+    this.elementsText = []
 
     if (svg) {
 
@@ -82,7 +84,27 @@ export default class Application {
         )
       ))
 
-      this.allElements = this.allElements.concat(this.elementsPages, this.elementsTraffic, this.elementsEmailMarketing, this.elementsEvents);
+      this.elementsText.push({
+        name: 'Text Area',
+        port: CustomPortModel,
+        widget: TextWithOutPortsWidget,
+        nodeModel: CustomNodeModel,
+      })
+
+      this.elementsText.push({
+        name: 'Text Panel',
+        port: CustomPortModel,
+        widget: TextNodeWidget,
+        nodeModel: CustomNodeModel,
+      })
+
+      this.allElements = this.allElements.concat(
+        this.elementsPages, 
+        this.elementsTraffic, 
+        this.elementsEmailMarketing, 
+        this.elementsEvents,
+        this.elementsText,
+      );
 
       this.createElements(this.allElements, this.engine)
 
@@ -116,6 +138,16 @@ export default class Application {
 
   newModel() {
     this.activeModel = new RJD.DiagramModel();
+    // this.activeModel.setGridSize(10);
+    // this.activeModel.addListener({
+    //   nodesUpdated: e => console.log("nodesUpdated", e),
+    //   linksUpdated: e => console.log("linksUpdated", e),
+    //   zoomUpdated: e => console.log("zoomUpdated", e),
+    //   gridUpdated: e => console.log("gridUpdated", e),
+    //   offsetUpdated: e => console.log("offsetUpdated", e),
+    //   entityRemoved: e => console.log("entityRemoved", e),
+    //   selectionChanged: e => console.log("selectionChanged", e)
+    // });
     this.engine.setDiagramModel(this.activeModel);
   }
 
@@ -138,6 +170,16 @@ export default class Application {
 
   deSerialization(engine, str) {
     const model2 = new RJD.DiagramModel();
+    // model2.setGridSize(10);
+    // model2.addListener({
+    //   nodesUpdated: e => console.log("nodesUpdated", e),
+    //   linksUpdated: e => console.log("linksUpdated", e),
+    //   zoomUpdated: e => console.log("zoomUpdated", e),
+    //   gridUpdated: e => console.log("gridUpdated", e),
+    //   offsetUpdated: e => console.log("offsetUpdated", e),
+    //   entityRemoved: e => console.log("entityRemoved", e),
+    //   selectionChanged: e => console.log("selectionChanged", e),
+    // });
     model2.deSerializeDiagram(JSON.parse(str), engine);
     engine.setDiagramModel(model2);
     return model2;

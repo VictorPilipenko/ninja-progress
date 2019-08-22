@@ -5,14 +5,15 @@ import {
   CREATE_PROJECT_FAILURE,
   DELETE_PROJECT_FAILURE,
   GET_ALL_PROJECTS_FAILURE,
-  CREATE_PROJECT_SUCCESS,
   DELETE_PROJECT_SUCCESS,
   GET_ALL_PROJECTS_SUCCESS,
 } from '../actions/types/index';
 
 
 const initialState = {
-  showSettingsWidgetBoolean: false
+  showSettingsWidgetBoolean: false,
+  showAnalyticsBoolean: false,
+  createProjectError: ''
 }
 
 export default function (state = initialState, action) {
@@ -56,7 +57,7 @@ export default function (state = initialState, action) {
         action.payload
         ]
       };
-    case CREATE_PROJECT_SUCCESS:
+    case 'CLEAR_CREATE_PROJECT_ERROR':
       return { ...state, createProjectError: '' };
     case CREATE_PROJECT_FAILURE:
       return { ...state, createProjectError: action.payload };
@@ -110,7 +111,7 @@ export default function (state = initialState, action) {
         action.payload.res
         ]
       };
-    case 'CREATE_FUNNEL_SUCCESS':
+    case 'CLEAR_CREATE_FUNNEL_ERROR':
       return { ...state, createFunnelError: '' };
     case 'CREATE_FUNNEL_FAILURE':
       return { ...state, createFunnelError: action.payload };
@@ -224,6 +225,7 @@ export default function (state = initialState, action) {
         showSettingsWidgetBoolean: action.payload.boolean,
         showSettingsWidgetModel: action.payload.model,
         showSettingsWidgetEngine: action.payload.engine,
+        showTypeOfNode: action.payload.typeOfNode,
       };
     /////////////////////////////////////////////////////////////////////////// 
 
@@ -238,7 +240,14 @@ export default function (state = initialState, action) {
     /////////////////////////////////////////////////////////////////////////// 
 
 
-
+    ///////////////////////////////////////////////////////////////////////////
+    case 'CHANGE_SHOW_ANALYTICS':
+      return {
+        ...state,
+        showAnalyticsBoolean: action.payload.boolean,
+      };
+    /////////////////////////////////////////////////////////////////////////// 
+    
 
     default: return state;
   }

@@ -1,34 +1,41 @@
 import * as React from "react";
 import domtoimage from "dom-to-image";
 import randomString from "random-string";
-
 import ModalFunnelWidget from "../../../../common/ModalFunnelWidget";
 import ClickOutside from "../../../../common/ClickOutside";
-
-import { ReactComponent as ArrowSelectSVG } from "../../../../../assets/ArrowSelect.svg";
-import { ReactComponent as LogoWidgetSVG } from "../../../../../assets/logo-widget.svg";
 import { ReactComponent as MenuWidgetSVG } from "../../../../../assets/menu-widget.svg";
-import { ReactComponent as ShareFunnelSVG } from "../../../../../assets/instructions.svg";
-import { ReactComponent as FunnelNotesSVG } from "../../../../../assets/FunnelNotes.svg";
 
 export default class FunnelNotesRightPanel extends React.Component {
   state = {
-    showMenu: false
+    showMenu: false,
+    funnelName: (this.props.work.diagram && this.props.work.diagram.funnelName) || '',
+    handleGrid: (this.props.work.diagram && this.props.work.diagram.handleGrid) || false,
   };
 
   showMenu = () =>
     this.setState({
       showMenu: true,
       showNotes: false,
-      funnelName: this.props.work.diagram && this.props.work.diagram.funnelName
+      funnelName: (this.props.work.diagram && this.props.work.diagram.funnelName) || '',
+      handleGrid: (this.props.work.diagram && this.props.work.diagram.handleGrid) || false,
     });
-  hideMenu = () => this.setState({ showMenu: false });
+  hideMenu = () => {
+    this.setState({ showMenu: false });
+  }
 
   handleChange = e =>
     this.setState({
       [e.target.name]: e.target.value
     });
 
+  handleChangeCheckbox = () => {
+    this.setState(prev => ({handleGrid: !prev.handleGrid}), () => {
+      let name = randomString({ length: 10 });
+      var file = new File([], name, { type: "image/svg" });
+      this.saveDiagramHandle(file);
+    })
+  }
+  
   saveDiagramHandle = file =>
     this.setState(
       {
@@ -90,6 +97,20 @@ export default class FunnelNotesRightPanel extends React.Component {
                   {this.props.work.changeFunnelNameMessage}
                 </div>
               )}
+              <label 
+                htmlFor="CheckBox" 
+                className="container-checkbox"
+              >
+                Show Grid
+                <input
+                  id='CheckBox'
+                  type="radio"
+                  checked={this.state.handleGrid}
+                  onClick={this.handleChangeCheckbox}
+                  onChange={()=>{}}
+                />
+                <span className="checkmark"></span>
+              </label> 
               <button
                 className="btn btn-1 create-project-button-in-modal"
                 style={{ display: "block" }}

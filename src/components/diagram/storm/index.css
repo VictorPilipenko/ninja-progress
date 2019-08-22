@@ -219,9 +219,11 @@
 }
 
 .logo-widget{
-  position: absolute;
+  /* position: absolute;
   left: 0;
-  top: 0;
+  top: 0; */
+  cursor: pointer;
+  height: 65px;
 }
 
 .title{
@@ -252,9 +254,9 @@
   cursor: pointer;
   font-weight: 500;
   font-size: 14px;
-  padding: 5px 5px 21px;
+  /* padding: 5px 5px 21px; */
   background: #fff;
-  margin: 17px 15px 0 20px;
+  margin: 0px 15px 0 20px;
 }
 
 .small-model-wrapper {
@@ -375,7 +377,8 @@
 .zoom-wrapper{
   color: #848f99;
   display: flex;
-  margin: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
   background: #ecf1f2;
   border-radius: 5px;
   padding: 6px 6px 6px 11px;
@@ -436,3 +439,122 @@
   height: 139px;
   width: 160px;
 }
+
+.srd-node{
+  z-index: 9;
+}
+
+.left-line {
+  width: 1px;
+  min-height: 2000vh;
+  position: absolute;
+  margin-top: -1000vh;
+  border-color: #fd8f21;
+  border-style: dashed;
+  border-right-width: 0.1px;
+  border-left-width: 0.1px;
+}
+
+.right-line {
+  width: 1px;
+  min-height: 2000vh;
+  position: absolute;
+  right: 1px;
+  margin-top: -1000vh;
+  border-color: #fd8f21;
+  border-style: dashed;
+  border-right-width: 0.1px;
+  border-left-width: 0.1px;
+}
+
+.top-line {
+  width: 2000vh;
+  height: 1px;
+  position: absolute;
+  border-color: #fd8f21;
+  border-style: dashed;
+  border-bottom-width: 0.1px;
+  border-top-width: 0.1px;
+  margin-left: -1000vh;
+}
+
+.bottom-line {
+  width: 2000vh;
+  height: 1px;
+  position: absolute;
+  border-color: #fd8f21;
+  border-style: dashed;
+  border-bottom-width: 0.1px;
+  border-top-width: 0.1px;
+  margin-left: -1000vh;
+  bottom: 1px;
+}
+
+.analytics-button{
+  position: absolute;
+  z-index: 1;
+  top: 80px;
+  right: 15px;
+  cursor: pointer;
+}
+
+.btn-generate-utm {
+  width: 100px;
+  height: 38px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: 1px solid #f15c22;
+  color: #f15c22;
+  font-weight: 400;
+  text-align: center;
+  float: right;
+}
+
+.btn-set-as-a-goal {
+  width: 130px;
+  height: 38px;
+  cursor: pointer;
+  font-size: 13px;
+  border-radius: 4px;
+  background-image: linear-gradient(78deg, #e62d24 0%, #fd8f21 100%);
+  border: 1px solid #f15c22;
+  font-weight: 400;
+  text-align: center;
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.btn-set-as-a-trigger {
+  width: 130px;
+  height: 38px;
+  cursor: pointer;
+  font-size: 13px;
+  border-radius: 4px;
+  background-image: linear-gradient(78deg, #3f80f4 0%, #5ab5ff 100%);
+  border: 1px solid #5ab5ff;
+  font-weight: 400;
+  text-align: center;
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.buttons-set-wrapper{
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+
+
+
+
+
+

@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addCollaborator } from '../../store/actions/collaborations'
 import { Redirect } from 'react-router-dom'
-import { API_URL } from '../../config'
+import { addCollaborator } from '../../../../store/actions/collaborations'
+import { API_URL } from '../../../../config'
+import logo from '../../../../assets/Logo_invert.png'
+import { ReactComponent as CollaborateSVG } from '../../../../assets/collaborate.svg';
 import './AddCollaboratorsImage.css'
-import logo from '../../assets/Logo_invert.png'
-import { ReactComponent as CollaborateSVG } from '../../assets/collaborate.svg';
 
 class AddCollaboratorsImage extends React.Component {
   state = {

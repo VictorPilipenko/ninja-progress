@@ -1,40 +1,32 @@
 import * as React from "react";
-import { TrayWidget } from "./TrayWidget";
-import { TrayBigItemWidget, TraySmallItemWidget } from "./TrayItemWidget";
+import ReactSVG from "react-svg";
 import * as RJD from "storm-react-diagrams";
 import domtoimage from "dom-to-image";
-import ClickOutside from "../../../common/ClickOutside";
-import Modal from "../../../common/Modal/Modal";
 import randomString from "random-string";
-import html2canvas from "html2canvas";
-// import the custom models
-
+import { TrayWidget } from "./TrayWidget";
+import { TrayBigItemWidget, TraySmallItemWidget, TrayTextItemWidget } from "./TrayItemWidget";
+import ClickOutside from "../../../common/ClickOutside";
 import { CustomNodeModel } from "../custom/CustomNodeModel";
-
 import PagesButton from "../../../../assets/PagesButton.svg";
 import EventsButton from "../../../../assets/EventsButton.svg";
 import TrafficButton from "../../../../assets/TrafficButton.svg";
+import TextButton from "../../../../assets/textButton.svg";
 import EmailMarketingButton from "../../../../assets/EmailMarketingButton.svg";
+import TextArea from "../../../../assets/TextArea.svg";
+import TextPanel from "../../../../assets/TextPanel.svg";
 import TemplatesButton from "../../../../assets/TemplatesButton.svg";
 import { ReactComponent as ArrowSelectSVG } from "../../../../assets/ArrowSelect.svg";
-import { ReactComponent as LogoWidgetSVG } from "../../../../assets/logo-widget.svg";
-import { ReactComponent as MenuWidgetSVG } from "../../../../assets/menu-widget.svg";
 import { ReactComponent as ShareFunnelSVG } from "../../../../assets/instructions.svg";
-import { ReactComponent as FunnelNotesSVG } from "../../../../assets/FunnelNotes.svg";
+import { ReactComponent as AnalyticsSVG } from '../../../../assets/Analytics.svg'
+import { ReactComponent as AnalyticsSelectedSVG } from '../../../../assets/AnalyticsSelected.svg'
 import LupaSVG from "../../../../assets/lupa.svg";
-// import { ReactComponent as ChatSVG } from '../../../../assets/chat.svg'
-import ModalNodeWidget from "../../../common/ModalNodeWidget";
-import { NavLink } from "react-router-dom";
-import { API_URL } from "../../../../config";
-import ReactSVG from "react-svg";
-import ModalFunnelWidget from "../../../common/ModalFunnelWidget";
-
 import FunnelOptionsRightPanel from "./componentsForBodyWidget/FunnelOptionsRightPanel";
 import FunnelNotesRightPanel from "./componentsForBodyWidget/FunnelNotesRightPanel";
 import SettingsNodeRightPanel from "./componentsForBodyWidget/SettingsNodeRightPanel";
 import NotesNodeRightPanel from "./componentsForBodyWidget/NotesNodeRightPanel";
 import SaveBeforeExitModal from "./componentsForBodyWidget/SaveBeforeExitModal";
 import CreateTemplateModal from "./componentsForBodyWidget/CreateTemplateModal";
+import { API_URL } from "../../../../config";
 
 const Select = ({ show, children, style }) => {
   const showHideClassName = show
@@ -60,7 +52,8 @@ export default class BodyWidget extends React.Component {
     backgroundDefault: "#212939",
     showSelect: false,
     inverseZoom: false,
-    allowCanvasZoom: true
+    allowCanvasZoom: true,
+    toggleAnalytics: false,
   };
 
   saveDiagramHandle = file =>
@@ -109,11 +102,21 @@ export default class BodyWidget extends React.Component {
       }
     );
 
-  toggle = name =>
+  toggle = name => {
     this.setState({
       toggle: name,
       show: true
     });
+  }
+
+  handleToggleAnalytics = () => {
+    this.setState(prev => {
+      return {
+        toggleAnalytics: !prev.toggleAnalytics,
+      }
+    }, () => this.props.work.showAnalyticsBoolean(this.state.toggleAnalytics))
+  }
+
 
   button = (name, icon, className, title) => {
     return (
@@ -127,7 +130,7 @@ export default class BodyWidget extends React.Component {
               : this.state.backgroundDefault,
           justifyContent: "center",
           alignItems: "center",
-          display: "flex"
+          display: "flex",
         }}
         title={title}
       >
@@ -141,13 +144,25 @@ export default class BodyWidget extends React.Component {
           onClick={() => this.toggle(name)}
         />
 
-        <ReactSVG
-          src={icon}
-          alt=""
-          beforeInjection={svg => {
-            svg.setAttribute("style", `padding: 10;`);
-          }}
-        />
+        {
+          name === 'fifth' || name === 'third' ? 
+            <ReactSVG
+              src={icon}
+              alt=""
+              beforeInjection={svg => {
+                svg.setAttribute("style", `padding: 10px;`);
+                svg.setAttribute("style", `margin-left: 4px;`);
+              }}
+            />
+          :
+            <ReactSVG
+              src={icon}
+              alt=""
+              beforeInjection={svg => {
+                svg.setAttribute("style", `padding: 10px;`);
+              }}
+            />
+        }
       </div>
     );
   };
@@ -196,6 +211,27 @@ export default class BodyWidget extends React.Component {
     }
   }
 
+  createTextItemsWidget() {
+    return (
+        [
+          <TrayTextItemWidget
+            key='1'
+            model={{ type: 'Text Area' }}
+            name='Text Area'
+            // icon= { API_URL + '/public/svg/TextArea.svg' } // добавить нужный свг на бэке
+            icon={TextArea}
+          />,
+          <TrayTextItemWidget
+            key='2'
+            model={{ type: 'Text Panel' }}
+            name='Text Panel'
+            // icon= { API_URL + '/public/svg/TextPanel.svg' } // добавить нужный свг на бэке
+            icon={TextPanel}
+          />
+        ]
+    )
+  }
+
   showSelect = () => this.setState({ showSelect: true });
   hideSelect = () => this.setState({ showSelect: false });
 
@@ -217,13 +253,14 @@ export default class BodyWidget extends React.Component {
   };
 
   render() {
+    // console.log(this.state)
     return (
       <>
         <SettingsNodeRightPanel work={this.props.work} app={this.props.app} />
         <NotesNodeRightPanel work={this.props.work} app={this.props.app} />
 
         <div className="message-diagram">
-          {this.props.work.message ? this.props.work.message : null}
+          {this.props.work.message && this.props.work.message}
         </div>
         <div className="body">
           <div className="header">
@@ -231,6 +268,18 @@ export default class BodyWidget extends React.Component {
 
             <div className="title">
               {this.props.work.diagram && this.props.work.diagram.funnelName}
+            </div>
+
+            <div
+              onClick={this.handleToggleAnalytics}
+              className='analytics-button'
+              title='Analytics'
+            >
+              {
+                this.state.toggleAnalytics
+                  ? <AnalyticsSelectedSVG />
+                  : <AnalyticsSVG />
+              }
             </div>
 
             {this.props.work.link ? (
@@ -471,6 +520,12 @@ export default class BodyWidget extends React.Component {
               )}
               {this.button(
                 "fifth",
+                TextButton,
+                "panel-button",
+                "Text"
+              )}
+              {this.button(
+                "six",
                 TemplatesButton,
                 "panel-button panel-button-last",
                 "Templates"
@@ -521,28 +576,44 @@ export default class BodyWidget extends React.Component {
               <ClickOutside
                 onClickOutside={() => this.setState({ show: false })}
               >
-                <TrayWidget show={this.state.show}>{/* empty */}</TrayWidget>
+                <TrayWidget show={this.state.show}>
+                  {this.createTextItemsWidget()}
+                </TrayWidget>
               </ClickOutside>
             ) : null}
+
+            {this.state.toggle === "six" ? (
+              <ClickOutside
+                onClickOutside={() => this.setState({ show: false })}
+              >
+                <TrayWidget show={this.state.show}>{/*empty*/}</TrayWidget>
+              </ClickOutside>
+            ) : null}
+            
             <div id="diagram">
               <div
                 id="diagram-layer"
                 ref={ref => (this.diagramRef = ref)}
                 onDrop={event => {
-                  var data = JSON.parse(
-                    event.dataTransfer.getData("storm-diagram-node")
-                  );
-                  const node = this.nodeFactory(data);
-                  const points = this.props.app
-                    .getDiagramEngine()
-                    .getRelativeMousePoint(event);
-                  node.x = points.x;
-                  node.y = points.y;
-                  this.props.app
-                    .getDiagramEngine()
-                    .getDiagramModel()
-                    .addNode(node);
-                  this.forceUpdate();
+                  try{
+                    var data = JSON.parse(
+                      event.dataTransfer.getData("storm-diagram-node")
+                    );
+                    const node = this.nodeFactory(data);
+                    const points = this.props.app
+                      .getDiagramEngine()
+                      .getRelativeMousePoint(event);
+                    node.x = points.x;
+                    node.y = points.y;
+                    this.props.app
+                      .getDiagramEngine()
+                      .getDiagramModel()
+                      .addNode(node);
+                    this.forceUpdate();
+                  }
+                  catch(err){
+                    console.log(err)
+                  }
                 }}
                 onDragOver={event => {
                   event.preventDefault();

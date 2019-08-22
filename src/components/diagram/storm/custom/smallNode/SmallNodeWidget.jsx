@@ -1,45 +1,20 @@
 import * as React from "react";
-import { PortWidget, PointModel, DiagramEngine } from "storm-react-diagrams";
+import { PortWidget } from "storm-react-diagrams";
 import ReactSVG from "react-svg";
+import { connect } from "react-redux";
 import ClickOutside from "../../../../common/ClickOutside";
-import ModalNodeWidget from "../../../../common/ModalNodeWidget";
-import html2canvas from "html2canvas";
-
 import { ReactComponent as CopySVG } from "../../../../../assets/selectForWidget/copy.svg";
 import { ReactComponent as DeleteAllLinksSVG } from "../../../../../assets/selectForWidget/delete-all-links.svg";
 import { ReactComponent as DeleteSVG } from "../../../../../assets/selectForWidget/delete.svg";
 import { ReactComponent as NotesSVG } from "../../../../../assets/selectForWidget/notes.svg";
 import { ReactComponent as SettingsSVG } from "../../../../../assets/selectForWidget/settings.svg";
-
-import * as _ from "lodash";
-import { AdvancedLinkModel, AdvancedLinkFactory } from "../customLink";
-// import { BigNodeModel } from './BigNodeModel'
-
-import { connect } from "react-redux";
 import {
   saveDiagramThenShowOrHideSettingsModal,
   saveDiagramThenShowOrHideNotesModal
 } from "../../../../../store/actions/projects";
-
-//import custom link, port and factory
-import { NodeFactory } from "../NodeFactory";
-import { PortFactory } from "../PortFactory";
-
-// import the custom models
-// import { BigPortModel } from "../bigNode/BigPortModel";
-// import { BigNodeModel } from "../bigNode/BigNodeModel";
-import BigNodeWidget from "../bigNode/BigNodeWidget";
-
-import { CustomPortModel } from "../CustomPortModel";
-import { CustomNodeModel } from "../CustomNodeModel";
-
-import { API_URL } from "../../../../../config";
-
+import { cloneSelected, deleteNode, deleteAllLinks, showRightModal } from "../funcsForCustomNodeWidget";
 import './index.css'
 
-import randomString from "random-string";
-
-//modalka, fuck yeah
 const Select = ({ show, children }) => {
   const showHideClassName = show
     ? "select-modal-node-widget display-block"
@@ -54,235 +29,45 @@ const Select = ({ show, children }) => {
   );
 };
 
+const SelectAnalytics = ({ show, children }) => {
+  const showHideClassName = show
+    ? "select-modal-node-widget display-block"
+    : "select-modal-node-widget display-none";
+  return (
+    <div className={showHideClassName}>
+      <section className="select-analytics-widget-horizontally up-arrow-analytics-horizontally">
+        {children}
+      </section>
+    </div>
+  );
+};
+
 class SmallNodeWidget extends React.Component {
   state = {
-    show: false
-    // label: this.props.node.extras.named,
-    // notes: this.props.node.extras.notesd,
+    show: false,
+    handleGridTwo: false,
   };
 
-  serialization(activeModel) {
-    const { svgList } = this.props;
-
-    this.allElements = [];
-    this.elementsPages = [];
-    this.elementsTraffic = [];
-    this.elementsEmailMarketing = [];
-    this.elementsEvents = [];
-
-    if (svgList) {
-      let allPages = this.getValues(svgList, "Pages");
-      let allTraffic = this.getValues(svgList, "Traffic");
-      let allEmailMarketing = this.getValues(svgList, "EmailMarketing");
-      let allEvents = this.getValues(svgList, "Events");
-
-      allPages.forEach(item =>
-        this.elementsPages.push({
-          name: item.name,
-          port: CustomPortModel,
-          widget: BigNodeWidget,
-          nodeModel: CustomNodeModel,
-          svg: API_URL + item.url
-        })
-      );
-
-      allTraffic.forEach(item =>
-        this.elementsTraffic.push({
-          name: item.name,
-          port: CustomPortModel,
-          widget: SmallNodeWidget,
-          nodeModel: CustomNodeModel,
-          svg: API_URL + item.url
-        })
-      );
-
-      allEmailMarketing.forEach(item =>
-        this.elementsEmailMarketing.push({
-          name: item.name,
-          port: CustomPortModel,
-          widget: SmallNodeWidget,
-          nodeModel: CustomNodeModel,
-          svg: API_URL + item.url
-        })
-      );
-
-      allEvents.forEach(item =>
-        this.elementsEvents.push({
-          name: item.name,
-          port: CustomPortModel,
-          widget: SmallNodeWidget,
-          nodeModel: CustomNodeModel,
-          svg: API_URL + item.url
-        })
-      );
-
-      // We need this to help the system know what models to create form the JSON
-      let engine = new DiagramEngine();
-      engine.installDefaultFactories();
-      engine.registerLinkFactory(new AdvancedLinkFactory());
-
-      this.createElements(this.allElements, engine);
-
-      // Serialize the model
-      const str = JSON.stringify(activeModel.serializeDiagram());
-      return str;
-    }
-  }
-
-  getValues(array, value) {
-    var obj = array.filter((arr, i) => {
-      return arr.title === value ? arr.data : null;
-    });
-    return obj[0].data;
-  }
-
-  createElements(configElements, engine) {
-    return configElements.forEach(item => {
-      engine.registerPortFactory(
-        new PortFactory(item.name, () => new item.port(item.name))
-      );
-      engine.registerNodeFactory(
-        new NodeFactory(item.name, item.widget, item.nodeModel, item.svg)
-      );
-    });
-  }
-
-  showModal = () =>
+  showModal = () => {
     this.setState({
-      show: true
+      show: true,
+      handleGrid: this.props.diagram && this.props.diagram.handleGrid 
     });
+  }
 
   hideModal = () => {
-    this.setState({ show: false });
+    this.setState({ 
+      show: false, 
+      handleGridTwo: false 
+    });
   };
 
-  deleteNode = e => {
-    this.simulateKey(46, "up");
-  };
-
-  simulateKey(keyCode, type) {
-    var evtName = typeof type === "string" ? "key" + type : "keydown";
-    var event = document.createEvent("HTMLEvents");
-    event.initEvent(evtName, true, false);
-    event.keyCode = keyCode;
-    document.dispatchEvent(event);
+  mouseMove = () => {
+    this.state.handleGrid && this.setState({ handleGridTwo: true })
   }
 
-  cloneSelected = () => {
-    let { engine } = this.props;
-    let offset = { x: 100, y: 100 };
-    let model = engine.getDiagramModel();
-    let itemMap = {};
-    _.forEach(model.getSelectedItems(), item => {
-      let newItem = item.clone(itemMap);
-      // offset the nodes slightly
-      if (newItem instanceof CustomNodeModel) {
-        newItem.setPosition(newItem.x + offset.x, newItem.y + offset.y);
-        model.addNode(newItem);
-        this.forceUpdate();
-      } else if (newItem instanceof AdvancedLinkModel) {
-        // offset the link points
-        newItem.getPoints().forEach(p => {
-          p.updateLocation({ x: p.getX() + offset.x, y: p.getY() + offset.y });
-        });
-        model.addLink(newItem);
-      }
-      newItem.selected = false;
-    });
-    this.hideModal();
-    this.forceUpdate();
-    document.getElementById("diagram-layer").click();
-
-    const name = randomString({ length: 10 });
-    const file = new File(["test"], name, {
-      type: "image/png"
-    });
-    this.SaveDiagramForCloneSelected(file);
-  };
-
-  SaveDiagramForCloneSelected = file => {
-    this.setState(
-      {
-        snackMsg: "next",
-        converted: this.serialization(this.props.engine.getDiagramModel())
-      },
-      () => {
-        this.props.saveDiagramThenShowOrHideSettingsModal(
-          this.props.funnelId,
-          this.state,
-          file,
-          false,
-          this.props.node,
-          this.props.engine.getDiagramModel()
-        );
-      }
-    );
-  };
-
-  deleteAllLinks = () => {
-    _.forEach(this.props.engine.getDiagramModel().getSelectedItems(), item => {
-      if (item instanceof PointModel) {
-        item.parent.remove();
-      }
-    });
-    document.getElementById("diagram-layer").click();
-  };
-
-  SaveDiagramThenShowSettingsModal = file => {
-    this.setState(
-      {
-        snackMsg: "next",
-        converted: this.serialization(this.props.engine.getDiagramModel())
-      },
-      () => {
-        this.props.saveDiagramThenShowOrHideSettingsModal(
-          this.props.funnelId,
-          this.state,
-          file,
-          true,
-          this.props.node,
-          this.props.engine.getDiagramModel()
-        );
-      }
-    );
-  };
-
-  showSettingsModal = () => {
-    const name = randomString({ length: 10 });
-    const file = new File(["test"], name, {
-      type: "image/png"
-    });
-    this.SaveDiagramThenShowSettingsModal(file);
-  };
-
-  SaveDiagramThenShowNotesModal = file => {
-    this.setState(
-      {
-        snackMsg: "next",
-        converted: this.serialization(this.props.engine.getDiagramModel())
-      },
-      () => {
-        this.props.saveDiagramThenShowOrHideNotesModal(
-          this.props.funnelId,
-          this.state,
-          file,
-          true,
-          this.props.node,
-          this.props.engine.getDiagramModel()
-        );
-      }
-    );
-  };
-
-  showNotesModal = () => {
-    const name = randomString({ length: 10 });
-    const file = new File(["test"], name, {
-      type: "image/png"
-    });
-    this.SaveDiagramThenShowNotesModal(file);
-  };
-
   render() {
+    // console.log('small', this.props.node.type)
     return (
       <>
           <div
@@ -298,8 +83,8 @@ class SmallNodeWidget extends React.Component {
               position: "relative",
               height: 53,
               width: 155,
-              // border: this.props.node.selected ? ".5px dashed #848f99" : null,
-              borderRadius: 7
+              borderRadius: 7,
+              zIndex: 10,
             }}
             onMouseEnter={this.showModal}
             onMouseLeave={this.hideModal}
@@ -309,11 +94,21 @@ class SmallNodeWidget extends React.Component {
                 : this.props.node.type
             }
           >
+            {
+              this.state.handleGridTwo ?
+              <>
+                <div className='left-line' />
+                <div className='right-line' />
+                <div className='top-line' />
+                <div className='bottom-line' />
+              </> : null
+            }
 
             <div
               className="small-area-for-hover"
               onMouseEnter={this.showModal}
               onMouseLeave={this.hideModal}
+              onMouseMove={this.mouseMove}
             />
             <ClickOutside
               onClickOutside={() => {
@@ -322,50 +117,86 @@ class SmallNodeWidget extends React.Component {
               onMouseEnter={this.showModal}
               onMouseLeave={this.hideModal}
             >
-              <Select show={this.state.show}>
-                <button
-                  className="btn-select-widget"
-                  onClick={this.showSettingsModal}
-                  title={"Settings"}
-                >
-                  <SettingsSVG />
-                </button>
-                <button
-                  className="btn-select-widget"
-                  onClick={this.showNotesModal}
-                  title={"Notes"}
-                >
-                  <NotesSVG />
-                </button>
-                <button
-                  className="btn-select-widget"
-                  onClick={this.cloneSelected}
-                  title={"Copy"}
-                >
-                  <CopySVG />
-                </button>
-                <button
-                  className="btn-select-widget"
-                  onClick={this.deleteNode}
-                  title={"Delete"}
-                >
-                  <DeleteSVG />
-                </button>
-                <button
-                  className="btn-select-widget"
-                  onClick={this.deleteAllLinks}
-                  title={"Delete All Links"}
-                >
-                  <DeleteAllLinksSVG />
-                </button>
-              </Select>
+              {
+                this.props.showAnalyticsBoolean ?
+                <SelectAnalytics show={true}>
+                  <>
+                    <div 
+                      className='analytics-box-horizontally'
+                      title={'345/18%'}
+                    >
+                      <p className='left-anal'>Clicks:</p>
+                      <p className='right-anal'>345/18%</p>
+                    </div>
+                  </>
+                </SelectAnalytics>
+                :
+                <Select show={this.state.show}>
+                  <button
+                    className="btn-select-widget"
+                    onClick={() => showRightModal(
+                      this.props.saveDiagramThenShowOrHideSettingsModal,
+                      this.props.funnelId,
+                      this.props.engine,
+                      this.props.node,
+                      'small',
+                    )}
+                    title={"Settings"}
+                  >
+                    <SettingsSVG />
+                  </button>
+                  <button
+                    className="btn-select-widget"
+                    onClick={() => showRightModal(
+                      this.props.saveDiagramThenShowOrHideNotesModal,
+                      this.props.funnelId,
+                      this.props.engine,
+                      this.props.node,
+                    )}
+                    title={"Notes"}
+                  >
+                    <NotesSVG />
+                  </button>
+                  <button
+                    className="btn-select-widget"
+                    onClick={() => cloneSelected(
+                      this.props.engine,
+                      this.props.saveDiagramThenShowOrHideSettingsModal,
+                      this.props.funnelId,
+                      this.props.node,
+                    )}
+                    title={"Copy"}
+                  >
+                    <CopySVG />
+                  </button>
+                  <button
+                    className="btn-select-widget"
+                    onClick={deleteNode}
+                    title={"Delete"}
+                  >
+                    <DeleteSVG />
+                  </button>
+                  <button
+                    className="btn-select-widget"
+                    onClick={() => deleteAllLinks(
+                      this.props.engine
+                    )}
+                    title={"Delete All Links"}
+                  >
+                    <DeleteAllLinksSVG />
+                  </button>
+                </Select>
+               }
             </ClickOutside>
 
-
-
-
-
-            <div className="small-model-wrapper">
+            <div 
+              className="small-model-wrapper"
+              style={{
+                boxShadow: `0 0 28px ${
+                  this.props.node.extras.triggerd ? '#5ab5ff' : '#fff'
+                }`
+              }}
+            >
               <div style={{ padding: 5, width: 40, height: 40 }}>
                 <ReactSVG
                   src={this.props.svg}
@@ -377,7 +208,6 @@ class SmallNodeWidget extends React.Component {
               <div className="small-model-text-wrapper">
                 <p className="small-model-text">
                   {this.props.node.type}
-                  {/* {this.props.node.extras.named ? this.props.node.extras.named : this.props.node.type} */}
                 </p>
               </div>
             </div>
@@ -433,6 +263,8 @@ class SmallNodeWidget extends React.Component {
 
 const mapStateToProps = state => {
   return {
+    diagram: state.projects[`diagram${state.router.location.pathname.substring(9)}`],
+
     showSettingsWidgetBoolean: state.projects.showSettingsWidgetBoolean,
     showSettingsWidgetModel: state.projects.showSettingsWidgetModel,
 
@@ -440,7 +272,9 @@ const mapStateToProps = state => {
     showNotesWidgetModel: state.projects.showNotesWidgetModel,
 
     funnelId: state.router.location.pathname.substring(9),
-    svgList: state.projects.svgList
+    svgList: state.projects.svgList,
+
+    showAnalyticsBoolean: state.projects.showAnalyticsBoolean,
   };
 };
 
@@ -452,7 +286,8 @@ const mapDispatchToProps = dispatch => {
       file,
       boolean,
       model,
-      engine
+      engine,
+      typeOfNode,
     ) =>
       dispatch(
         saveDiagramThenShowOrHideSettingsModal(
@@ -461,7 +296,8 @@ const mapDispatchToProps = dispatch => {
           file,
           boolean,
           model,
-          engine
+          engine,
+          typeOfNode,
         )
       ),
 

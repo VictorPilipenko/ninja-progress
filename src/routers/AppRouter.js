@@ -2,29 +2,24 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import { PrivateRoute } from '../components/RequireAuth';
 import { PrivateRouteAddCollaborator } from '../components/PrivateRouteAddCollaborator';
-import ProjectList from '../components/projects/ProjectList.jsx';
-import FunnelList from '../components/funnels/FunnelList.jsx';
-import TemplatesList from '../components/templates/TemplateList.jsx';
-import Signin from '../components/auth/Signin.jsx';
-import Signup from '../components/auth/Signup.jsx';
-import Questionnaire from '../components/auth/Questionnaire.jsx';
-import PasswordForgot1 from '../components/auth/PasswordForgot1.jsx';
-import PasswordForgot2 from '../components/auth/PasswordForgot2.jsx';
-import PasswordForgot3 from '../components/auth/PasswordForgot3.jsx';
-import AddCollaborators from '../components/projects/AddCollaborators.jsx';
-import AddCollaboratorsImage from '../components/projects/AddCollaboratorsImage.jsx';
-import Collaborations from '../components/collaborations/Collaborations.jsx';
-import SettingsAccountDetails from '../components/settings/SettingsAccountDetails/SettingsAccountDetails.jsx';
-import SettingsPaymentMethods from '../components/settings/SettingsPaymentMethods/SettingsPaymentMethods.jsx';
-import SettingsUsers from '../components/settings/SettingsUsers/SettingsUsers.jsx';
+import ProjectList from '../components/dashboard/projects/ProjectList';
+import FunnelList from '../components/dashboard/funnels/FunnelList';
+import TemplatesList from '../components/dashboard/templates/TemplateList';
+import Signin from '../components/auth/Signin';
+import Signup from '../components/auth/Signup';
+import Questionnaire from '../components/auth/Questionnaire';
+import PasswordForgot1 from '../components/auth/PasswordForgot1';
+import PasswordForgot2 from '../components/auth/PasswordForgot2';
+import PasswordForgot3 from '../components/auth/PasswordForgot3';
+import AddCollaborators from '../components/dashboard/projects/addCollaborators/AddCollaborators';
+import AddCollaboratorsImage from '../components/dashboard/projects/addCollaborators/AddCollaboratorsImage';
+import Collaborations from '../components/dashboard/collaborations/Collaborations';
+import SettingsAccountDetails from '../components/settings/SettingsAccountDetails/SettingsAccountDetails';
+import SettingsPaymentMethods from '../components/settings/SettingsPaymentMethods/SettingsPaymentMethods';
+import SettingsUsers from '../components/settings/SettingsUsers/SettingsUsers';
 import Diagram from '../components/diagram/storm';
 
-let search = {
-  search: '?test=test'
-}
-
 const AppRouter = () => (
-  
   <>
     <Route path="/sign-in" component={Signin} />
     <Route path="/sign-up" component={Signup} />

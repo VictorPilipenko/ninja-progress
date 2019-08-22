@@ -1,11 +1,14 @@
 import React from 'react'
-import Layout from "../common/Layout";
 import { connect } from 'react-redux'
-import './FunnelList.css'
-import { getAllFunnels, createFunnel } from '../../store/actions/projects'
+import Layout from "../../common/Layout/Layout";
+import { 
+  getAllFunnels, 
+  createFunnelWithPromisefication,
+} from '../../../store/actions/projects'
 import FunnelItemContainer from './FunnelItemContainer.jsx'
-import Modal from '../common/Modal/Modal'
-import { ReactComponent as CreateFunnelSVG } from '../../assets/new_funnel.svg';
+import Modal from '../../common/Modal/Modal'
+import { ReactComponent as CreateFunnelSVG } from '../../../assets/new_funnel.svg';
+import '../index.css'
 
 class FunnelList extends React.Component {
   componentDidMount() {
@@ -22,19 +25,35 @@ class FunnelList extends React.Component {
   };
 
   hideModal = () => {
-    this.setState({ show: false });
+    this.setState({ show: false, funnelName: '', });
+    this.props.dispatch({ type: 'CLEAR_CREATE_FUNNEL_ERROR' });
   };
 
   handleChange = e => this.setState({
     funnelName: e.target.value
-  });
+  }, () => this.props.dispatch({ type: 'CLEAR_CREATE_FUNNEL_ERROR' }));
 
   handleCreateFunnel = () => {
-    this.props.createFunnel(this.state.funnelName, this.props.projectId)
-
-    setTimeout(() => {
-      !this.props.error && this.hideModal()
-    }, 1500)
+    this.props.createFunnelWithPromisefication(this.state.funnelName, this.props.projectId)
+      .then(response => {
+        let res = response.data
+        let projectId = this.props.projectId
+        this.props.dispatch({
+          type: 'CREATE_FUNNEL',
+          payload: {
+            projectId,
+            res,
+          }
+        });
+        this.props.dispatch({ type: 'CLEAR_CREATE_FUNNEL_ERROR' });
+        this.hideModal();
+      })
+      .catch(error => {
+        this.props.dispatch({
+          type: 'CREATE_FUNNEL_FAILURE',
+          payload: error
+        });
+      });
   }
 
   even = n => !(n % 2);
@@ -46,14 +65,14 @@ class FunnelList extends React.Component {
           {
             this.props.funnelsLimit ?
               <>
-                <div className='funnel-list-limit'>
+                <div className='list-limit'>
                   Created {this.props.funnels && this.props.funnels.length}
                   {' '}
-                  {this.props.funnels && this.props.funnels.length > 1 || this.props.funnels.length === 0 ? 'funnels' : 'funnel'}
+                  {(this.props.funnels && this.props.funnels.length > 1) || this.props.funnels.length === 0 ? 'funnels' : 'funnel'}
                   {' '}
                   of {this.props.funnelsLimit}
                 </div>
-                <div className='funnel-list-limit'
+                <div className='list-limit'
                   style={{
                     borderBottom: '1px solid #dce5ec',
                     top: 100,
@@ -127,8 +146,9 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = dispatch => {
   return {
+    dispatch: item => dispatch(item),
     getAllFunnels: id => dispatch(getAllFunnels(id)),
-    createFunnel: (funnelName, id) => dispatch(createFunnel(funnelName, id)),
+    createFunnelWithPromisefication: (funnelName, id) => dispatch(createFunnelWithPromisefication(funnelName, id)),
   }
 }
 

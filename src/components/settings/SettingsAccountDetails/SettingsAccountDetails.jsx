@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Layout from "../../common/Layout";
+import Layout from "../../common/Layout/Layout";
 import './SettingsAccountDetails.css'
 import ChangeName from './ChangeUserName'
 import ChangePassword from './ChangeUserPassword'

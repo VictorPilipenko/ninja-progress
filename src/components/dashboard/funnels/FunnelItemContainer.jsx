@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import FunnelItem from './FunnelItem.jsx';
-import { deleteFunnel } from '../../store/actions/projects'
+import { deleteFunnel } from '../../../store/actions/projects'
 
 class FunnelItemContainer extends Component {
   handleDelete = (projectId, funnelId) => {

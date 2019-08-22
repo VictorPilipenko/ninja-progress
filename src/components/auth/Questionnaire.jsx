@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom'
 import { withFormik, Field } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
@@ -76,14 +75,14 @@ class Questionnaire extends React.Component {
       touched,
       errors,
       // dirty,
-      handleChange,
-      handleBlur,
+      // handleChange,
+      // handleBlur,
       handleSubmit,
       // handleReset,
       isSubmitting,
     } = this.props;
 
-    let params = new URLSearchParams(this.props.router.location.search);
+    // let params = new URLSearchParams(this.props.router.location.search);
 
     return (
       <div className='wrapper'>
@@ -277,6 +276,7 @@ class Questionnaire extends React.Component {
           <a
             href='https://funnelsmap.com/terms-of-use/'
             target='_blank'
+            rel="noopener noreferrer"
           >
             Terms of Use
           </a>
@@ -286,6 +286,7 @@ class Questionnaire extends React.Component {
           <a
             href='https://funnelsmap.com/privacy-policy/'
             target='_blank'
+            rel="noopener noreferrer"
           >
             Privacy Policy
           </a>

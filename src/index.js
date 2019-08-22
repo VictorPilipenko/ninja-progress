@@ -1,19 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { 
+  createStore, 
+  applyMiddleware, 
+  combineReducers 
+} from 'redux';
+import thunk from 'redux-thunk';
+import { 
+  ConnectedRouter, 
+  routerMiddleware, 
+  connectRouter 
+} from 'connected-react-router'
+import { createBrowserHistory } from "history";
 import AppRouter from './routers/AppRouter';
 import allReducers from './store/reducers/allReducers';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, combineReducers } from 'redux';
-import thunk from 'redux-thunk';
-// import logger from 'redux-logger';
 import * as serviceWorker from './serviceWorker';
 import { AUTH_USER } from './store/actions/types/index';
-import { ConnectedRouter } from 'connected-react-router'
-import { routerMiddleware } from 'connected-react-router'
-import { connectRouter } from 'connected-react-router'
 import './index.css'
-import { createBrowserHistory } from "history";
-
 
 const history = createBrowserHistory();
 // Build the middleware for intercepting and dispatching navigation actions
@@ -23,7 +27,7 @@ const store = createStore(
     ...allReducers,
     router: connectRouter(history),
   }),
-  applyMiddleware(thunk, middleware, /*logger*/)
+  applyMiddleware(thunk, middleware)
 );
 
 const token = JSON.parse(localStorage.getItem('token'));
@@ -31,7 +35,6 @@ const token = JSON.parse(localStorage.getItem('token'));
 if (token) {
   store.dispatch({ type: AUTH_USER });
 }
-
 
 ReactDOM.render(
   <Provider store={store}>

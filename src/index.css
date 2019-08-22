@@ -17,6 +17,7 @@ button,
 select,
 textarea {
   outline: none !important;
+  font-size: 14px;
 }
 
 input {
@@ -30,4 +31,12 @@ h1 {
 
 p{
   margin: 0;
+}
+
+.display-block {
+  display: block;
+}
+
+.display-none {
+  display: none;
 }

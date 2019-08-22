@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Layout from "../../common/Layout";
+import Layout from "../../common/Layout/Layout";
 import './SettingsUsers.css'
 
 class SettingsUsers extends Component {
